@@ -1,0 +1,255 @@
+// ----- CODE to draw the comfort zone on a chart with Dry-Bulb Temp on the x-axis and Relative Humidity on the y-axis -----
+
+var bc = new function() {
+
+    // Celsius to Farenheit
+
+    var CtoF = function(x) {
+        return x * 9 / 5 + 32
+    }
+
+    // set up viewport
+
+    this.margin = 60
+    this.rbmargin = 40
+    this.width = 580
+    this.height = 500
+    this.db_min = 10
+    this.db_max = 36
+
+    // --------------------------  set up scales  --------------------------------------------------
+
+    this.db_extent = [this.db_min, this.db_max]
+    this.db_scale = d3.scale.linear()
+        .range([this.margin, this.width - this.rbmargin])
+        .domain(this.db_extent)
+
+
+    this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
+    this.db_scale_F = d3.scale.linear()
+        .range([this.margin, this.width - this.rbmargin])
+        .domain(this.db_extent_F)
+
+    this.rh_extent = [0, 100]
+    this.rh_scale = d3.scale.linear()
+        .range([this.height - this.margin, this.rbmargin])
+        .domain(this.rh_extent)
+
+    // defining a poliline
+    this.pline = d3.svg.line()
+        .x(function(d) {
+        return this.db_scale(d.db)
+    })
+        .y(function(d) {
+        return this.rh_scale(d.rh)
+    })
+
+    // ----------------------------------- Start DrawChart -----------------------------------
+
+    this.drawChart = function(data) {
+
+        // Setting up the axes 
+
+        var db_axis = d3.svg.axis().scale(bc.db_scale)
+        var db_axis_F = d3.svg.axis().scale(bc.db_scale_F)
+        var rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left")
+
+        var line = d3.svg.line()
+            .x(function(d) {
+            return bc.db_scale(d.db)
+        })
+            .y(function(d) {
+            return bc.rh_scale(d.rh)
+        })
+            .interpolate('cardinal')
+
+        // drawing chart svg (the whole thing)
+
+        d3.select("#temphumchart-div")
+            .append("svg")
+            .attr("class", "svg-temphum")
+            .attr("width", bc.width)
+            .attr("height", bc.height)
+
+        // ClipPath hides everything that goes outside the chart area
+
+        d3.select("svg")
+            .append("defs")
+            .append("clipPath")
+            .attr("id", "clip_th")
+            .append("rect")
+            .attr("x", "0")
+            .attr("y", "0")
+            .attr("width", bc.width - bc.margin - bc.rbmargin)
+            .attr("height", bc.height - bc.margin - bc.rbmargin)
+            .attr("transform", "translate(" + bc.margin + "," + bc.rbmargin + ")")
+
+        // Drawing the axes
+
+        d3.select("svg")
+            .append("g")
+            .attr("class", "db axis")
+            .attr("id", "db-axis-C-temphum")
+            .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
+            .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+
+        d3.select("svg")
+            .append("g")
+            .attr("class", "db axis")
+            .attr("id", "db-axis-F-temphum")
+            .attr("opacity", "0")
+            .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
+            .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+
+        d3.select("svg")
+            .append("g")
+            .attr("class", "rh axis")
+            .attr("transform", "translate(" + (bc.margin) + ",0)")
+            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0))
+
+
+        // giving labels to the axes 
+
+        d3.select("#db-axis-C-temphum")
+            .append("text")
+            .text("Drybulb Temperature [°C]")
+            .attr("class", "db-unit")
+            .attr("x", (bc.width / 2) - 50)
+            .attr("y", bc.margin / 1.6)
+
+
+        d3.select("#db-axis-F-temphum")
+            .append("text")
+            .text("Drybulb Temperature [°F]")
+            .attr("class", "db-unit")
+            .attr("x", (bc.width / 2) - 50)
+            .attr("y", bc.margin / 1.6)
+
+
+        d3.select(".rh.axis")
+            .append("text")
+            .attr("id", "rh-text")
+            .text("Relative Humidity [%]")
+            .attr("transform", "rotate (-90, -35, 0) translate(-350)");
+
+        var bound = bc.findComfortBoundary(d, 0.5)
+        bc.drawComfortRegion(bound);
+        bc.drawPoint();
+    }
+
+    // Comfort Zone 
+
+    this.drawComfortRegion = function(data) {
+
+        d3.select("svg")
+            .append("path")
+            .attr("clip-path", "url(#clip_th)")
+            .attr("d", bc.pline(data) + "Z")
+            .attr("class", "comfortzone").attr("id", "temphum-comfortzone")
+            .on("mouseover", function() {
+            d3.select(this).attr("class", "comfortzoneover");
+        })
+            .on("mouseout", function() {
+            d3.select(this).attr("class", "comfortzone");
+        });
+
+    }
+
+    // this is when you want to change the factors in the tool and the comfort zone moves
+
+    this.redrawComfortRegion = function(data) {
+
+        d3.select("#temphum-comfortzone")
+            .transition()
+            .attr("d", bc.pline(data) + "Z")
+    }
+
+
+    // draw the red  point 
+
+    this.drawPoint = function() {
+
+        d3.select("svg")
+            .append("circle")
+            .attr("class", "outer")
+            .attr("r", 12)
+
+        d3.select("svg")
+            .append("circle")
+            .attr("class", "inner")
+            .attr("r", 2)
+
+        d3.selectAll("circle")
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
+
+    }
+
+    // this is when you want to change the factors in the tool and the point moves
+
+    this.redrawPoint = function() {
+
+        d3.selectAll("circle")
+            .transition()
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
+
+    }
+
+    // function to calculate humidity ratio (hr) given DBT and RH
+    this.getHumRatio = function(db, rh) {
+        return psy.humratio(psy.PROP.Patm, rh * psy.satpress(db) / 100)
+    }
+
+    // Create comfort zone boundary, by adding points to an array
+
+    this.findComfortBoundary = function(d, pmvlimit) {
+        var boundary = []
+
+        function solve(rh, target) {
+            var epsilon = 0.001
+            var a = -50
+            var b = 50
+            var fn = function(db) {
+                return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme)[0][0] - target)
+            }
+            //t = util.bisect(a, b, fn, epsilon, target)
+            t = util.secant(a, b, fn, epsilon)
+            return {
+                "db": t,
+                "rh": rh
+            }
+        }
+
+        for (rh = 0; rh <= 100; rh += 10) {
+            boundary.push(solve(rh, -pmvlimit))
+        }
+
+        for (rh = 100; rh >= 0; rh -= 10) {
+            boundary.push(solve(rh, pmvlimit))
+        }
+
+        return boundary
+    }
+
+    // this calls everything
+
+    this.setupChart = function(d) {
+        bc.drawChart()
+    }
+
+    // Switch between Celsius and Farenheit changing opacity
+
+    this.toggleUnits = function(isCelsius) {
+
+        if (isCelsius) {
+            d3.select("#db-axis-C-temphum").attr("opacity", "100")
+            d3.select("#db-axis-F-temphum").attr("opacity", "0")
+        } else {
+            d3.select("#db-axis-C-temphum").attr("opacity", "0")
+            d3.select("#db-axis-F-temphum").attr("opacity", "100")
+        }
+
+    }
+
+}
