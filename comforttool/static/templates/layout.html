@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+
+    <title>CBE Thermal Comfort Tool {% block title %}{% endblock %}</title>
+    <meta name="description" content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2010, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/comfortmodels.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/psychrometrics.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/adaptchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/local-discomfort.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"</script>
+
+    {% endblock %}
+  </head>
+<body>
+  <div id="header">
+    {% block header %} 
+    <h1 style="text-align: center;" >Thermal Comfort Tool for ASHRAE-55</h1>    
+    {% endblock %}
+  </div>
+    
+  <div id="all_content">{% block content %}{% endblock %}</div>
+
+  <div id="footer">
+    {% block footer %}
+    <div id='left' style="float:left; width:400px; text-align: left;">
+      <img style="float:left;" src="/static/img/logo150px.jpg">
+      <b>To cite this webpage:</b>
+       <br/>
+       Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Moon Dustin, and Steinfeld Kyle, 2012, CBE Thermal Comfort Tool for ASHRAE-55. <br>Center for the Built Environment, University of California Berkeley, http://cbe.berkeley.edu/comforttool/
+    </div>
+   
+    <div id='right' style="padding-left:10px; float:right; width:569px; text-align: left;">
+      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">
+        <img alt="Creative Commons License" style="float:right; border-width:0; margin: 7px 0px 0px 7px" src="http://i.creativecommons.org/l/by-nd/3.0/88x31.png" />
+      </a>
+      <b>CBE Thermal Comfort Tool for ASHRAE-55 developed by: </b>
+      <br/>
+      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-tyler.htm">Tyler Hoyt</a>,
+      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-stefano.htm">Stefano Schiavon</a>,
+      <a class="footerlink" href="http://www.linkedin.com/pub/alberto-piccioli/4b/361/7a5">Alberto Piccioli</a>, 
+      <span class="footerlink">Dustin Moon</span> and 
+      <a class="footerlink" href="http://ced.berkeley.edu/ced/faculty-staff/kyle-steinfeld">Kyle Steinfeld</a>.
+      Based on work at <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built Environment</a>.
+      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-NoDerivs 3.0 Unported License</a>. 
+    </div>
+    {% endblock %}
+  
+  </div>
+</body>
