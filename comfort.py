@@ -30,6 +30,10 @@ def upload_file():
             return make_response(json.dumps(conds))
                  
     return render_template('upload.html')
+
+@app.route('/compare')
+def compare():
+    return render_template('compare.html')
     
 @app.route('/')
 def index():
