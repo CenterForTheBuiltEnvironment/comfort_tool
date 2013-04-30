@@ -613,15 +613,15 @@ function calcPmvCompliance(d, r, i) {
 
     if (!met_comply) {
         comply = false;
-        special_msg += 'Metabolic rates below 1.0 or above 2.0 are not covered by this standard<br>';
+        special_msg += '#'+i+': '+'Metabolic rates below 1.0 or above 2.0 are not covered by this standard<br>';
     }
     if (!clo_comply) {
         comply = false;
-        special_msg += 'Clo values above 1.5 are not covered by this standard<br>';
+        special_msg += '#'+i+': '+'Clo values above 1.5 are not covered by this standard<br>';
     }
     if (elev_airspeed && d.clo > 0.7) {
         comply = false;
-        special_msg += 'Elevated air speeds with clo > 0.7 are not covered by this standard<br>';
+        special_msg += '#'+i+': '+'Elevated air speeds with clo > 0.7 are not covered by this standard<br>';
     }
     if (!pmv_comply) {
         comply = false;
@@ -642,22 +642,22 @@ function calcPmvElevCompliance(d, r, i) {
 
     if (!met_comply) {
         comply = false;
-        special_msg += 'Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
+        special_msg += '#'+i+': '+'Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
     }
     if (!clo_comply) {
         comply = false;
-        special_msg += 'Clo values above 1.5 are not covered by this Standard<br>';
+        special_msg += '#'+i+': '+'Clo values above 1.5 are not covered by this Standard<br>';
     }
 
     compliance_ranges = getComplianceRanges(d, r, local_control);
 
     if (d.vel > compliance_ranges.vel_max && local_control) {
         comply = false;
-        special_msg += 'Air speed exceeds limit set by standard<br>';
+        special_msg += '#'+i+': '+'Air speed exceeds limit set by standard<br>';
     }
     if (d.vel > compliance_ranges.vel_max && !local_control) {
         comply = false;
-        special_msg += 'Maximum air speed has been limited due to no occupant control<br>';
+        special_msg += '#'+i+': '+'Maximum air speed has been limited due to no occupant control<br>';
     }
     if (!pmv_comply) {
         comply = false;
@@ -740,11 +740,11 @@ function renderCompliance(comply, special_msg, i) {
     if (comply) {
         $('#comply-msg'+i).html(comply_msg);
         $('#comply-msg'+i).css('color', 'green')
-        $('#special-msg').html(special_msg);
+        $('#special-msg'+i).html(special_msg);
     } else {
         $('#comply-msg'+i).html(no_comply_msg);
         $('#comply-msg'+i).css('color', 'red')
-        $('#special-msg').html(special_msg);
+        $('#special-msg'+i).html(special_msg); //changed this for the special message
     }
 }
 
