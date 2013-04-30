@@ -52,12 +52,6 @@ var pc = new function() {
             })
                 .interpolate('cardinal')
 
-            // var dpoly = data.rh100.concat({
-            //     "db": 9,
-            //     "hr": 0.03
-            // })
-
-
             d3.select("#chart-div")
                 .append("svg")
                 .attr("class", "svg-psych").attr("id", "svg-psych")
@@ -75,19 +69,6 @@ var pc = new function() {
                 .attr("width", pc.width - pc.margin - pc.rbmargin)
                 .attr("height", pc.height - pc.margin - pc.rbmargin - 20)
                 .attr("transform", "translate(" + pc.margin + "," + pc.rbmargin + ")")
-
-            // pc.svg.append("path")
-            //     .attr("d", line(data.rh100))
-            //     .attr("class", "rh100")
-            //     .attr("clip-path", "url(#clip)")
-            // 
-            // for (var key in data) {
-            //     if (key == "rh100") continue
-            //     pc.svg.append("path")
-            //         .attr("d", line(data[key]))
-            //         .attr("class", "rhline")
-            //         .attr("clip-path", "url(#clip)")
-            // }
 
      // dynamic way of drawing rh lines
             for (var i=100; i>=10; i-=10){
@@ -571,7 +552,7 @@ var pc = new function() {
         }
         
         this.setupChart = function(d) {
-            d3.json('data/rh-curves.json', pc.drawChart)
+            pc.drawChart()
         }
 
         this.toggleUnits = function(isCelsius) {
