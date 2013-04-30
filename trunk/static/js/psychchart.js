@@ -52,10 +52,10 @@ var pc = new function() {
             })
                 .interpolate('cardinal')
 
-            var dpoly = data.rh100.concat({
-                "db": 9,
-                "hr": 0.03
-            })
+            // var dpoly = data.rh100.concat({
+            //     "db": 9,
+            //     "hr": 0.03
+            // })
 
 
             d3.select("#chart-div")
@@ -81,33 +81,33 @@ var pc = new function() {
                 .attr("class", "rh100")
                 .attr("clip-path", "url(#clip)")
 
-            for (var key in data) {
-                if (key == "rh100") continue
-                pc.svg.append("path")
-                    .attr("d", line(data[key]))
-                    .attr("class", "rhline")
-                    .attr("clip-path", "url(#clip)")
-            }
+            // for (var key in data) {
+            //     if (key == "rh100") continue
+            //     pc.svg.append("path")
+            //         .attr("d", line(data[key]))
+            //         .attr("class", "rhline")
+            //         .attr("clip-path", "url(#clip)")
+            // }
 
      // dynamic way of drawing rh lines
-            // for (var i=100; i>=10; i-=10){
-            // 		      RHline = []
-            // 		      for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
-            // 		          RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
-            // 		      }
-            // 		      if (i==100){
-            // 		        d3.select("svg").append("path")
-            // 		          .attr("d", pc.pline(RHline))
-            // 		          .attr("class", "rh100")
-            // 		          .attr("clip-path", "url(#clip)")
-            // 		      } else {
-            // 			    d3.select("svg").append("path")
-            // 		          .attr("d", pc.pline(RHline))
-            // 		          .attr("class", "rhline").style('stroke', 'red')
-            // 		          .attr("clip-path", "url(#clip)")
-            // 		      }
-            // 		    }
-      
+            for (var i=100; i>=10; i-=10){
+                        		      RHline = []
+                        		      for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
+                        		          RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
+                        		      }
+                        		      if (i==100){
+                        		        d3.select("svg").append("path")
+                        		          .attr("d", pc.pline(RHline))
+                        		          .attr("class", "rh100")
+                        		          .attr("clip-path", "url(#clip)")
+                        		      } else {
+                        			    d3.select("svg").append("path")
+                        		          .attr("d", pc.pline(RHline))
+                        		          .attr("class", "rhline")
+                        		          .attr("clip-path", "url(#clip)")
+                        		      }
+                        		    }
+                  
             // box with values changing with the mouse movement  ----------------------------
 
             // basic frame of the box:
