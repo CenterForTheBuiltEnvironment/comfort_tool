@@ -1,6 +1,3 @@
-//goog.provide('comf') 
-//goog.require('psy')
-
 var pow = Math.pow;
 var exp = Math.exp;
 var max = Math.max;
@@ -216,7 +213,8 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
 
     CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
     if (met < 0.85) CHCA = 0.0;
-    else CHCA = 5.66 * pow(((met - 0.85) * PressureInAtmospheres), 0.39);
+    //Removed per Ed and Amanda's observation that this is only for still air
+    //else CHCA = 5.66 * pow(((met - 0.85) * PressureInAtmospheres), 0.39);
     CHCV = 8.600001 * pow((AirVelocity * PressureInAtmospheres), 0.53);
     if (CHC <= CHCA) CHC = CHCA;
     if (CHC < CHCV) CHC = CHCV;
@@ -387,3 +385,5 @@ comf.schiavonClo = function(ta6) {
     }
     return clo_r
 }
+
+exports.comf = comf
