@@ -2,14 +2,11 @@
 
 var bc = new function() {
 
-    // Celsius to Farenheit
-
     var CtoF = function(x) {
         return x * 9 / 5 + 32
     }
 
     // set up viewport
-
     this.margin = 60
     this.rbmargin = 40
     this.width = 580
@@ -17,7 +14,6 @@ var bc = new function() {
     this.db_min = 10
     this.db_max = 36
 
-    // --------------------------  set up scales  --------------------------------------------------
 
     this.db_extent = [this.db_min, this.db_max]
     this.db_scale = d3.scale.linear()
@@ -44,11 +40,7 @@ var bc = new function() {
         return this.rh_scale(d.rh)
     })
 
-    // ----------------------------------- Start DrawChart -----------------------------------
-
     this.drawChart = function(data) {
-
-        // Setting up the axes 
 
         var db_axis = d3.svg.axis().scale(bc.db_scale)
         var db_axis_F = d3.svg.axis().scale(bc.db_scale_F)
@@ -63,17 +55,17 @@ var bc = new function() {
         })
             .interpolate('cardinal')
 
-        // drawing chart svg (the whole thing)
-
+        // drawing svg
         d3.select("#temphumchart-div")
             .append("svg")
-            .attr("class", "svg-temphum")
+            .attr("class", "svg-temphum").attr("id", "svg-temphum")
             .attr("width", bc.width)
             .attr("height", bc.height)
 
-        // ClipPath hides everything that goes outside the chart area
+		bc.svg = d3.select(".svg-temphum")
 
-        d3.select("svg")
+        // ClipPath
+          bc.svg
             .append("defs")
             .append("clipPath")
             .attr("id", "clip_th")
@@ -85,15 +77,14 @@ var bc = new function() {
             .attr("transform", "translate(" + bc.margin + "," + bc.rbmargin + ")")
 
         // Drawing the axes
-
-        d3.select("svg")
+          bc.svg
             .append("g")
             .attr("class", "db axis")
             .attr("id", "db-axis-C-temphum")
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
             .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
 
-        d3.select("svg")
+          bc.svg
             .append("g")
             .attr("class", "db axis")
             .attr("id", "db-axis-F-temphum")
@@ -101,7 +92,7 @@ var bc = new function() {
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
             .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
 
-        d3.select("svg")
+          bc.svg
             .append("g")
             .attr("class", "rh axis")
             .attr("transform", "translate(" + (bc.margin) + ",0)")
@@ -137,44 +128,38 @@ var bc = new function() {
         bc.drawPoint();
     }
 
-    // Comfort Zone 
 
     this.drawComfortRegion = function(data) {
 
-        d3.select("svg")
+        d3.select(".svg-temphum")
             .append("path")
             .attr("clip-path", "url(#clip_th)")
             .attr("d", bc.pline(data) + "Z")
-            .attr("class", "comfortzone").attr("id", "temphum-comfortzone")
+            .attr("class", "comfortzone-temphum").attr("id", "temphum-comfortzone")
             .on("mouseover", function() {
             d3.select(this).attr("class", "comfortzoneover");
         })
             .on("mouseout", function() {
-            d3.select(this).attr("class", "comfortzone");
+            d3.select(this).attr("class", "comfortzone-temphum");
         });
 
     }
 
-    // this is when you want to change the factors in the tool and the comfort zone moves
-
     this.redrawComfortRegion = function(data) {
 
-        d3.select("#temphum-comfortzone")
+        d3.select(".comfortzone-temphum")
             .transition()
             .attr("d", bc.pline(data) + "Z")
     }
 
-
-    // draw the red  point 
-
     this.drawPoint = function() {
 
-        d3.select("svg")
+          bc.svg
             .append("circle")
             .attr("class", "outer")
             .attr("r", 12)
 
-        d3.select("svg")
+          bc.svg
             .append("circle")
             .attr("class", "inner")
             .attr("r", 2)
@@ -185,8 +170,6 @@ var bc = new function() {
 
     }
 
-    // this is when you want to change the factors in the tool and the point moves
-
     this.redrawPoint = function() {
 
         d3.selectAll("circle")
@@ -196,12 +179,9 @@ var bc = new function() {
 
     }
 
-    // function to calculate humidity ratio (hr) given DBT and RH
     this.getHumRatio = function(db, rh) {
         return psy.humratio(psy.PROP.Patm, rh * psy.satpress(db) / 100)
     }
-
-    // Create comfort zone boundary, by adding points to an array
 
     this.findComfortBoundary = function(d, pmvlimit) {
         var boundary = []
@@ -232,13 +212,10 @@ var bc = new function() {
         return boundary
     }
 
-    // this calls everything
 
     this.setupChart = function(d) {
         bc.drawChart()
     }
-
-    // Switch between Celsius and Farenheit changing opacity
 
     this.toggleUnits = function(isCelsius) {
 
