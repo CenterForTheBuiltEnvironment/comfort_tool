@@ -35,6 +35,10 @@ def upload_file():
 def compare():
     return render_template('compare.html')
     
+@app.route('/ranges')
+def ranges():
+	    return render_template('ranges.html')
+
 @app.route('/')
 def index():
       return render_template('index.html')
