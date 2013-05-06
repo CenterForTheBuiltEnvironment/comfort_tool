@@ -1,0 +1,88 @@
+
+path.comfortzone-range{
+	  fill: rgb(0,0,100);
+	  fill-opacity: 0.1;
+}   
+path.comfortzone-rangeover{
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(0,180,250);
+	fill-opacity: 0.3;
+}
+
+path.comfortzone-temphum-range{
+	  fill: rgb(0,0,100);
+	  fill-opacity: 0.1;
+}   
+path.comfortzone-temphum-rangeover{
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(0,180,250);
+	fill-opacity: 0.3;
+}
+
+path.rh-curve-off{
+	stroke: red;
+	stroke-width:1.5px;
+}
+path.rh-curve{
+	stroke: red;
+	stroke-width:3px;
+}
+path.temp-line{
+	stroke: red;
+	stroke-width:1px;
+	stroke-dasharray: 5,5;
+}
+path.temp-line-temphum{
+	stroke: red;
+	stroke-width:1px;
+	stroke-dasharray: 5,5;
+}
+path.rh-curve-temphum-off{
+	stroke: red;
+	stroke-width:1.5px;
+}
+path.rh-curve-temphum{
+	stroke: red;
+	stroke-width:3px;
+}
+path.temp-line-temphum{
+	stroke: red;
+	stroke-width:1px;
+	stroke-dasharray: 5,5;
+}
+
+.temp-label {
+    font-size:11pt;
+    stroke:#000000; 
+    stroke-width:0.1px;
+    font-family:sans-serif;
+    fill:red;
+}
+.temp-label-temphum {
+    font-size:11pt;
+    stroke:#000000; 
+    stroke-width:0.1px;
+    font-family:sans-serif;
+    fill:red;
+}
+.label {
+    font-size:11pt;
+    font-family:sans-serif;
+    fill:black;
+}
