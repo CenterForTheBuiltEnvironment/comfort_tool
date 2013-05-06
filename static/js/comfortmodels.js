@@ -63,11 +63,12 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
         var ta_adj_l = -200;
         var ta_adj_r = 200;
         var eps = 0.001;  // precision of ta_adj
+        var hum_ratio = psy.convert(rh, ta, 'rh', 'w')
         var fn = function(t){
-            return (set - comf.pierceSET(t, tr, 0.15, rh, met, clo, wme));
+            rh_const_w = psy.convert(hum_ratio, t, 'w', 'rh')
+            return (set - comf.pierceSET(t, tr, 0.15, rh_const_w, met, clo, wme));
         };
         var ta_adj = util.secant(ta_adj_l, ta_adj_r, fn, eps);
-//        var ta_adj = util.bisect(ta_adj_l, ta_adj_r, fn, eps, 0);
         var pmv = comf.pmv(ta_adj, tr, 0.15, rh, met, clo, wme);
         return [pmv, ta_adj, Math.abs(ta - ta_adj)]
     }
