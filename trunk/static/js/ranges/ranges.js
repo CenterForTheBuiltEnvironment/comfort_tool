@@ -158,8 +158,7 @@ $(function() {
 		} else {
 		    var tr_incr = parseFloat(document.getElementById("step-select-tr").value)*1000;			
 		}
-		pc.drawRange('tr', tr_incr);
-		bc.drawRange('tr', tr_incr);
+		drawRange('tr', tr_incr);
 	})
 	$("#vel-range-button").click(function(){
 		if (!isCelsius) {
@@ -167,18 +166,15 @@ $(function() {
 		} else {
 			var vel_incr = parseFloat(document.getElementById("step-select-vel").value)*1000;
 	    }
-		pc.drawRange('vel', vel_incr);
-		bc.drawRange('vel', vel_incr);
+		drawRange('vel', vel_incr);
 	})
 	$("#met-range-button").click(function(){
 		var met_incr = parseFloat(document.getElementById("step-select-met").value)*1000;
-		pc.drawRange('met', met_incr);
-		bc.drawRange('met', met_incr);
+		drawRange('met', met_incr);
 	})
 	$("#clo-range-button").click(function(){
 		var clo_incr = parseFloat(document.getElementById("step-select-clo").value)*1000;
-		pc.drawRange('clo', clo_incr);
-		bc.drawRange('clo', clo_incr);
+		drawRange('clo', clo_incr);
 	})
 
     $( "#slider-range-tr" ).slider({
@@ -189,7 +185,7 @@ $(function() {
         step: 0.5,
         slide: function( event, ui ) {
             $("#tr1").val(ui.values[0]).css("color", "grey");
-         $("#tr2").val(ui.values[1]).css("color", "grey");
+            $("#tr2").val(ui.values[1]).css("color", "grey");
         }
     });
     $("#tr1").val( $( "#slider-range-tr" ).slider("values", 0) ).css("color", "grey");
@@ -199,7 +195,7 @@ $(function() {
          range: true,
          min: 0.0,
          max: 1.2,
-         values: [ 0.1, 0.7 ],
+         values: [ 0.2, 0.7 ],
          step: 0.05,
          slide: function( event, ui ) {
              $("#vel1").val(ui.values[0]).css("color", "grey");
@@ -211,9 +207,9 @@ $(function() {
 
      $( "#slider-range-met" ).slider({
          range: true,
-         min: 1,
+         min: 1.0,
          max: 2.0,
-         values: [ 1, 1.3 ],
+         values: [ 1.0, 1.3 ],
          step: 0.05,
          slide: function( event, ui ) {
              $("#met1").val(ui.values[0]).css("color", "grey");
@@ -326,11 +322,15 @@ $('.inputbox').keydown(function(event) {
 });
 
 $('.in').click(function() {
-    update();
+	if(!rangeYes){
+    		update();
+	}
 });
 
 $('.inputbox').focusout(function() {
-    update();
+	if(!rangeYes){
+    		update();
+	}
 });
 
 $('#rh-inputcell').click(function(){
@@ -338,7 +338,19 @@ $('#rh-inputcell').click(function(){
 		pc.redrawRHcurve();
 		bc.redrawRHcurve();
 	}
-})
+});
+$('#rh-inputcell').focusout(function(){
+	if(rangeYes){	
+		pc.redrawRHcurve();
+		bc.redrawRHcurve();
+	}
+});
+
+$('#tr-inputcell, #vel-inputcell, #met-inputcell, #clo-inputcell').click(function() {
+	if(rangeYes){
+    		removeRanges();
+	}
+});
 
 $('#unitsToggle').click(function() {
     toggleUnits();
@@ -623,6 +635,47 @@ function toggleSliders(){
 	}
 }
 
+function drawRange(factor, incr) {
+	
+	rangeYes = true;
+	rangefactor = factor;
+	d3.selectAll("path.comfortzone").remove();
+	d3.selectAll(".comfortzone-temphum").remove();
+    d3.selectAll("circle").remove();
+    removeRanges();
+	$('.inputfield').css('background-color', '#DCE7F7');
+	$('#ta-lab, #inputfield-ta').css('visibility', 'hidden');
+	
+	setFactors(factor);
+	
+    var fakeFactor_1 = factor_1 * 1000;
+    var fakeFactor_2 = factor_2 * 1000;
+
+    if (fakeFactor_1 < fakeFactor_2) {
+		  for (var x=fakeFactor_1; x<=fakeFactor_2; x+=incr) {
+	     	d[factor] = x/1000;
+	        //console.log(x);
+			var bound = pc.findComfortBoundary(d, 0.5);
+			var bcBound = bc.convertBoundary(bound);
+			pc.drawNewZone(d, bound, factor, x);
+	    	bc.drawNewZone(d, bcBound, factor, x);
+	     	}
+		  last_value = (x - incr)/1000;
+		
+		  var curve = pc.findRHcurve(d, 0.5, factor);
+		  var line = bc.findRHcurve(d, 0.5, factor);
+		  pc.drawRHcurve(curve);
+		  bc.drawRHcurve(line);
+		
+		  $('#output-ranges').show();
+		  $('.factor-name').html(factor_names[rangefactor]);
+		  $('#factor-name').html(factor_names[rangefactor]);
+	      $("#inputfield-"+ factor).css('background-color', '#CECEE3');
+
+		} else {
+			alert("insert the min and max values of the range");
+		}
+}
 
 function setInputs() {
 	keys.forEach(function(element) {
@@ -657,6 +710,13 @@ function setFactors(factor){
 	    setInputs();
     }
     d.rh = psy.convert(d.rh, d.ta, window.humUnit, 'rh');
+}
+
+function removeRanges(){
+	d3.selectAll("path.comfortzone-range").remove();
+	pc.removeRHcurve();
+	d3.selectAll("path.comfortzone-temphum-range").remove();
+	bc.removeRHcurve();
 }
 
 function update() {

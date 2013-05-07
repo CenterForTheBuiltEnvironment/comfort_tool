@@ -9,48 +9,8 @@ pc.line = d3.svg.line()
              .y(function(d){return pc.hr_scale(1000 * d.hr)})
              .interpolate('cardinal')
 
-pc.drawRange = function(factor, incr){
-	rangeYes = true;
-	rangefactor = factor;
-	d3.selectAll("path.comfortzone").remove();
-	d3.selectAll("path.comfortzone-range").remove();
-    d3.selectAll("circle").remove();
-	pc.removeRHcurve();
-	//$("#factor-label, #factor-name, #factor-hover").remove();
-	$('.inputfield').css('background-color', '#DCE7F7');
-	$('#ta-lab, #inputfield-ta').css('visibility', 'hidden');
-	
-	setFactors(factor);
-	
-    var fakeFactor_1 = factor_1 * 1000;
-    var fakeFactor_2 = factor_2 * 1000;
 
-    if (fakeFactor_1 < fakeFactor_2) {
-		  for (var x=fakeFactor_1; x<=fakeFactor_2; x+=incr) {
-	     	d[factor] = x/1000;
-	        console.log(x);
-	    	pc.drawNewZone(d, factor, x);
-	     	}
-		  last_value = (x - incr)/1000;
-		
-		  var curve = pc.findRHcurve(d, 0.5, factor);
-		  setTimeout(function(){pc.drawRHcurve(curve)}, 10);
-		
-		  $('#output-ranges').show();
-		  $('.factor-name').html(factor_names[rangefactor]);
-		  $('#factor-name').html(factor_names[rangefactor]);
-		  //$("#factor-output-unit").html(factor_units[rangefactor]);
-		  //$("#factor-output1").html( factor_1.toFixed(2) );
-	      //$("#factor-output2").html( factor_2.toFixed(2) );
-	      $("#inputfield-"+ factor).css('background-color', '#CECEE3');
-			
-		} else {
-			alert("insert the min and max values of the range");
-		}
-}
-
-pc.drawNewZone = function (d, factor, x) {
-	var bound = pc.findComfortBoundary(d, 0.5)
+pc.drawNewZone = function (d, bound, factor, x) {
 	pc.drawComfortRegion(bound)
 	d3.select("path.comfortzone")
       .attr("class", "comfortzone-range")
@@ -66,7 +26,15 @@ pc.drawNewZone = function (d, factor, x) {
 pc.writeFactor = function(x){
 	$("#hover-output").css('color', 'black');
 	if(isCelsius){
-		$("#factor-hover").html(x/1000);
+		if(rangefactor=="tr"){
+		  var foo = parseFloat((x/1000).toFixed(1));
+		  $("#factor-hover").html(foo);
+		} else if(rangefactor=="vel"){
+		  var foo = parseFloat((x/1000).toFixed(2));
+		  $("#factor-hover").html(foo);
+		} else {
+		  $("#factor-hover").html(x/1000);
+		}
 	} else {
 		if(rangefactor=="tr"){
 		  var foo = parseFloat(CtoF(x/1000).toFixed(1));
@@ -79,6 +47,7 @@ pc.writeFactor = function(x){
 		}
 	}
 }
+
 pc.hideFactor = function(){
 	$("#hover-output").css('color', 'transparent');
 }
@@ -91,20 +60,21 @@ pc.drawRHcurve = function(data){
 	        .on("mouseover", function(){pc.drawTempLines();})
 	        .on("mouseout", function(){pc.removeTempLines();})
 			
-	   if(inner_range > 0){		
-		     $("#inner-range-width").html( (inner_range).toFixed(1) );
-	     } else {
-			$("#inner-range-width").html( "0.0" );
-	    }
-	
-	    $("#outer-range-width").html( (right.db - left.db).toFixed(1) )
-		if(isCelsius){
+	   if(inner_range > 0){
+		 if(isCelsius){
+	       $("#inner-range-width").html( (inner_range).toFixed(1) );
+		   $("#outer-range-width").html( (outer_range).toFixed(1) )
 	       $("#range-output1").html( (left.db).toFixed(1) )
 	       $("#range-output2").html( (right.db).toFixed(1) )
-        }else{
+         }else{
+	       $("#inner-range-width").html( (inner_range * 1.8).toFixed(1) );
+	       $("#outer-range-width").html( (outer_range * 1.8).toFixed(1) )
 	       $("#range-output1").html( CtoF(left.db).toFixed(1) )
 	       $("#range-output2").html( CtoF(right.db).toFixed(1) )
-		}
+		 }
+	  } else {
+		$("#inner-range-width").html( "0.0" );
+      }
 }
 
 pc.redrawRHcurve = function(){
@@ -188,23 +158,29 @@ pc.drawTempLines = function() {
 pc.findRHcurve = function(d, pmvlimit, factor) {
   var RHcurve = []
 
- 	function solve(target){
-    var epsilon = 0.001
-    var a = 0
-    var b = 100
-    var fn = function(db){
-      return comf.pmvElevatedAirspeed(db, d.tr, d.vel, d.rh, d.met, d.clo, d.wme)[0][0]
-    }
-    t = util.bisect(a, b, fn, epsilon, target)
-    return {"db": t, "hr": pc.getHumRatio(t,d.rh)}
+  function rhclos(rhx, target) {
+      return function(db) {
+          return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+      }
+  }
+  function solve(rhx, target) {
+      var epsilon = 0.001 // ta precision
+      var a = -50
+      var b = 50
+      var fn = rhclos(rhx, target)
+      t = util.secant(a, b, fn, epsilon)
+      return {
+          "db": t,
+          "hr": pc.getHumRatio(t, rhx)
+      }
   }
 
    d[factor] = factor_1;
-   var left_1 = solve(-pmvlimit);
-   var right_1 = solve(pmvlimit);
+   var left_1 = solve(d.rh, -pmvlimit);
+   var right_1 = solve(d.rh, pmvlimit);
    d[factor] = last_value;
-   var left_2 = solve(-pmvlimit);
-   var right_2 = solve(pmvlimit); 
+   var left_2 = solve(d.rh, -pmvlimit);
+   var right_2 = solve(d.rh, pmvlimit); 
 
    var left_db = Math.min(left_1.db, left_2.db);
    var right_db = Math.max(right_1.db, right_2.db);
@@ -216,7 +192,8 @@ pc.findRHcurve = function(d, pmvlimit, factor) {
 
    inner_left = {"db": inner_left_db, "hr": pc.getHumRatio(inner_left_db,d.rh)}
    inner_right = {"db": inner_right_db, "hr": pc.getHumRatio(inner_right_db,d.rh)}
-   inner_range = inner_right_db - inner_left_db
+   inner_range = (inner_right_db) - (inner_left_db)
+   outer_range = (right_db) - (left_db)
   
   RHcurve.push(left) 
 
