@@ -5,44 +5,7 @@ bc.line = d3.svg.line()
              .y(function(d){return bc.rh_scale(d.rh)})
              .interpolate('cardinal')
 
-bc.drawRange = function(factor, incr){
-	rangeYes = true;
-	rangefactor = factor;
-	d3.selectAll(".comfortzone-temphum").remove();
-	d3.selectAll("path.comfortzone-temphum-range").remove();
-    d3.selectAll("circle").remove();
-	bc.removeRHcurve();
-	$('.inputfield').css('background-color', '#DCE7F7');
-	$('#ta-lab, #inputfield-ta').css('visibility', 'hidden');
-	
-	setFactors(factor);
-	
-    var fakeFactor_1 = factor_1 * 1000;
-    var fakeFactor_2 = factor_2 * 1000;
-
-    if (fakeFactor_1 < fakeFactor_2) {
-		  for (var x=fakeFactor_1; x<=fakeFactor_2; x+=incr) {
-	     	d[factor] = x/1000;
-	        console.log(x);
-	    	bc.drawNewZone(d, factor, x);
-	     	}
-		  last_value = (x - incr)/1000;
-		
-		  var curve = bc.findRHcurve(d, 0.5, factor);
-		  setTimeout(function(){bc.drawRHcurve(curve)}, 10); 
-		
-		  $('#output-ranges').show();
-		  $('.factor-name').html(factor_names[rangefactor]);
-		  $('#factor-name').html(factor_names[rangefactor]);
-	      $("#inputfield-"+ factor).css('background-color', '#CECEE3');
-			
-		} else {
-			alert("insert the min and max values of the range");
-		}
-}
-
-bc.drawNewZone = function (d, factor, x) {
-	var bound = bc.findComfortBoundary(d, 0.5)
+bc.drawNewZone = function (d, bound, factor, x) {
 	bc.drawComfortRegion(bound)
 	d3.select("path.comfortzone-temphum")
       .attr("class", "comfortzone-temphum-range")
@@ -55,6 +18,24 @@ bc.drawNewZone = function (d, factor, x) {
 								})  
 }
 
+bc.convertBoundary = function(bound){
+	
+	function convert(point){
+		return {
+			    "db": point.db,
+                "rh":  psy.convert(point.hr, point.db, 'w', 'rh')
+		       }
+	}
+	
+	var newBound = [];
+	
+	bound.forEach(function(point){
+		newBound.push(convert(point));
+	});
+	
+	return newBound;
+}
+
 bc.drawRHcurve = function(data){
 	    d3.select("#svg-temphum").append("path")
 	        .attr("clip-path", "url(#clip)")
@@ -62,21 +43,6 @@ bc.drawRHcurve = function(data){
 	        .attr("class", "rh-curve-temphum-off")	        
 	        .on("mouseover", function(){bc.drawTempLines();})
 	        .on("mouseout", function(){bc.removeTempLines();})
-			
-	   if(temphum_inner_range > 0){		
-		     $("#inner-range-width").html( (temphum_inner_range).toFixed(1) );
-	     } else {
-			$("#inner-range-width").html( "0.0" );
-	    }
-	
-	    $("#outer-range-width").html( (temphum_right.db - temphum_left.db).toFixed(1) )
-		if(isCelsius){
-	       $("#range-output1").html( (temphum_left.db).toFixed(1) )
-	       $("#range-output2").html( (temphum_right.db).toFixed(1) )
-        }else{
-	       $("#range-output1").html( CtoF(temphum_left.db).toFixed(1) )
-	       $("#range-output2").html( CtoF(temphum_right.db).toFixed(1) )
-		}
 }
 
 bc.redrawRHcurve = function(){
@@ -89,16 +55,19 @@ bc.redrawRHcurve = function(){
 bc.findRHcurve = function(d, pmvlimit, factor) {
   var RHcurve = []
 
- 	function solve(rh, target){
-    var epsilon = 0.001
-    var a = 0
-    var b = 100
-    var fn = function(db){
-      return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme)[0][0]
+	function rhclos(rhx, target) {
+	      return function(db) {
+	          return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+	      }
+	}
+	function solve(rhx, target) {
+      var epsilon = 0.001 // ta precision
+      var a = -50
+      var b = 50
+      var fn = rhclos(rhx, target)
+      t = util.secant(a, b, fn, epsilon)
+      return {"db": t, "rh": rh}
     }
-    t = util.bisect(a, b, fn, epsilon, target)
-    return {"db": t, "rh": rh}
-  }
 
    d[factor] = factor_1;
    var left_1 = solve(d.rh, -pmvlimit);
