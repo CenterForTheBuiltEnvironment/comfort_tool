@@ -86,6 +86,7 @@ psy.tdb_w = function(tdb, w) {
 
     a.w = w;
     a.rh = 100 * psy.relhum(this.PROP.Patm, psat, w);
+    if (a.rh > 100) a.rh = Number.NaN
     a.wetbulb = this.wetbulb(tdb, w);
     a.dewpoint = this.dewpoint(w);
     a.vappress = a.rh / 100 * psat;
