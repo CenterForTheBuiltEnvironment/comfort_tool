@@ -62,34 +62,12 @@ $(document).ready(function() {
 
 $(function() {
 
-    $('#globedialog').dialog({
-        autoOpen: false,
-        height: 300,
-        width: 422,
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Set mean radiant temperature": function() {
-                var tr = parseFloat($('#mrt-result').val());
-                if (!isCelsius) tr = CtoF(tr);
-                $('#tr').val(tr);
-                $(this).dialog("close");
-                update();
-            },
-            "Close": function() {
-                $(this).dialog("close");
-            }
-        }
-    });
-
     $('#link').button({}).click(function() {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
-            $('#globeTemp').removeAttr('disabled');
             $('#tr-input, #tr-lab').show();
         } else {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-            $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab').hide();
         }
     });
@@ -145,36 +123,50 @@ $(function() {
     });
 
     $('select#humidity-spec').selectmenu({
-        width: 200
+        width: 150
     });
 
     $('select#step-select-tr, select#step-select-vel, select#step-select-met, select#step-select-clo').selectmenu({
-        width: 100
+        width: 90
     });
 
 	$("#tr-range-button").click(function(){
-		if (!isCelsius) {
-		    var tr_incr = (parseFloat(document.getElementById("step-select-tr").value)/1.8)*1000;
-		} else {
-		    var tr_incr = parseFloat(document.getElementById("step-select-tr").value)*1000;			
-		}
-		drawRange('tr', tr_incr);
+		drawTRrange();
 	})
 	$("#vel-range-button").click(function(){
-		if (!isCelsius) {
-			var vel_incr = (parseFloat(document.getElementById("step-select-vel").value)/196.9)*1000;
-		} else {
-			var vel_incr = parseFloat(document.getElementById("step-select-vel").value)*1000;
-	    }
-		drawRange('vel', vel_incr);
+		drawVELrange();
 	})
 	$("#met-range-button").click(function(){
-		var met_incr = parseFloat(document.getElementById("step-select-met").value)*1000;
-		drawRange('met', met_incr);
+		drawMETrange();
 	})
 	$("#clo-range-button").click(function(){
-		var clo_incr = parseFloat(document.getElementById("step-select-clo").value)*1000;
-		drawRange('clo', clo_incr);
+		drawCLOrange();
+	})
+	
+	$('#slider-range-tr').focusout(function() {
+		drawTRrange();
+	})
+	$("#slider-range-vel").focusout(function(){
+		drawVELrange();
+	})
+	$("#slider-range-met").focusout(function(){
+		drawMETrange();
+	})
+	$("#slider-range-clo").focusout(function(){
+       drawCLOrange();
+	})
+	
+	$('select#step-select-tr').change(function(){
+		drawTRrange();
+	})
+	$('select#step-select-vel').change(function(){
+		drawVELrange();
+	})
+	$('select#step-select-met').change(function(){
+		drawMETrange();
+	})
+	$('select#step-select-clo').change(function(){
+		drawCLOrange();
 	})
 
     $( "#slider-range-tr" ).slider({
@@ -309,9 +301,6 @@ $('#humidity-spec').change(function() {
     window.humUnit = v;
 });
 
-$('#link').click(function() {
-    $('#tr').val($('#ta').val());
-});
 $('.inputbox').keydown(function(event) {
     if (event.keyCode == 13) {
         var inputs = $('.inputbox:visible:enabled');
@@ -333,6 +322,10 @@ $('.inputbox').focusout(function() {
 	}
 });
 
+$('.rangesbox').focusout(function() {
+    toggleSliders();
+});
+
 $('#rh-inputcell').click(function(){
 	if(rangeYes){	
 		pc.redrawRHcurve();
@@ -346,9 +339,48 @@ $('#rh-inputcell').focusout(function(){
 	}
 });
 
-$('#tr-inputcell, #vel-inputcell, #met-inputcell, #clo-inputcell').click(function() {
+$('#tr').focusout(function(){
 	if(rangeYes){
-    		removeRanges();
+		if(rangefactor == "vel"){
+			drawVELrange();
+		} else if(rangefactor == "met"){
+			drawMETrange();
+		} else if(rangefactor == "clo"){
+			drawCLOrange();
+		}
+	}
+});
+$('#vel').focusout(function(){
+	if(rangeYes){
+		if(rangefactor == "tr"){
+			drawTRrange();
+		} else if(rangefactor == "met"){
+			drawMETrange();
+		} else if(rangefactor == "clo"){
+			drawCLOrange();
+		}
+	}
+});
+$('#met').focusout(function(){
+	if(rangeYes){
+		if(rangefactor == "vel"){
+			drawVELrange();
+		} else if(rangefactor == "tr"){
+			drawTRrange();
+		} else if(rangefactor == "clo"){
+			drawCLOrange();
+		}
+	}
+});
+$('#clo').focusout(function(){
+	if(rangeYes){
+		if(rangefactor == "vel"){
+			drawVELrange();
+		} else if(rangefactor == "met"){
+			drawMETrange();
+		} else if(rangefactor == "tr"){
+			drawTRrange();
+		}
 	}
 });
 
@@ -398,33 +430,6 @@ $('#specPressure').click(function() {
             window.alert('The entered atmospheric pressure is invalid.')
         }
     }
-});
-
-$('#globeTemp').click(function() {
-    var container = $('#globedialog');
-    $.ajax({
-        url: '/static/html/globetemp.html',
-        success: function(data) {
-            $('#globedialog').html(data);
-            if (!isCelsius) {
-                $('#ta-g').val('77')
-                $('#vel-g').val('20')
-                $('#tglobe').val('77')
-                $('#diameter').val('6')
-                $('#g-ta-unit').html(' &deg;F')
-                $('#g-vel-unit').html(' fpm')
-                $('#g-tglobe-unit').html(' &deg;F')
-                $('#g-globediam-unit').html(' in')
-                $('#g-mrt-unit').html(' &deg;F')
-            }
-        },
-        async: false
-    });
-    container.dialog("open");
-    updateGlobe();
-    $('.input-dialog').focusout(function() {
-        updateGlobe();
-    });
 });
 
 function CtoF(x) {
@@ -489,12 +494,12 @@ function toggleUnits() {
 	    	<option value='0.05'>0.05 m/s</option>\
 	        <option value='0.1'>0.1 m/s</option>\
 	        <option value='0.2'>0.2 m/s</option>\
-	    ").selectmenu({width: 100});
+	    ").selectmenu({width: 90});
 	    $('#step-select-tr').html("\
 	    	<option value='0.5'>0.5 &deg;C</option>\
 	        <option value='1'>1.0 &deg;C</option>\
 	        <option value='1.5'>1.5 &deg;C</option>\
-	    ").selectmenu({width: 100});
+	    ").selectmenu({width: 90});
 	
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;C');
@@ -553,12 +558,12 @@ function toggleUnits() {
 	    	<option value='10'>10 fpm</option>\
 	        <option value='20'>20 fpm</option>\
 	        <option value='40'>40 fpm</option>\
-	    ").selectmenu({width: 100});
+	    ").selectmenu({width: 90});
 	    $('#step-select-tr').html("\
 	    	<option value='1.0'>1.0 &deg;F</option>\
 	        <option value='2.0'>2.0 &deg;F</option>\
 	        <option value='3.0'>3.0 &deg;F</option>\
-	    ").selectmenu({width: 100});
+	    ").selectmenu({width: 90});
 	
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;F');
@@ -586,7 +591,7 @@ function toggleSliders(){
 	        step: 0.5,
 	        slide: function( event, ui ) {
 	            $("#tr1").val(ui.values[0]).css("color", "grey");
-	         $("#tr2").val(ui.values[1]).css("color", "grey");
+	            $("#tr2").val(ui.values[1]).css("color", "grey");
 	        }
 	    });
 	    $("#tr1").val( $( "#slider-range-tr" ).slider("values", 0) ).css("color", "grey");
@@ -600,9 +605,11 @@ function toggleSliders(){
 	         step: 0.05,
 	         slide: function( event, ui ) {
 	             $("#vel1").val(ui.values[0]).css("color", "grey");
-	          $("#vel2").val(ui.values[1]).css("color", "grey");
+	             $("#vel2").val(ui.values[1]).css("color", "grey");
 	         }
 	     });
+	     $("#vel1").val( $( "#slider-range-vel" ).slider("values", 0) ).css("color", "grey");
+	     $("#vel2").val( $( "#slider-range-vel" ).slider("values", 1) ).css("color", "grey");
 	  });
 	} else {
 		$(function() {
@@ -628,9 +635,11 @@ function toggleSliders(){
 	         step: 10,
 	         slide: function( event, ui ) {
 	             $("#vel1").val(ui.values[0]).css("color", "grey");
-	          $("#vel2").val(ui.values[1]).css("color", "grey");
+	             $("#vel2").val(ui.values[1]).css("color", "grey");
 	         }
 	     });
+	     $("#vel1").val( $( "#slider-range-vel" ).slider("values", 0) ).css("color", "grey");
+	     $("#vel2").val( $( "#slider-range-vel" ).slider("values", 1) ).css("color", "grey");
 	  });
 	}
 }
@@ -675,6 +684,34 @@ function drawRange(factor, incr) {
 		} else {
 			alert("insert the min and max values of the range");
 		}
+}
+
+function drawTRrange() {
+    if (!isCelsius) {
+	    var tr_incr = (parseFloat(document.getElementById("step-select-tr").value)/1.8)*1000;
+	} else {
+	    var tr_incr = parseFloat(document.getElementById("step-select-tr").value)*1000;			
+	}
+	drawRange('tr', tr_incr);
+}
+
+function drawVELrange() {
+	if (!isCelsius) {
+		var vel_incr = (parseFloat(document.getElementById("step-select-vel").value)/196.9)*1000;
+	} else {
+		var vel_incr = parseFloat(document.getElementById("step-select-vel").value)*1000;
+    }
+	drawRange('vel', vel_incr);
+}
+
+function drawMETrange() {
+	var met_incr = parseFloat(document.getElementById("step-select-met").value)*1000;
+	drawRange('met', met_incr);
+}
+
+function drawCLOrange() {
+	var clo_incr = parseFloat(document.getElementById("step-select-clo").value)*1000;
+	drawRange('clo', clo_incr);
 }
 
 function setInputs() {
@@ -774,20 +811,3 @@ function setDefaults() {
         document.getElementById(element).value = defaults[element];
     });
 }
-
-function updateGlobe() {
-    var ta = parseFloat($('#ta-g').val());
-    var vel = parseFloat($('#vel-g').val());
-    var tglobe = parseFloat($('#tglobe').val());
-    var diameter = parseFloat($('#diameter').val());
-    var emissivity = parseFloat($('#emissivity').val());
-    if (!isCelsius) {
-        ta = FtoC(ta)
-        vel /= 196.9
-        tglobe = FtoC(tglobe)
-        diameter *= 0.0254
-    }
-    var tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = CtoF(tr)
-    $('#mrt-result').val(tr.toFixed(1));
-};

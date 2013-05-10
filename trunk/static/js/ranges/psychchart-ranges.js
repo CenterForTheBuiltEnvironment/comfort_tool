@@ -173,6 +173,7 @@ pc.findRHcurve = function(d, pmvlimit, factor) {
           "db": t,
           "hr": pc.getHumRatio(t, rhx)
       }
+		console.log(pc.getHumRatio(t, rhx))
   }
 
    d[factor] = factor_1;

@@ -21,10 +21,20 @@ bc.drawNewZone = function (d, bound, factor, x) {
 bc.convertBoundary = function(bound){
 	
 	function convert(point){
-		return {
-			    "db": point.db,
-                "rh":  psy.convert(point.hr, point.db, 'w', 'rh')
-		       }
+		
+		var pointRH = psy.convert(point.hr, point.db, 'w', 'rh')
+
+		if(pointRH <= 100){
+		  return {
+			      "db": point.db,
+                  "rh": pointRH
+		         }
+		} else {
+			return {
+				      "db": point.db,
+	                  "rh": 100
+			         }
+		}
 	}
 	
 	var newBound = [];

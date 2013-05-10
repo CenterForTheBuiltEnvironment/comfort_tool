@@ -106,34 +106,12 @@ $(function() {
 		}
 	})
 
-    $('#globedialog').dialog({
-        autoOpen: false,
-        height: 300,
-        width: 422,
-        modal: true,
-        resizable: false,
-        buttons: {
-            // "Set mean radiant temperature": function() {
-            //     var tr = parseFloat($('#mrt-result').val());
-            //     if (!isCelsius) tr = CtoF(tr);
-            //     $('#tr').val(tr);
-            //     $(this).dialog("close");
-            //     //update();
-            // },
-            "Close": function() {
-                $(this).dialog("close");
-            }
-        }
-    });
-
     $('#link').button({}).click(function() {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
-            $('#globeTemp').removeAttr('disabled');
             $('#tr-input, #tr-lab').show();
         } else {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-            $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab').hide();
         }
     });
@@ -383,33 +361,6 @@ $('#specPressure').click(function() {
             window.alert('The entered atmospheric pressure is invalid.')
         }
     }
-});
-
-$('#globeTemp').click(function() {
-    var container = $('#globedialog');
-    $.ajax({
-        url: 'static/html/globetemp.html',
-        success: function(data) {
-            $('#globedialog').html(data);
-            if (!isCelsius) {
-                $('#ta-g').val('77')
-                $('#vel-g').val('20')
-                $('#tglobe').val('77')
-                $('#diameter').val('6')
-                $('#g-ta-unit').html(' &deg;F')
-                $('#g-vel-unit').html(' fpm')
-                $('#g-tglobe-unit').html(' &deg;F')
-                $('#g-globediam-unit').html(' in')
-                $('#g-mrt-unit').html(' &deg;F')
-            }
-        },
-        async: false
-    });
-    container.dialog("open");
-    updateGlobe();
-    $('.input-dialog').focusout(function() {
-        updateGlobe();
-    });
 });
 
     model = 'pmvElevatedAirspeed'; //model in this page is only the PMV/PPD
@@ -809,21 +760,4 @@ function setDefaults3() {
     keys.forEach(function(element) {
         document.getElementById(element+"3").value = defaults[element];
     });
-}
-
-function updateGlobe() {
-    var ta = parseFloat($('#ta-g').val());
-    var vel = parseFloat($('#vel-g').val());
-    var tglobe = parseFloat($('#tglobe').val());
-    var diameter = parseFloat($('#diameter').val());
-    var emissivity = parseFloat($('#emissivity').val());
-    if (!isCelsius) {
-        ta = FtoC(ta)
-        vel /= 196.9
-        tglobe = FtoC(tglobe)
-        diameter *= 0.0254
-    }
-    var tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = CtoF(tr)
-    $('#mrt-result').val(tr.toFixed(1));
 }

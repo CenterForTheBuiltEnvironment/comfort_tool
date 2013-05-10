@@ -74,9 +74,10 @@ a.footerlink:hover {color: #2A4583;}
 
 .ui-button-text {font-size:12px;}
 
-.ui-selectmenu-status {font-size:12px;}
+.ui-selectmenu-status {font-size:12px;
+					   padding: .4em 1.0em .405em 1em;}
 
-.ui-selectmenu-menu {font-size:12px;}
+.ui-selectmenu-menu {font-size:10px;}
 
 .tempunit1 { color: #000000; }
 .tempunit2 { color: #000000;}
