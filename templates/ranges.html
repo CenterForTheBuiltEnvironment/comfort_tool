@@ -211,8 +211,7 @@
   </table> 
   </div><!--end div id="inputs"-->  
 
-    <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 50px; margin-left:50px;margin-right:10px;'>
-      <button id='globeTemp' style="width:75px; float:left; height:45px;">Globe temp</button>
+    <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 50px; margin-left:80px;'>
       <button id='specPressure' style="width:95px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
       <button id='unitsToggle' style="width:80px; float:left; height:45px;">SI / IP</button>
       <button id='restart' style="width:85px; float:left; height:45px;">Restart</button>
@@ -237,13 +236,13 @@
     <div style="margin-left:10px; margin-top: 50px;" id="temphumchart-div"></div>
 
     <div class='out' id='hover-output' style='color:transparent; float:left; margin-top:15px; margin-right: 25px;'>
-	<span id="factor-label">The selected comfort zone is for a <span id="factor-name"></span> of <span id="factor-hover"></span> </span>
+	<span id="factor-label">The selected comfort zone is for a value of <span id="factor-name"></span> of <span id="factor-hover"></span> </span>
     </div>
 
     <div class='out' id='output-ranges' style='float:left; margin-top:10px; margin-left: 25px; margin-right: 25px;'>
 	<span style="font-weight:bold;"> Outer range of air temperatures:</span> <span id="outer-range-width" style="font-weight:bold;"></span>&nbsp;<span style="font-weight:bold;" class='tempunit' >&deg;C</span>
 	<br>
-	Given the other four parameters, occupants will find thermal comfort in the wider range of temperatures (<span id="range-output1"></span> to <span id="range-output2"></span> <span class='tempunit' >&deg;C</span>) if adaptation of <span class="factor-name"></span> is allowed within the given range.
+	Given the other four parameters, occupants will find thermal comfort in the wider range of temperatures (<span id="range-output1"></span> to <span id="range-output2"></span> <span class='tempunit' >&deg;C</span>) if <span class="factor-name"></span> can change within the given range.
 	
 	<!-- <span id="factor-output1"></span> and <span id="factor-output2"></span>&nbsp;<span id="factor-output-unit"></span> -->
 	
