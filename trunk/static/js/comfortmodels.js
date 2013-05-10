@@ -67,6 +67,9 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
             return (set - comf.pierceSET(t, tr, 0.15, rh, met, clo, wme));
         };
         var ta_adj = util.secant(ta_adj_l, ta_adj_r, fn, eps);
+        if (isNaN(ta_adj)) {
+          ta_adj = util.bisect(ta_adj_l, ta_adj_r, fn, eps, 0);
+        }
         var pmv = comf.pmv(ta_adj, tr, 0.15, rh, met, clo, wme);
         return [pmv, ta_adj, Math.abs(ta - ta_adj)]
     }
