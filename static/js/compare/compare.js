@@ -709,7 +709,7 @@ function setDefaults1() {
     var defaults = {
         ta: 25,
         tr: 25,
-        vel: 0.15,
+        vel: 0.10,
         rh: rh.toFixed(psy.PREC[hs]),
         met: 1.2,
         clo: 0.5
@@ -730,7 +730,7 @@ function setDefaults2() {
     var defaults = {
         ta: 28,
         tr: 22,
-        vel: 0.15,
+        vel: 0.10,
         rh: rh.toFixed(psy.PREC[hs]),
         met: 1.2,
         clo: 0.5
@@ -751,7 +751,7 @@ function setDefaults3() {
     var defaults = {
         ta: 22,
         tr: 28,
-        vel: 0.15,
+        vel: 0.10,
         rh: rh.toFixed(psy.PREC[hs]),
         met: 1.2,
         clo: 0.5

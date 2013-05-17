@@ -277,13 +277,13 @@
       <br />
 
     </div><!--id="output-a"-->
-    
-    <button class='leftlabel' type='checkbox' id='toggle-chart' style='height:15px; width:18px; position:relative; left:180px; top:57px;'>Switch chart</button>
-    <div class='leftlabel' id="chart-title-pmv" style="font-size: 16px; position:relative; left:200px; top:35px;">
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">&nbsp;Psychrometric chart</a> &nbsp;
-    </div>
-    <div class='leftlabel' id="temphumchart-title" style="display:none; font-size: 16px; position: relative; left:200px; top:35px;">
-      <a class="mainlink">&nbsp;Temperature-humidity chart</a>
+
+	<div class='leftlabel' id='chartSelect-cont' style="position:relative; left:100px; top:30px;">
+      <select id='chartSelect'>
+        <option value='psychta'>Psychrometric chart (air temperature)</option>
+        <option value='psychtop'>Psychrometric chart (operative temperature)</option>
+        <option value='temphum'>Temperature – Relative Humidity chart</option>
+      </select>
     </div>
     <div class='leftlabel' id="chart-title-adaptive" style="display:none; font-size: 16px; position: relative; left: 240px; top:35px;">
       <a class="mainlink">Adaptive chart</a>
@@ -295,6 +295,18 @@
     <div style="margin-left:-15px;" id="chart-div"></div>
     <div style="margin-left:10px;" id="temphumchart-div"></div>
     <div style="margin-left:20px;" id="chart-div-adaptive"></div>
+
+  <div id ="pmv-notes">
+    <div class='note' id="psychta-note" style="margin-left:58px;">
+    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed, controlled by the inputbox. Each point on the chart has the same MRT, which defines the comfort zone boundary. In this way you can see how changes in MRT affect thermal comfort. You can also still use the operative temperature button, yet each point will have the same MRT.
+    </div>
+ <div class='note' id="psychtop-note" style="margin-left:58px;">
+    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the abscissa is the operative temperature and for each point dry-bulb temperature equals mean radiant temperature (DBT = MRT). The comfort zone represents the combination of conditions with the same DBT and MRT for which the PMV is between -0.5 and +0.5, according to the standard.
+    </div>
+	<div class='note' id="temphum-note">
+    <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity. The PMV calculations are still based on all the psychrometric variables, but the visualization becomes easier to understand.
+    </div>
+  </div><!--end of div "pmv-notes"-->
 
     <div class='note' id="adaptive-note">
     <b>NOTE:</b> Method is applicable only for occupant-controlled naturally conditioned spaces that meet all of the following criteria: (a) There is no mechanical cooling system installed. No heating system is in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; and (c) Occupants are free to adapt their clothing to the indoor and/or outdoor thermal conditions within a range at least as wide as 0.5-1.0 clo.
