@@ -285,14 +285,14 @@ var pc = new function() {
             d3.select("#db-axis-C")
                 .append("text")
                 .text("Drybulb Temperature [°C]")
-                .attr("class", "db-unit")
+                .attr("class", "db-unit").attr("id", "db-axis-C-label")
                 .attr("x", (pc.width / 2) - 1.9 * pc.margin)
                 .attr("y", pc.rbmargin / 1.3)
 
             d3.select("#db-axis-F")
                 .append("text")
                 .text("Drybulb Temperature [°F]")
-                .attr("class", "db-unit")
+                .attr("class", "db-unit").attr("id", "db-axis-F-label")
                 .attr("x", (pc.width / 2) - 1.9 * pc.margin)
                 .attr("y", pc.rbmargin / 1.3)
 
@@ -467,7 +467,11 @@ var pc = new function() {
 
             function rhclos(rhx, target) {
                 return function(db) {
-                    return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+					if($("#chartSelect").val() == "psychtop"){
+						return comf.pmvElevatedAirspeed(db, db, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+					} else {
+                        return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+					}
                 }
             }
             function solve(rhx, target) {
