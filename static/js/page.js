@@ -930,6 +930,7 @@ function setClo() {
 function setDynamicClo() {
     var clo = 0;
     var temp = document.getElementById('taOut6').value;
+    if (!isCelsius) temp = FtoC(temp)
     if (temp < -5) {
         clo = 1
     } else if (temp >= -5 && temp < 5) {
@@ -1117,16 +1118,6 @@ function calcPmvElevCompliance(d, r) {
         comply = false;
     }
 
-    if (!isCelsius) {
-        unit_t = '&deg;F';
-        unit_v = ' fpm';
-        compliance_ranges.vel_min *= 196.85039;
-        compliance_ranges.vel_max *= 196.85039;
-    } else {
-        unit_t = '&deg;C';
-        unit_v = ' m/s';
-    }
-
     if (d.vel > 0.15) {
         $("#pmv-out-label").html('PMV with elevated air speed')
         $("#ppd-out-label").html('PPD with elevated air speed')
@@ -1137,8 +1128,6 @@ function calcPmvElevCompliance(d, r) {
         $("#pmv-elev-outputs").hide();
     }
     renderCompliance(comply, special_msg);
-    $("#vel-range").html(compliance_ranges.vel_min.toFixed(2) + unit_v + ' &mdash; ' + compliance_ranges.vel_max.toFixed(2) + unit_v)
-
 }
 
 function calcAdaptiveCompliance(d, r) {
