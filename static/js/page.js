@@ -773,7 +773,9 @@ $('#addToEnsembles').click(function() {
     addToEnsembles();
 });
 $('#setDynamicClo').click(function() {
-    setDynamicClo();
+    var ta6 = $('#taOut6').val();
+    var clo_r = comf.schiavonClo(ta6);
+	$('#clo').val(clo_r.toFixed(2));
     update();
 });
 
@@ -923,22 +925,6 @@ function setClo() {
     var opt = document.getElementById('cloMultiSelect').options;
     for (var i = 0; i < opt.length; i++) {
         if (opt[i].selected) clo += parseFloat(opt[i].value);
-    }
-    document.getElementById('clo').value = clo.toFixed(2);
-}
-
-function setDynamicClo() {
-    var clo = 0;
-    var temp = document.getElementById('taOut6').value;
-    if (!isCelsius) temp = FtoC(temp)
-    if (temp < -5) {
-        clo = 1
-    } else if (temp >= -5 && temp < 5) {
-        clo = 0.818 - 0.0364 * temp
-    } else if (temp >= 5 && temp < 26) {
-        clo = Math.pow(10, -0.1635 - 0.0066 * temp)
-    } else if (temp >= 26) {
-        clo = 0.46
     }
     document.getElementById('clo').value = clo.toFixed(2);
 }
