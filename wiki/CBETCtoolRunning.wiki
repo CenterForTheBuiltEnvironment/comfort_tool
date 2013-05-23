@@ -60,3 +60,4 @@ The current features are:
   # Check how SET is used in the adaptive model. Make the assumptions explicit and maybe modifiable. Contact Richard de Dear to ask him how he developed the tool (Stefano)
   # Update the tool based on ASHRAE 2013
   # Give an option (check box) to plot the PPD value for each point in the graph. Legend should be displayed
+  # Add to the standard a max limit on air speed for the SET in the adaptive model
