@@ -198,8 +198,6 @@ $(document).ready(function() {
         clo: 0.15
     }];
     var cloEnsembles = [{
-        clothing: ''
-    }, {
         clothing: 'Typical summer indoor clothing: 0.5',
         clo: 0.5
     }, {
@@ -228,8 +226,8 @@ $(document).ready(function() {
         clo: 0.74
     }];
     var actData = [{
-        activity: '',
-        met: ''
+        activity: 'Standing, relaxed: 1.2',
+        met: 1.2
     }, {
         activity: 'Seated, quiet: 1.0',
         met: 1.0
@@ -239,9 +237,6 @@ $(document).ready(function() {
     }, {
         activity: 'Reclining: 0.8',
         met: 0.8
-    }, {
-        activity: 'Standing, relaxed: 1.2',
-        met: 1.2
     }, {
         activity: 'Walking 2mph (3.2kmh): 2.0',
         met: 2.0
@@ -393,9 +388,6 @@ $(function() {
                 $('#tr').val(tr);
                 $(this).dialog("close");
                 update();
-            },
-            "Close": function() {
-                $(this).dialog("close");
             }
         }
     });
@@ -406,14 +398,6 @@ $(function() {
         width: 432,
         modal: true,
         resizable: false,
-        buttons: {
-            "Calculate": function() {
-                updateLocalDisc();
-            },
-            "Close": function() {
-                $(this).dialog("close");
-            }
-        }
     });
 
     $('#LEEDdialog').dialog({
@@ -422,11 +406,6 @@ $(function() {
         width: 500,
         modal: true,
         resizable: true,
-        buttons: {
-            "Close": function() {
-                $(this).dialog("close");
-            }
-        }
     });
 
     $('#link').button({}).click(function() {
@@ -581,7 +560,7 @@ $(function() {
     $('select#actSelect').selectmenu({
         width: 200
     });
-
+	
     $('select#chartSelect').selectmenu({
         width: 350
     });
@@ -751,6 +730,9 @@ $('#localDisc').click(function() {
         async: false
     });
     container.dialog("open");
+    $('.input-dialog-local').focusout(function() {
+        updateLocalDisc();
+    });
 });
 
 $('#LEED-help').click(function() {

@@ -525,6 +525,8 @@ function update(i) {
         bc.redrawComfortRegion(b, i);
         bc.redrawPoint(i);
     };
+
+   d3.selectAll('circle').moveToFront();
 }
 
 function getSensation(pmv) {

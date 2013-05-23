@@ -44,6 +44,8 @@
 
 .input-dialog { padding: 0px 0px 0px 5px; 
 			width: 40px;}
+.input-dialog-local { padding: 0px 0px 0px 5px; 
+			width: 40px;}
 
 .multiselect {width: 385px;
 			height: 200px;}
