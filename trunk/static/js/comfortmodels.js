@@ -389,4 +389,44 @@ comf.schiavonClo = function(ta6) {
     return clo_r
 }
 
+comf.adaptiveComfortEN15251 = function(ta, tr, runningMean) {
+    var to = (ta + tr) / 2;
+	var tComf = 0.33 * runningMean + 18.8;
+	if(runningMean > 15){
+	    var tComfILower = tComf - 2;
+	    var tComfIUpper = tComf + 2;
+		var tComfIILower = tComf - 3;
+	    var tComfIIUpper = tComf + 3;
+	    var tComfIIILower = tComf - 4;
+	    var tComfIIIUpper = tComf + 4;
+    } else {
+	    var tComfLow = 0.33 * 15 + 18.8;
+		var tComfILower = tComfLow - 2;
+	    var tComfIUpper = tComf + 2;
+		var tComfIILower = tComfLow - 3;
+	    var tComfIIUpper = tComf + 3;
+	    var tComfIIILower = tComfLow - 4;
+	    var tComfIIIUpper = tComf + 4;
+	}
+    var acceptabilityI, acceptabilityII, acceptabilityIII;
+
+    if (comf.between(to, tComfILower, tComfIUpper)) {
+        // compliance at all levels
+        acceptabilityI = acceptabilityII = acceptabilityIII = true;
+    } else if (comf.between(to, tComfIILower, tComfIIUpper)) {
+        // compliance at II and III only
+        acceptabilityII = acceptabilityIII = true;
+        acceptabilityI = false;
+	} else if (comf.between(to, tComfIIILower, tComfIIIUpper)) {
+        // compliance at III only
+        acceptabilityIII = true;
+        acceptabilityI = acceptabilityII = false;
+    } else {
+        // neither
+        acceptabilityI = acceptabilityII = acceptabilityIII = false;
+    }
+    return [[acceptabilityIII, tComfIIILower, tComfIIIUpper], [acceptabilityII, tComfIILower, tComfIIUpper], [acceptabilityI, tComfILower, tComfIUpper]];
+}
+
+
 exports.comf = comf

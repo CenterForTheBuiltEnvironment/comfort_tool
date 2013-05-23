@@ -437,10 +437,12 @@ var pc = new function() {
 
             pc.svg.append("circle")
                 .attr("class", "outer")
+				.attr("clip-path", "url(#clip)")
                 .attr("r", 12)
 
             pc.svg.append("circle")
                 .attr("class", "inner")
+				.attr("clip-path", "url(#clip)")
                 .attr("r", 2)
 
             d3.selectAll("circle")

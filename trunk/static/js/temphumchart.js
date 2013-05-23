@@ -157,10 +157,12 @@ var bc = new function() {
           bc.svg
             .append("circle")
             .attr("class", "outer")
+			.attr("clip-path", "url(#clip_th)")
             .attr("r", 12)
 
           bc.svg
             .append("circle")
+			.attr("clip-path", "url(#clip_th)")
             .attr("class", "inner")
             .attr("r", 2)
 
