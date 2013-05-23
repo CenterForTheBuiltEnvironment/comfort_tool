@@ -1,0 +1,62 @@
+= CBE Thermal Comfort Tool for ASHRAE 55 – running =
+
+This page contains a brief explanation of the existing features of the CBE Thermal Comfort Tool for ASHRAE 55, plus the list of new objectives and future work to be done.
+
+== Introduction ==
+
+The Center for the Built Environment at University of California Berkeley has been developing a web-based tool for Standard-55 with several goals and motives in mind. Foremost, the need for having thermal comfort calculations available on all platforms, in particular Mac OSX, and the need for the ability to quickly fix bugs and update the software according to Standard Addenda. There is great potential for informative, interactive visualizations that would be suited very well for implementation in a browser. 
+The existing tool is robust, but the C++/WIN32 platform has limitations. It would be much more difficult to implement visualizations for the tool, and they would still reach a smaller audience due to platform dependence. 
+A web application is instead easy to update and maintain, has great potential and resources for visualization, and can be used in any device with a supported browser, including mobile devices.
+The latest version of the tool is available here: cbe.berkeley.edu/comforttool
+
+
+
+== Existing features of the web-tool ==
+
+The short development time of the initial phase of the project has yielded most existing features of the official tool in web-based format. It has been designed with principles of user-friendliness and simplicity.
+
+The current features are:
+
+  # *Models*
+    * Adaptive (input: air temperature, MRT, mean outdoor temperature, air velocity)
+    * PMV only
+    * PMV with elevated air speed
+  # *Clothing ensemble creator*
+  # *Clothing and metabolic activity tables*
+  # *Dual units (SI, IP)*
+  # *Local air speed control*
+  # *Operative temperature specification or Air temperature and Mean Radiant Temperature specification*
+  # *1-to-1 humidity specification conversion* (Relative humidity, vapor pressure, dew point, wet bulb, humidity ratio)
+  # *Globe temperature to MRT converter* – input: air temperature, air speed, globe temperature, globe diameter, globe emissivity. Output: Mean Radiant Temperature
+  # *Feeding model calculations to a LEED document*: This feature automates the creation of LEED documents relating to thermal comfort. It includes thermal comfort model outputs and local thermal discomfort questionnaire.
+  # *Local thermal discomfort*: short questionnaire that allows the user to assess risks of local thermal discomfort as defined by Standard 55
+  # *Interactive charts*: psychrometric chart, temperature–relative humidity chart, adaptive chart
+  # *Mouse values*: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart
+  # *Dynamic predictive clothing calculator*
+  # *Comfort Ranges*: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range
+  # *Comparison of comfort conditions*: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions.
+ 
+
+== Things to be fixed or added by July 2013 ==
+
+  # Journal paper (Alberto, Tyler)
+  # Appendix with SET, PMV/PPD, and Adaptive JavaScript code and table for software compliance
+  # Enhancement of the software infrastructure of the tool to allow the development of advanced features (comparison, range, upload, ashrae 55-home) (Tyler)
+  # Check operability with IE for popup windows (Tyler)
+
+
+== Future features ==
+
+  # EN 15251 and ISO 7730 (Alberto)
+  # An experimental mean radiant temperature calculation tool using graphical methods. (Tyler)
+  # Visualization of annual data using the adaptive comfort model. (Alberto)
+  # Heat loss vs air temperature (Alberto)
+  # Interoperability and visualizations of data from external sources: a user may be interested in visualizing simulated or empirical data within the psychrometric chart. This will allow a designer to explore conditions that will provide a high level of comfort. The prevailing outdoor air temperature may also be calculated from a weather file. (Tyler)
+  # Upload a weather file from internet and calculate:
+    * Adaptive comfort prevailing mean temperature (Alberto has already the file working with weather file) 
+    * Clothing model
+    * Compare different climates. This can be done both in the adaptive and PMV/PPD method.
+  # Monte carlo markov chain simulation of PMV (Tyler)
+  # Check how SET is used in the adaptive model. Make the assumptions explicit and maybe modifiable. Contact Richard de Dear to ask him how he developed the tool (Stefano)
+  # Update the tool based on ASHRAE 2013
+  # Give an option (check box) to plot the PPD value for each point in the graph. Legend should be displayed
