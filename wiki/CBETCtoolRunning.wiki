@@ -61,3 +61,5 @@ The current features are:
   # Update the tool based on ASHRAE 2013
   # Give an option (check box) to plot the PPD value for each point in the graph. Legend should be displayed
   # Add to the standard a max limit on air speed for the SET in the adaptive model
+  # Add the psychrometric variables to the RH-dry-bulb chart
+  # Develop and new reppresentation of the the humid air, e.g. dry-bulb temperature vs enthalpy or dry-bulb  vs wet-bulb
