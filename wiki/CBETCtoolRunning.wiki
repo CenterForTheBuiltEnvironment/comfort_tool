@@ -39,7 +39,8 @@ The current features are:
 
 == Things to be fixed or added by July 2013 ==
 
-  # Journal paper (Alberto, Tyler)
+  # Journal paper
+  # Change text from drybulb to dry-bulb temperature
   # Appendix with SET, PMV/PPD, and Adaptive JavaScript code and table for software compliance
   # Enhancement of the software infrastructure of the tool to allow the development of advanced features (comparison, range, upload, ashrae 55-home) (Tyler)
   # Check operability with IE for popup windows (Tyler)
