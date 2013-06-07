@@ -392,6 +392,36 @@ $(function() {
         }
     });
 
+    $('#ERFdialog').dialog({
+        autoOpen: false,
+        height: 420,
+        width: 422,
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Calculate": function(){
+                var az = parseFloat($('#az').val());
+                var alt = parseFloat($('#alt').val());
+                var posture = $('#posture').val();
+                var I_n = parseFloat($('#I_n').val());
+                var sc = parseFloat($('#sc').val());
+                var svvf = parseFloat($('#svvf').val());
+                var bef = parseFloat($('#bef').val());
+                var asa = parseFloat($('#asa').val());
+
+                var r = ERF(alt, az, posture, I_n, sc, svvf, bef, asa)
+                $('#erf-result').val(r.ERF.toFixed(1))
+                $('#dmrt-result').val(r.dMRT.toFixed(1))
+            },
+            "Help": function(){
+                
+            },
+            "Close": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
     $('#localdialog').dialog({
         autoOpen: false,
         height: 600,
@@ -709,6 +739,21 @@ $('#globeTemp').click(function() {
     $('.input-dialog').focusout(function() {
         updateGlobe();
     });
+});
+
+$('#ERF').click(function() {
+  var container = $('#ERFdialog');
+  $.ajax({
+    url: '/static/html/erf.html',
+    success: function(data) {
+      $('#ERFdialog').html(data);
+      $('#posture').selectmenu({
+          width: 90
+      });
+    },
+    async: false
+  });
+  container.dialog("open");
 });
 
 $('#localDisc').click(function() {
