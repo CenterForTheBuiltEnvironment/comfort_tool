@@ -1,5 +1,5 @@
 <form style="font-size:80%">
-  <div class='leftlabel-dialog'>Posture</div>
+  <div class='leftlabel-dialog' style='padding-bottom:15px;'>Posture</div>
   <div class='inputfield-dialog'> 
     <select id="posture" value='25'>
       <option value="seated">Seated</option>
@@ -7,39 +7,39 @@
     </select>
   </div><br />
   
-  <div class='leftlabel-dialog'>Solar altitude</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar altitude (0 - 90&deg;)</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='az' value='45'/>
+    <input class='input-dialog' id='alt' value='45'/>
     <span class='unit'> &deg;</span>
   </div><br />
   	
-  <div class='leftlabel-dialog'>Solar azimuth</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar azimuth (0 - 180&deg;)</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='alt' value='0' />
+    <input class='input-dialog' id='az' value='0' />
     <span class='unit'> &deg;</span>
   </div><br />
 
-  <div class='leftlabel-dialog'>Solar beam intensity (normal)</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar beam intensity (normal)</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='I_n' value='300'/>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:10px;'>Shading coefficient</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Shading coefficient</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='sc' value='0.5'/>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:10px;'>Sky vault view fraction</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Sky vault view fraction</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='svvf' value='0.5'/>
   </div><br />
  
-  <div class='leftlabel-dialog' style='padding-bottom:10px;'>Body exposure fraction</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Body exposure fraction</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='bef' value='0.5'/>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:10px;'>Average shortwave absorptivity</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Average shortwave absorptivity</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='asa' value='0.5'/>
   </div><br />
@@ -47,15 +47,15 @@
   <br class="clear"/>
   <hr class="clear: both">
 
-  <div class='leftlabel-dialog'>ERF :</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>ERF :</div>
   <div class='intputfield-dialog'>
     <input class='input-dialog' readonly="readonly" id='erf-result' />
   </div>
 
-  <div class='leftlabel-dialog'>Mean radiant temperature delta :</div>
-  <div class='intputfield-dialog'>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Mean radiant temperature delta :</div>
+  <div class='intputfield-dialog' style='margin-top:5px;'>
     <input class='input-dialog' readonly="readonly" id='dmrt-result' />
-    <span class='tempunit'> &deg;C</span>
+    <span class='tempunit' id='dmrt-unit'> &deg;C</span>
   </div>
   <script>
     function ERF(alt, az, posture, I_n, sc, svvf, bef, asa){
