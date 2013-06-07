@@ -394,14 +394,14 @@ $(function() {
 
     $('#ERFdialog').dialog({
         autoOpen: false,
-        height: 420,
+        height: 435,
         width: 422,
         modal: true,
         resizable: false,
         buttons: {
             "Calculate": function(){
-                var az = parseFloat($('#az').val());
                 var alt = parseFloat($('#alt').val());
+                var az = parseFloat($('#az').val());
                 var posture = $('#posture').val();
                 var I_n = parseFloat($('#I_n').val());
                 var sc = parseFloat($('#sc').val());
@@ -411,7 +411,17 @@ $(function() {
 
                 var r = ERF(alt, az, posture, I_n, sc, svvf, bef, asa)
                 $('#erf-result').val(r.ERF.toFixed(1))
+                if (!isCelsius) r.dMRT = CtoF(r.dMRT) - 32
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
+            },
+            "Adjust MRT": function(){
+                var dmrt = parseFloat($('#dmrt-result').val());
+                if (!isNaN(dmrt)){
+                    var mrt = parseFloat($('#tr').val());
+                    $('#tr').val((mrt + dmrt).toFixed(1));
+                    $(this).dialog("close");
+                    update();
+                }
             },
             "Help": function(){
                 
@@ -753,6 +763,9 @@ $('#ERF').click(function() {
     },
     async: false
   });
+  if (!isCelsius){
+    $('#dmrt-unit').html('&deg;F')
+  }
   container.dialog("open");
 });
 
