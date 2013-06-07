@@ -39,6 +39,10 @@ def compare():
 def ranges():
 	    return render_template('ranges.html')
 
+@app.route('/EN')
+def EN():
+	    return render_template('EN.html')
+
 @app.route('/')
 def index():
       return render_template('index.html')

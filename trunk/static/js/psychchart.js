@@ -35,7 +35,7 @@ var pc = new function() {
         return this.hr_scale(1000 * d.hr)
     })
 
-    this.drawChart = function(data) {
+    this.drawChart = function() {
         var db_axis = d3.svg.axis().scale(pc.db_scale)
         var db_axis_F = d3.svg.axis().scale(pc.db_scale_F)
         var hr_axis = d3.svg.axis().scale(pc.hr_scale).orient("right")
@@ -319,16 +319,9 @@ var pc = new function() {
             .append("tspan")
             .text("]")
 
-        // drawing the comfort and psy regions...........................  
-        var json = [{
-            "db": d.ta,
-            "hr": pc.getHumRatio(d.ta, d.rh)
-        }]
-        var b = pc.findComfortBoundary(d, 0.5)
-        var psybound = pc.findPsyBoundary()
-        pc.drawPsyRegion(psybound)
-        pc.drawComfortRegion(b)
-        pc.drawPoint(json)
+        // drawing the background...........................  
+        var psybound = pc.findPsyBoundary();
+        pc.drawPsyRegion(psybound);
 
     }
 
@@ -537,9 +530,6 @@ var pc = new function() {
         return psyboundary
     }
 
-    this.setupChart = function(d) {
-        d3.json('/static/data/rh-curves.json', pc.drawChart)
-    }
 
     this.toggleUnits = function(isCelsius) {
 

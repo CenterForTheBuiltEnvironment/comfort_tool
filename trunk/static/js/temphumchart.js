@@ -40,7 +40,7 @@ var bc = new function() {
         return this.rh_scale(d.rh)
     })
 
-    this.drawChart = function(data) {
+    this.drawChart = function() {
 
         var db_axis = d3.svg.axis().scale(bc.db_scale)
         var db_axis_F = d3.svg.axis().scale(bc.db_scale_F)
@@ -82,7 +82,7 @@ var bc = new function() {
             .attr("class", "db axis")
             .attr("id", "db-axis-C-temphum")
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
-            .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+            .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0).tickPadding(5))
 
           bc.svg
             .append("g")
@@ -90,20 +90,20 @@ var bc = new function() {
             .attr("id", "db-axis-F-temphum")
             .attr("opacity", "0")
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
-            .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+            .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0).tickPadding(5))
 
           bc.svg
             .append("g")
             .attr("class", "rh axis")
             .attr("transform", "translate(" + (bc.margin) + ",0)")
-            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0))
+            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0).tickPadding(5))
 
 
         // giving labels to the axes 
 
         d3.select("#db-axis-C-temphum")
             .append("text")
-            .text("Drybulb Temperature [°C]")
+            .text("Dry-bulb Temperature [°C]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
             .attr("y", bc.margin / 1.6)
@@ -111,7 +111,7 @@ var bc = new function() {
 
         d3.select("#db-axis-F-temphum")
             .append("text")
-            .text("Drybulb Temperature [°F]")
+            .text("Dry-bulb Temperature [°F]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
             .attr("y", bc.margin / 1.6)
@@ -123,9 +123,6 @@ var bc = new function() {
             .text("Relative Humidity [%]")
             .attr("transform", "rotate (-90, -35, 0) translate(-350)");
 
-        var bound = bc.findComfortBoundary(d, 0.5)
-        bc.drawComfortRegion(bound);
-        bc.drawPoint();
     }
 
 
@@ -212,11 +209,6 @@ var bc = new function() {
         }
 
         return boundary
-    }
-
-
-    this.setupChart = function(d) {
-        bc.drawChart()
     }
 
     this.toggleUnits = function(isCelsius) {
