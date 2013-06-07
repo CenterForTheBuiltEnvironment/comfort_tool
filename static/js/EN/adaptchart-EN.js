@@ -1,4 +1,3 @@
-//goog.require('d3')
 
 var ac = new function() {
 
@@ -13,7 +12,7 @@ var ac = new function() {
     this.top_min = 14
     this.top_max = 35
     this.trm_min = 10
-    this.trm_max = 33.5
+    this.trm_max = 30
 
     this.top_extent = [this.top_min, this.top_max]
     this.top_scale = d3.scale.linear()
@@ -49,60 +48,13 @@ var ac = new function() {
         var trm_axis = d3.svg.axis().scale(ac.trm_scale)
         var trm_axis_F = d3.svg.axis().scale(ac.trm_scale_F)
 
-        var upper80d = [{
-            "trm": 10,
-            "ta": 24.4,
-            "tr": 24.4
-        }, {
-            "trm": 12,
-            "ta": 25,
-            "tr": 25
-        }, {
-            "trm": 12,
-            "ta": 25,
-            "tr": 25
-        }, {
-            "trm": 36,
-            "ta": 32.46,
-            "tr": 32.46
-        }]
+		var upperIII = [{"trm": 10, "ta": 26.1, "tr": 26.1 }, {"trm": 30, "ta": 32.7, "tr": 32.7}]
+        var upperII = [{"trm": 10, "ta": 25.1, "tr": 25.1 }, {"trm": 30, "ta": 31.7, "tr": 31.7}]
+	    var upperI = [{"trm": 10, "ta": 24.1, "tr": 24.1 }, {"trm": 30, "ta": 30.7, "tr": 30.7}]
 
-        var upper90d = [{
-            "trm": 10,
-            "ta": 23.4,
-            "tr": 23.4
-        }, {
-            "trm": 12,
-            "ta": 24,
-            "tr": 24
-        }, {
-            "trm": 12,
-            "ta": 24,
-            "tr": 24
-        }, {
-            "trm": 36,
-            "ta": 31.46,
-            "tr": 31.46
-        }]
-
-        var lower80d = [{
-            "trm": 36,
-            "ta": 25.46,
-            "tr": 25.46
-        }, {
-            "trm": 10,
-            "ta": 17.4,
-            "tr": 17.4
-        }]
-        var lower90d = [{
-            "trm": 36,
-            "ta": 26.46,
-            "tr": 26.46
-        }, {
-            "trm": 10,
-            "ta": 18.4,
-            "tr": 18.4
-        }]
+	    var lowerIII = [{"trm": 30, "ta": 24.7, "tr": 24.7 }, {"trm": 15, "ta": 19.75, "tr": 19.75 }, {"trm": 10, "ta": 19.75, "tr": 19.75 }]
+	    var lowerII = [{"trm": 30, "ta": 25.7, "tr": 25.7 }, {"trm": 15, "ta": 20.75, "tr": 20.75 }, {"trm": 10, "ta": 20.75, "tr": 20.75 }]
+        var lowerI = [{"trm": 30, "ta": 26.7, "tr": 26.7 }, {"trm": 15, "ta": 21.75, "tr": 21.75 }, {"trm": 10, "ta": 21.75, "tr": 21.75 }]
 
         d3.select("#chart-div-adaptive")
             .append("svg")
@@ -123,28 +75,28 @@ var ac = new function() {
             .attr("transform", "translate(" + ac.margin + "," + ac.rbmargin + ")")
 
         ac.svg.append("path")
-            .attr("d", line(upper80d))
-            .attr("class", "comfbound80")
-            .attr("id", "comfbound80upper")
-            .attr("clip-path", "url(#clipad)")
+             .attr("d", line(upperIII))
+             .attr("class", "comfbound").attr("id", "comfboundIIIupper")
 
         ac.svg.append("path")
-            .attr("d", line(upper90d))
-            .attr("class", "comfbound90")
-            .attr("id", "comfbound90upper")
-            .attr("clip-path", "url(#clipad)")
+             .attr("d", line(upperII))
+             .attr("class", "comfbound").attr("id", "comfboundIIupper")
 
         ac.svg.append("path")
-            .attr("d", line(lower80d))
-            .attr("class", "comfbound80")
-            .attr("id", "comfbound80lower")
-            .attr("clip-path", "url(#clipad)")
+             .attr("d", line(upperI))
+             .attr("class", "comfbound").attr("id", "comfboundIupper")
 
         ac.svg.append("path")
-            .attr("d", line(lower90d))
-            .attr("class", "comfbound90")
-            .attr("id", "comfbound90lower")
-            .attr("clip-path", "url(#clipad)")
+             .attr("d", line(lowerIII))
+             .attr("class", "comfbound").attr("id", "comfboundIIIlower")
+
+        ac.svg.append("path")
+             .attr("d", line(lowerII))
+             .attr("class", "comfbound").attr("id", "comfboundIIlower")
+
+        ac.svg.append("path")
+             .attr("d", line(lowerI))
+             .attr("class", "comfbound").attr("id", "comfboundIlower")
 
         ac.svg.append("g")
             .attr("class", "top axis")
@@ -174,13 +126,13 @@ var ac = new function() {
 
         d3.select("#trm-axis-C")
             .append("text")
-            .text("Prevailing Mean Outdoor Temperature [°C]")
+            .text("Running Mean Outdoor Temperature [°C]")
             .attr("x", (ac.width / 2) - 3 * ac.margin)
             .attr("y", ac.rbmargin / 1.3)
 
         d3.select("#trm-axis-F")
             .append("text")
-            .text("Prevailing Mean Outdoor Temperature [°F]")
+            .text("Running Mean Outdoor Temperature [°F]")
             .attr("x", (ac.width / 2) - 3 * ac.margin)
             .attr("y", ac.rbmargin / 1.3)
 
@@ -195,28 +147,28 @@ var ac = new function() {
             .attr("transform", "translate(-73,290), rotate(-90, 43, 0)")
 
         ac.svg.append("path")
-            .attr("d", line(upper80d.concat(lower80d)) + "Z")
-            .attr("clip-path", "url(#clipad)")
-            .attr("class", "comfort80")
-            .attr("id", "comfort80")
-            .on("mouseover", function() {
-            d3.select(this).attr("class", "comfort80over");
-        })
-            .on("mouseout", function() {
-            d3.select(this).attr("class", "comfort80");
-        })
+             .attr("d", line(upperIII.concat(lowerIII)) + "Z")
+             .attr("clip-path", "url(#clipad)") 
+             .attr("class", "comfortzoneIII")
+             .attr("id", "comfortzoneIII")
+	         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
+	         .on("mouseout", function() {d3.select(this).attr("class", "comfortzoneIII");})
 
         ac.svg.append("path")
-            .attr("d", line(upper90d.concat(lower90d)) + "Z")
-            .attr("clip-path", "url(#clipad)")
-            .attr("class", "comfort90")
-            .attr("id", "comfort90")
-            .on("mouseover", function() {
-            d3.select(this).attr("class", "comfort90over");
-        })
-            .on("mouseout", function() {
-            d3.select(this).attr("class", "comfort90");
-        })
+                 .attr("d", line(upperII.concat(lowerII)) + "Z")
+                 .attr("clip-path", "url(#clipad)") 
+                 .attr("class", "comfortzoneII")
+                 .attr("id", "comfortzoneII")
+		         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
+		         .on("mouseout", function() {d3.select(this).attr("class", "comfortzoneII");})
+
+        ac.svg.append("path")
+                 .attr("d", line(upperI.concat(lowerI)) + "Z")
+                 .attr("clip-path", "url(#clipad)") 
+                 .attr("class", "comfortzoneI")
+                 .attr("id", "comfortzoneI")
+		         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
+		         .on("mouseout", function() {d3.select(this).attr("class", "comfortzoneI");})
 
     }
 
@@ -245,89 +197,89 @@ var ac = new function() {
 
     }
 
-    this.redrawBounds = function(coolingEffect) {
-
-        var upper80d = [{
-            "trm": 10,
-            "ta": 24.4,
-            "tr": 24.4
-        }, {
-            "trm": 12,
-            "ta": 25,
-            "tr": 25
-        }, {
-            "trm": 12,
-            "ta": 25 + coolingEffect,
-            "tr": 25 + coolingEffect
-        }, {
-            "trm": 36,
-            "ta": 32.46 + coolingEffect,
-            "tr": 32.46 + coolingEffect
-        }]
-
-        var upper90d = [{
-            "trm": 10,
-            "ta": 23.4,
-            "tr": 23.4
-        }, {
-            "trm": 12,
-            "ta": 24,
-            "tr": 24
-        }, {
-            "trm": 12,
-            "ta": 24 + coolingEffect,
-            "tr": 24 + coolingEffect
-        }, {
-            "trm": 36,
-            "ta": 31.46 + coolingEffect,
-            "tr": 31.46 + coolingEffect
-        }]
-
-        var lower80d = [{
-            "trm": 36,
-            "ta": 25.46,
-            "tr": 25.46
-        }, {
-            "trm": 10,
-            "ta": 17.4,
-            "tr": 17.4
-        }]
-        var lower90d = [{
-            "trm": 36,
-            "ta": 26.46,
-            "tr": 26.46
-        }, {
-            "trm": 10,
-            "ta": 18.4,
-            "tr": 18.4
-        }]
-
-        d3.select(".comfort90")
-            .attr("d", line(upper90d.concat(lower90d)) + "Z")
-            .attr("clip-path", "url(#clipad)")
-            .on("mouseover", function() {
-            d3.select(this).attr("class", "comfort90over");
-        })
-            .on("mouseout", function() {
-            d3.select(this).attr("class", "comfort90");
-        })
-
-        d3.select(".comfort80")
-            .attr("d", line(upper80d.concat(lower80d)) + "Z")
-            .attr("clip-path", "url(#clipad)")
-            .on("mouseover", function() {
-            d3.select(this).attr("class", "comfort80over");
-        })
-            .on("mouseout", function() {
-            d3.select(this).attr("class", "comfort80");
-        })
-
-        d3.select("#comfbound90upper")
-            .attr("d", line(upper90d))
-
-        d3.select("#comfbound80upper")
-            .attr("d", line(upper80d))
-    }
+    // this.redrawBounds = function(coolingEffect) {
+    // 
+    //     var upper80d = [{
+    //         "trm": 10,
+    //         "ta": 24.4,
+    //         "tr": 24.4
+    //     }, {
+    //         "trm": 12,
+    //         "ta": 25,
+    //         "tr": 25
+    //     }, {
+    //         "trm": 12,
+    //         "ta": 25 + coolingEffect,
+    //         "tr": 25 + coolingEffect
+    //     }, {
+    //         "trm": 36,
+    //         "ta": 32.46 + coolingEffect,
+    //         "tr": 32.46 + coolingEffect
+    //     }]
+    // 
+    //     var upper90d = [{
+    //         "trm": 10,
+    //         "ta": 23.4,
+    //         "tr": 23.4
+    //     }, {
+    //         "trm": 12,
+    //         "ta": 24,
+    //         "tr": 24
+    //     }, {
+    //         "trm": 12,
+    //         "ta": 24 + coolingEffect,
+    //         "tr": 24 + coolingEffect
+    //     }, {
+    //         "trm": 36,
+    //         "ta": 31.46 + coolingEffect,
+    //         "tr": 31.46 + coolingEffect
+    //     }]
+    // 
+    //     var lower80d = [{
+    //         "trm": 36,
+    //         "ta": 25.46,
+    //         "tr": 25.46
+    //     }, {
+    //         "trm": 10,
+    //         "ta": 17.4,
+    //         "tr": 17.4
+    //     }]
+    //     var lower90d = [{
+    //         "trm": 36,
+    //         "ta": 26.46,
+    //         "tr": 26.46
+    //     }, {
+    //         "trm": 10,
+    //         "ta": 18.4,
+    //         "tr": 18.4
+    //     }]
+    // 
+    //     d3.select(".comfort90")
+    //         .attr("d", line(upper90d.concat(lower90d)) + "Z")
+    //         .attr("clip-path", "url(#clipad)")
+    //         .on("mouseover", function() {
+    //         d3.select(this).attr("class", "comfort90over");
+    //     })
+    //         .on("mouseout", function() {
+    //         d3.select(this).attr("class", "comfort90");
+    //     })
+    // 
+    //     d3.select(".comfort80")
+    //         .attr("d", line(upper80d.concat(lower80d)) + "Z")
+    //         .attr("clip-path", "url(#clipad)")
+    //         .on("mouseover", function() {
+    //         d3.select(this).attr("class", "comfort80over");
+    //     })
+    //         .on("mouseout", function() {
+    //         d3.select(this).attr("class", "comfort80");
+    //     })
+    // 
+    //     d3.select("#comfbound90upper")
+    //         .attr("d", line(upper90d))
+    // 
+    //     d3.select("#comfbound80upper")
+    //         .attr("d", line(upper80d))
+    // }
 
     this.toggleUnits = function(isCelsius) {
 
