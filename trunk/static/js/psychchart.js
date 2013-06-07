@@ -72,22 +72,22 @@ var pc = new function() {
 
      // dynamic way of drawing rh lines
             for (var i=100; i>=10; i-=10){
-                        		      RHline = []
-                        		      for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
-                        		          RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
-                        		      }
-                        		      if (i==100){
-                        		        d3.select("svg").append("path")
-                        		          .attr("d", pc.pline(RHline))
-                        		          .attr("class", "rh100")
-                        		          .attr("clip-path", "url(#clip)")
-                        		      } else {
-                        			    d3.select("svg").append("path")
-                        		          .attr("d", pc.pline(RHline))
-                        		          .attr("class", "rhline")
-                        		          .attr("clip-path", "url(#clip)")
-                        		      }
-                        		    }
+                       	      RHline = []
+                       	      for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
+                       	          RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
+                       	      }
+                       	      if (i==100){
+                       	        d3.select("svg").append("path")
+                       	          .attr("d", pc.pline(RHline))
+                       	          .attr("class", "rh100")
+                       	          .attr("clip-path", "url(#clip)")
+                       	      } else {
+                                d3.select("svg").append("path")
+                       	          .attr("d", pc.pline(RHline))
+                       	          .attr("class", "rhline")
+                       	          .attr("clip-path", "url(#clip)")
+                       	      }
+                           }
 
             // basic frame of the box: -----------------------------------------------
 
@@ -481,8 +481,10 @@ var pc = new function() {
                 var a = -50
                 var b = 50
                 var fn = rhclos(rhx, target)
-               //t = util.bisect(a, b, fn, epsilon, 0)
                 t = util.secant(a, b, fn, epsilon)
+                if (isNaN(t)) {
+                    t = util.bisect(a, b, fn, epsilon, 0)
+                }
                 return {
                     "db": t,
                     "hr": pc.getHumRatio(t, rhx)

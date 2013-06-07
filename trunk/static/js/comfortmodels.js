@@ -376,7 +376,7 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
 
 comf.schiavonClo = function(ta6) {
     var clo_r
-	if(!isCelsius) ta6 = FtoC(ta6)
+    if(!isCelsius) ta6 = FtoC(ta6)
     if (ta6 < -5) {
         clo_r = 1
     } else if (ta6 < 5) {
@@ -425,8 +425,7 @@ comf.adaptiveComfortEN15251 = function(ta, tr, runningMean) {
         // neither
         acceptabilityI = acceptabilityII = acceptabilityIII = false;
     }
-    return [[acceptabilityIII, tComfIIILower, tComfIIIUpper], [acceptabilityII, tComfIILower, tComfIIUpper], [acceptabilityI, tComfILower, tComfIUpper]];
+    return [[acceptabilityIII, tComfIIILower, tComfIIIUpper],
+            [acceptabilityII, tComfIILower, tComfIIUpper],
+            [acceptabilityI, tComfILower, tComfIUpper]];
 }
-
-
-exports.comf = comf
