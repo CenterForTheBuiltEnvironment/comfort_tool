@@ -412,12 +412,12 @@ $(function() {
                 var az = parseFloat($('#az').val());
                 var posture = $('#posture').val();
                 var I_n = parseFloat($('#I_n').val());
-                var sc = parseFloat($('#sc').val());
+                var tsol = parseFloat($('#tsol').val());
                 var svvf = parseFloat($('#svvf').val());
                 var bef = parseFloat($('#bef').val());
                 var asa = parseFloat($('#asa').val());
 
-                var r = ERF(alt, az, posture, I_n, sc, svvf, bef, asa)
+                var r = ERF(alt, az, posture, I_n, tsol, svvf, bef, asa)
                 $('#erf-result').val(r.ERF.toFixed(1))
                 if (!isCelsius) r.dMRT = CtoF(r.dMRT) - 32
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
