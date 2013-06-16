@@ -36,8 +36,8 @@ $(document).ready(function() {
 	setDefaults3();
     update("1");
     
-    pc.setupChart(d);
-    bc.setupChart(d);
+    pc.drawChart(d);
+    bc.drawChart(d);
 
 setTimeout(function(){$('.inputbox2, .unit2, .tempunit2, .result2, .inputbox3, .unit3, .tempunit3, .result3').hide();}, 10)
 });
