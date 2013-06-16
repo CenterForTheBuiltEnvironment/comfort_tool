@@ -551,10 +551,6 @@ var pc = new function() {
             return psyboundary
         }
         
-        this.setupChart = function(d) {
-            pc.drawChart()
-        }
-
         this.toggleUnits = function(isCelsius) {
 
             if (isCelsius) {

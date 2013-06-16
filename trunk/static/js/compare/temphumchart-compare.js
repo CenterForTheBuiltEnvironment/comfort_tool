@@ -242,10 +242,6 @@ var bc = new function() {
         return boundary
     }
 
-    this.setupChart = function(d) {
-        bc.drawChart()
-    }
-
     // Switch between Celsius and Farenheit changing opacity
 
     this.toggleUnits = function(isCelsius) {

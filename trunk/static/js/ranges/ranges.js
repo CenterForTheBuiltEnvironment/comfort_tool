@@ -56,8 +56,8 @@ $(document).ready(function() {
     update();
 	//pc.width = 620;
 	//pc.height = 500;
-    pc.setupChart(d);
-    bc.setupChart(d);
+    pc.drawChart(d);
+    bc.drawChart(d);
 });
 
 $(function() {

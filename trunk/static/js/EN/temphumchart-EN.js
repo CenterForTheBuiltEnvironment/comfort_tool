@@ -73,10 +73,6 @@ var enbc = new function() {
     }
 
 
-    this.setupChart = function(d) {
-        bc.drawChart()
-    }
-
     this.toggleUnits = function(isCelsius) {
 
         if (isCelsius) {
