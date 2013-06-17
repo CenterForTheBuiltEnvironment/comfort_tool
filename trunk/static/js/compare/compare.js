@@ -540,24 +540,24 @@ function getSensation(pmv) {
 }
 
 function renderPmvResults(r, i) {
-    $('#pmv-res'+i).html(r[0].toFixed(2));
-    $('#ppd-res'+i).html(r[1].toFixed(0));
-    var sensation = getSensation(r[0]);
+    $('#pmv-res'+i).html(r.pmv.toFixed(2));
+    $('#ppd-res'+i).html(r.ppd.toFixed(0));
+    var sensation = getSensation(r.pmv);
     $('#sensation'+i).html(sensation);
 }
 
 function renderPmvElevResults(r, i) {
-    renderPmvResults(r[0], i);
+    renderPmvResults(r, i);
     if (!isCelsius) {
-        r[1] = CtoF(r[1]);
-        r[2] = CtoF(r[2]) - 32;
+        r.ta_adj = CtoF(r.ta_adj);
+        r.cooling_effect = CtoF(r.cooling_effect) - 32;
     }
-    $('#ta-still'+i).html(r[1].toFixed(1));
-    $('#cooling-effect'+i).html(r[2].toFixed(1));
+    $('#ta-still'+i).html(r.ta_adj.toFixed(1));
+    $('#cooling-effect'+i).html(r.cooling_effect.toFixed(1));
 }
 
 function calcPmvCompliance(d, r, i) {
-    var pmv_comply = Math.abs(r[0]) <= 0.5;
+    var pmv_comply = Math.abs(r.pmv) <= 0.5;
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
     var local_control = $('#local-control').is(':checked');
@@ -585,7 +585,7 @@ function calcPmvCompliance(d, r, i) {
 }
 
 function calcPmvElevCompliance(d, r, i) {
-    var pmv_comply = (Math.abs(r[0][0]) <= 0.5);
+    var pmv_comply = (Math.abs(r.pmv) <= 0.5);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
     var local_control = $('#local-control').is(':checked');
@@ -647,7 +647,7 @@ function getComplianceRanges(d, r, local_control) {
     var found_upper = false;
     var c;
     for (var v = 0; v <=  1.2; v+=0.01){
-         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0)[0][0]
+         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv
          if (c < 0.5 && c > -0.5){
              a.vel_min = v;
              found_lower = true;
@@ -655,7 +655,7 @@ function getComplianceRanges(d, r, local_control) {
          }
     }
     for (var v = 1.2; v >= 0; v-=0.01){
-         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0)[0][0]
+         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv
          if (c > -0.5 && c < 0.5){
              a.vel_max = v;
              found_upper = true;

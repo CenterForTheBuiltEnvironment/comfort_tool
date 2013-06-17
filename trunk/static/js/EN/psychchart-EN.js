@@ -47,9 +47,9 @@ var enpc = new function() {
             function rhclos(rhx, target) {
                 return function(db) {
                     if($("#chartSelect").val() == "psychtop"){
-                        return comf.pmv(db, db, d.vel, rhx, d.met, d.clo, 0)[0] - target
+                        return comf.pmv(db, db, d.vel, rhx, d.met, d.clo, 0).pmv - target
                     } else {
-                        return comf.pmv(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0] - target
+                        return comf.pmv(db, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv - target
                     }
                 }
             }
@@ -58,7 +58,6 @@ var enpc = new function() {
                 var a = -50
                 var b = 50
                 var fn = rhclos(rhx, target)
-               //t = util.bisect(a, b, fn, epsilon, 0)
                 t = util.secant(a, b, fn, epsilon)
                 return {
                     "db": t,
@@ -76,7 +75,7 @@ var enpc = new function() {
                     "db": t,
                     "hr": pc.getHumRatio(t, 100)
                 })
-                if (comf.pmv(t, d.tr, d.vel, rhx, d.met, d.clo, 0)[0] > pmvlimit) break
+                if (comf.pmv(t, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv > pmvlimit) break
             }
             for (var rhx = 100; rhx >= 0; rhx -= incr) {
                 boundary.push(solve(rhx, pmvlimit))

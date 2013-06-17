@@ -16,6 +16,7 @@ comf.globeTemperature = function(tw, tr, ta) {
 }
 
 comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
+    var r = {}
     var to = (ta + tr) / 2;
     var coolingEffect = 0;
     if (vel > 0.3 & to >= 25) {
@@ -34,16 +35,16 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
         }
     }
     var tComf = 0.31 * runningMean + 17.8;
-    var tComf80Lower = tComf - 3.5;
-    var tComf80Upper = tComf + 3.5 + coolingEffect;
-    var tComf90Lower = tComf - 2.5;
-    var tComf90Upper = tComf + 2.5 + coolingEffect;
+    r.tComf80Lower = tComf - 3.5;
+    r.tComf80Upper = tComf + 3.5 + coolingEffect;
+    r.tComf90Lower = tComf - 2.5;
+    r.tComf90Upper = tComf + 2.5 + coolingEffect;
     var acceptability80, acceptability90;
 
-    if (comf.between(to, tComf90Lower, tComf90Upper)) {
+    if (comf.between(to, r.tComf90Lower, r.tComf90Upper)) {
         // compliance at 80% and 90% levels
         acceptability80 = acceptability90 = true;
-    } else if (comf.between(to, tComf80Lower, tComf80Upper)) {
+    } else if (comf.between(to, r.tComf80Lower, r.tComf80Upper)) {
         // compliance at 80% only
         acceptability80 = true;
         acceptability90 = false;
@@ -51,13 +52,18 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
         // neither
         acceptability80 = acceptability90 = false;
     }
-    return [[acceptability80, tComf80Lower, tComf80Upper], [acceptability90, tComf90Lower, tComf90Upper]];
+    r.acceptability90 = acceptability90;
+    r.acceptability80 = acceptability80;
+    return r
 }
 
 comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     // returns pmv at elevated airspeed (>0.15m/s)
+    var r = {}
     if (vel <= 0.15) {
-        return [comf.pmv(ta, tr, vel, rh, met, clo, wme), ta, 0.0]
+        var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme)
+        var ta_adj = ta
+        var ce = 0
     } else {
         var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
         var ta_adj_l = -200;
@@ -71,8 +77,13 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
           ta_adj = util.bisect(ta_adj_l, ta_adj_r, fn, eps, 0);
         }
         var pmv = comf.pmv(ta_adj, tr, 0.15, rh, met, clo, wme);
-        return [pmv, ta_adj, Math.abs(ta - ta_adj)]
+        var ce = Math.abs(ta - ta_adj)
     }
+    r.pmv = pmv.pmv;
+    r.ppd = pmv.ppd;
+    r.ta_adj = ta_adj;
+    r.cooling_effect = ce
+    return r
 }
 
 comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
@@ -147,7 +158,11 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6);
     ppd = 100.0 - 95.0 * exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0));
 
-    return [pmv, ppd]
+    var r = {}
+    r.pmv = pmv;
+    r.ppd = ppd;
+
+    return r
 }
 
 comf.FindSaturatedVaporPressureTorr = function(T) {
@@ -425,6 +440,17 @@ comf.adaptiveComfortEN15251 = function(ta, tr, runningMean) {
         // neither
         acceptabilityI = acceptabilityII = acceptabilityIII = false;
     }
+    r = {}
+    r.acceptabilityI = acceptabilityI
+    r.acceptabilityII = acceptabilityII
+    r.acceptabilityIII = acceptabilityIII
+    r.tComfILower = tComfILower
+    r.tComfIILower = tComfIILower
+    r.tComfIIILower = tComfIIILower
+    r.tComfIUpper = tComfIUpper
+    r.tComfIIUpper = tComfIIUpper
+    r.tComfIIIUpper = tComfIIIUpper
+    return r
     return [[acceptabilityIII, tComfIIILower, tComfIIIUpper],
             [acceptabilityII, tComfIILower, tComfIIUpper],
             [acceptabilityI, tComfILower, tComfIUpper]];

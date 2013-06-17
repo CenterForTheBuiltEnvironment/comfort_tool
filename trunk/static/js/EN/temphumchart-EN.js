@@ -51,7 +51,7 @@ var enbc = new function() {
             var a = -50
             var b = 50
             var fn = function(db) {
-                return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme)[0][0] - target)
+                return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme).pmv - target)
             }
             //t = util.bisect(a, b, fn, epsilon, target)
             t = util.secant(a, b, fn, epsilon)

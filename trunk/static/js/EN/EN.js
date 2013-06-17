@@ -5,8 +5,7 @@ var d = {
     rh: '',
     met: '',
     clo: '',
-    trm: '',
-    //vel_a: ''
+    trm: ''
 };
 var d_cache = {
     ta: '',
@@ -15,10 +14,9 @@ var d_cache = {
     rh: '',
     met: '',
     clo: '',
-    trm: '',
-    //vel_a: ''
+    trm: ''
 };
-var keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", /*"vel_a"*/];
+var keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
 
 $(document).ready(function() {
 
@@ -339,21 +337,6 @@ $(document).ready(function() {
     actData.forEach(function(element) {
         actSelect.options.add(new Option(element.activity, element.met));
     });
-    // var velaSelect = document.getElementById('vel_a')
-    // velaSelect.onchange = function() {
-    //     update();
-    //     var coolingEffect;
-    //     if (d.vel_a == 0.3) {
-    //         coolingEffect = 0
-    //     } else if (d.vel_a == 0.6) {
-    //         coolingEffect = 1.2
-    //     } else if (d.vel_a == 0.9) {
-    //         coolingEffect = 1.8
-    //     } else if (d.vel_a == 1.2) {
-    //         coolingEffect = 2.2
-    //     }
-    //     ac.redrawBounds(coolingEffect)
-    // }
     $(function() {
         $(".multiselect").multiselect({
             sortable: false,
@@ -366,7 +349,6 @@ $(document).ready(function() {
     window.humUnit = 'rh';
     setDefaults();
     update();
-
     bc.drawChart();
     var bound = bc.findComfortBoundary(d, 0.5)
     enbc.drawComfortRegions(d);
@@ -477,10 +459,6 @@ $(function() {
         max: 100,
         numberFormat: "n"
     });
-
-    // $('#vel_a').selectmenu({
-    //     width: 165
-    // });
 
     $('select#humidity-spec').selectmenu({
         width: 200
@@ -611,13 +589,13 @@ $('#setDefaults').click(function() {
 
 $('#specPressure').click(function() {
     var customPressure = prompt('Enter atmospheric pressure in Pascals');
-    if (customPressure != '' && customPressure != null) {
-        customPressure = parseFloat(customPressure)
+    if (customPressure !== '' && customPressure !== null) {
+        customPressure = parseFloat(customPressure);
         if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
-            psy.PROP.Patm = customPressure
-            update()
+            psy.PROP.Patm = customPressure;
+            update();
         } else {
-            window.alert('The entered atmospheric pressure is invalid.')
+            window.alert('The entered atmospheric pressure is invalid.');
         }
     }
 });
@@ -697,7 +675,7 @@ $('#model-type').change(function() {
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
         $('#local-control-div').show();
     } else if (model == 'adaptiveComfort') {
-        $('#pmv-inputs, #local-control-div, #pmv-outputs, #cloInput').hide()
+        $('#pmv-inputs, #local-control-div, #pmv-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
@@ -706,7 +684,7 @@ $('#model-type').change(function() {
 });
 
 $("#chartSelect").change(function(){
-    chart = $("#chartSelect").val();
+    var chart = $("#chartSelect").val();
     if (chart == "psychta" || chart == "psychtop"){
         $("#chart-div").show();
         $("#temphumchart-div").hide();
@@ -725,8 +703,6 @@ $("#chartSelect").change(function(){
                 $('#tr-input, #tr-lab, #labelforlink').show();
             }
             
-            //$(".comfortzone").css("fill", "rgb(0,0,100)")
-            
         } else if (chart == "psychtop") {
             $("#psychtop-note").show();
             $("#psychta-note, #temphum-note").hide();
@@ -737,8 +713,6 @@ $("#chartSelect").change(function(){
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
             $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab, #labelforlink').hide();
-
-            //$(".comfortzone").css("fill", "rgb(0,0,0)")
         }
     } else if (chart == "temphum") {
         $("#temphumchart-div, #temphum-note").show();
@@ -876,12 +850,12 @@ function update() {
             var pointdata = [{
                 "db": d.ta,
                 "hr": pc.getHumRatio(d.ta, d.rh)
-            }]
+            }];
             pc.redrawPoint(pointdata);
         } else if ($('#temphumchart-div').is(':visible')) {
             enbc.redrawComfortRegions(d);
             bc.redrawPoint();
-        };
+        }
 
     } else if (model == 'adaptiveComfort') {
         r = comf.adaptiveComfortEN15251(d.ta, d.tr, d.trm);
@@ -889,17 +863,6 @@ function update() {
         calcAdaptiveCompliance(d, r);
         ac.redrawPoint([d])
     }
-}
-
-
-function getSensation(pmv) {
-    if (pmv < -2.5) return 'Cold';
-    else if (pmv < -1.5) return 'Cool';
-    else if (pmv < -0.5) return 'Slightly Cool';
-    else if (pmv < 0.5) return 'Neutral';
-    else if (pmv < 1.5) return 'Slightly Warm';
-    else if (pmv < 2.5) return 'Warm';
-    else return 'Hot';
 }
 
 function getCategory(pmv) {
@@ -911,44 +874,42 @@ function getCategory(pmv) {
 }
 
 function renderPmvResults(r) {
-    $('#pmv-res').html(r[0].toFixed(2));
-    $('#ppd-res').html(r[1].toFixed(0));
-    var category = getCategory(r[0]);
+    $('#pmv-res').html(r.pmv.toFixed(2));
+    $('#ppd-res').html(r.ppd.toFixed(0));
+    var category = getCategory(r.pmv);
     $('#category').html(category);
-    //var sensation = getSensation(r[0]);
-    //$('#sensation').html(sensation);
 }
 
 function renderAdaptiveResults(r) {
     var to = (parseFloat($('#ta').val()) + parseFloat($('#tr').val())) / 2;
     if (!isCelsius) {
-        r[0][1] = CtoF(r[0][1]);
-        r[0][2] = CtoF(r[0][2]);
-        r[1][1] = CtoF(r[1][1]);
-        r[1][2] = CtoF(r[1][2]);
-        r[2][1] = CtoF(r[2][1]);
-        r[2][2] = CtoF(r[2][2]);
+        r.tComfIUpper = CtoF(r.tComfIUpper);
+        r.tComfIIUpper = CtoF(r.tComfIIUpper);
+        r.tComfIIIUpper = CtoF(r.tComfIIIUpper);
+        r.tComfILower = CtoF(r.tComfILower);
+        r.tComfIILower = CtoF(r.tComfIILower);
+        r.tComfIIILower = CtoF(r.tComfIIILower);
     }
-    $('#limitsIII').html('Operative temperature: ' + r[0][1].toFixed(1) + ' to ' + r[0][2].toFixed(1));
-    $('#limitsII').html('Operative temperature: ' + r[1][1].toFixed(1) + ' to ' + r[1][2].toFixed(1));
-    $('#limitsI').html('Operative temperature: ' + r[2][1].toFixed(1) + ' to ' + r[2][2].toFixed(1));
-    if (r[2][0]) {
+    $('#limitsI').html('Operative temperature: ' + r.tComfILower.toFixed(1) + ' to ' + r.tComfIUpper.toFixed(1));
+    $('#limitsII').html('Operative temperature: ' + r.tComfIILower.toFixed(1) + ' to ' + r.tComfIIUpper.toFixed(1));
+    $('#limitsIII').html('Operative temperature: ' + r.tComfIIILower.toFixed(1) + ' to ' + r.tComfIIIUpper.toFixed(1));
+    if (r.acceptabilityI) {
         $('#sensationIII, #sensationII, #sensationI').html('Comfortable');
-    } else if (r[1][0]) {
+    } else if (r.acceptabilityII) {
         $('#sensationIII, #sensationII').html('Comfortable');
-        if (to < r[2][1]) {
+        if (to < r.tComfIUpper) {
             $('#sensationI').html('Too cool');
         } else {
             $('#sensationI').html('Too warm');
         }
-	} else if (r[0][0]) {
+	} else if (r.acceptabilityIII) {
         $('#sensationIII').html('Comfortable');
-        if (to < r[1][1]) {
+        if (to < r.tComfIIUpper) {
             $('#sensationI, #sensationII').html('Too cool');
         } else {
             $('#sensationI, #sensationII').html('Too warm');
         }
-    } else if (to < r[0][1]) {
+    } else if (to < r.tComfIIIUpper) {
         $('#sensationIII, #sensationII, #sensationI').html('Too cool');
     } else {
         $('#sensationIII, #sensationII, #sensationI').html('Too warm');
@@ -956,9 +917,9 @@ function renderAdaptiveResults(r) {
 }
 
 function calcPmvCompliance(d, r) {
-    var pmv_complyI = Math.abs(r[0]) <= 0.2;
-    var pmv_complyII = Math.abs(r[0]) <= 0.5;
-    var pmv_complyIII = Math.abs(r[0]) <= 0.7;
+    var pmv_complyI = Math.abs(r.pmv) <= 0.2;
+    var pmv_complyII = Math.abs(r.pmv) <= 0.5;
+    var pmv_complyIII = Math.abs(r.pmv) <= 0.7;
     var met_comply = d.met <= 4 && d.met >= 0.8;
     var clo_comply = d.clo <= 2;
     var local_control = $('#local-control').is(':checked');
@@ -978,7 +939,6 @@ function calcPmvCompliance(d, r) {
     }
 
     renderCompliance(comply, special_msg);
-
 }
 
 function calcAdaptiveCompliance(d, r) {
@@ -990,10 +950,7 @@ function calcAdaptiveCompliance(d, r) {
         special_msg += '&#8627; Running mean outdoor temperatures above ' + (isCelsius ? '30&deg;C ' : '92.3&deg;F ') 
           + 'or below ' + (isCelsius ? '10&deg;C ' : '50&deg;F ') + 'are not covered by Standard-55<br>';
     }
-    // if ((d.ta + d.tr) / 2 < 25 & d.vel_a > 0.3) {
-    //     special_msg += '&#8627; The cooling effect of air speed is used only when the operative temperature is above ' + (isCelsius ? '25&deg;C' : '77&deg;F');
-    // }
-    if (!r[0][0]) comply = false;
+    if (!r.acceptabilityIII) comply = false;
 
     renderCompliance(comply, special_msg);
 }
@@ -1005,11 +962,11 @@ function renderCompliance(comply, special_msg) {
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#comply-msg').css('color', 'green')
+        $('#comply-msg').css('color', 'green');
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#comply-msg').css('color', 'red')
+        $('#comply-msg').css('color', 'red');
         $('#special-msg').html(special_msg);
     }
 }
@@ -1017,7 +974,7 @@ function renderCompliance(comply, special_msg) {
 function setDefaults() {
     if (!isCelsius) toggleUnits();
     var hs = $('#humidity-spec').val();
-    var rh = psy.convert(50, 25, 'rh', hs)
+    var rh = psy.convert(50, 25, 'rh', hs);
     if (hs == 'vappress') {
         rh /= 1000;
     }
