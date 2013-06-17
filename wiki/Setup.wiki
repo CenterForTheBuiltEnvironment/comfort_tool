@@ -1,0 +1,43 @@
+#summary Running the CBE Comfort Tool locally
+
+= Introduction =
+
+This guide will help you run the comfort tool locally, for purposes of development or to use the tool without an internet connection. This guide is for Mac OSX or Linux. For Windows, you can follow the instructions below, substituting the appropriate windows commands found in the [http://flask.pocoo.org/docs/installation/ Flask installation instructions]
+
+= Details =
+
+The installation is easiest with [https://pypi.python.org/pypi/pip `pip`], a tool for managing python packages.
+
+Once you have `pip`, start by installing virutalenv:
+
+{{{
+$ sudo pip install virtualenv
+}}}
+
+Next you can [http://code.google.com/p/cbe-comfort-tool/source/checkout check out] a copy of the cbe-comfort-tool, and create a virtualenv.
+
+{{{
+$ svn checkout http://cbe-comfort-tool.googlecode.com/svn/trunk/ cbe-comfort-tool-read-only
+$ cd cbe-comfort-tool
+$ virtualenv venv
+}}}
+
+Activate the virtualenv:
+
+{{{
+$ . venv/bin/activate
+}}}
+
+The dependencies of the comfort tool are all contained in `requirements.txt`. Installing them all in one command is pretty nifty:
+
+{{{
+$ pip install -r requirements.txt
+}}}
+
+Now you should be ready to run the tool locally.
+
+{{{
+$ python comfort.py
+}}}
+
+Visit localhost:5000 in your browser to check it out. Note that whenever you want to run the tool, you have to activate the virtualenv first.
