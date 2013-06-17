@@ -485,7 +485,7 @@ var pc = new function() {
 
             function rhclos(rhx, target) {
                 return function(db) {
-                    return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+                    return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv - target
                 }
             }
             function solve(rhx, target) {
@@ -511,7 +511,7 @@ var pc = new function() {
                     "db": t,
                     "hr": pc.getHumRatio(t, 100)
                 })
-                if (comf.pmvElevatedAirspeed(t, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] > pmvlimit) break
+                if (comf.pmvElevatedAirspeed(t, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv > pmvlimit) break
             }
             for (var rhx = 100; rhx >= 0; rhx -= incr) {
                 boundary.push(solve(rhx, pmvlimit))
