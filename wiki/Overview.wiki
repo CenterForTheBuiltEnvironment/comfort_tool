@@ -1,4 +1,4 @@
-= CBE Thermal Comfort Tool for ASHRAE 55  =
+#summary CBE Thermal Comfort Tool for ASHRAE 55
 
 This page contains a brief explanation of the existing features of the CBE Thermal Comfort Tool for ASHRAE 55, plus the list of new objectives and future work to be done.
 
