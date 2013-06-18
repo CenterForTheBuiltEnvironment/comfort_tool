@@ -20,8 +20,8 @@ _Input parameters_:
     * `tr` : Mean radiant temperature [°C]
     * `vel` : Air velocity [m/s]
     * `rh` : Relative humidity [%]
-    * `met` : Metabolic rate [met]
-    * `clo` : Clothing insulation level [clo]
+    * `met` : Metabolic rate `[met]`
+    * `clo` : Clothing insulation level `[clo]`
     * `wme` : External work [W/m^2] (typically zero)
 
 _Outputs_ an object with properties `pmv`, and `ppd`, where
