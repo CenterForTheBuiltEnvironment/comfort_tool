@@ -6,7 +6,26 @@ This describes comfort model API, consisting of the functions of the `comf` obje
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+===`comf.pmv(ta, tr, vel, rh, met, clo, wme)`===
+
+This function is Fanger's Predicted Mean Vote model.
+
+_Input parameters_:
+    * `ta` : Air temperature [°C]
+    * `tr` : Mean radiant temperature [°C]
+    * `vel` : Air velocity [m/s]
+    * `rh` : Relative humidity [%]
+    * `met` : Metabolic rate [met]
+    * `clo` : Clothing insulation level [clo]
+    * `wme` : External work [W/m^2] (typically zero)
+
+_Outputs_ an object with properties `pmv`, and `ppd`, where
+    * `pmv` : Predicted mean vote
+    * `ppd` : Percent predicted dissatisfied
+
+===`comf.pmvElevatedAirspeed(ta, tr, vel, rh, met, clo, wme)`===
+_Input parameters_ as in `comf.pmv`.
+
+_Outputs_ an object with properties:
+    * `pmv` : Predicted mean vote
+    * `ppd` : Percent predicted dissatisfied
