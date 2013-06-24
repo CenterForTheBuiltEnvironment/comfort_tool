@@ -41,6 +41,7 @@ The current features are:
   # An experimental mean radiant temperature calculation tool using graphical methods. (Tyler)
   # Visualization of annual data using the adaptive comfort model. (Alberto)
   # Heat loss vs air temperature (Alberto)
+  # Develop a chart that shows air speed (x-axis) vs cooling effect (y-axis) as a function of Tair with MRT=Tair only for v=0.15m/s. PMV should be an input and the default should be 0.5. The set of lines should change with met, clo, and RH. 
   # Interoperability and visualizations of data from external sources: a user may be interested in visualizing simulated or empirical data within the psychrometric chart. This will allow a designer to explore conditions that will provide a high level of comfort. The prevailing outdoor air temperature may also be calculated from a weather file. (Tyler)
   # Upload a weather file from internet and calculate:
     * Adaptive comfort prevailing mean temperature (Alberto has already the file working with weather file) 
