@@ -11,29 +11,36 @@ var pc = new function() {
     this.db_min = 10
     this.db_max = 36
 
-    this.db_extent = [this.db_min, this.db_max]
-    this.db_scale = d3.scale.linear()
-        .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent)
+    this.init = function(){
+      
+      this.db_extent = [this.db_min, this.db_max]
+      this.db_scale = d3.scale.linear()
+          .range([this.margin, this.width - this.rbmargin])
+          .domain(this.db_extent)
 
 
-    this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
-    this.db_scale_F = d3.scale.linear()
-        .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent_F)
+      this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
+      this.db_scale_F = d3.scale.linear()
+          .range([this.margin, this.width - this.rbmargin])
+          .domain(this.db_extent_F)
 
-    this.hr_extent = [0, 30]
-    this.hr_scale = d3.scale.linear()
-        .range([this.height - this.rbmargin, this.rbmargin])
-        .domain(this.hr_extent)
+      this.hr_extent = [0, 30]
+      this.hr_scale = d3.scale.linear()
+          .range([this.height - this.rbmargin, this.rbmargin])
+          .domain(this.hr_extent)
+      
+      this.bColorRange = d3.scale.linear().domain([-3,0]).range([d3.rgb('#4A40FF'), d3.rgb('#C2C2C2')]);
+      this.rColorRange = d3.scale.linear().domain([0,3]).range([d3.rgb('#C2C2C2'), d3.rgb('#FF4040')]);
 
-    this.pline = d3.svg.line()
-        .x(function(d) {
-        return this.db_scale(d.db)
-    })
-        .y(function(d) {
-        return this.hr_scale(1000 * d.hr)
-    })
+      this.pline = d3.svg.line()
+          .x(function(d) {
+          return this.db_scale(d.db)
+      })
+          .y(function(d) {
+          return this.hr_scale(1000 * d.hr)
+      })
+    }
+    this.init()
 
     this.drawChart = function() {
         var db_axis = d3.svg.axis().scale(pc.db_scale)
@@ -86,7 +93,7 @@ var pc = new function() {
             } 
         }
 
-        // basic frame of the box: -----------------------------------------------
+        // basic frame of the box
         pc.svg.append("svg:a")
             .attr("xlink:href", "http://en.wikipedia.org/wiki/Dry-bulb_temperature")
             .append("text")
@@ -319,13 +326,13 @@ var pc = new function() {
             .append("tspan")
             .text("]")
 
-        // drawing the background...........................  
+        // drawing the background
         var psybound = pc.findPsyBoundary();
         pc.drawPsyRegion(psybound);
 
     }
 
-    // calculate the values and draws the numbers in the box -------------------------------
+    // calculate the values and draws the numbers in the box 
     this.mousemove = function() {
         var mouseDBT = pc.db_scale.invert(d3.mouse(this)[0])
         var mouseHR = pc.hr_scale.invert(d3.mouse(this)[1])
@@ -388,29 +395,32 @@ var pc = new function() {
         $('#box-ent').text(ent.toFixed(1))
     }
 
-    // Comfort zones 
-
     this.drawComfortRegion = function(data) {
+        var el = d3.select("path.comfortzone")[0][0]
+        console.log(el)
 
-        pc.svg.append("path")
-            .attr("clip-path", "url(#clip)")
-            .attr("d", pc.pline(data) + "Z")
-            .attr("class", "comfortzone")
-            .on("mouseover", function() {
-            d3.select(this).attr("class", "comfortzoneover");
-        })
-            .on("mouseout", function() {
-            d3.select(this).attr("class", "comfortzone");
-        })
-            .on("mousemove", pc.mousemove)
+        if (el){
+          d3.select("path.comfortzone")
+              .attr("d", pc.pline(data) + "Z")
+        } else {
+          pc.svg.insert("path", "circle")
+              .attr("clip-path", "url(#clip)")
+              .attr("d", pc.pline(data) + "Z")
+              .attr("class", "comfortzone")
+              .on("mouseover", function() {
+                  d3.select(this).attr("class", "comfortzoneover");
+              })
+              .on("mouseout", function() {
+                  d3.select(this).attr("class", "comfortzone");
+              })
+              .on("mousemove", pc.mousemove)
+        }
     }
-
+   
     this.redrawComfortRegion = function(data) {
-
-        d3.select("path.comfortzone")
-            .transition()
-            .attr("d", pc.pline(data) + "Z")
-
+          d3.select("path.comfortzone")
+              .transition()
+              .attr("d", pc.pline(data) + "Z")
     }
 
     // Background 
@@ -440,10 +450,47 @@ var pc = new function() {
 
     }
 
+    this.getColor = function(pmv) {
+      if (pmv > 0){
+        return pc.rColorRange(pmv)
+      }else{
+        return pc.bColorRange(pmv)
+      }
+    }
+
+    this.drawPoints = function(data) {
+      data.forEach(function(d){ 
+        pc.svg.append("circle")
+          .attr("clip-path", "url(#clip)")
+          .attr("r", 3)
+          .attr("fill", pc.getColor(d.pmv.pmv))
+          .attr("stroke", "gray")
+          .attr("cx", pc.db_scale(d.ta))
+          .attr("cy", pc.hr_scale(1000 * d.hr))
+          .on("mouseover", function() {
+
+            d3.select(this)
+              .attr("r", "6");
+
+            var boundary = pc.findComfortBoundary(d, 0.5)
+            pc.drawComfortRegion(boundary)
+            d3.select('.comfortzone')
+              .on('mouseover', function(){
+                d3.select(this)
+                  .attr('class','comfortzone')
+              })
+              .attr('opacity','0.6')
+          })
+          .on("mouseout", function() {
+            d3.select(this)
+              .attr("r", "3");
+          })
+      });
+    }
+
     this.redrawPoint = function(data) {
 
         d3.selectAll("circle")
-            .transition()
             .attr("cx", pc.db_scale(data[0].db))
             .attr("cy", pc.hr_scale(1000 * data[0].hr))
 
