@@ -2,31 +2,38 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>jQuery File Upload Example</title>
+<title>Comfort tool file upload</title>
 </head>
 <body>
 <input id="fileupload" type="file" name="files[]" data-url="upload">
+
+<div id='chart-div'></div>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/js/lib/d3.js"></script>
 <script src="/static/js/lib/jquery.ui.widget.js"></script>
 <script src="/static/js/lib/jquery.iframe-transport.js"></script>
 <script src="/static/js/lib/jquery.fileupload.js"></script>
 <script src="/static/js/comfortmodels.js"></script>
 <script src="/static/js/psychrometrics.js"></script>
+<script src="/static/js/psychchart.js"></script>
 <script src="/static/js/util.js"></script>
 <script>
 
 function appendPMV(conds){  
   conds.forEach(function(e){
     e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
+    e.hr = pc.getHumRatio(e.ta, e.rh) 
   });
-  console.log(conds)
+  pc.drawPoints(conds)
 }
 
 $(function () {
   $('#fileupload').fileupload({
-      done: function (e, res) {
-        r = $.parseJSON(res.result)
-        r.forEach(function(el){
+    done: function (e, res) {
+      r = $.parseJSON(res.result)
+      r.forEach(function(el){
         for (var key in el){
           el[key] = parseFloat(el[key])
         }
@@ -34,6 +41,12 @@ $(function () {
       appendPMV(r)
     }
   });
+  
+  window.isCelsius = true
+  pc.width = $(window).width() - 10
+  pc.height = $(window).height() - 20
+  pc.init()
+  pc.drawChart() 
 });
 
 </script>
