@@ -6,6 +6,13 @@ var sqrt = Math.sqrt;
 
 var comf = comf || {}
 
+if (typeof module !== 'undefined' && module.exports) {
+  var psy = require('./psychrometrics.js').psy
+  var util = require('./util.js').util
+  module.exports.comf = comf;
+}
+
+
 comf.between = function (x, l, r) {
     return (x > l && x < r);
 }

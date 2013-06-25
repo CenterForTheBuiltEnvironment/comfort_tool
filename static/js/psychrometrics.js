@@ -1,7 +1,9 @@
-//goog.provide('psy')
-
 var psy = psy || {};
 
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports.psy = psy
+}
+ 
 psy.PROP = {
     Patm: 101325.0,
     CpAir: 1004.0,

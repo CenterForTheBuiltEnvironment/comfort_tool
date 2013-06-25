@@ -1,5 +1,9 @@
 var util = util || {};
 
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports.util = util
+}
+
 util.bisect = function(a, b, fn, epsilon, target) {
     var a_T, b_T, midpoint, midpoint_T;
     while (Math.abs(b - a) > 2 * epsilon) {
