@@ -76,23 +76,23 @@
       var Ith = 665
       var Ir = 0.2 * Ith
       var Id = Ir
-      var body_surface_area = 1.8
+      var Adu = 1.8
       
       if (posture=='standing'){
-        var fp = spline_stand[az][alt]
+        var Ap = spline_stand[az][alt]
         var feff = 0.725
       } else if (posture=='seated'){
-        var fp = spline_sit[az][alt]
+        var Ap = spline_sit[az][alt]
         var feff = 0.696
       } else {
         console.log("Invalid posture (choose standing or seated)")
         return
       }
 
-      var sw_absorptance = asa
-      var lw_absorptance = 0.95
-      var ERF_diff = feff * svvf * 0.5 * (Id + Ir) * (sw_absorptance / lw_absorptance);
-      var ERF_direct = (fp * feff) * tsol * bef * I_n * (sw_absorptance / lw_absorptance);
+      var sw_abs = asa
+      var lw_abs = 0.95
+      var ERF_diff = feff * svvf * 0.5 * (Id + Ir) * (sw_abs / lw_abs);
+      var ERF_direct = (Ap / Adu) * tsol * bef * I_n * (sw_abs / lw_abs);
       var ERF = ERF_diff + ERF_direct 
       
       var dMRT = ERF / (hr * feff)
