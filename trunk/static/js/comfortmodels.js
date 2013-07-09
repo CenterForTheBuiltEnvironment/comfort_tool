@@ -236,12 +236,8 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
     }
 
     CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
-    if (met < 0.85) CHCA = 0.0;
-    //Removed per Ed and Amanda's observation that this is only for still air
-    //else CHCA = 5.66 * pow(((met - 0.85) * PressureInAtmospheres), 0.39);
     CHCV = 8.600001 * pow((AirVelocity * PressureInAtmospheres), 0.53);
-    if (CHC <= CHCA) CHC = CHCA;
-    if (CHC < CHCV) CHC = CHCV;
+    CHC = max(CHC, CHCV);
 
     //initial estimate of Tcl
     CHR = 4.7;
@@ -326,11 +322,6 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
         ALFA = 0.0417737 + 0.7451833 / (SkinBloodFlow + .585417);
     }
 
-    //
-    // =======================================================================
-    // ========================== CALCULATE COMFORT INDICES ==================
-    // =======================================================================
-    //
     //Define new heat flow terms, coeffs, and abbreviations
     STORE = M - wme - CRES - ERES - DRY - ESK; //rate of body heat storage
     HSK = DRY + ESK; //total heat loss from skin
@@ -364,28 +355,14 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
     HD_S = 1.0 / (RAS + RCLS);
     HE_S = 1.0 / (REAS + RECLS);
 
-    // ET* (standardized humidity/ actual clo, Pb, and CHC)
-    // determined using Newton//s iterative solution
-    // FNERR is defined in GENERAL SETUP section above
-
-    DELTA = .0001;
-    X_OLD = TempSkin - HSK / HD; //lower bound for ET*  
-    var ERR1, ERR2;
-    var dx = 100.0;
-    while (abs(dx) > .01) {
-        ERR1 = (HSK - HD * (TempSkin - X_OLD) - W * HE * (PSSK - 0.5 * comf.FindSaturatedVaporPressureTorr(X_OLD)));
-        ERR2 = (HSK - HD * (TempSkin - (X_OLD + DELTA)) - W * HE * (PSSK - 0.5 * comf.FindSaturatedVaporPressureTorr((X_OLD + DELTA))));
-        X = X_OLD - DELTA * ERR1 / (ERR2 - ERR1);
-        dx = X - X_OLD;
-        X_OLD = X
-    }
-
     // SET* (standardized humidity, clo, Pb, and CHC)
     // determined using Newton//s iterative solution
     // FNERRS is defined in the GENERAL SETUP section above
 
-    X_OLD = TempSkin - HSK / HD_S; //lower bound for SET
+    DELTA = .0001;
+    var ERR1, ERR2;
     var dx = 100.0;
+    X_OLD = TempSkin - HSK / HD_S; //lower bound for SET
     while (abs(dx) > .01) {
         ERR1 = (HSK - HD_S * (TempSkin - X_OLD) - W * HE_S * (PSSK - 0.5 * comf.FindSaturatedVaporPressureTorr(X_OLD)));
         ERR2 = (HSK - HD_S * (TempSkin - (X_OLD + DELTA)) - W * HE_S * (PSSK - 0.5 * comf.FindSaturatedVaporPressureTorr((X_OLD + DELTA))));
