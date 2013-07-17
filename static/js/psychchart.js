@@ -397,7 +397,6 @@ var pc = new function() {
 
     this.drawComfortRegion = function(data) {
         var el = d3.select("path.comfortzone")[0][0]
-        console.log(el)
 
         if (el){
           d3.select("path.comfortzone")
@@ -458,6 +457,87 @@ var pc = new function() {
       }
     }
 
+    this.clearChart = function(){
+      d3.selectAll('circle')
+        .remove()
+
+      d3.selectAll('.comfortzone')
+        .remove()
+    }
+
+    this.initDisplay = function(){
+        pc.svg.append("text")
+            .text("drybulb")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 140) + ")")
+
+        pc.svg.append("text")
+            .text("MRT")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 160) + ")")
+
+        pc.svg.append("text")
+            .text("vel")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 200) + ")")
+
+        pc.svg.append("text")
+            .text("rh")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 180) + ")")
+
+        pc.svg.append("text")
+            .text("met")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 220) + ")")
+
+        pc.svg.append("text")
+            .text("clo")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 240) + ")")
+
+        pc.svg.append("text")
+            .text("pmv")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 260) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "db-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 140) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "mrt-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 160) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "vel-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 180) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "rh-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 200) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "met-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 220) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "clo-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 240) + ")")
+
+        pc.svg.append("text")
+            .attr("id", "pmv-value")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 260) + ")")
+
+    }
+
     this.drawPoints = function(data) {
       data.forEach(function(d){ 
         pc.svg.append("circle")
@@ -465,9 +545,18 @@ var pc = new function() {
           .attr("r", 3)
           .attr("fill", pc.getColor(d.pmv.pmv))
           .attr("stroke", "gray")
+          .attr("stroke-width", "1")
           .attr("cx", pc.db_scale(d.ta))
           .attr("cy", pc.hr_scale(1000 * d.hr))
           .on("mouseover", function() {
+            
+            d3.select('#db-value').text(d.ta.toFixed(1))
+            d3.select('#mrt-value').text(d.tr.toFixed(1))
+            d3.select('#vel-value').text(d.vel.toFixed(2))
+            d3.select('#rh-value').text(d.rh.toFixed(0))
+            d3.select('#met-value').text(d.met.toFixed(1))
+            d3.select('#clo-value').text(d.clo.toFixed(1))
+            d3.select('#pmv-value').text(d.pmv.pmv.toFixed(1))
 
             d3.select(this)
               .attr("r", "6");
@@ -479,7 +568,7 @@ var pc = new function() {
                 d3.select(this)
                   .attr('class','comfortzone')
               })
-              .attr('opacity','0.6')
+              .attr('opacity','0.4')
           })
           .on("mouseout", function() {
             d3.select(this)
