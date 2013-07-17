@@ -2,11 +2,9 @@ import os
 import csv
 from flask import Flask, request, make_response, render_template, json
 
-UPLOAD_FOLDER = '/Users/hoyt/Documents/Projects/cbe-comfort-tool/tmp'
 ALLOWED_EXTENSIONS = set(['csv', 'json'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -37,15 +35,15 @@ def compare():
     
 @app.route('/ranges')
 def ranges():
-	    return render_template('ranges.html')
+    return render_template('ranges.html')
 
 @app.route('/EN')
 def EN():
-	    return render_template('EN.html')
+    return render_template('EN.html')
 
 @app.route('/')
 def index():
-      return render_template('index.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
