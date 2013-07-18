@@ -1140,13 +1140,15 @@ function calcPmvElevCompliance(d, r) {
 
     compliance_ranges = getComplianceRanges(d, r, local_control);
 
-    if (d.vel > compliance_ranges.vel_max && local_control) {
-        comply = false;
-        special_msg += '&#8627; Air speed exceeds limit set by standard<br>';
-    }
-    if (d.vel > compliance_ranges.vel_max && !local_control) {
-        comply = false;
-        special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
+    if (!isNaN(compliance_ranges.vel_max)){
+        if (d.vel > compliance_ranges.vel_max && local_control) {
+            comply = false;
+            special_msg += '&#8627; Air speed exceeds limit set by standard<br>';
+        }
+        if (d.vel > compliance_ranges.vel_max && !local_control) {
+            comply = false;
+            special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
+        }
     }
     if (!pmv_comply) {
         comply = false;
@@ -1215,13 +1217,13 @@ function getComplianceRanges(d, r, local_control) {
         }
     }
 
-    if (!found_upper || !found_lower || a.vel_max < a.vel_min){
-        a.vel_max = 0;
-        a.vel_min = 0;
-    }
-
     a.vel_min = Math.min(a.vel_max, a.vel_min)
     a.vel_max = Math.max(a.vel_max, a.vel_min)
+    
+    if (!found_upper || !found_lower || a.vel_max < a.vel_min){
+        a.vel_max = Number.NaN;
+        a.vel_min = Number.NaN;
+    }
 
     return a
 }
