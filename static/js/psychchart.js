@@ -479,12 +479,12 @@ var pc = new function() {
         pc.svg.append("text")
             .text("vel")
             .attr("class", "box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 200) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 180) + ")")
 
         pc.svg.append("text")
             .text("rh")
             .attr("class", "box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 180) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 200) + ")")
 
         pc.svg.append("text")
             .text("met")
