@@ -1,0 +1,154 @@
+path {
+    fill:none;
+    stroke-width:1px;
+}
+
+.axis path{
+    fill:none;
+    stroke: black;
+}
+.axis {
+    font-size:10pt;
+    font-family:sans-serif;
+}
+.box-texts {
+    font-size:10pt;
+    font-family:sans-serif;
+}
+
+circle.point1{
+    stroke:red;
+    stroke-width:2px;
+    fill: none;
+}
+circle.point2{
+    stroke:darkred;
+    stroke-width:2px;
+    fill: none;
+}
+circle.point3{
+    stroke:firebrick;
+    stroke-width:2px;
+    fill: none;
+}
+
+path.rh100{
+    stroke:Black;
+}
+path.rhline{
+    stroke:Gray;
+} 
+path.w{
+    fill: White;
+}
+rect.chartbg{
+  fill: rgb(220,220,220);
+  fill-opacity: 0.0;
+}
+rect.w{
+  fill: White;
+}
+.comfortzone1{
+  fill: rgb(0,0,100);
+  fill-opacity: 0.5;
+}   
+path.comfortzone1over{
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(0,0,250);
+	fill-opacity: 0.5;
+}
+.comfortzone2{
+  fill: rgb(30,70,100);
+  fill-opacity: 0.5;
+}   
+path.comfortzone2over{
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(30,70,250);
+	fill-opacity: 0.5;
+}
+.comfortzone3{
+  fill: rgb(70,30,100);
+  fill-opacity: 0.5;
+}   
+path.comfortzone3over{
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(70,30,250);
+	fill-opacity: 0.5;
+}
+
+path.psyregion {
+	fill: rgb(200,200,200);
+	fill-opacity: 0.0;
+}
+
+.tick {
+    fill:none;
+    stroke: black;
+    opacity: 0.3;
+    stroke-dasharray: 5,5;
+}
+
+path.comfbound90{
+    stroke:Black;
+}
+path.comfbound80{
+    stroke:Gray;
+} 
+path.comfort80 {
+  fill: DodgerBlue;
+  fill-opacity: 0.2;
+}
+path.comfort80over {
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: DeepSkyBlue;
+	fill-opacity: 0.2;
+}
+path.comfort90 {
+  fill: rgb(0,0,100);
+  fill-opacity: 0.5;
+}
+path.comfort90over {
+	-webkit-transition-property: fill;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-in;
+	-moz-transition-property: fill;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-in;
+	transition-property: fill;
+	transition-duration: .5s;
+	transition-timing-function: ease-in;
+	fill: rgb(0,0,250);
+	fill-opacity: 0.5;
+}

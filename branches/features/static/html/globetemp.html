@@ -1,0 +1,43 @@
+<form style="font-size:80%">
+
+  <div class='leftlabel-dialog'>Measured air temperature</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog' id='ta-g' value='25'/>
+    <span class='tempunit' id='g-ta-unit'> &deg;C</span>
+  </div><br />
+  	
+  <div class='leftlabel-dialog'>Measured air velocity</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog' id='vel-g' value='0.1' />
+    <span class='unit' id='g-vel-unit'> m/s</span>
+  </div><br />
+  
+  <div class='leftlabel-dialog'>
+    <a href="http://en.wikipedia.org/wiki/Mean_radiant_temperature#Measurement" target="_new"> Measured globe temperature </a>
+  </div>
+  <div class='inputfield-dialog'>  
+    <input class='input-dialog' id="tglobe" value='25'/>
+    <span class='tempunit' id='g-tglobe-unit'> &deg;C</span>
+  </div><br />
+  
+  <div class='leftlabel-dialog'>Globe diameter</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog' id='diameter' value='0.15'/>
+    <span id='g-globediam-unit' class='unit'> m</span>
+  </div><br />
+  
+  <div class='leftlabel-dialog' style='padding-bottom:10px;'>Globe emissivity</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog' id='emissivity' value='0.95'/>
+  </div><br />
+  <br class="clear"/>
+
+  <hr class="clear: both">
+
+  <div class='leftlabel-dialog'>Mean radiant temperature :</div>
+  <div class='intputfield-dialog'>
+    <input class='input-dialog' readonly="readonly" id='mrt-result' />
+    <span class='tempunit' id='g-mrt-unit'> &deg;C</span>
+  </div>
+
+</form>

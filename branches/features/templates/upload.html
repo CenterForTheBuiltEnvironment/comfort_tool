@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  .default-input {
+    width: 50px;
+  }
+
+
+</style>
+<title>Comfort tool file upload</title>
+</head>
+<body>
+  
+<span class="fileinput-button">
+  <button id='select-file'>Select file</button>
+  <input id="fileupload" type="file" name="files[]" data-url="upload">
+</span>
+
+<div>
+<input class='default-input' id='default-ta' value='25' />
+<input class='default-input' id='default-tr' value='25' />
+<input class='default-input' id='default-vel' value='0.15' />
+<input class='default-input' id='default-rh' value='50' />
+<input class='default-input' id='default-met' value='1' />
+<input class='default-input' id='default-clo' value='1' />
+</div>
+
+<div id='chart-div'></div>
+
+<link rel="stylesheet" type="text/css" href="/static/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.fileupload-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/psychchart.css"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/js/lib/d3.js"></script>
+<script src="/static/js/lib/jquery-ui.min.js"></script>
+<script src="/static/js/lib/jquery.ui.widget.js"></script>
+<script src="/static/js/lib/jquery.iframe-transport.js"></script>
+<script src="/static/js/lib/jquery.fileupload.js"></script>
+<script src="/static/js/comfortmodels.js"></script>
+<script src="/static/js/psychrometrics.js"></script>
+<script src="/static/js/psychchart.js"></script>
+<script src="/static/js/util.js"></script>
+<script>
+
+function appendPMV(conds){  
+  conds.forEach(function(e){
+    e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
+    e.hr = pc.getHumRatio(e.ta, e.rh) 
+  });
+  pc.clearChart()
+  pc.drawPoints(conds)
+}
+
+$(function () {
+  $('#fileupload').fileupload({
+    done: function (e, res) {
+      var r = $.parseJSON(res.result)
+      r.forEach(function(el){
+        for (var key in el){
+          el[key] = parseFloat(el[key])
+        }
+        var fields = ['ta','tr','rh','vel','met','clo']
+        for (var i in fields){
+          var f = fields[i]
+          if (!el[f]){
+            el[f] = parseFloat($('#default-'+f).val())
+          }
+        }
+      });
+      appendPMV(r)
+    }
+  });
+
+  $('#select-file').button();
+
+  window.isCelsius = true
+  pc.width = $(window).width() - 10
+  pc.height = $(window).height() - 70
+  pc.init()
+  pc.drawChart() 
+  pc.initDisplay()
+
+});
+
+</script>
+</body> 
+</html>
