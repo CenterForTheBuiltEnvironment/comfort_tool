@@ -1039,20 +1039,10 @@ function update() {
 }
 
 
-function getSensation(pmv) {
-    if (pmv < -2.5) return 'Cold';
-    else if (pmv < -1.5) return 'Cool';
-    else if (pmv < -0.5) return 'Slightly Cool';
-    else if (pmv < 0.5) return 'Neutral';
-    else if (pmv < 1.5) return 'Slightly Warm';
-    else if (pmv < 2.5) return 'Warm';
-    else return 'Hot';
-}
-
 function renderPmvResults(r) {
     $('#pmv-res').html(r.pmv.toFixed(2));
     $('#ppd-res').html(r.ppd.toFixed(0));
-    var sensation = getSensation(r.pmv);
+    var sensation = util.getSensation(r.pmv);
     $('#sensation').html(sensation);
 }
 
