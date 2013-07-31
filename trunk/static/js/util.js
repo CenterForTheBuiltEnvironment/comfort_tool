@@ -38,6 +38,16 @@ util.secant = function(a, b, fn, epsilon) {
   return NaN
 }
 
+util.getSensation = function(pmv) {
+    if (pmv < -2.5) return 'Cold';
+    else if (pmv < -1.5) return 'Cool';
+    else if (pmv < -0.5) return 'Slightly Cool';
+    else if (pmv < 0.5) return 'Neutral';
+    else if (pmv < 1.5) return 'Slightly Warm';
+    else if (pmv < 2.5) return 'Warm';
+    else return 'Hot';
+}
+
 /*
 def secant_solve(f,x1,x2,ftol,xtol):
     f1 = f(x1)
