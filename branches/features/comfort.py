@@ -29,6 +29,10 @@ def upload_file():
                  
     return render_template('upload.html')
 
+@app.route('/simulation')
+def simulation():
+    return render_template('simulation.html')    
+
 @app.route('/compare')
 def compare():
     return render_template('compare.html')
