@@ -1,0 +1,239 @@
+
+{% extends "layout.html" %}
+{% block title %}for ASHRAE-55{% endblock %}
+{% block head %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/simulation.css') }}"/>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/comfortmodels.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jstat.js') }}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+  <div id="left_content" style="background-color: #DCE7F7;">
+
+  <div id="inputs" style="margin-bottom:7px; padding-left:5px;" class='in' style='float:left;'>
+
+    <div id='simulation-inputs' style="margin-bottom:7px; padding-left:5px;" class='in' style='float:left;'>
+
+      <div class='leftlabel' id='num-sims-lab'>
+          <a class="mainlink">Number of Simulations</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id='num-sims' />
+      </div>
+
+      <div class='leftlabel' id='num-bins-lab'>
+          <a class="mainlink">Number of Bins in Histogram</a>
+      </div>
+      <div class='inputfield'>
+          <select id='num-bins'>
+              <option value='8'>8</option>
+              <option value='16'>16</option>
+              <option value='32'>32</option>
+              <option value='64'>64</option>
+              <option value='128'>128</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' id='ta-lab'>
+        <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="ta-dist-arg-1" />
+          <span class='unit' id='ta-dist-unit-1'> &deg;C</span>
+          <div class='sublabel'>
+              <span class='unit' id='ta-dist-arg-1-type'></span>
+          </div>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="ta-dist-arg-2" />
+          <span class='unit' id='ta-dist-unit-2'> &deg;C</span>
+          <div class='sublabel'>
+              <span class='unit' id='ta-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='ta-dist-cont'>
+          <select id='ta-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' id='tr-lab' style="margin-top:15px;">
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="tr-dist-arg-1" />
+          <span class='unit' id='tr-dist-unit-1'> &deg;C</span>
+          <div class='sublabel'>
+              <span class='unit' id='tr-dist-arg-1-type'></span>
+          </div>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="tr-dist-arg-2" />
+          <span class='unit' id='tr-dist-unit-2'> &deg;C</span>
+          <div class='sublabel'>
+              <span class='unit' id='tr-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='tr-dist-cont'>
+          <select id='tr-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' style="margin-top:15px;">
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="vel-dist-arg-1" />
+          <span class='unit' id='vel-dist-unit-1'> m/s</span>
+          <div class='sublabel'>
+              <span class='unit' id='vel-dist-arg-1-type'></span>
+          </div>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="vel-dist-arg-2" />
+          <span class='unit' id='vel-dist-unit-2'> m/s</span>
+          <div class='sublabel'>
+              <span class='unit' id='vel-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='vel-dist-cont'>
+          <select id='vel-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' style="margin-top:15px;">
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" target="_new">Humidity</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="rh-dist-arg-1" />
+          <span class='unit' id='rh-dist-unit-1'> %</span>
+          <div class='sublabel'>
+              <span class='unit' id='rh-dist-arg-1-type'></span>
+          </div>
+       </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="rh-dist-arg-2" />
+          <span class='unit' id='rh-dist-unit-2'> %</span>
+          <div class='sublabel'>
+              <span class='unit' id='rh-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='rh-dist-cont'>
+          <select id='rh-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' style="margin-top:15px;">
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="met-dist-arg-1" />
+          <span class='unit' id='met-dist-unit-1'> met</span>
+          <div class='sublabel'>
+              <span class='unit' id='met-dist-arg-1-type'></span>
+          </div>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="met-dist-arg-2" />
+          <span class='unit' id='met-dist-unit-2'> met</span>
+          <div class='sublabel'>
+              <span class='unit' id='met-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='met-dist-cont'>
+          <select id='met-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='leftlabel' style="margin-top:15px;">
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="clo-dist-arg-1" />
+          <span class='unit' id='clo-dist-unit-1'> clo</span>
+          <div class='sublabel'>
+              <span class='unit' id='clo-dist-arg-1-type'></span>
+          </div>
+      </div>
+      <div class='inputfield'>
+          <input class='inputbox' id="clo-dist-arg-2" />
+          <span class='unit' id='clo-dist-unit-2'> clo</span>
+          <div class='sublabel'>
+              <span class='unit' id='clo-dist-arg-2-type'></span>
+          </div>
+      </div>
+      <div class='leftlabel' id='clo-dist-cont'>
+          <select id='clo-dist'>
+              <option value='constant'>Constant</option>
+              <option value='uniform'>Uniform Distribution</option>
+              <option value='normal'>Normal Distribution</option>
+          </select>
+      </div>
+
+      <div class='right' id='simulation-buttons'>
+          <button id='run-simulation' style="margin-top: 5px;">Run Simulation</button>
+      </div>
+
+      </div><!--end div id="simulation-inputs"-->
+    </div>
+  </div><!--id="left_content"-->
+
+  <div id="right_content" >
+    
+    <br class="clear">
+    <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
+        <div id='simulation-outputs'>
+            <div id='pmv-out-label' class='leftlabel'>Average PMV</div>
+            <div class='divresult'>
+                <span class='result' id='sim-pmv-res'></span>
+            </div>
+            <br />
+            <div id='ppd-out-label' class='leftlabel'>Average PPD</div>
+            <div class='divresult'>
+                 <span class='result' id='sim-ppd-res'></span>
+            </div>
+            <div class='resultunit'>
+                <span class='unit'> %</span>
+            </div>
+            <br />
+            <div class='leftlabel'> Average Sensation</div>
+            <div class='divresult'>
+                <span class='result' id='sim-sensation'></span>
+            </div>
+        </div><!--id="simulation-outputs"-->
+    </div><!--id="output-a"-->
+    <div style='margin-left: 15px' id="sim-chart-div"></div>
+  </div><!--id="right_content"-->
+  
+  <br class="clear">
+  <br />
+
+  <script language='javascript' src='/static/js/simulation/simulation.js' type='text/javascript'></script>
+  <script language='javascript' src='/static/js/simulation/monte-carlo.js' type='text/javascript'></script>
+{% endblock %}
