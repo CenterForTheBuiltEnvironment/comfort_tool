@@ -20,7 +20,7 @@
 
 {% block content %}
     
-  <div id="left_content" style="background-color: #EAF7DC;"> 
+  <div id="left_content" style="background-color: #DCE7F7;"> 
 
   <div id="select_comfort_model" style = "margin-bottom:7px; padding-top:6px; float:left;" class='in'>
     <div id='modelDiv'>
@@ -90,7 +90,7 @@
 
     <div style="margin-bottom: 7px;" id='adaptive-inputs'>
       <div class='leftlabel' style="margin-top:15px;">
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Prevailing mean outdoor temperature</a>
+        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Outdoor running mean temperature</a>
       </div>
       <div class='inputfield'>
         <input class='inputbox' id="trm" />
@@ -145,16 +145,6 @@
          <select id='cloMultiSelect' class='multiselect' multiple='multiple'></select>
          <button id='setClo' style="margin-top: 5px;">Set clo value</button>
        </div>
-       <div>
-         <input type='checkbox' id='dynamicClo'/>
-         <label style="margin-top:5px; width:380px; float:left;" for='dynamicClo'>Dynamic predictive clothing</label>
-       </div>
-       <div id='dynamicCloToggle'>
-         <span class="xx" style="color: black; margin-left:10px; margin-top: 5px; font-size:12px">Outdoor air temperature (6 am)</span>
-         <input id='taOut6' maxlength=10 placeholder='0.0' style='height: 16px; font-size: 14px; padding: 3px; width: 40px; margin: 5px 0px 5px 10px;' />
-         <span class='tempunit'>&deg;C</span>
-         <button id='setDynamicClo' style='float:right; margin: 5px 15px 5px;'>Set clo</button>
-      </div>
     
     </div><!--end div id="cloInput"--> 
         
@@ -278,7 +268,7 @@
   </div><!--end of div "pmv-notes"-->
 
     <div class='note' id="adaptive-note">
-    <b>NOTE:</b> Method is applicable only for occupant-controlled naturally conditioned spaces that meet all of the following criteria: (a) There is no mechanical cooling system installed. No heating system is in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; and (c) Occupants are free to adapt their clothing to the indoor and/or outdoor thermal conditions within a range at least as wide as 0.5-1.0 clo.
+    <b>NOTE:</b> Method is applicable only for buildings without mechanical cooling systems and where there is easy access to operable windows and occupants may freely adapt their clothing to the indoor and/or outdoor thermal conditions. The criteria for the spaces are the following: (a) There is no mechanical cooling or heating system in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; (c) Occupants are allowed to freely adapt their clothing insulation.
     </div>
   </div><!--id="right_content"-->
   <br class="clear">

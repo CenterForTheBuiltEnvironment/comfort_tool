@@ -414,14 +414,6 @@ $(function() {
         $('#customCloToggle').toggle('fast');
     });
 
-    $('#dynamicClo').button({
-        icons: {
-            primary: 'ui-icon-person'
-        }
-    }).click(function() {
-        $('#dynamicCloToggle').toggle('fast');
-    });
-
     $('button').button();
     $('.buttons').buttonset();
 
@@ -657,12 +649,6 @@ $('#setClo').click(function() {
 });
 $('#addToEnsembles').click(function() {
     addToEnsembles();
-});
-$('#setDynamicClo').click(function() {
-    var ta6 = $('#taOut6').val();
-    var clo_r = comf.schiavonClo(ta6);
-    $('#clo').val(clo_r.toFixed(2));
-    update();
 });
 
 $('#model-type').change(function() {

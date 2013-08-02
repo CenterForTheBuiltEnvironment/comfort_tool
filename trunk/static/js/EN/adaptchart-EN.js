@@ -66,12 +66,12 @@ var ac = new function() {
 
         ac.svg.append("defs")
             .append("clipPath")
-            .attr("id", "clipad")
+            .attr("id", "clipad-adaptive")
             .append("rect")
             .attr("x", "0")
             .attr("y", "0")
             .attr("width", ac.width - ac.margin - ac.rbmargin)
-            .attr("height", ac.height - ac.margin - ac.rbmargin - 20)
+            .attr("height", ac.height - ac.margin - ac.rbmargin)
             .attr("transform", "translate(" + ac.margin + "," + ac.rbmargin + ")")
 
         ac.svg.append("path")
@@ -126,7 +126,7 @@ var ac = new function() {
 
         d3.select("#trm-axis-C")
             .append("text")
-            .text("Running Mean Outdoor Temperature [°C]")
+            .text("Outdoor Running Mean Temperature [°C]")
             .attr("x", (ac.width / 2) - 3 * ac.margin)
             .attr("y", ac.rbmargin / 1.3)
 
@@ -148,7 +148,7 @@ var ac = new function() {
 
         ac.svg.append("path")
              .attr("d", line(upperIII.concat(lowerIII)) + "Z")
-             .attr("clip-path", "url(#clipad)") 
+             .attr("clip-path", "url(#clipad-adaptive)") 
              .attr("class", "comfortzoneIII")
              .attr("id", "comfortzoneIII")
 	         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
@@ -156,7 +156,7 @@ var ac = new function() {
 
         ac.svg.append("path")
                  .attr("d", line(upperII.concat(lowerII)) + "Z")
-                 .attr("clip-path", "url(#clipad)") 
+                 .attr("clip-path", "url(#clipad-adaptive)") 
                  .attr("class", "comfortzoneII")
                  .attr("id", "comfortzoneII")
 		         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
@@ -164,7 +164,7 @@ var ac = new function() {
 
         ac.svg.append("path")
                  .attr("d", line(upperI.concat(lowerI)) + "Z")
-                 .attr("clip-path", "url(#clipad)") 
+                 .attr("clip-path", "url(#clipad-adaptive)") 
                  .attr("class", "comfortzoneI")
                  .attr("id", "comfortzoneI")
 		         .on("mouseover", function() {d3.select(this).attr("class", "comfortzoneover");})
@@ -176,10 +176,12 @@ var ac = new function() {
 
         ac.svg.append("circle")
             .attr("class", "outer adaptive")
+            .attr("clip-path", "url(#clipad-adaptive)")
             .attr("r", 12)
 
         ac.svg.append("circle")
             .attr("class", "inner adaptive")
+            .attr("clip-path", "url(#clipad-adaptive)")
             .attr("r", 2)
 
         d3.selectAll("circle.adaptive")
@@ -194,6 +196,7 @@ var ac = new function() {
             .transition()
             .attr("cx", ac.trm_scale(data[0].trm))
             .attr("cy", ac.top_scale((data[0].ta + data[0].tr) / 2))
+            .attr("clip-path", "url(#clipad-adaptive)")
 
     }
 
@@ -256,7 +259,7 @@ var ac = new function() {
     // 
     //     d3.select(".comfort90")
     //         .attr("d", line(upper90d.concat(lower90d)) + "Z")
-    //         .attr("clip-path", "url(#clipad)")
+    //         .attr("clip-path", "url(#clipad-adaptive)")
     //         .on("mouseover", function() {
     //         d3.select(this).attr("class", "comfort90over");
     //     })
@@ -266,7 +269,7 @@ var ac = new function() {
     // 
     //     d3.select(".comfort80")
     //         .attr("d", line(upper80d.concat(lower80d)) + "Z")
-    //         .attr("clip-path", "url(#clipad)")
+    //         .attr("clip-path", "url(#clipad-adaptive)")
     //         .on("mouseover", function() {
     //         d3.select(this).attr("class", "comfort80over");
     //     })
