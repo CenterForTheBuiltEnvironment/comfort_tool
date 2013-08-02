@@ -1,6 +1,7 @@
 
 {% extends "layout.html" %}
 {% block head %}
+{{ super() }}
   <title>CBE Thermal Comfort Tool for ASHRAE-55</title>
   <meta name="description" content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2010, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
 
@@ -40,7 +41,8 @@
 {% endblock %}
 
 {% block content %}
-    
+  <div id='all_content'>
+
   <div id="left_content" style="background-color: #DCE7F7;"> 
 
   <div id="select_comfort_model" style = "margin-bottom:7px; padding-top:6px; float:left;" class='in'>
@@ -335,4 +337,5 @@
   <br />
     
   <script language="javascript" src='/static/js/page.js' type="text/javascript"></script>
+  </div>
 {% endblock %}
