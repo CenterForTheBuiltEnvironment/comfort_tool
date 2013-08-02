@@ -1,0 +1,27 @@
+#header {width: 985px;
+		align: center;
+        margin: auto;}
+
+a.mainlink:link {color: black; text-decoration: none;}
+a.mainlink:visited {color: #636363;}
+a.mainlink:hover {color: #2A4583;}
+
+.ui-button-text {font-size:12px;}
+.ui-selectmenu-status {font-size:12px;}
+.ui-selectmenu-menu {font-size:12px;}
+
+#footer {margin:0 auto;
+         width:988px;
+	     font-family: sans-serif;
+	     font-color: #000000;
+	     font-size:12px;
+	     clear: both;}
+
+a.footerlink:link {color: black;}
+a.footerlink:visited {color: #636363;}
+a.footerlink:hover {color: #2A4583;}
+
+.clear { clear: both; }
+.tempunit { color: #000000; }
+.unit { color: #000000; }
+

@@ -1,385 +1,352 @@
-<!doctype html>
-<html>
-<head>
-<title>CBE Thermal Comfort Tool for ASHRAE-55</title>
-<meta name="description" content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2010, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }} 
+  <title>CBE Thermal Comfort Tool for ASHRAE-55</title>
+  <meta name="description" content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2010, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
 
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="static/css/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="static/css/compare.css" />
-<link rel="stylesheet" type="text/css" href="static/css/ui.multiselect.css" />
-<link rel="stylesheet" type="text/css" href="static/css/psychchart-compare.css" />
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="static/css/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/compare.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/ui.multiselect.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/psychchart-compare.css" />
 
-<script type="text/javascript" src="static/js/lib/d3.js"></script>
-<script type="text/javascript" src="static/js/lib/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="static/js/lib/jquery-ui.min.js"></script>
-<script type="text/javascript" src="static/js/lib/ui.multiselect.js"></script>
-<script type="text/javascript" src="static/js/lib/ui.selectmenu.js"></script>
-<script type="text/javascript" src="static/js/lib/jquery.scrollTo-min.js"></script>
-<script type="text/javascript" src="static/js/util.js"></script>
-<script type="text/javascript" src="static/js/comfortmodels.js"></script>
-<script type="text/javascript" src="static/js/psychrometrics.js"></script>
-<script type="text/javascript" src="static/js/compare/psychchart-compare.js"></script>
-<script type="text/javascript" src="static/js/compare/temphumchart-compare.js"></script>
-</head>
+  <script type="text/javascript" src="static/js/lib/d3.js"></script>
+  <script type="text/javascript" src="static/js/lib/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="static/js/lib/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="static/js/lib/ui.multiselect.js"></script>
+  <script type="text/javascript" src="static/js/lib/ui.selectmenu.js"></script>
+  <script type="text/javascript" src="static/js/lib/jquery.scrollTo-min.js"></script>
+  <script type="text/javascript" src="static/js/util.js"></script>
+  <script type="text/javascript" src="static/js/comfortmodels.js"></script>
+  <script type="text/javascript" src="static/js/psychrometrics.js"></script>
+  <script type="text/javascript" src="static/js/compare/psychchart-compare.js"></script>
+  <script type="text/javascript" src="static/js/compare/temphumchart-compare.js"></script>
+{% endblock %}
 
-<body>
-<div id="all_content">
+{% block content %}      
+    <div id="all_content">    
 
-  <div id='header'>
-    <h1 style="text-align: center;" >Comparison tool</h1>    
-  </div><!--end div id="header""-->
-    
-  <br class="clear">
-    
-  <div id="left_content" style="background-color: #DCE7F7;"> 
+    <div id="left_content" style="background-color: #DCE7F7;"> 
 
-  <div style = "margin-bottom:10px; margin-top:10px; padding-top:6px; text-align:center; font-weight:bold; font-size:16px;">
-      &nbsp;Compare comfort conditions
-  </div>
+    <div style = "margin-bottom:10px; margin-top:10px; padding-top:6px; text-align:center; font-weight:bold; font-size:16px;">
+        &nbsp;Compare comfort conditions
+    </div>
 
-<table border='0'>
-	<tr style='margin-top:10px;'>
-  <td class="inputcell" style = "width:125px; float:left; margin-left:10px; padding-top:6px; text-align:left;">
-      <input style='width:15px;' type='checkbox' id='inputs1' checked /><label for='inputs1' style=" font-weight:bold; color: rgb(0,0,100); opacity: 0.5;">Inputs #1</label>
-  </td>
-  <td class="inputcell" style = "width:125px; float:left; padding-top:6px; text-align:left;">
-      <input style='width:15px;' type='checkbox' id='inputs2'/><label for='inputs2' style="font-weight:bold; color: rgb(30,70,100); opacity: 0.5;">Inputs #2</label>
-  </td>
-  <td class="inputcell" style = "width:125px; float:left; padding-top:6px; text-align:left;">
-      <input style='width:15px;' type='checkbox' id='inputs3' /><label for='inputs3' style="font-weight:bold; color: rgb(70,30,100); opacity: 0.5;">Inputs #3</label>
-  </td>
-	</tr>
-</table>
+  <table border='0'>
+      <tr style='margin-top:10px;'>
+    <td class="inputcell" style = "width:125px; float:left; margin-left:10px; padding-top:6px; text-align:left;">
+        <input style='width:15px;' type='checkbox' id='inputs1' checked /><label for='inputs1' style=" font-weight:bold; color: rgb(0,0,100); opacity: 0.5;">Inputs #1</label>
+    </td>
+    <td class="inputcell" style = "width:125px; float:left; padding-top:6px; text-align:left;">
+        <input style='width:15px;' type='checkbox' id='inputs2'/><label for='inputs2' style="font-weight:bold; color: rgb(30,70,100); opacity: 0.5;">Inputs #2</label>
+    </td>
+    <td class="inputcell" style = "width:125px; float:left; padding-top:6px; text-align:left;">
+        <input style='width:15px;' type='checkbox' id='inputs3' /><label for='inputs3' style="font-weight:bold; color: rgb(70,30,100); opacity: 0.5;">Inputs #3</label>
+    </td>
+      </tr>
+  </table>
 
-  <div id="inputs" style="margin-bottom:7px; padding-left:5px;" class='in'>
-	
-	<table border='0'>
-    <tr class='inputlabel' style="margin-top:25px;" id='ta-lab'>
-	  <td>
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
-      </td>
-    </tr>
-    <tr class='inputfield'>
-	 <td class="inputcell1">
-       <input class='inputbox1' id='ta1' />
-       <span class='tempunit1'>&deg;C</span>
-     </td>
-     <td class="inputcell2">
-	  <input class='inputbox2' id='ta2' />
-      <span class='tempunit2'>&deg;C</span>
-      </td>
-     <td class="inputcell3">
-	 <input class='inputbox3' id='ta3' />
-      <span class='tempunit3'>&deg;C</span>
-      </td>
-    </tr>
-
-    
-    <tr class='inputlabel' id='tr-lab' style="margin-top:25px;">
-	   <td>
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
-       </td>
-    </tr>
-    <tr class='inputfield' id='tr-input'>
-	  <td class="inputcell1">
-      <input class='inputbox1' id="tr1" />
-      <span class='tempunit1'> &deg;C &nbsp;</span>
-      </td>
-	  <td class="inputcell2">
-      <input class='inputbox2' id="tr2" />
-      <span class='tempunit2'> &deg;C &nbsp;</span>
-      </td>
-	  <td class="inputcell3">
-      <input class='inputbox3' id="tr3" />
-      <span class='tempunit3'> &deg;C &nbsp;</span>
-      </td>
-    </tr>
-
-    <div id='pmv-inputs'>
-      <tr class='inputlabel' style="margin-top:25px;">
-	    <td>
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+    <div id="inputs" style="margin-bottom:7px; padding-left:5px;" class='in'>
+      
+      <table border='0'>
+      <tr class='inputlabel' style="margin-top:25px;" id='ta-lab'>
+        <td>
+        <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
         </td>
       </tr>
       <tr class='inputfield'>
-	    <td class="inputcell1">
-        <input class='inputbox1' id="vel1" />
-        <span class='unit1' id='vel-unit1'> m/s</span>
+       <td class="inputcell1">
+         <input class='inputbox1' id='ta1' />
+         <span class='tempunit1'>&deg;C</span>
+       </td>
+       <td class="inputcell2">
+        <input class='inputbox2' id='ta2' />
+        <span class='tempunit2'>&deg;C</span>
+        </td>
+       <td class="inputcell3">
+       <input class='inputbox3' id='ta3' />
+        <span class='tempunit3'>&deg;C</span>
+        </td>
+      </tr>
+
+      
+      <tr class='inputlabel' id='tr-lab' style="margin-top:25px;">
+         <td>
+        <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
+         </td>
+      </tr>
+      <tr class='inputfield' id='tr-input'>
+        <td class="inputcell1">
+        <input class='inputbox1' id="tr1" />
+        <span class='tempunit1'> &deg;C &nbsp;</span>
         </td>
         <td class="inputcell2">
-		 <input class='inputbox2' id="vel2" />
-        <span class='unit2' id='vel-unit2'> m/s</span>
+        <input class='inputbox2' id="tr2" />
+        <span class='tempunit2'> &deg;C &nbsp;</span>
         </td>
         <td class="inputcell3">
-		 <input class='inputbox3' id="vel3" />
-        <span class='unit3' id='vel-unit3'> m/s</span>
+        <input class='inputbox3' id="tr3" />
+        <span class='tempunit3'> &deg;C &nbsp;</span>
         </td>
       </tr>
-     
-      <tr class='inputlabel' style="margin-top:25px;">
-	    <td>
-        <a class="mainlink" style='margin-right:20px;' href="http://en.wikipedia.org/wiki/Humidity" target="_new">Humidity</a>
-        </td>
-        <td id='humidity-spec-cont'>
-		      <select id='humidity-spec' style='margin-top: 15px;'>
-		        <option value='rh'>Relative humidity</option>
-		        <option value='w'>Humidity ratio (w)</option>
-		        <option value='dewpoint'>Dew point</option>
-		        <option value='wetbulb'>Wet bulb</option>
-		        <option value='vappress'>Vapor pressure</option>
-		      </select>
-		    </td>
-      </tr>
-	
-      <tr class='inputfield'>
-	    <td class="inputcell1">
-        <input class='inputbox1' id="rh1" />
-        <span class='unit1' id='rh-unit1'> %</span>
-		</td>
-		<td class="inputcell2">
-         <input class='inputbox2' id="rh2" />
-        <span class='unit2' id='rh-unit2'> %</span>
-		</td>
-		<td class="inputcell3">
-         <input class='inputbox3' id="rh3" />
-        <span class='unit3' id='rh-unit3'> %</span>
-		</td>
-      </tr>
-    </div><!--end div id="pmv-inputs"-->      
 
-     
-       <tr class='inputlabel' style="margin-top:25px;">
-		 <td>
-         <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
-         </td>
-       </tr>
-       <tr class='inputfield' >
-		 <td class="inputcell1">
-         <input class='inputbox1' id="met1" />
-         <span class='unit1' > met</span>
-  		 </td>
-		 <td class="inputcell2">
-		 <input class='inputbox2' id="met2" />
-         <span class='unit2' > met</span>
-		 </td>
-		 <td class="inputcell3">
-		 <input class='inputbox3' id="met3" />
-         <span class='unit3' > met</span>
-		 </td>
-       </tr>
+      <div id='pmv-inputs'>
+        <tr class='inputlabel' style="margin-top:25px;">
+          <td>
+          <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+          </td>
+        </tr>
+        <tr class='inputfield'>
+          <td class="inputcell1">
+          <input class='inputbox1' id="vel1" />
+          <span class='unit1' id='vel-unit1'> m/s</span>
+          </td>
+          <td class="inputcell2">
+           <input class='inputbox2' id="vel2" />
+          <span class='unit2' id='vel-unit2'> m/s</span>
+          </td>
+          <td class="inputcell3">
+           <input class='inputbox3' id="vel3" />
+          <span class='unit3' id='vel-unit3'> m/s</span>
+          </td>
+        </tr>
+       
+        <tr class='inputlabel' style="margin-top:25px;">
+          <td>
+          <a class="mainlink" style='margin-right:20px;' href="http://en.wikipedia.org/wiki/Humidity" target="_new">Humidity</a>
+          </td>
+          <td id='humidity-spec-cont'>
+                <select id='humidity-spec' style='margin-top: 15px;'>
+                  <option value='rh'>Relative humidity</option>
+                  <option value='w'>Humidity ratio (w)</option>
+                  <option value='dewpoint'>Dew point</option>
+                  <option value='wetbulb'>Wet bulb</option>
+                  <option value='vappress'>Vapor pressure</option>
+                </select>
+              </td>
+        </tr>
+      
+        <tr class='inputfield'>
+          <td class="inputcell1">
+          <input class='inputbox1' id="rh1" />
+          <span class='unit1' id='rh-unit1'> %</span>
+          </td>
+          <td class="inputcell2">
+           <input class='inputbox2' id="rh2" />
+          <span class='unit2' id='rh-unit2'> %</span>
+          </td>
+          <td class="inputcell3">
+           <input class='inputbox3' id="rh3" />
+          <span class='unit3' id='rh-unit3'> %</span>
+          </td>
+        </tr>
+      </div><!--end div id="pmv-inputs"-->      
+
+       
+         <tr class='inputlabel' style="margin-top:25px;">
+           <td>
+           <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
+           </td>
+         </tr>
+         <tr class='inputfield' >
+           <td class="inputcell1">
+           <input class='inputbox1' id="met1" />
+           <span class='unit1' > met</span>
+           </td>
+           <td class="inputcell2">
+           <input class='inputbox2' id="met2" />
+           <span class='unit2' > met</span>
+           </td>
+           <td class="inputcell3">
+           <input class='inputbox3' id="met3" />
+           <span class='unit3' > met</span>
+           </td>
+         </tr>
+      
+         <tr class='inputlabel' style="margin-top:25px;">
+           <td>
+           <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
+           </td>
+         </tr>
+         <tr class='inputfield'>
+           <td class="inputcell1">
+           <input class='inputbox1' id="clo1" />
+           <span class='unit1'> clo</span>
+           </td>
+           <td class="inputcell2">
+           <input class='inputbox2' id="clo2" />
+           <span class='unit2'> clo</span>
+           </td>
+           <td class="inputcell3">
+           <input class='inputbox3' id="clo3" />
+           <span class='unit3'> clo</span>
+           </td>
+         </tr>
+    </table> 
+    </div><!--end div id="inputs"-->  
+
+      <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 15px; margin-left:15px;margin-right:15px;'>
+        <button id='specPressure' style="width:80px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
+        <button id='unitsToggle' style="width:43px; float:left; height:45px;">SI IP</button>
+        <button id='restart' style="width:68px; float:left; height:45px;">Restart</button>
+        <input type='checkbox' style="float:left;" id='link'/><label style='text-align:center;height:43px;width:80px;' for='link'>Operative temp</label>
+        <input type='checkbox' style="float:left;" id='local-control'/><label style='text-align:center; height:43px; width:80px;' for='local-control'>Local air control</label>
+        <a style="width:45px; height:43px; font-size:18px;" title="Help" href="static/html/help-compare.html" target="_new">? Help</a>
+      </div>
+    </div><!--id="left_content"-->
+
+
+    <div id="right_content" >
+
+      <br class="clear">
+      <div class='out' id='output-b' style='float:left;'>
+          <div id='special-msg1'></div>
+          <div id='special-msg2'></div>
+          <div id='special-msg3'></div>
+      </div>     
     
-       <tr class='inputlabel' style="margin-top:25px;">
-		 <td>
-         <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
-		 </td>
-       </tr>
-       <tr class='inputfield'>
-		 <td class="inputcell1">
-         <input class='inputbox1' id="clo1" />
-         <span class='unit1'> clo</span>
-		 </td>
-		 <td class="inputcell2">
-		 <input class='inputbox2' id="clo2" />
-         <span class='unit2'> clo</span>
-		 </td>
-		 <td class="inputcell3">
-		 <input class='inputbox3' id="clo3" />
-         <span class='unit3'> clo</span>
-		 </td>
-       </tr>
-  </table> 
-  </div><!--end div id="inputs"-->  
+      <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
+      <table border='0'>
+          <tr>
+              <td class='labelcell'></td>
+              <td class='resultcell'>
+                  <span class='result1' style='font-weight: bold; color: red;'>#1</span>
+              </td>
+              <td class='resultcell'>
+                  <span class='result2' style='font-weight: bold; color: darkred;'>#2</span>
+              </td>
+              <td class='resultcell' style='font-weight: bold;'>
+                  <span class='result3' style='font-weight: bold; color: firebrick;'>#3</span>
+              </td>
+          </tr>
+      </table>
 
-    <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 15px; margin-left:15px;margin-right:15px;'>
-      <button id='specPressure' style="width:80px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
-      <button id='unitsToggle' style="width:43px; float:left; height:45px;">SI IP</button>
-      <button id='restart' style="width:68px; float:left; height:45px;">Restart</button>
-      <input type='checkbox' style="float:left;" id='link'/><label style='text-align:center;height:43px;width:80px;' for='link'>Operative temp</label>
-      <input type='checkbox' style="float:left;" id='local-control'/><label style='text-align:center; height:43px; width:80px;' for='local-control'>Local air control</label>
-      <a style="width:45px; height:43px; font-size:18px;" title="Help" href="static/html/help-compare.html" target="_new">? Help</a>
-    </div>
-  </div><!--id="left_content"-->
+        <div id='pmv-outputs'>
+        <table border='0'>
+          <tr>
+            <td id='compliance-out-label' class='labelcell'>Compliance</td>
+            <td class='resultcell'>
+               <span class='result1' id='comply-msg1'></span>
+            </td>
+            <td class='resultcell'>
+               <span class='result2' id='comply-msg2'></span>
+            </td>
+            <td class='resultcell'>
+               <span class='result3' id='comply-msg3'></span>
+            </td>
+          </tr>
+          <tr>
+          <td id='pmv-out-label' class='labelcell'>PMV</td>
+                <td class='resultcell'>
+                <span class='result1' id='pmv-res1'></span>
+                </td>
+                <td class='resultcell'>
+                <span class='result2' id='pmv-res2'></span>
+                </td>
+                <td class='resultcell'>
+                <span class='result3' id='pmv-res3'></span>
+                </td>
+          </tr>
+          <tr>
+            <td id='ppd-out-label' class='labelcell'>PPD</td>
+            <td class='resultcell'>
+            <span class='result1' id='ppd-res1'></span>
+            <span class='unit1'> %</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result2' id='ppd-res2'></span>
+            <span class='unit2'> %</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result3' id='ppd-res3'></span>
+            <span class='unit3'> %</span>
+            </td>
+          </tr>
+          <tr>
+          <td class='labelcell'>Sensation</td>
+          <td class='resultcell'>
+           <span class='result1' id='sensation1'></span>
+            </td>
+            <td class='resultcell'>
+            <span class='result2' id='sensation2'></span>
+            </td>
+            <td class='resultcell'>
+            <span class='result3' id='sensation3'></span>
+            </td>
+          </tr>
+        </table>
+        </div><!--id="pmv-outputs"-->
+         
+        <div id='pmv-elev-outputs' style='float:left; margin-top:-5px;'>
+        <table border ='0'>
+          <tr>
+            <td class='labelcell'>Drybulb temp at still air</td>
+            <td class='resultcell'>
+            <span class='result1' id='ta-still1'></span>
+            <span class='tempunit1'> &deg;C</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result2' id='ta-still2'></span>
+            <span class='tempunit2'> &deg;C</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result3' id='ta-still3'></span>
+            <span class='tempunit3'> &deg;C</span>
+            </td>
+          </tr>
 
+          <tr>
+          <td class='labelcell'>Cooling effect</td>
+            <td class='resultcell'>
+            <span class='result1' id='cooling-effect1'></span>
+            <span class='tempunit1'> &deg;C</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result2' id='cooling-effect2'></span>
+            <span class='tempunit2'> &deg;C</span>
+            </td>
+            <td class='resultcell'>
+            <span class='result3' id='cooling-effect3'></span>
+            <span class='tempunit3'> &deg;C</span>
+            </td>
+          </tr>
+          <br>
+          <tr>
+            <td class='labelcell'>Air speed range</td>
+            <td class='resultcell'>
+            <span class='result1' id='vel-range1'></span>
+            </td>
+            <td class='resultcell'>
+                <span class='result2' id='vel-range2'></span>
+            </td>
+            <td class='resultcell'>
+                <span class='result3' id='vel-range3'></span>
+            </td>
+          </tr>
+        </table>
+        </div><!--id="pmv-elev-outputs"-->
+          
+        <br />
 
-  <div id="right_content" >
+      </div><!--id="output-a"-->
+      
+    
+      <button class='leftlabel' type='checkbox' id='toggle-chart' style='height:15px; width:18px; position:relative; left:180px; top:57px;'>Switch chart</button>
+      <div class='leftlabel' id="chart-title-pmv" style="font-size: 16px; position:relative; left:200px; top:35px;">
+        <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">&nbsp;Psychrometric chart</a> &nbsp;
+      </div>
+      <div class='leftlabel' id="temphumchart-title" style="display:none; font-size: 16px; position: relative; left:200px; top:35px;">
+        <a class="mainlink">&nbsp;Temperature-humidity chart</a>
+      </div>
+         
+      <div id='globedialog' title='Globe to MRT converter'></div>
+      <div style="margin-left:-15px;" id="chart-div"></div>
+      <div style="margin-left:10px;" id="temphumchart-div"></div>
+
+    </div><!--id="right_content"-->
 
     <br class="clear">
-    <div class='out' id='output-b' style='float:left;'>
-        <div id='special-msg1'></div>
-		<div id='special-msg2'></div>
-		<div id='special-msg3'></div>
-    </div>     
-  
-    <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
-	<table border='0'>
-		<tr>
-			<td class='labelcell'></td>
-            <td class='resultcell'>
-				<span class='result1' style='font-weight: bold; color: red;'>#1</span>
-			</td>
- 			<td class='resultcell'>
-				<span class='result2' style='font-weight: bold; color: darkred;'>#2</span>
-			</td>
-			<td class='resultcell' style='font-weight: bold;'>
-				<span class='result3' style='font-weight: bold; color: firebrick;'>#3</span>
-			</td>
-        </tr>
-    </table>
-
-      <div id='pmv-outputs'>
-	  <table border='0'>
-		<tr>
-	      <td id='compliance-out-label' class='labelcell'>Compliance</td>
-          <td class='resultcell'>
-             <span class='result1' id='comply-msg1'></span>
-		  </td>
-		  <td class='resultcell'>
-		     <span class='result2' id='comply-msg2'></span>
-		  </td>
-		  <td class='resultcell'>
-		     <span class='result3' id='comply-msg3'></span>
-		  </td>
-        </tr>
-        <tr>
-        <td id='pmv-out-label' class='labelcell'>PMV</td>
-              <td class='resultcell'>
-	          <span class='result1' id='pmv-res1'></span>
-			  </td>
-			  <td class='resultcell'>
-			  <span class='result2' id='pmv-res2'></span>
-			  </td>
-			  <td class='resultcell'>
-			  <span class='result3' id='pmv-res3'></span>
-			  </td>
-        </tr>
-		<tr>
-          <td id='ppd-out-label' class='labelcell'>PPD</td>
-		  <td class='resultcell'>
-          <span class='result1' id='ppd-res1'></span>
-		  <span class='unit1'> %</span>
-		  </td>
-		  <td class='resultcell'>
-		  <span class='result2' id='ppd-res2'></span>
-		  <span class='unit2'> %</span>
-		  </td>
-		  <td class='resultcell'>
-		  <span class='result3' id='ppd-res3'></span>
-		  <span class='unit3'> %</span>
-		  </td>
-        </tr>
-		<tr>
-        <td class='labelcell'>Sensation</td>
-        <td class='resultcell'>
-         <span class='result1' id='sensation1'></span>
-		  </td>
-		  <td class='resultcell'>
-		  <span class='result2' id='sensation2'></span>
-		  </td>
-		  <td class='resultcell'>
-		  <span class='result3' id='sensation3'></span>
-		  </td>
-        </tr>
-      </table>
-      </div><!--id="pmv-outputs"-->
-       
-      <div id='pmv-elev-outputs' style='float:left; margin-top:-5px;'>
-	  <table border ='0'>
-		<tr>
-          <td class='labelcell'>Drybulb temp at still air</td>
-          <td class='resultcell'>
-          <span class='result1' id='ta-still1'></span>
-          <span class='tempunit1'> &deg;C</span>
-          </td>
-  	  	  <td class='resultcell'>
-          <span class='result2' id='ta-still2'></span>
-          <span class='tempunit2'> &deg;C</span>
-          </td>
-		  <td class='resultcell'>
-          <span class='result3' id='ta-still3'></span>
-          <span class='tempunit3'> &deg;C</span>
-          </td>
-        </tr>
-
-		<tr>
-        <td class='labelcell'>Cooling effect</td>
-		  <td class='resultcell'>
-          <span class='result1' id='cooling-effect1'></span>
-		  <span class='tempunit1'> &deg;C</span>
-		  </td>
-		  <td class='resultcell'>
-          <span class='result2' id='cooling-effect2'></span>
-		  <span class='tempunit2'> &deg;C</span>
-		  </td>
-		  <td class='resultcell'>
-          <span class='result3' id='cooling-effect3'></span>
-		  <span class='tempunit3'> &deg;C</span>
-		  </td>
-        </tr>
-		<br>
-		<tr>
-          <td class='labelcell'>Air speed range</td>
-		  <td class='resultcell'>
-          <span class='result1' id='vel-range1'></span>
-		  </td>
-		  <td class='resultcell'>
-	          <span class='result2' id='vel-range2'></span>
-		  </td>
-		  <td class='resultcell'>
-	          <span class='result3' id='vel-range3'></span>
-		  </td>
-        </tr>
-      </table>
-      </div><!--id="pmv-elev-outputs"-->
-        
-      <br />
-
-    </div><!--id="output-a"-->
-    
-  
-    <button class='leftlabel' type='checkbox' id='toggle-chart' style='height:15px; width:18px; position:relative; left:180px; top:57px;'>Switch chart</button>
-    <div class='leftlabel' id="chart-title-pmv" style="font-size: 16px; position:relative; left:200px; top:35px;">
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">&nbsp;Psychrometric chart</a> &nbsp;
-    </div>
-    <div class='leftlabel' id="temphumchart-title" style="display:none; font-size: 16px; position: relative; left:200px; top:35px;">
-      <a class="mainlink">&nbsp;Temperature-humidity chart</a>
-    </div>
-       
-    <div id='globedialog' title='Globe to MRT converter'></div>
-    <div style="margin-left:-15px;" id="chart-div"></div>
-    <div style="margin-left:10px;" id="temphumchart-div"></div>
-
-  </div><!--id="right_content"-->
-
-  <br class="clear">
-  <br />
-  <div id='footer'>
-    <div id='left' style="float:left; width:400px; text-align: left;">
-      <img style="float:left;" src="static/img/logo150px.jpg">
-      <b>To cite this webpage:</b>
-       <br/>
-       Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Moon Dustin, and Steinfeld Kyle, 2012, CBE Thermal Comfort Tool for ASHRAE-55. <br>Center for the Built Environment, University of California Berkeley, http://cbe.berkeley.edu/comforttool/
-    </div>
-   
-    <div id='right' style="padding-left:10px; float:right; width:569px; text-align: left;">
-      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">
-        <img alt="Creative Commons License" style="float:right; border-width:0; margin: 7px 0px 0px 7px" src="http://i.creativecommons.org/l/by-nd/3.0/88x31.png" />
-      </a>
-      <b>CBE Thermal Comfort Tool for ASHRAE-55 developed by: </b>
-      <br/>
-      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-tyler.htm">Tyler Hoyt</a>,
-      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-stefano.htm">Stefano Schiavon</a>,
-      <a class="footerlink" href="http://www.linkedin.com/pub/alberto-piccioli/4b/361/7a5">Alberto Piccioli</a>, 
-      <span class="footerlink">Dustin Moon</span> and 
-      <a class="footerlink" href="http://ced.berkeley.edu/ced/faculty-staff/kyle-steinfeld">Kyle Steinfeld</a>.
-      Based on work at <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built Environment</a>.
-      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-NoDerivs 3.0 Unported License</a>. 
-            
-    </div>
-            
-    </div><!--id="footer"-->
-    
-</div> <!--id="all_content"-->
-</body>
-<script language="javascript" src='static/js/compare/compare.js' type="text/javascript"></script>
-</html>
+    <br />
+  <script language="javascript" src='static/js/compare/compare.js' type="text/javascript"></script>
+  </div>
+{% endblock %}

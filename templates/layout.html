@@ -2,6 +2,7 @@
 <html>
   <head>
     {% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}"/>
     {% endblock %}
   </head>
 <body>
@@ -11,7 +12,7 @@
     {% endblock %}
   </div>
     
-  <div id="all_content">{% block content %}{% endblock %}</div>
+  {% block content %}{% endblock %}
 
   <div id="footer">
     {% block footer %}
@@ -34,9 +35,8 @@
       <span class="footerlink">Dustin Moon</span> and 
       <a class="footerlink" href="http://ced.berkeley.edu/ced/faculty-staff/kyle-steinfeld">Kyle Steinfeld</a>.
       Based on work at <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built Environment</a>.
-      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-NoDerivs 3.0 Unported License</a>. 
+      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-NoDerivs 3.0 Unported License</a>. <b>Note:</b>  Internet Explorer is not fully supported. Some features (e.g. LEED documentation) do not function in latest versions of IE, and older versions of IE may not work at all. We recommend using Chrome, Firefox, or Safari.
     </div>
     {% endblock %}
-  
   </div>
 </body>
