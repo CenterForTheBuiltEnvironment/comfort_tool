@@ -4,11 +4,20 @@
     {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}"/>
     {% endblock %}
+  
   </head>
 <body>
   <div id="header">
     {% block header %} 
-    <h1>CBE Thermal Comfort Tool</h1>
+    <div id="banner">
+      CBE Thermal Comfort Tool
+    </div>
+    <div class="nav">
+      <a class="mainlink" href="/">ASHRAE-55</a>
+      <a class="mainlink" href="/compare">Compare</a>
+      <a class="mainlink" href="/ranges">Ranges</a>
+      <a class="mainlink" href="/upload">Upload</a>
+    </div>
     {% endblock %}
   </div>
     
