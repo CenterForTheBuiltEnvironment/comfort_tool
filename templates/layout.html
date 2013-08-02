@@ -2,37 +2,12 @@
 <html>
   <head>
     {% block head %}
-
-    <title>CBE Thermal Comfort Tool {% block title %}{% endblock %}</title>
-    <meta name="description" content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2010, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
-
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
-
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/comfortmodels.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/psychrometrics.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/adaptchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/local-discomfort.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"</script>
-
     {% endblock %}
   </head>
 <body>
   <div id="header">
     {% block header %} 
-    <h1 style="text-align: center;" >Thermal Comfort Tool for ASHRAE-55</h1>    
+    <h1>CBE Thermal Comfort Tool</h1>
     {% endblock %}
   </div>
     
