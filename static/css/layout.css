@@ -1,4 +1,5 @@
-#header {width: 985px;
+#header {
+        width: 988px;
 		align: center;
         margin: auto;}
 
@@ -25,3 +26,69 @@ a.footerlink:hover {color: #2A4583;}
 .tempunit { color: #000000; }
 .unit { color: #000000; }
 
+#banner {
+    font-family: sans-serif;
+    font-size: 22px;
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    height: 35px;
+    color: #2A4583;
+}
+
+.nav {
+    float: right;
+    height: 35px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.nav a {
+    background-color: #F7F7F7;
+    margin-left: -4px;
+    padding: 12px 20px;
+    outline: none;
+    border: 1px solid #CCCCCC;
+    border-right: none;
+    background: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.34) 100%) repeat scroll 0 0 transparent;
+    color: #777777;
+    vertical-align: top;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: sans-serif;
+    line-height: 21px;
+    cursor: pointer;
+    -webkit-transition: all .6s ease;
+    -moz-transition: all .6s ease;
+    -ms-transition: all .6s ease;
+    -o-transition: all .6s ease;
+    transition: all .6s ease;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+.nav a:hover {
+    color:#000000;
+    background-color: #E8F5FF;
+}
+.nav a:first-child {
+    border-radius: 6px 0 0 6px;
+}
+.nav a:last-child {
+    border-radius: 0 6px 6px 0;
+}
+.nav a:active {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4) inset, 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.nav a.highlight {
+    background: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.44) 100%) repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+}
+.nav a:last-child {
+    border-right: 1px solid #CCCCCC;
+}
