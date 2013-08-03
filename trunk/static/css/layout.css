@@ -51,7 +51,6 @@ a.footerlink:hover {color: #2A4583;}
     outline: none;
     border: 1px solid #CCCCCC;
     border-right: none;
-    background: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.34) 100%) repeat scroll 0 0 transparent;
     color: #777777;
     vertical-align: top;
     text-decoration: none;
@@ -83,11 +82,12 @@ a.footerlink:hover {color: #2A4583;}
     border-radius: 0 6px 6px 0;
 }
 .nav a:active {
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4) inset, 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset, 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .nav a.highlight {
-    background: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.44) 100%) repeat scroll 0 0 transparent;
-    color: #FFFFFF;
+    background: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.0) 100%, rgba(0, 0, 0, 0.2) 100%) repeat scroll 0 0 transparent;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset, 0 1px 0 rgba(255, 255, 255, 0.0);
+    color: #000000;
 }
 .nav a:last-child {
     border-right: 1px solid #CCCCCC;
