@@ -1,90 +1,145 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-  .default-input {
-    width: 50px;
+
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+  <style>
+    .default-input {
+      width: 50px;
+    }
+    #upload-container {
+            clear: both;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            width: 95%;
+			border:1px solid #cccccc;
+			border-radius:5px;
+            font-family: sans-serif;
+    }
+    #chart-div {
+      float: right;
+      margin-right: 10px;
+    }
+    #upload-options {
+      font-size: 14px;
+      float: left;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+  </style>
+  <title>Comfort tool file upload</title>
+{% endblock %}
+
+{% block content %}
+  <div id="upload-container">
+    <div id="upload-options">
+      <span class="fileinput-button">
+        <button id='select-file'>Select file</button>
+        <input id="fileupload" type="file" name="files[]" data-url="upload">
+      </span>
+     
+      <table>
+        <tr><td>Air temperature</td><td><input class='default-input' id='default-ta' value='25' /></td><td>&deg;C</td></tr>
+        <tr><td>MRT</td><td><input class='default-input' id='default-tr' value='25' /></td><td>&deg;C</td></tr>
+        <tr><td>Air velocity</td><td><input class='default-input' id='default-vel' value='0.15' /></td><td>m/s</td></tr>
+        <tr><td>Relative humidity</td><td><input class='default-input' id='default-rh' value='50' /></td><td>%</td></tr>
+        <tr><td>Metabolic rate</td><td><input class='default-input' id='default-met' value='1' /></td><td></td></tr>
+        <tr><td>Clothing level</td><td><input class='default-input' id='default-clo' value='1' /></td><td></td></tr>
+      </table>
+    </div>
+
+    <div id='chart-div'></div>
+    <br class="clear">
+  </div>
+
+  <link rel="stylesheet" type="text/css" href="/static/css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/jquery.fileupload-ui.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/psychchart.css"/>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/static/js/lib/d3.js"></script>
+  <script src="/static/js/lib/jquery-ui.min.js"></script>
+  <script src="/static/js/lib/jquery.ui.widget.js"></script>
+  <script src="/static/js/lib/jquery.iframe-transport.js"></script>
+  <script src="/static/js/lib/jquery.fileupload.js"></script>
+  <script src="/static/js/comfortmodels.js"></script>
+  <script src="/static/js/psychrometrics.js"></script>
+  <script src="/static/js/psychchart.js"></script>
+  <script src="/static/js/util.js"></script>
+  <script>
+
+  function appendPMV(conds){  
+    conds.forEach(function(e){
+      e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
+      e.hr = pc.getHumRatio(e.ta, e.rh) 
+    });
+    pc.clearChart()
+    pc.drawPoints(conds)
   }
 
-
-</style>
-<title>Comfort tool file upload</title>
-</head>
-<body>
-  
-<span class="fileinput-button">
-  <button id='select-file'>Select file</button>
-  <input id="fileupload" type="file" name="files[]" data-url="upload">
-</span>
-
-<div>
-<input class='default-input' id='default-ta' value='25' />
-<input class='default-input' id='default-tr' value='25' />
-<input class='default-input' id='default-vel' value='0.15' />
-<input class='default-input' id='default-rh' value='50' />
-<input class='default-input' id='default-met' value='1' />
-<input class='default-input' id='default-clo' value='1' />
-</div>
-
-<div id='chart-div'></div>
-
-<link rel="stylesheet" type="text/css" href="/static/css/common.css"/>
-<link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.css"/>
-<link rel="stylesheet" type="text/css" href="/static/css/jquery.fileupload-ui.css"/>
-<link rel="stylesheet" type="text/css" href="/static/css/psychchart.css"/>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="/static/js/lib/d3.js"></script>
-<script src="/static/js/lib/jquery-ui.min.js"></script>
-<script src="/static/js/lib/jquery.ui.widget.js"></script>
-<script src="/static/js/lib/jquery.iframe-transport.js"></script>
-<script src="/static/js/lib/jquery.fileupload.js"></script>
-<script src="/static/js/comfortmodels.js"></script>
-<script src="/static/js/psychrometrics.js"></script>
-<script src="/static/js/psychchart.js"></script>
-<script src="/static/js/util.js"></script>
-<script>
-
-function appendPMV(conds){  
-  conds.forEach(function(e){
-    e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
-    e.hr = pc.getHumRatio(e.ta, e.rh) 
-  });
-  pc.clearChart()
-  pc.drawPoints(conds)
-}
-
-$(function () {
-  $('#fileupload').fileupload({
-    done: function (e, res) {
-      var r = $.parseJSON(res.result)
-      r.forEach(function(el){
-        for (var key in el){
-          el[key] = parseFloat(el[key])
-        }
-        var fields = ['ta','tr','rh','vel','met','clo']
-        for (var i in fields){
-          var f = fields[i]
-          if (!el[f]){
-            el[f] = parseFloat($('#default-'+f).val())
+  $(function () {
+    $('#fileupload').fileupload({
+      done: function (e, res) {
+        var r = $.parseJSON(res.result)
+        r.forEach(function(el){
+          for (var key in el){
+            el[key] = parseFloat(el[key])
           }
-        }
-      });
-      appendPMV(r)
-    }
+          var fields = ['ta','tr','rh','vel','met','clo']
+          for (var i in fields){
+            var f = fields[i]
+            if (!el[f]){
+              el[f] = parseFloat($('#default-'+f).val())
+            }
+          }
+        });
+        appendPMV(r)
+        qG
+      }
+    });
+
+    $('#select-file').button();
+
+    window.isCelsius = true
+    pc.width = $(window).width() - 350
+    pc.height = $(window).height() - 20
+    pc.init()
+    pc.drawChart() 
+    pc.initDisplay()
   });
 
-  $('#select-file').button();
+  $(document).ready(function(){
+    $('#upload-link').addClass('highlight')
+  });
+  $('#default-ta, #default-tr, #default-trm').spinner({
+      step: 0.1,
+      min: 0,
+      max: 120,
+      numberFormat: "n"
+  });
+  $('#default-vel').spinner({
+      step: 0.01,
+      min: 0,
+      max: 4,
+      numberFormat: "n"
+  });
+  $('#default-clo').spinner({
+      step: 0.05,
+      min: 0.1,
+      max: 10,
+      numberFormat: "n"
+  });
+  $('#default-met').spinner({
+      step: 0.05,
+      min: 1,
+      max: 2,
+      numberFormat: "n"
+  });
+  $('#default-rh').spinner({
+      step: 1,
+      min: 0,
+      max: 100,
+      numberFormat: "n"
+  });
 
-  window.isCelsius = true
-  pc.width = $(window).width() - 10
-  pc.height = $(window).height() - 70
-  pc.init()
-  pc.drawChart() 
-  pc.initDisplay()
-
-});
-
-</script>
-</body> 
-</html>
+  </script>
+{% endblock %}
