@@ -110,16 +110,18 @@
         <span class='tempunit'> &deg;C</span>
       </div>
 
-      <!-- <div class='leftlabel' style="margin-top:15px;">
+      <div class='leftlabel' style="margin-top:15px;">
         <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
       </div>
-      <div class='inputfield'>
-        <select id='vel_a' />
-          <option value="0.3" selected="selected">0.3 m/s (59 fpm)</option>
-          <option value="0.6">0.6 m/s (118 fpm)</option>
-          <option value="0.9">0.9 m/s (177 fpm)</option>
-          <option value="1.2">1.2 m/s (236 fpm)</option>
-        </select>
+      <div class='inputfield' id="vel-box">
+        <input class='inputbox' id="vel_a" />
+        <span class='unit' id='vel-unit'> m/s</span>
+      </div>
+	  <div class='right' style="font-size:12px; margin-top:8px;" id='local-control-div-adapt'>Local air speed control required
+      </div>
+      <!-- <div class='right' id='local-control-div-adapt'>
+        <input type='checkbox' id='local-control-adapt'/>
+        <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
       </div> -->
 
     </div><!--end div id="adaptive-inputs"-->
@@ -167,7 +169,7 @@
       <button id='setDefaults' style="width:75px; float:left; height:45px;">Set defaults</button>
       <button id='unitsToggle' style="width:44px; float:left; height:45px;">SI IP</button>
       <button id='localDisc' style="width:95px; float:left; height:45px;">Local discomfort</button>
-      <a style="width:48px; float:left; height:43px; font-size:18px;" title="Help" href="static/html/help.html" target="_new">? Help</a>
+      <a style="width:48px; float:left; height:43px; font-size:18px;" title="Help" href="static/html/help-EN.html" target="_new">? Help</a>
     </div>
 
   </div><!--id="left_content"-->

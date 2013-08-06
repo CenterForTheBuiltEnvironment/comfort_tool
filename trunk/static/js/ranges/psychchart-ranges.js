@@ -160,7 +160,7 @@ pc.findRHcurve = function(d, pmvlimit, factor) {
 
   function rhclos(rhx, target) {
       return function(db) {
-          return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)[0][0] - target
+          return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv - target
       }
   }
   function solve(rhx, target) {
