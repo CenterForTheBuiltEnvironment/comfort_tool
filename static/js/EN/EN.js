@@ -5,7 +5,8 @@ var d = {
     rh: '',
     met: '',
     clo: '',
-    trm: ''
+    trm: '',
+    vel_a: ''
 };
 var d_cache = {
     ta: '',
@@ -14,9 +15,10 @@ var d_cache = {
     rh: '',
     met: '',
     clo: '',
-    trm: ''
+    trm: '',
+    vel_a: ''
 };
-var keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
+var keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
 $(document).ready(function() {
 
@@ -337,6 +339,7 @@ $(document).ready(function() {
     actData.forEach(function(element) {
         actSelect.options.add(new Option(element.activity, element.met));
     });
+
     $(function() {
         $(".multiselect").multiselect({
             sortable: false,
@@ -405,6 +408,7 @@ $(function() {
 
     $('#local-control').button();
     $('#radio').buttonset();
+    //$('#local-control-adapt').button();
 
     $('#customClo').button({
         icons: {
@@ -424,7 +428,7 @@ $(function() {
         numberFormat: "n"
     });
 
-    $('#vel').spinner({
+    $('#vel, #vel_a').spinner({
         step: 0.01,
         min: 0,
         max: 4,
@@ -567,6 +571,15 @@ $('.in').click(function() {
 
 $('.inputbox').focusout(function() {
     update();
+});
+
+$('#vel_a').focusout(function() {
+    update();
+    updateBounds();
+});
+$('#vel-box').click(function() {
+    update();
+    updateBounds();
 });
 
 $('#unitsToggle').click(function() {
@@ -844,10 +857,19 @@ function update() {
         }
 
     } else if (model == 'adaptiveComfort') {
-        r = comf.adaptiveComfortEN15251(d.ta, d.tr, d.trm);
+        r = comf.adaptiveComfortEN15251(d.ta, d.tr, d.trm, d.vel_a);
         renderAdaptiveResults(r);
         calcAdaptiveCompliance(d, r);
         ac.redrawPoint([d])
+    }
+}
+
+function updateBounds() {
+	var coolingEffect = 1.7856 * Math.log(d.vel_a) + 2.9835;
+    if (coolingEffect > 0) {
+        ac.redrawBounds(coolingEffect);
+    } else {
+	    ac.redrawBounds(0);
     }
 }
 
@@ -972,7 +994,7 @@ function setDefaults() {
         met: 1.2,
         clo: 0.5,
         trm: 24,
-        //vel_a: 0.3
+        vel_a: 0.2
     };
 
     keys.forEach(function(element) {
