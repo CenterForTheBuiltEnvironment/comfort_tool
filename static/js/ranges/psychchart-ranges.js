@@ -37,7 +37,7 @@ pc.writeFactor = function(x){
 		}
 	} else {
 		if(rangefactor=="tr"){
-		  var foo = parseFloat(CtoF(x/1000).toFixed(1));
+		  var foo = parseFloat(util.CtoF(x/1000).toFixed(1));
 		  $("#factor-hover").html(foo);
 		} else if(rangefactor=="vel"){
 		  var foo = parseFloat(((x/1000)*196.9).toFixed(0));
@@ -69,8 +69,8 @@ pc.drawRHcurve = function(data){
          }else{
 	       $("#inner-range-width").html( (inner_range * 1.8).toFixed(1) );
 	       $("#outer-range-width").html( (outer_range * 1.8).toFixed(1) )
-	       $("#range-output1").html( CtoF(left.db).toFixed(1) )
-	       $("#range-output2").html( CtoF(right.db).toFixed(1) )
+	       $("#range-output1").html( util.CtoF(left.db).toFixed(1) )
+	       $("#range-output2").html( util.CtoF(right.db).toFixed(1) )
 		 }
 	  } else {
 		$("#inner-range-width").html( "0.0" );
@@ -118,11 +118,11 @@ pc.drawTempLines = function() {
 	       .attr("y", pc.hr_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
 	} else {
-		pc.svg.append("text").text(CtoF(left.db).toFixed(1)).attr("class", "temp-label").attr("id", "left-temp-label")
+		pc.svg.append("text").text(util.CtoF(left.db).toFixed(1)).attr("class", "temp-label").attr("id", "left-temp-label")
 	       .attr("x", pc.db_scale(left.db) - 31)
 	       .attr("y", pc.hr_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
-    	pc.svg.append("text").text(CtoF(right.db).toFixed(1)).attr("class", "temp-label").attr("id", "right-temp-label")
+    	pc.svg.append("text").text(util.CtoF(right.db).toFixed(1)).attr("class", "temp-label").attr("id", "right-temp-label")
 	       .attr("x", pc.db_scale(right.db) + 4)
 	       .attr("y", pc.hr_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
@@ -145,10 +145,10 @@ pc.drawTempLines = function() {
 		       .attr("x", pc.db_scale(inner_right.db) + 4)
 		       .attr("y", pc.hr_scale(0) - 2)
 	  } else {
-			pc.svg.append("text").text(CtoF(inner_left.db).toFixed(1)).attr("class", "temp-label").attr("id", "left-temp-label")
+			pc.svg.append("text").text(util.CtoF(inner_left.db).toFixed(1)).attr("class", "temp-label").attr("id", "left-temp-label")
 		       .attr("x", pc.db_scale(inner_left.db) - 31)
 		       .attr("y", pc.hr_scale(0) - 2)
-		    pc.svg.append("text").text(CtoF(inner_right.db).toFixed(1)).attr("class", "temp-label").attr("id", "inner_right-temp-label")
+		    pc.svg.append("text").text(util.CtoF(inner_right.db).toFixed(1)).attr("class", "temp-label").attr("id", "inner_right-temp-label")
 		       .attr("x", pc.db_scale(inner_right.db) + 4)
 		       .attr("y", pc.hr_scale(0) - 2)
 	  }

@@ -82,10 +82,10 @@ function updateLocalDisc() {
         dlocal.rad_DT_coolC = dlocal.rad_DT_coolC * 5 / 9
         dlocal.rad_DT_warmW = dlocal.rad_DT_warmW * 5 / 9
         dlocal.rad_DT_coolW = dlocal.rad_DT_coolW * 5 / 9
-        dlocal.T_head = FtoC(dlocal.T_head)
-        dlocal.T_ankle = FtoC(dlocal.T_ankle)
-        dlocal.T_floor = FtoC(dlocal.T_floor)
-        dlocal.T_op = FtoC(dlocal.T_op)
+        dlocal.T_head = util.FtoC(dlocal.T_head)
+        dlocal.T_ankle = util.FtoC(dlocal.T_ankle)
+        dlocal.T_floor = util.FtoC(dlocal.T_floor)
+        dlocal.T_op = util.FtoC(dlocal.T_op)
         dlocal.local_vel /= 196.9
     }
 

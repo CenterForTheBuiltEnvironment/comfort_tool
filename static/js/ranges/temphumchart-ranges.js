@@ -140,11 +140,11 @@ bc.drawTempLines = function() {
 	       .attr("y", bc.rh_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
 	} else {
-		d3.select("#svg-temphum").append("text").text(CtoF(temphum_left.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "left-temp-label-temphum")
+		d3.select("#svg-temphum").append("text").text(util.CtoF(temphum_left.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "left-temp-label-temphum")
 	       .attr("x", bc.db_scale(temphum_left.db) - 31)
 	       .attr("y", bc.rh_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
-    	d3.select("#svg-temphum").append("text").text(CtoF(temphum_right.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "right-temp-label-temphum")
+    	d3.select("#svg-temphum").append("text").text(util.CtoF(temphum_right.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "right-temp-label-temphum")
 	       .attr("x", bc.db_scale(temphum_right.db) + 4)
 	       .attr("y", bc.rh_scale(0) - 2)
 	       .attr("clip-path", "url(#clip)")
@@ -167,10 +167,10 @@ bc.drawTempLines = function() {
 		       .attr("x", bc.db_scale(temphum_inner_right.db) + 4)
 		       .attr("y", bc.rh_scale(0) - 2)
 	  } else {
-			d3.select("#svg-temphum").append("text").text(CtoF(temphum_inner_left.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "temphum_left-temp-label")
+			d3.select("#svg-temphum").append("text").text(util.CtoF(temphum_inner_left.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "temphum_left-temp-label")
 		       .attr("x", bc.db_scale(temphum_inner_left.db) - 31)
 		       .attr("y", bc.rh_scale(0) - 2)
-		    d3.select("#svg-temphum").append("text").text(CtoF(temphum_inner_right.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "temphum_inner_right-temp-label")
+		    d3.select("#svg-temphum").append("text").text(util.CtoF(temphum_inner_right.db).toFixed(1)).attr("class", "temp-label-temphum").attr("id", "temphum_inner_right-temp-label")
 		       .attr("x", bc.db_scale(temphum_inner_right.db) + 4)
 		       .attr("y", bc.rh_scale(0) - 2)
 	  }

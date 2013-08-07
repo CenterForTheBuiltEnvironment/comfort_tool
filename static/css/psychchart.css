@@ -11,7 +11,7 @@ path {
     font-size:10pt;
     font-family:sans-serif;
 }
-.box-texts {
+.box-texts, .hover-box-texts{
     font-size:10pt;
     font-family:sans-serif;
 }

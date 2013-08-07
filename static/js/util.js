@@ -48,6 +48,14 @@ util.getSensation = function(pmv) {
     else return 'Hot';
 }
 
+util.CtoF = function(x){
+    return x * 9 / 5 + 32;
+}
+
+util.FtoC = function(x) {
+    return (x - 32) * 5 / 9;
+}
+
 /*
 def secant_solve(f,x1,x2,ftol,xtol):
     f1 = f(x1)

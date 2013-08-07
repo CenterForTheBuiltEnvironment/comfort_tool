@@ -5,6 +5,13 @@
     <meta charset="utf-8">
     {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/comfortmodels.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/psychrometrics.js') }}"></script>
     {% endblock %}
   
   </head>

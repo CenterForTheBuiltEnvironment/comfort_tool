@@ -1,4 +1,4 @@
-ta,rh,met,clo,wme,vel,tr
+Air temperature [C],Relative humidity [%],Metabolic rate [met],Clothing level [clo],wme,Air velocity [m/s],MRT [C]
 8,87,1,1,0,0.15,8
 8,93,1,1,0,0.15,8
 7,93,1,1,0,0.15,7

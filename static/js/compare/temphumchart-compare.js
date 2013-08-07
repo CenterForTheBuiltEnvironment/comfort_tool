@@ -2,14 +2,6 @@
 
 var bc = new function() {
 
-    // Celsius to Farenheit
-
-    var CtoF = function(x) {
-        return x * 9 / 5 + 32
-    }
-
-    // set up viewport
-
     this.margin = 60
     this.rbmargin = 40
     this.width = 580
@@ -25,7 +17,7 @@ var bc = new function() {
         .domain(this.db_extent)
 
 
-    this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
+    this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)]
     this.db_scale_F = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
         .domain(this.db_extent_F)

@@ -140,7 +140,7 @@ function setDataSeason(space, ctype, season) {
     if (model == "pmvElevatedAirspeed") {
         LEED[space].clo[season] = d.clo;
         LEED[space].met[season] = d.met;
-        LEED[space].top[ctype][season] = !isCelsius ? CtoF(t_op).toFixed(1) : t_op.toFixed(1);
+        LEED[space].top[ctype][season] = !isCelsius ? util.CtoF(t_op).toFixed(1) : t_op.toFixed(1);
         LEED[space].vel[ctype][season] = !isCelsius ? (d.vel * 196.9).toFixed(1) : d.vel.toFixed(1);
         LEED[space].rh[ctype][season] = d.rh.toFixed(1);
         LEED[space].pmv[ctype][season] = $("#pmv-res").html();

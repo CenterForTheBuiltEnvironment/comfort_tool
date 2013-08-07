@@ -378,7 +378,7 @@ $(function() {
         buttons: {
             "Set mean radiant temperature": function() {
                 var tr = parseFloat($('#mrt-result').val());
-                if (!isCelsius) tr = CtoF(tr);
+                if (!isCelsius) tr = util.CtoF(tr);
                 $('#tr').val(tr);
                 $(this).dialog("close");
                 update();
@@ -482,11 +482,11 @@ $(function() {
 $('#humidity-spec').change(function() {
     var v = $('#humidity-spec').val();
     var ta = parseFloat($('#ta').val());
-    if (!isCelsius) ta = FtoC(ta);
+    if (!isCelsius) ta = util.FtoC(ta);
     var maxVapPress = parseFloat(psy.satpress(ta));
     var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
     var rh = parseFloat($('#rh').val());
-    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh = FtoC(rh);
+    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh = util.FtoC(rh);
     if (window.humUnit == 'vappress') if (!isCelsius) rh *= 2953;
     else rh *= 1000;
 
@@ -504,7 +504,7 @@ $('#humidity-spec').change(function() {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
             $('#rh-unit').html(' &deg;C');
         } else {
-            $('#rh').val(CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
@@ -518,7 +518,7 @@ $('#humidity-spec').change(function() {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
             $('#rh-unit').html(' &deg;C');
         } else {
-            $('#rh').val(CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
@@ -727,11 +727,11 @@ $("#chartSelect").change(function(){
     update();
 });
 
-function CtoF(x) {
+function util.CtoF(x) {
     return x * 9 / 5 + 32;
 }
 
-function FtoC(x) {
+function util.FtoC(x) {
     return (x - 32) * 5 / 9;
 }
 
@@ -744,7 +744,7 @@ function toggleUnits() {
             $(this).html(' &deg;C');
         });
         $('#ta, #tr, #trm').each(function() {
-            v = FtoC($(this).val());
+            v = util.FtoC($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit').html(' m/s');
@@ -757,7 +757,7 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;C');
-            v = (FtoC($('#rh').val()));
+            v = (util.FtoC($('#rh').val()));
             $('#rh').val(v.toFixed(1));
         } else if (hs == 'vappress') {
             $('#rh-unit').html(' KPa');
@@ -769,7 +769,7 @@ function toggleUnits() {
             $(this).html(' &deg;F');
         });
         $('#ta, #tr, #trm').each(function() {
-            v = CtoF($(this).val());
+            v = util.CtoF($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit, #vel-a-unit').html(' fpm');
@@ -782,7 +782,7 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;F');
-            v = (CtoF($('#rh').val()));
+            v = (util.CtoF($('#rh').val()));
             $('#rh').val(v.toFixed(1));
         } else if (hs == 'vappress') {
             $('#rh-unit').html(' in HG');
@@ -829,11 +829,11 @@ function update() {
     });
     d.wme = 0;
     if (!isCelsius) {
-        d.ta = FtoC(d.ta);
-        d.tr = FtoC(d.tr);
-        d.trm = FtoC(d.trm);
+        d.ta = util.FtoC(d.ta);
+        d.tr = util.FtoC(d.tr);
+        d.trm = util.FtoC(d.trm);
         d.vel /= 196.9;
-        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = FtoC(d.rh);
+        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = util.FtoC(d.rh);
         else if (window.humUnit == 'vappress') d.rh *= 2953;
     } else {
         if (window.humUnit == 'vappress') d.rh *= 1000;
@@ -891,12 +891,12 @@ function renderPmvResults(r) {
 function renderAdaptiveResults(r) {
     var to = (parseFloat($('#ta').val()) + parseFloat($('#tr').val())) / 2;
     if (!isCelsius) {
-        r.tComfIUpper = CtoF(r.tComfIUpper);
-        r.tComfIIUpper = CtoF(r.tComfIIUpper);
-        r.tComfIIIUpper = CtoF(r.tComfIIIUpper);
-        r.tComfILower = CtoF(r.tComfILower);
-        r.tComfIILower = CtoF(r.tComfIILower);
-        r.tComfIIILower = CtoF(r.tComfIIILower);
+        r.tComfIUpper = util.CtoF(r.tComfIUpper);
+        r.tComfIIUpper = util.CtoF(r.tComfIIUpper);
+        r.tComfIIIUpper = util.CtoF(r.tComfIIIUpper);
+        r.tComfILower = util.CtoF(r.tComfILower);
+        r.tComfIILower = util.CtoF(r.tComfIILower);
+        r.tComfIIILower = util.CtoF(r.tComfIIILower);
     }
     $('#limitsI').html('Operative temperature: ' + r.tComfILower.toFixed(1) + ' to ' + r.tComfIUpper.toFixed(1));
     $('#limitsII').html('Operative temperature: ' + r.tComfIILower.toFixed(1) + ' to ' + r.tComfIIUpper.toFixed(1));
@@ -1009,12 +1009,12 @@ function updateGlobe() {
     var diameter = parseFloat($('#diameter').val());
     var emissivity = parseFloat($('#emissivity').val());
     if (!isCelsius) {
-        ta = FtoC(ta)
+        ta = util.FtoC(ta)
         vel /= 196.9
-        tglobe = FtoC(tglobe)
+        tglobe = util.FtoC(tglobe)
         diameter *= 0.0254
     }
     var tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = CtoF(tr)
+    if (!isCelsius) tr = util.CtoF(tr)
     $('#mrt-result').val(tr.toFixed(1));
 }
