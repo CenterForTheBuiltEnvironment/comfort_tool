@@ -1,9 +1,5 @@
 var pc = new function() {
 
-    var CtoF = function(x) {
-        return x * 9 / 5 + 32
-    }
-
     this.margin = 40
     this.rbmargin = 60
     this.width = 580
@@ -19,7 +15,7 @@ var pc = new function() {
           .domain(this.db_extent)
 
 
-      this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
+      this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)]
       this.db_scale_F = d3.scale.linear()
           .range([this.margin, this.width - this.rbmargin])
           .domain(this.db_extent_F)
@@ -348,9 +344,9 @@ var pc = new function() {
             mouseRH = 100
         }
         if (!isCelsius) {
-            mouseDBT = CtoF(mouseDBT)
-            mouseDew = CtoF(mouseDew)
-            mouseWBT = CtoF(mouseWBT)
+            mouseDBT = util.CtoF(mouseDBT)
+            mouseDew = util.CtoF(mouseDew)
+            mouseWBT = util.CtoF(mouseWBT)
             mouseEnt *= 0.43
         }
         d3.select("#box-dbt").text(mouseDBT.toFixed(1))
@@ -367,9 +363,9 @@ var pc = new function() {
         var dew = parseFloat($('#box-dew').text())
         var ent = parseFloat($('#box-ent').text())
         if (isCelsius) {
-            dbt = FtoC(dbt)
-            wbt = FtoC(wbt)
-            dew = FtoC(dew)
+            dbt = util.FtoC(dbt)
+            wbt = util.FtoC(wbt)
+            dew = util.FtoC(dew)
             ent /= 0.43
             $('#unit-dbt').text('°C')
             $('#unit-wbt').text('°C')
@@ -377,10 +373,15 @@ var pc = new function() {
             $('#unit-ent').text('kJ/kg')
             $('#unit-hr1').text('g')
             $('#unit-hr3').text('/kg')
+
+            $('#box-db-unit').text('°C')
+            $('#box-mrt-unit').text('°C')
+            $('#box-vel-unit').text('m/s')
+
         } else {
-            dbt = CtoF(dbt)
-            wbt = CtoF(wbt)
-            dew = CtoF(dew)
+            dbt = util.CtoF(dbt)
+            wbt = util.CtoF(wbt)
+            dew = util.CtoF(dew)
             ent *= 0.43
             $('#unit-dbt').text('°F')
             $('#unit-wbt').text('°F')
@@ -388,6 +389,10 @@ var pc = new function() {
             $('#unit-ent').text('btu/lb')
             $('#unit-hr1').text('lb')
             $('#unit-hr3').text('/klb')
+            
+            $('#box-db-unit').text('°F')
+            $('#box-mrt-unit').text('°F')
+            $('#box-vel-unit').text('fpm')
         }
         $('#box-dbt').text(dbt.toFixed(1))
         $('#box-wbt').text(wbt.toFixed(1))
@@ -467,75 +472,110 @@ var pc = new function() {
 
     this.initDisplay = function(){
         pc.svg.append("text")
-            .text("drybulb")
-            .attr("class", "box-texts")
+            .text("Air temperature")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 140) + ")")
 
         pc.svg.append("text")
             .text("MRT")
-            .attr("class", "box-texts")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 160) + ")")
 
         pc.svg.append("text")
-            .text("vel")
-            .attr("class", "box-texts")
+            .text("Air velocity")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 180) + ")")
 
         pc.svg.append("text")
-            .text("rh")
-            .attr("class", "box-texts")
+            .text("Relative humidity")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 200) + ")")
 
         pc.svg.append("text")
-            .text("met")
-            .attr("class", "box-texts")
+            .text("Metabolic Rate")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 220) + ")")
 
         pc.svg.append("text")
-            .text("clo")
-            .attr("class", "box-texts")
+            .text("Clothing level")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 240) + ")")
 
         pc.svg.append("text")
-            .text("pmv")
-            .attr("class", "box-texts")
+            .text("PMV")
+            .attr("class", "hover-box-texts")
             .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 260) + ")")
 
         pc.svg.append("text")
             .attr("id", "db-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 140) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 140) + ")")
 
         pc.svg.append("text")
             .attr("id", "mrt-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 160) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 160) + ")")
 
         pc.svg.append("text")
             .attr("id", "vel-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 180) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 180) + ")")
 
         pc.svg.append("text")
             .attr("id", "rh-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 200) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 200) + ")")
 
         pc.svg.append("text")
             .attr("id", "met-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 220) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 220) + ")")
 
         pc.svg.append("text")
             .attr("id", "clo-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 240) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 240) + ")")
 
         pc.svg.append("text")
             .attr("id", "pmv-value")
-            .attr("class", "box-texts")
-            .attr("transform", "translate(" + (pc.margin + 80) + "," + (pc.rbmargin + 260) + ")")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 260) + ")")
 
+        pc.svg.append("text")
+            .text("°C")
+            .attr("id", "box-db-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 140) + ")")
+
+        pc.svg.append("text")
+            .text("°C")
+            .attr("id", "box-mrt-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 160) + ")")
+
+        pc.svg.append("text")
+            .text("m/s")
+            .attr("id", "box-vel-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 180) + ")")
+
+        pc.svg.append("text")
+            .text("%")
+            .attr("id", "box-rh-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 200) + ")")
+
+        pc.svg.append("text")
+            .text("met")
+            .attr("id", "box-met-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 220) + ")")
+
+        pc.svg.append("text")
+            .text("clo")
+            .attr("id", "box-clo-unit")
+            .attr("class", "hover-box-texts")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 240) + ")")
     }
 
     this.drawPoints = function(data) {
@@ -549,15 +589,20 @@ var pc = new function() {
           .attr("cx", pc.db_scale(d.ta))
           .attr("cy", pc.hr_scale(1000 * d.hr))
           .on("mouseover", function() {
-            
-            d3.select('#db-value').text(d.ta.toFixed(1))
-            d3.select('#mrt-value').text(d.tr.toFixed(1))
-            d3.select('#vel-value').text(d.vel.toFixed(2))
             d3.select('#rh-value').text(d.rh.toFixed(0))
             d3.select('#met-value').text(d.met.toFixed(1))
             d3.select('#clo-value').text(d.clo.toFixed(1))
             d3.select('#pmv-value').text(d.pmv.pmv.toFixed(1))
-
+            if (isCelsius) { 
+              d3.select('#db-value').text(d.ta.toFixed(1))
+              d3.select('#mrt-value').text(d.tr.toFixed(1))
+              d3.select('#vel-value').text(d.vel.toFixed(2))
+            } else {
+              d3.select('#db-value').text(util.CtoF(d.ta).toFixed(1))
+              d3.select('#mrt-value').text(util.CtoF(d.tr).toFixed(1))
+              d3.select('#vel-value').text(util.CtoF(d.vel).toFixed(0))
+            }
+            
             d3.select(this)
               .attr("r", "6");
 

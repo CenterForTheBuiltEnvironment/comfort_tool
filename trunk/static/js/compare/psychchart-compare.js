@@ -1,11 +1,4 @@
-//goog.require('comf')
-//goog.require('psy')
-//goog.require('d3')
 var pc = new function() {
-
-        var CtoF = function(x) {
-            return x * 9 / 5 + 32
-        }
 
         this.margin = 40
         this.rbmargin = 60
@@ -20,7 +13,7 @@ var pc = new function() {
             .domain(this.db_extent)
 
 
-        this.db_extent_F = [CtoF(this.db_min), CtoF(this.db_max)]
+        this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)]
         this.db_scale_F = d3.scale.linear()
             .range([this.margin, this.width - this.rbmargin])
             .domain(this.db_extent_F)
@@ -365,9 +358,9 @@ var pc = new function() {
                 mouseRH = 100
             }
             if (!isCelsius) {
-                mouseDBT = CtoF(mouseDBT)
-                mouseDew = CtoF(mouseDew)
-                mouseWBT = CtoF(mouseWBT)
+                mouseDBT = util.CtoF(mouseDBT)
+                mouseDew = util.CtoF(mouseDew)
+                mouseWBT = util.CtoF(mouseWBT)
                 mouseEnt *= 0.43
             }
             d3.select("#box-dbt").text(mouseDBT.toFixed(1))
@@ -384,9 +377,9 @@ var pc = new function() {
             var dew = parseFloat($('#box-dew').text())
             var ent = parseFloat($('#box-ent').text())
             if (isCelsius) {
-                dbt = FtoC(dbt)
-                wbt = FtoC(wbt)
-                dew = FtoC(dew)
+                dbt = util.FtoC(dbt)
+                wbt = util.FtoC(wbt)
+                dew = util.FtoC(dew)
                 ent /= 0.43
                 $('#unit-dbt').text('°C')
                 $('#unit-wbt').text('°C')
@@ -395,9 +388,9 @@ var pc = new function() {
                 $('#unit-hr1').text('g')
                 $('#unit-hr3').text('/kg')
             } else {
-                dbt = CtoF(dbt)
-                wbt = CtoF(wbt)
-                dew = CtoF(dew)
+                dbt = util.CtoF(dbt)
+                wbt = util.CtoF(wbt)
+                dew = util.CtoF(dew)
                 ent *= 0.43
                 $('#unit-dbt').text('°F')
                 $('#unit-wbt').text('°F')

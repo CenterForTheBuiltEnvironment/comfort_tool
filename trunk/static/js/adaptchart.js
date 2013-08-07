@@ -2,10 +2,6 @@
 
 var ac = new function() {
 
-    var CtoF = function(x) {
-        return x * 9 / 5 + 32
-    }
-
     this.margin = 40
     this.rbmargin = 40
     this.width = 550
@@ -20,7 +16,7 @@ var ac = new function() {
         .range([this.height - this.rbmargin, this.rbmargin])
         .domain(this.top_extent)
 
-    this.top_extent_F = [CtoF(this.top_min), CtoF(this.top_max)]
+    this.top_extent_F = [util.CtoF(this.top_min), util.CtoF(this.top_max)]
     this.top_scale_F = d3.scale.linear()
         .range([this.height - this.rbmargin, this.rbmargin])
         .domain(this.top_extent_F)
@@ -30,7 +26,7 @@ var ac = new function() {
         .range([this.margin, this.width - this.rbmargin])
         .domain(this.trm_extent)
 
-    this.trm_extent_F = [CtoF(this.trm_min), CtoF(this.trm_max)]
+    this.trm_extent_F = [util.CtoF(this.trm_min), util.CtoF(this.trm_max)]
     this.trm_scale_F = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
         .domain(this.trm_extent_F)

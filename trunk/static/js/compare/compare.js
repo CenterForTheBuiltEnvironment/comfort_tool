@@ -191,7 +191,7 @@ $('#humidity-spec').change(function() {
     var ta1 = parseFloat($('#ta1').val());
     var ta2 = parseFloat($('#ta2').val());
     var ta3 = parseFloat($('#ta3').val());
-    if (!isCelsius) ta1 = FtoC(ta1), ta2 = FtoC(ta2), ta3 = FtoC(ta3);
+    if (!isCelsius) ta1 = util.FtoC(ta1), ta2 = util.FtoC(ta2), ta3 = util.FtoC(ta3);
     var maxVapPress1 = parseFloat(psy.satpress(ta1));
     var maxVapPress2 = parseFloat(psy.satpress(ta2));
     var maxVapPress3 = parseFloat(psy.satpress(ta3));	
@@ -201,7 +201,7 @@ $('#humidity-spec').change(function() {
     var rh1 = parseFloat($('#rh1').val());
     var rh2 = parseFloat($('#rh2').val());
     var rh3 = parseFloat($('#rh3').val());
-    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh1 = FtoC(rh1), rh2 = FtoC(rh2), rh3 = FtoC(rh3);
+    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh1 = util.FtoC(rh1), rh2 = util.FtoC(rh2), rh3 = util.FtoC(rh3);
     if (window.humUnit == 'vappress') if (!isCelsius) rh1 *= 2953, rh2 *= 2953, rh3 *= 2953;
     else rh1 *= 1000, rh2 *= 1000, rh3 *= 1000;
 
@@ -223,9 +223,9 @@ $('#humidity-spec').change(function() {
 			$('#rh3').val(psy.convert(rh3, ta3, window.humUnit, 'dewpoint'));
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;C');
         } else {
-            $('#rh1').val(CtoF(psy.convert(rh1, ta1, window.humUnit, 'dewpoint')));
-			$('#rh2').val(CtoF(psy.convert(rh2, ta2, window.humUnit, 'dewpoint')));
-			$('#rh3').val(CtoF(psy.convert(rh3, ta3, window.humUnit, 'dewpoint')));
+            $('#rh1').val(util.CtoF(psy.convert(rh1, ta1, window.humUnit, 'dewpoint')));
+			$('#rh2').val(util.CtoF(psy.convert(rh2, ta2, window.humUnit, 'dewpoint')));
+			$('#rh3').val(util.CtoF(psy.convert(rh3, ta3, window.humUnit, 'dewpoint')));
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;F');
         }
         $('#rh1, #rh2, #rh3').spinner({
@@ -241,9 +241,9 @@ $('#humidity-spec').change(function() {
 			$('#rh3').val(psy.convert(rh3, ta3, window.humUnit, 'wetbulb'));
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;C');
         } else {
-            $('#rh1').val(CtoF(psy.convert(rh1, ta1, window.humUnit, 'wetbulb')));
-			$('#rh2').val(CtoF(psy.convert(rh2, ta2, window.humUnit, 'wetbulb')));
-            $('#rh3').val(CtoF(psy.convert(rh3, ta3, window.humUnit, 'wetbulb')));
+            $('#rh1').val(util.CtoF(psy.convert(rh1, ta1, window.humUnit, 'wetbulb')));
+			$('#rh2').val(util.CtoF(psy.convert(rh2, ta2, window.humUnit, 'wetbulb')));
+            $('#rh3').val(util.CtoF(psy.convert(rh3, ta3, window.humUnit, 'wetbulb')));
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;F');
         }
         $('#rh1, #rh2, #rh3').spinner({
@@ -375,14 +375,6 @@ $('#specPressure').click(function() {
         }
     }
 
-function CtoF(x) {
-    return x * 9 / 5 + 32;
-}
-
-function FtoC(x) {
-    return (x - 32) * 5 / 9;
-}
-
 function toggleUnits() {
     var v, v2, v3, el;
     var hs = $('#humidity-spec').val();
@@ -392,7 +384,7 @@ function toggleUnits() {
             $(this).html(' &deg;C');
         });
         $('#ta1, #tr1, #ta2, #tr2, #ta3, #tr3').each(function() {
-            v = FtoC($(this).val());
+            v = util.FtoC($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit1, #vel-unit2, #vel-unit3').html(' m/s');
@@ -419,9 +411,9 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;C');
-            v = (FtoC($('#rh1').val()));
-			v2 = (FtoC($('#rh2').val()));
-			v3 = (FtoC($('#rh3').val()));
+            v = (util.FtoC($('#rh1').val()));
+			v2 = (util.FtoC($('#rh2').val()));
+			v3 = (util.FtoC($('#rh3').val()));
             $('#rh1').val(v.toFixed(1));
             $('#rh2').val(v2.toFixed(1));
             $('#rh3').val(v3.toFixed(1));
@@ -439,7 +431,7 @@ function toggleUnits() {
             $(this).html(' &deg;F');
         });
         $('#ta1, #tr1, #ta2, #tr2, #ta3, #tr3').each(function() {
-            v = CtoF($(this).val());
+            v = util.CtoF($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit1, #vel-unit2, #vel-unit3').html(' fpm');
@@ -466,9 +458,9 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;F');
-			v = (CtoF($('#rh1').val()));
-			v2 = (CtoF($('#rh2').val()));
-			v3 = (CtoF($('#rh3').val()));
+			v = (util.CtoF($('#rh1').val()));
+			v2 = (util.CtoF($('#rh2').val()));
+			v3 = (util.CtoF($('#rh3').val()));
             $('#rh1').val(v.toFixed(1));
             $('#rh2').val(v2.toFixed(1));
             $('#rh3').val(v3.toFixed(1));
@@ -498,10 +490,10 @@ function update(i) {
     d.wme = 0;
 
     if (!isCelsius) {
-        d.ta = FtoC(d.ta);
-        d.tr = FtoC(d.tr);
+        d.ta = util.FtoC(d.ta);
+        d.tr = util.FtoC(d.tr);
         d.vel /= 196.9;
-        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = FtoC(d.rh);
+        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = util.FtoC(d.rh);
         else if (window.humUnit == 'vappress') d.rh *= 2953;
     } else {
         if (window.humUnit == 'vappress') d.rh *= 1000;
@@ -539,8 +531,8 @@ function renderPmvResults(r, i) {
 function renderPmvElevResults(r, i) {
     renderPmvResults(r, i);
     if (!isCelsius) {
-        r.ta_adj = CtoF(r.ta_adj);
-        r.cooling_effect = CtoF(r.cooling_effect) - 32;
+        r.ta_adj = util.CtoF(r.ta_adj);
+        r.cooling_effect = util.CtoF(r.cooling_effect) - 32;
     }
     $('#ta-still'+i).html(r.ta_adj.toFixed(1));
     $('#cooling-effect'+i).html(r.cooling_effect.toFixed(1));
