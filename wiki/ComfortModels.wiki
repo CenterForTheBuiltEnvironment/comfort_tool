@@ -6,6 +6,7 @@ This describes comfort model API, consisting of the functions of the `comf` obje
 
 {{{
 <script type="text/javascript" src="/static/js/util.js"></script>
+<script type="text/javascript" src="/static/js/psychrometrics.js"></script>
 <script type="text/javascript" src="/static/js/comfortmodels.js"></script>
 }}}
 
