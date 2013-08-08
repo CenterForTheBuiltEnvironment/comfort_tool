@@ -727,14 +727,6 @@ $("#chartSelect").change(function(){
     update();
 });
 
-function util.CtoF(x) {
-    return x * 9 / 5 + 32;
-}
-
-function util.FtoC(x) {
-    return (x - 32) * 5 / 9;
-}
-
 function toggleUnits() {
     var v, el;
     var hs = $('#humidity-spec').val();
