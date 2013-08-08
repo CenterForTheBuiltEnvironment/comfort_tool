@@ -283,14 +283,14 @@ var pc = new function() {
 
         d3.select("#db-axis-C")
             .append("text")
-            .text("Drybulb Temperature [°C]")
+            .text("Dry-bulb Temperature [°C]")
             .attr("class", "db-unit").attr("id", "db-axis-C-label")
             .attr("x", (pc.width / 2) - 1.9 * pc.margin)
             .attr("y", pc.rbmargin / 1.3)
 
         d3.select("#db-axis-F")
             .append("text")
-            .text("Drybulb Temperature [°F]")
+            .text("Dry-bulb Temperature [°F]")
             .attr("class", "db-unit").attr("id", "db-axis-F-label")
             .attr("x", (pc.width / 2) - 1.9 * pc.margin)
             .attr("y", pc.rbmargin / 1.3)
