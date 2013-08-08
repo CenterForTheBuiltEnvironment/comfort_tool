@@ -424,7 +424,7 @@ $(function() {
     $('#ta, #tr, #trm').spinner({
         step: 0.1,
         min: 0,
-        max: 40,
+        max: 120,
         numberFormat: "n"
     });
 
@@ -577,7 +577,7 @@ $('#vel_a').focusout(function() {
     update();
     updateBounds();
 });
-$('#vel-box').click(function() {
+$('#vel-a-box').click(function() {
     update();
     updateBounds();
 });
@@ -728,7 +728,7 @@ $("#chartSelect").change(function(){
 });
 
 function toggleUnits() {
-    var v, el;
+    var v, v_a, el;
     var hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
     if (isCelsius) {
@@ -739,9 +739,16 @@ function toggleUnits() {
             v = util.FtoC($(this).val());
             $(this).val(v.toFixed(1));
         });
-        $('#vel-unit').html(' m/s');
+        $('#vel-unit, #vel-a-unit').html(' m/s');
         v = $('#vel').val();
         $('#vel').val(v / 196.9).spinner({
+            step: 0.01,
+            min: 0,
+            max: 3,
+            numberFormat: 'n'
+        });
+		v_a = $('#vel_a').val();
+        $('#vel_a').val(v_a / 196.9).spinner({
             step: 0.01,
             min: 0,
             max: 3,
@@ -767,6 +774,13 @@ function toggleUnits() {
         $('#vel-unit, #vel-a-unit').html(' fpm');
         v = $('#vel').val();
         $('#vel').val(v * 196.9).spinner({
+            step: 1,
+            min: 0,
+            max: 300,
+            numberFormat: 'n'
+        });
+	    v_a = $('#vel_a').val();
+        $('#vel_a').val(v_a * 196.9).spinner({
             step: 1,
             min: 0,
             max: 300,
@@ -825,6 +839,7 @@ function update() {
         d.tr = util.FtoC(d.tr);
         d.trm = util.FtoC(d.trm);
         d.vel /= 196.9;
+        d.vel_a /= 196.9;
         if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = util.FtoC(d.rh);
         else if (window.humUnit == 'vappress') d.rh *= 2953;
     } else {
