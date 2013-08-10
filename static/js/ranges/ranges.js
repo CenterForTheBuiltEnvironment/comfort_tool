@@ -129,20 +129,19 @@ $(function() {
     $('select#step-select-tr, select#step-select-vel, select#step-select-met, select#step-select-clo').selectmenu({
         width: 90
     });
-
-	$("#tr-range-button").click(function(){
+	
+	$('#slider-range-tr').click(function() {
 		drawTRrange();
 	})
-	$("#vel-range-button").click(function(){
+	$("#slider-range-vel").click(function(){
 		drawVELrange();
 	})
-	$("#met-range-button").click(function(){
+	$("#slider-range-met").click(function(){
 		drawMETrange();
 	})
-	$("#clo-range-button").click(function(){
-		drawCLOrange();
+	$("#slider-range-clo").click(function(){
+       drawCLOrange();
 	})
-	
 	$('#slider-range-tr').focusout(function() {
 		drawTRrange();
 	})
@@ -166,6 +165,19 @@ $(function() {
 		drawMETrange();
 	})
 	$('select#step-select-clo').change(function(){
+		drawCLOrange();
+	})
+	
+	$('#tr1, #tr2').focusout(function(){
+		drawTRrange();
+	})
+	$('#vel1, #vel2').focusout(function(){
+		drawVELrange();
+	})
+	$('#met1, #met2').focusout(function(){
+		drawMETrange();
+	})
+	$('#clo1, #clo2').focusout(function(){
 		drawCLOrange();
 	})
 
