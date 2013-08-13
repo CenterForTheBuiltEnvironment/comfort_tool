@@ -1,0 +1,159 @@
+#header {width: 800px;
+		 align: center;
+	     margin: auto;
+	     font-family:"Arial", Helvetica, sans-serif;
+	     font-size: 16px;
+	     color: Navy;
+	    }
+
+
+#all_content{margin:0 auto;
+    	width:980px;
+		font-family: 'Lato', sans-serif;
+		font-color: #000000;
+		font-size:14px;
+		clear: both;}
+
+#left_content{width:190px;
+			height: 500px;
+			top:0;
+			left:0px;
+			float: left;
+
+			border-radius:5px;}		
+
+#right_content{width:765px;
+			height: 500px;
+			top:0;
+			float: right;
+            padding-left: 2px;
+			border:1px solid #cccccc;
+			border-radius:5px;}		
+			
+.tick {
+    fill:none;
+    stroke:grey;
+    opacity: .5;
+    stroke-dasharray: 7,7;
+}
+path {
+    fill:none;
+    stroke-width:1px;
+}
+.x_axis{
+	font-size:10pt;
+    font-family:sans-serif;
+    stroke: black;
+}
+.hl_axis{
+	font-size:10pt;
+    font-family:sans-serif;
+    stroke: black;
+}
+.axis path{
+    fill:none;
+    stroke: black;
+}
+.axis-label {
+    font-size:10pt;
+    font-family:sans-serif;
+    fill: red;
+}
+.x_axis text {
+    font-size:10pt;
+    font-family:sans-serif;
+    stroke:none;
+    fill:black;
+}
+.hl_axis text {
+    font-size:10pt;
+    font-family:sans-serif;
+    stroke:none;
+    fill:black;
+}
+
+input.inputbox{
+	font-size:11px;
+	height:15px;
+	width:30px;
+	padding-left:12px;
+	}
+
+input.weather-input{
+	font-size:11px;
+	height:15px;
+	width:20px;
+	padding-left:12px;
+	}
+
+#buttons{
+	width: 60px;
+	height: 25px;
+	align: center;
+}
+
+.longbutton{
+	width: 80px;
+	height: 20px;
+	align: center;
+}
+
+#slider-range-tr{
+	width: 100px;
+	height: 5px;
+	left: 70px;
+}
+#slider-range-vel{
+	width: 100px;
+	height: 5px;
+	left: 70px;
+}
+#slider-range-met{
+	width: 100px;
+	height: 5px;
+	left: 70px;
+}
+#slider-range-clo{
+	width: 100px;
+	height: 5px;
+	left: 70px;
+}
+
+.ref-line{
+	stroke-width:1.5px;
+	stroke-dasharray: 7,7;
+}
+#met-line{
+	stroke-width:2px;
+	stroke-dasharray: 7,7;
+}
+
+rect.chartbg{
+  fill: rgb(220,220,220);
+  fill-opacity: 0.4;
+}
+
+/*
+ * jQuery UI Slider 1.9m6
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Slider#theming
+ */
+.ui-slider { position: relative; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: .1em; height: .8em; cursor: default; }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+.ui-slider-horizontal { height: .8em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.1em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+.ui-slider-vertical { width: .8em; height: 100px; }
+.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }/*

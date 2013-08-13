@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Body Heat Loss chart</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="static/js/lib/d3.js"></script>
+    <script type="text/javascript" src="static/js/psychrometrics.js"></script>
+    <script type="text/javascript" src="static/js/comfortmodels.js"></script>
+    
+	<script type="text/javascript" src="static/js/lib/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/heat-loss.css" />
+</head>
+
+<body>
+	
+<div id="all_content">
+	
+  <div id='header'>
+		<h1 style="text-align: center;">Heat loss vs air temperature</h1>	
+  </div><!--end div id="header""-->
+
+    <div id="left_content" style="background-color: #DCE7F7;">
+	
+	
+	&nbsp;<div style="margin-left: 10px"> Select method:
+	<select id='model-type' style="float:right; margin-right:14px;margin-bottom:5px; margin-top:0px;">
+       <option value='PMV'>PMV</option>
+       <option value='SET'>SET</option>
+    </select>
+    </div>
+	
+	
+	<div id="ta-div" class='in' style="display:none;">
+	 &nbsp; Air temeperature <br> &nbsp; <input class="inputbox" value=21 id="ta"/>  <span>°C</span>
+	</div>
+        <br>
+        <br>
+
+	<div id="rh-div" class='in'>
+	&nbsp;  Relative humidity <br> &nbsp; <input class="inputbox" value=50 id="rh"/> <span>%</span>
+	</div>
+	<br>
+	<br>
+	
+	<div id="tr-div" class='in'>
+	&nbsp; Mean radiant temperature <br> &nbsp; <input class="inputbox" value=25 id="tr"/>  <span>°C</span>
+	</div>
+		  <br>
+		  <br>
+		
+	 <div id="vel-div" class='in'>     
+	 &nbsp; Air speed <br> &nbsp; <input class="inputbox" value=0.15 id="vel"/>  <span>m/s</span>
+	</div>
+		  <br>
+		<br>
+
+    <div id="met-div" class='in'>
+	 &nbsp; Metabolic activity <br> &nbsp; <input class="inputbox" value=1.2 id="met" />  <span>met</span>
+	</div>
+		  <br>
+		  <br>
+	
+	<div id="clo-div" class='in'>
+	&nbsp;  Clothing level <br> &nbsp; <input class="inputbox" value=1.0 id="clo" /> <span>clo</span>
+	</div>
+		  <br>
+		  <br>
+	
+	<div id="components-button" style='width:170px; margin-left:5px;'>	
+	<input type='checkbox' id='show-components'/><label for='show-components' style='font-size:12px;'>Show all components</label>
+	</div>
+	<br>
+	<div id="metline-button" style='width:170px; margin-left:5px;'>	
+	<input type='checkbox' id='show-metline'/><label for='show-metline' style='font-size:12px;'>Show metabolic rate</label>
+	</div>
+	
+    </div><!--id="left_content"-->
+
+	<div id="right_content" >				
+     <!--here goes the chart-->
+	</div>
+		
+</div> <!--id="all_content"-->	
+	
+<script>
+
+//     ---------------     set up     ---------------
+
+var d = { ta: '', tr: '', vel: '', rh: '', met: '', clo: '', wme: '0.0' };
+
+var margin = {top: 20, right: 115, bottom: 30, left: 70},
+    width = 760 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var ta_min = 10;
+var ta_max = 40;
+
+var x_extent = [ta_min, ta_max];
+var x_scale = d3.scale.linear()
+				  .range([margin.left, width])
+				  .domain(x_extent);
+
+var hl_min = 0;
+var hl_max = 150;
+var hl_extent = [hl_min,hl_max];
+var hl_scale = d3.scale.linear()
+				 .range([height, margin.top])
+  				 .domain(hl_extent);
+
+var x_axis = d3.svg.axis().scale(x_scale);
+
+var hl_axis = d3.svg.axis()
+               .scale(hl_scale)
+			   .orient('left');
+			
+// defining a poliline
+  pline = d3.svg.line().interpolate("cardinal")
+            .x(function(d){return x_scale(d.ta)})
+            .y(function(d){return hl_scale(d.hl)})
+
+  area = d3.svg.area()
+			   .x(function(d){return x_scale(d.ta)})
+			   .y0(function(d){return hl_scale(d.hl0)})
+			   .y1(function(d){return hl_scale(d.hl0 + d.hl)})
+
+//utility
+d3.selection.prototype.moveToFront = function() {
+    return this.each(function() {
+      this.parentNode.appendChild(this);
+    });
+};
+
+// draw the thing
+d3.select('#right_content').append('svg')
+  .attr('class','hl-chart')
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+
+var svg = d3.select('svg') //is a shortcut
+
+// grey background
+svg.append('rect').attr('class', 'chartbg')
+				  .attr('x', margin.left).attr('y', margin.top)
+				  .attr('width', width-margin.left).attr('height', height-margin.top)
+				  .style('opacity', 0.1)
+				  .on('mousemove', mousemove)
+
+// ClipPath hides anything that goes outside the chart area
+   svg.append("defs")
+      .append("clipPath")
+        .attr("id", "clip")
+      .append("rect")
+        .attr("x", margin.left).attr("y", margin.top)
+        .attr("width", width-margin.left).attr("height", height-margin.top)
+
+// draw the axes ......................
+  
+      svg.append("g")
+	      .attr("class", "x_axis").attr('id', 'x_axis')
+	      .attr("transform", "translate(0," + height + ")")
+	      .call(x_axis.tickSubdivide(1).tickSize(-(height-margin.top),0).tickPadding(10))
+
+	
+	  svg.append("g")
+	      .attr("class", "hl_axis").attr('id', 'hl_axis')
+	      .attr("transform", "translate(" + margin.left + ",0)")
+	      .call(hl_axis.tickSubdivide(0).tickSize(-(width-margin.right+45),0).tickPadding(5))
+
+	
+	  d3.select('#x_axis').append('text')
+	    .text('Ambient air temperature (°C)').style('fill', 'black')
+	    .attr('id','x-axis-label')
+		.attr("x", width/2 - 42)
+        .attr("y", 40);
+
+      d3.select('#hl_axis').append('text')
+		.text('Body heat loss [W / m')
+		.attr('id','hl-axis-label')
+		.attr("transform", "rotate (-90, -43, 0) translate(-320,-5)");
+	  d3.select('#hl_axis').append('text')
+		.text('2').style("baseline-shift", "super").attr('font-size','9')
+		.attr("transform", "rotate (-90, -43, 0) translate(-190,0)");
+	  d3.select('#hl_axis').append('text')
+		.text(']')
+		.attr("transform", "rotate (-90, -43, 0) translate(-182,-5)");
+		
+		
+		// metabolic rate line
+			 svg.append("path")
+		        .attr("d", pline([{"ta":ta_min , "hl": 1.2*58.15},{"ta":ta_max , "hl": 1.2*58.15}]))
+		        .attr("clip-path", "url(#clip)")
+		        .attr("id", "met-line")
+		        .style("stroke", "black")
+		        .attr('opacity', '0.0')
+		        .on('mousemove', mousemove)
+
+
+      Area_colors = ["black", "DarkSalmon", "DarkOrchid", "DodgerBlue", "DarkOrange", "DarkRed", "DarkGoldenRod", "DarkBlue", "DarkGreen"];
+      color_codes = ["#000000","#E9967A", "#9932CC", "#1E90FF", "#FF8C00", "#8B0000", "#B8860B", "#00008B", "#006400"];
+      Area_names =  ["Total", "Through skin", "Sweating", "Latent resp.", "Dry resp.", "Radiation", "Convection", "Dry heat loss", "Evaporation"];
+
+var drawChart = function(model){
+	// hl1 = heat loss diff. through skin ----- hl2 = heat loss by sweating -----  hl3 = latent respiration heat loss
+	// hl4 = dry respiration heat loss ------- hl5 = heat loss by radiation  ------  hl6 = heat loss by convection
+	// 7: hl_dry = dry heat loss ------------ 8: hl_evap = evaporative heat loss
+
+  if(model=="PMV"){
+    // find and draw the Areas (h goes from 0 to 8)
+    var drawArea = function(h) {
+	      boundary = [];
+	      tot_line = [];
+			
+	      for (var t = ta_min; t <= ta_max; t+=1){		
+		       comf.pmv(t, d.tr, d.vel, d.rh, d.met, d.clo, 0.0);
+			   var hl_tot = heatloss.hl_array[0];
+			   var hl = heatloss.hl_array[h];	
+			   var hl0 = 0;
+			   if(h<7){
+			     for(i=1; i<h; i++){
+				    comf.pmv(t, d.tr, d.vel, d.rh, d.met, d.clo, 0.0);
+				    var hlx = heatloss.hl_array[i];
+				    if (hlx < 0) {hlx=0};
+					var hl0 = hl0 + hlx;
+			     }
+			   }else if (h==8){
+				    comf.pmv(t, d.tr, d.vel, d.rh, d.met, d.clo, 0.0);
+				    var hlx = heatloss.hl_array[7];
+				    if (hlx < 0) {hlx=0};
+				  	var hl0 = hl0 + hlx;
+			   }
+			
+			   if (hl < 0) {hl=0}
+			
+			   boundary.push( { "ta": t , "hl": hl, "hl0": hl0 } )
+			
+			   tot_line.push( { "ta": t , "hl": hl_tot } )
+	      }
+	
+		 svg.append("path")
+	        .attr("d", area(boundary))
+	        .attr("clip-path", "url(#clip)")
+	        .attr("class", "hl-Area")   
+	        .attr("id", "hl-Area-" + h )
+	        .style("fill", Area_colors[h]).attr('opacity', '.6')
+	        .on('mousemove', mousemove)
+		 svg.append("path")
+	        .attr("d", pline(tot_line))
+	        .attr("clip-path", "url(#clip)")
+	        .attr("class", "tot-line")
+	        .style("stroke", "black").attr('opacity', '.6')
+	        .on('mousemove', mousemove)
+    }
+       if (!isComponents) {
+          drawArea(7);
+          drawArea(8);
+       } else {
+		  drawComponents();
+       }
+
+  } else if (model=="SET"){
+	
+	   // find and draw the Areas (h goes from 0 to 2)
+	   var drawArea = function(h) {
+	       SETboundary = [];
+	       SETtot_line = []; 
+
+	      for (var t = ta_min; t <= ta_max; t+=1){
+		      comf.pierceSET(t, d.tr, d.vel, d.rh, d.met, d.clo, 0.0)
+	          var hl_tot = heatloss.SET_hl_array[0];
+	          var hl = heatloss.SET_hl_array[h];
+
+	          var hl0 = 0;
+	          if (h==2){
+		           var hl0 = hl0 + heatloss.SET_hl_array[1];
+	          }
+
+			   SETboundary.push( { "ta": t , "hl": hl, "hl0": hl0 } )
+			
+			   SETtot_line.push( { "ta": t , "hl": hl_tot } )
+          }
+		 svg.append("path")
+	        .attr("d", area(SETboundary))
+	        .attr("clip-path", "url(#clip)")
+	        .attr("class", "hl-Area")   
+	        .attr("id", "hl-Area-" + h+6 )
+	        .style("fill", Area_colors[h+6]).attr('opacity', '.6')
+	        .on('mousemove', mousemove)
+		 svg.append("path")
+	        .attr("d", pline(SETtot_line))
+	        .attr("clip-path", "url(#clip)")
+	        .attr("class", "tot-line")
+	        .style("stroke", "black").attr('opacity', '.6')
+	        .on('mousemove', mousemove)
+       }
+	   drawArea(1);
+	   drawArea(2);
+  }
+
+// Legend:
+	svg.append("text").text("Heat Losses (W/m2):").attr("class", "hl-label")
+	              	  .attr("x", width+25).attr("y", margin.top + 30)
+
+    svg.append("circle").attr("class", "hl-color").attr("id", "legend7")
+		 		    	.attr("fill", Area_colors[7]).attr('opacity', '.6')
+  	     				.attr("cx", width + 28)
+	     				.attr("cy", 75)
+	svg.append("text").text(Area_names[7])
+				  	  .attr("class", "hl-label").attr('opacity', '.6')
+				  	  .attr("fill", Area_colors[7])
+	                  .attr("x", width+40).attr("y", 80)
+	svg.append("text").attr("class", "ref-perc").attr('opacity', '.6')
+					  .attr("id", "ref-perc-7")
+				      .attr("fill", Area_colors[7])
+					  .attr("x", width+140).attr("y", 80)
+	
+	svg.append("circle").attr("class", "hl-color").attr("id", "legend8")
+		 				.attr("fill", Area_colors[8]).attr('opacity', '.6')
+  	     				.attr("cx", width + 28)
+	     				.attr("cy", 95)
+	svg.append("text").text(Area_names[8])
+					  .attr("class", "hl-label").attr('opacity', '.6')
+				  	  .attr("fill", Area_colors[8])
+	            	  .attr("x", width+40).attr("y", 100)
+	svg.append("text").attr("class", "ref-perc").attr('opacity', '.6')
+					  .attr("id", "ref-perc-8")
+				      .attr("fill", Area_colors[8])
+					  .attr("x", width+140).attr("y", 100)
+					
+	svg.append("text").attr("class", "ref-perc").attr('opacity', '.6')
+					  .attr("id", "ref-temp")
+					  .attr("y", height-2)
+
+drawComponents = function(){
+	
+	for (i=1; i < 7; i++){
+		
+		      svg.append("circle")
+				 .attr("class", "hl-color").attr("id", "legend" + i)
+				 .attr("fill", Area_colors[i])
+		  	     .attr("cx", width + 28)
+			     .attr("cy", 125 + i*20)
+	          svg.append("text")
+				 .text(Area_names[i])
+				 .attr("class", "hl-label")
+		    	 .attr("fill", Area_colors[i])
+			     .attr("x", width+40).attr("y", 130 + i*20)
+			  svg.append("text")
+				 .attr("class", "ref-perc").attr('opacity', '.6')
+				 .attr("id", "ref-perc-"+i)
+				 .attr("fill", Area_colors[i])
+				 .attr("x", width+140).attr("y", 130 + i*20)
+				
+		      drawArea(i);
+	}
+	
+	  svg.append("text")
+		 .text("Components (W/m2):")
+		 .attr("class", "hl-label")
+	     .attr("x", width+25).attr("y", 130)
+	
+	d3.selectAll('.hl-color').attr('opacity', '.6')
+	d3.selectAll('.hl-label').attr('opacity', '.6')
+
+}
+	
+    $('.tick').css('opacity', '.5');
+
+svg.append("path")
+   .attr('class', 'ref-line')
+   .attr("clip-path", "url(#clip)")
+   .style("stroke", "black").attr('opacity','.6')
+
+}
+
+
+ function setInputs(){
+	  d.ta = parseFloat(document.getElementById("ta").value)
+ 	  d.tr = parseFloat(document.getElementById("tr").value)
+    d.vel = parseFloat(document.getElementById("vel").value)
+	  d.rh = parseFloat(document.getElementById("rh").value)
+	  d.met = parseFloat(document.getElementById("met").value)
+	  d.clo = parseFloat(document.getElementById("clo").value)
+ }
+
+ function update(){
+          setInputs();
+          redraw(model);
+ }
+ 
+ function redraw(model){
+	    d3.selectAll(".hl-Area").remove();
+	    d3.selectAll(".hl-color").remove();
+	    d3.selectAll(".hl-label").remove();
+	    d3.selectAll(".ref-perc").remove();
+	    d3.selectAll(".tot-line").remove();
+	    d3.select(".ref-line").remove();
+	    if(model=="PMV"){$('#components-button').show();}
+	    else {$('#components-button').hide();}
+		setInputs();
+		d3.select('#met-line').attr("d", pline([{"ta":ta_min , "hl": d.met*58.15},{"ta":ta_max , "hl": d.met*58.15}]))
+      drawChart(model);
+ }
+
+
+function mousemove() {
+		var mouseX = x_scale.invert(d3.mouse(this)[0])
+		
+		svg.select("#ref-temp").text(mouseX.toFixed(1))
+							   .attr("x", d3.mouse(this)[0] + 3)
+		
+		if(model == "PMV"){
+			comf.pmv(mouseX, d.tr, d.vel, d.rh, d.met, d.clo, 0.0);
+		    var hl_tot = heatloss.hl_array[0];
+			var hl7 = heatloss.hl_array[7];
+			var hl8 = heatloss.hl_array[8];
+		} else {
+			comf.pierceSET(mouseX, d.tr, d.vel, d.rh, d.met, d.clo, 0.0)
+			var hl_tot = heatloss.SET_hl_array[0];
+			var hl7 = heatloss.SET_hl_array[1];
+			var hl8 = heatloss.SET_hl_array[2];
+		}
+		
+		var templine = [{"ta": mouseX , "hl": 0}, {"ta": mouseX , "hl": hl_tot}];
+		svg.select("path.ref-line")
+		   .attr('d', pline(templine))
+		svg.select("#ref-perc-7").text(hl7.toFixed(0))
+		svg.select("#ref-perc-8").text(hl8.toFixed(0))
+		
+		var r_max = 12;
+		svg.select("#legend7").attr("r", Math.min(Math.abs(hl7/10), r_max) )
+		svg.select("#legend8").attr("r", Math.min(Math.abs(hl8/10), r_max) )
+		
+		if(isComponents){
+			comf.pmv(mouseX, d.tr, d.vel, d.rh, d.met, d.clo, 0.0)
+			var hl_tot = heatloss.hl_array[0];
+			var hl1 = heatloss.hl_array[1];
+			var hl2 = heatloss.hl_array[2];
+			var hl3 = heatloss.hl_array[3];
+			var hl4 = heatloss.hl_array[4];
+			var hl5 = heatloss.hl_array[5];
+			var hl6 = heatloss.hl_array[6];	
+			svg.select("#ref-perc-1").text(hl1.toFixed(1))
+			svg.select("#ref-perc-2").text(hl2.toFixed(1))
+			svg.select("#ref-perc-3").text(hl3.toFixed(1))
+			svg.select("#ref-perc-4").text(hl4.toFixed(1))
+			svg.select("#ref-perc-5").text(hl5.toFixed(1))
+			svg.select("#ref-perc-6").text(hl6.toFixed(1))	
+			
+			svg.select("#legend1").attr("r", Math.min(Math.abs(hl1)/5, r_max) )
+			svg.select("#legend2").attr("r", Math.min(Math.abs(hl2)/5, r_max) )
+			svg.select("#legend3").attr("r", Math.min(Math.abs(hl3)/5, r_max) )
+			svg.select("#legend4").attr("r", Math.min(Math.abs(hl4)/5, r_max) )
+			svg.select("#legend5").attr("r", Math.min(Math.abs(hl5)/5, r_max) )
+			svg.select("#legend6").attr("r", Math.min(Math.abs(hl6)/5, r_max) )	
+		}
+	}
+
+//----------------- jQuery etc ----------------------------
+
+
+  $(document).ready(function(){  
+    setInputs();
+    isComponents = false;
+    model = $('#model-type').val();
+    setTimeout(function(){drawChart(model)}, 200);
+  });
+
+	$(function(){
+		
+		$('#ta, #tr').spinner({
+	        step: 0.1,
+	        min: 0,
+	        max: 120,
+	        numberFormat: "n"
+	    });
+
+	    $('#vel').spinner({
+	        step: 0.01,
+	        min: 0,
+	        max: 5,
+	        numberFormat: "n"
+	    });
+
+	    $('#clo').spinner({
+	        step: 0.05,
+	        min: 0.0,
+	        max: 10,
+	        numberFormat: "n"
+	    });
+
+	    $('#met').spinner({
+	        step: 0.05,
+	        min: 0,
+	        max: 10,
+	        numberFormat: "n"
+	    });
+
+	    $('#rh').spinner({
+	        step: 1,
+	        min: 0,
+	        max: 100,
+	        numberFormat: "n"
+	    });
+	
+	
+		$('.in').click(function() {
+		    update();
+		});
+		$('.inputbox').focusout(function() {
+		    update();
+		});
+		
+		$('select#model-type').change(function(){
+			model = $('#model-type').val();
+			if (isComponents && model == "SET"){isComponents = false;
+												$('#show-components').prop('checked', false);
+				  								}
+			redraw(model);		
+		});
+		
+		$('#show-components').button({}).click(function(){
+			var $this = $(this);
+			if ($this.is(':checked')){
+				isComponents = true;
+			} else {
+                isComponents = false;
+			}
+			update();
+	    })
+	
+	    $('#show-metline').button({}).click(function(){
+			var $this = $(this);
+			if ($this.is(':checked')){
+				isMet = true;
+				d3.select('#met-line').attr('opacity', '0.6');
+			} else {
+				isMet = false;
+				d3.select('#met-line').attr('opacity', '0.0');
+			}
+	    })
+	
+	});
+	
+   </script>
+
+</body>
+</html>
