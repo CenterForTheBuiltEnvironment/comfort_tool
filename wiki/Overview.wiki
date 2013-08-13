@@ -33,14 +33,14 @@ The current features are:
   # *Mouse values*: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart
   # *Dynamic predictive clothing calculator*
   # *Comfort Ranges*: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range
-  # *Comparison of comfort conditions*: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions.
+  # *Comparison of comfort conditions*: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions
+  # *EN 15251 compliance*: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.
 
 == Future features ==
 
-  # EN 15251 and ISO 7730 (Alberto)
   # An experimental mean radiant temperature calculation tool using graphical methods. (Tyler)
-  # Visualization of annual data using the adaptive comfort model. (Alberto)
-  # Heat loss vs air temperature (Alberto)
+  # Heat loss vs air temperature chart: color coded areas display the different components of heat loss using both the PMV and the SET models. The representation is updated by changing the RH, mean radiant temperature, air speed, met and clo values.
+  # Visualization of annual data using the adaptive comfort model. The goal is to upload a weather file and display the hourly data on a time-temperature chart throughout the year, to see the distribution of the adaptive comfort zone compared to the outdoor conditions. (the code already exists, but the upload has to be implemented)
   # Develop a chart that shows air speed (x-axis) vs cooling effect (y-axis) as a function of Tair with MRT=Tair only for v=0.15m/s. PMV should be an input and the default should be 0.5. The set of lines should change with met, clo, and RH. 
   # Interoperability and visualizations of data from external sources: a user may be interested in visualizing simulated or empirical data within the psychrometric chart. This will allow a designer to explore conditions that will provide a high level of comfort. The prevailing outdoor air temperature may also be calculated from a weather file. (Tyler)
   # Upload a weather file from internet and calculate:
