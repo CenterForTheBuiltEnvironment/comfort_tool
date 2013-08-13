@@ -179,10 +179,10 @@ function updateLocalDisc() {
     $("#draft-disc").html(msg)
 
     if (asym_res[0] || vert_res[0] || floor_res[0] || draft_res[0]) {
-        msg = "&#10008; &nbsp; Does not comply with EN-15251"
+        msg = "&#10008; &nbsp; Does not comply with ISO-7730"
         $("#all-disc").css('color', 'red')
     } else {
-        msg = "&#10004; &nbsp; Complies with EN-15251"
+        msg = "&#10004; &nbsp; Complies with ISO-7730"
         $("#all-disc").css('color', 'green')
     }
     $("#all-disc").html(msg)
