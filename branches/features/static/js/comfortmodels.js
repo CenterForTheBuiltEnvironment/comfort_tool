@@ -4,6 +4,8 @@ var max = Math.max;
 var abs = Math.abs;
 var sqrt = Math.sqrt;
 
+var heatloss = {};
+
 var comf = comf || {}
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -94,7 +96,7 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
 }
 
 comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
-    // returns [pmv, ppd]
+    // returns pmv, ppd and heat losses
     // ta, air temperature (�C)
     // tr, mean radiant temperature (�C)
     // vel, relative air velocity (m/s)
@@ -105,7 +107,7 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
 
     var pa, icl, m, w, mw, fcl, hcf, taa, tra, tcla, p1, p2, p3, p4,
     p5, xn, xf, eps, hcn, hc, tcl, hl1, hl2, hl3, hl4, hl5, hl6,
-    ts, pmv, ppd, n;
+    hl_tot, hl_dry, hl_evap, hl_array, ts, pmv, ppd, n;
 
     pa = rh * 10 * exp(16.6536 - 4030.183 / (ta + 235));
 
@@ -164,6 +166,13 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     ts = 0.303 * exp(-0.036 * m) + 0.028;
     pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6);
     ppd = 100.0 - 95.0 * exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0));
+
+    hl_tot = hl1 + hl2 + hl3 + hl4 + hl5 + hl6;
+    hl_dry = hl5 + hl6;               // dry heat loss
+    hl_evap = hl1 + hl2 + hl3 + hl4; //evaporative heat loss
+    hl_array = [hl_tot, hl1, hl2, hl3, hl4, hl5, hl6, hl_dry, hl_evap];
+
+    heatloss.hl_array = hl_array; // assigns the heat loss components to the global object
 
     var r = {}
     r.pmv = pmv;
@@ -370,6 +379,10 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
         dx = X - X_OLD;
         X_OLD = X;
     }
+
+	SET_hl_array = [HSK, DRY, ESK];
+	heatloss.SET_hl_array = SET_hl_array;
+
     return X;
 }
 

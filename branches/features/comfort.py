@@ -31,7 +31,11 @@ def upload_file():
 
 @app.route('/simulation')
 def simulation():
-    return render_template('simulation.html')    
+    return render_template('simulation.html')
+
+@app.route('/heat-loss')
+def heat_loss():
+    return render_template('heat-loss.html')
 
 @app.route('/compare')
 def compare():
