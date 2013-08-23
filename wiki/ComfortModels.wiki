@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This describes comfort model API, consisting of the functions of the `comf` object. To use this, simply include `util.js` and `comfortmodels.js` as scripts:
+This describes comfort model API, consisting of the functions of the `comf` object. To use this, simply include `util.js`, `psychrometrics.js`, and `comfortmodels.js` as scripts:
 
 {{{
 <script type="text/javascript" src="/static/js/util.js"></script>
