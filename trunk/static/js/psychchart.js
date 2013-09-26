@@ -70,24 +70,7 @@ var pc = new function() {
             .attr("height", pc.height - pc.margin - pc.rbmargin - 20)
             .attr("transform", "translate(" + pc.margin + "," + pc.rbmargin + ")")
 
-        // dynamic way of drawing rh lines
-        for (var i=100; i>=10; i-=10){
-            RHline = []
-            for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
-                RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
-            }
-            if (i==100){
-                d3.select("svg").append("path")
-                    .attr("d", pc.pline(RHline))
-                    .attr("class", "rh100")
-                    .attr("clip-path", "url(#clip)")
-            } else {
-                d3.select("svg").append("path")
-                    .attr("d", pc.pline(RHline))
-                    .attr("class", "rhline")
-                    .attr("clip-path", "url(#clip)")
-            } 
-        }
+        pc.draw_rh_lines()
 
         // basic frame of the box
         pc.svg.append("svg:a")
@@ -420,7 +403,33 @@ var pc = new function() {
               .on("mousemove", pc.mousemove)
         }
     }
-   
+ 
+    this.remove_rh_lines = function(){
+        d3.selectAll(".rhline").remove()
+        d3.select(".rh100").remove()
+    }
+  
+    this.draw_rh_lines = function(){
+        // dynamic way of drawing rh lines
+        for (var i=100; i>=10; i-=10){
+            RHline = []
+            for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
+                RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
+            }
+            if (i==100){
+                d3.select("svg").append("path")
+                    .attr("d", pc.pline(RHline))
+                    .attr("class", "rh100")
+                    .attr("clip-path", "url(#clip)")
+            } else {
+                d3.select("svg").append("path")
+                    .attr("d", pc.pline(RHline))
+                    .attr("class", "rhline")
+                    .attr("clip-path", "url(#clip)")
+            } 
+        }
+    }
+ 
     this.redrawComfortRegion = function(data) {
           d3.select("path.comfortzone")
               .transition()
