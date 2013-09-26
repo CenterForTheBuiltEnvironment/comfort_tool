@@ -63,25 +63,8 @@ var pc = new function() {
                 .attr("height", pc.height - pc.margin - pc.rbmargin - 20)
                 .attr("transform", "translate(" + pc.margin + "," + pc.rbmargin + ")")
 
-     // dynamic way of drawing rh lines
-            for (var i=100; i>=10; i-=10){
-            		      RHline = []
-            		      for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
-            		          RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
-            		      }
-            		      if (i==100){
-            		        d3.select("svg").append("path")
-            		          .attr("d", pc.pline(RHline))
-            		          .attr("class", "rh100")
-            		          .attr("clip-path", "url(#clip)")
-            		      } else {
-            			    d3.select("svg").append("path")
-            		          .attr("d", pc.pline(RHline))
-            		          .attr("class", "rhline")
-            		          .attr("clip-path", "url(#clip)")
-            		      }
-            		    }
-      
+            pc.draw_rh_lines();
+                 
             // box with values changing with the mouse movement  ----------------------------
 
             // basic frame of the box:
@@ -323,6 +306,53 @@ var pc = new function() {
 		    pc.drawPsyRegion(psybound)
             pc.drawThings("1")
 
+        }
+
+        this.remove_rh_lines = function(){
+            d3.selectAll(".rhline").remove()
+            d3.select(".rh100").remove()
+        }
+  
+        this.draw_rh_lines = function(){
+            // dynamic way of drawing rh lines
+            for (var i=100; i>=10; i-=10){
+                RHline = []
+                for (var t = pc.db_min; t <= pc.db_max; t += 0.5){
+                    RHline.push({"db": t, "hr": pc.getHumRatio(t, i)})
+                }
+                if (i==100){
+                    d3.select("svg").append("path")
+                        .attr("d", pc.pline(RHline))
+                        .attr("class", "rh100")
+                        .attr("clip-path", "url(#clip)")
+                } else {
+                    d3.select("svg").append("path")
+                        .attr("d", pc.pline(RHline))
+                        .attr("class", "rhline")
+                        .attr("clip-path", "url(#clip)")
+                } 
+            }
+        }
+    
+        this.clearChart = function(){
+          d3.selectAll('circle')
+            .remove()
+
+          d3.selectAll('.comfortzone1').remove()
+          d3.selectAll('.comfortzone2').remove()
+          d3.selectAll('.comfortzone3').remove()
+        }
+
+
+        this.redraw_rh_lines = function(){
+            pc.remove_rh_lines()
+            pc.draw_rh_lines()
+            pc.clearChart()
+            
+            if ($("#inputs1").is(":checked")) pc.drawThings("1")
+            if ($("#inputs2").is(":checked")) pc.drawThings("2")
+            if ($("#inputs3").is(":checked")) pc.drawThings("3")
+            
         }
 
 		this.drawThings = function(i){

@@ -354,6 +354,7 @@ $('#specPressure').click(function() {
         customPressure = parseFloat(customPressure)
         if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
             psy.PROP.Patm = customPressure
+            pc.redraw_rh_lines()
             update("1");
 			update("2");
 			update("3");
