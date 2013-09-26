@@ -721,7 +721,9 @@ function drawCLOrange() {
 function setInputs() {
 	keys.forEach(function(element) {
         d_cache[element] = d[element];
-        d[element] = parseFloat(document.getElementById(element).value);
+        var e = document.getElementById(element).value
+        e = e.replace(/,/g, '.')
+        d[element] = parseFloat(e);
     });
     d.wme = 0;
 }
