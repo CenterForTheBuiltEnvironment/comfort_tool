@@ -429,7 +429,18 @@ var pc = new function() {
             } 
         }
     }
- 
+
+    this.redraw_rh_lines = function(){
+        pc.remove_rh_lines()
+        pc.draw_rh_lines()
+        pc.clearChart()
+        var json = [{ "db": d.ta,
+                      "hr": pc.getHumRatio(d.ta, d.rh) }];
+        var b = pc.findComfortBoundary(d, 0.5);
+        pc.drawComfortRegion(b);
+        pc.drawPoint(json);
+    }
+     
     this.redrawComfortRegion = function(data) {
           d3.select("path.comfortzone")
               .transition()

@@ -723,11 +723,12 @@ $('#specPressure').click(function() {
     var customPressure = prompt('Enter atmospheric pressure in Pascals');
     if (customPressure != '' && customPressure != null) {
         customPressure = parseFloat(customPressure)
-        if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
+        if (!isNaN(customPressure) && customPressure >= 60000 && customPressure <= 108000) {
             psy.PROP.Patm = customPressure
+            pc.redraw_rh_lines()
             update()
         } else {
-            window.alert('The entered atmospheric pressure is invalid.')
+            window.alert('The entered atmospheric pressure is invalid. It must be in the range of 60,000 to 108,000 pascals.')
         }
     }
 });

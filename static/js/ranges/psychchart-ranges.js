@@ -214,3 +214,18 @@ pc.removeRHcurve = function(){
 		d3.select("#outer-range").remove()
 		d3.select("#inner-range").remove()		
 }
+
+// override
+$(document).ready(function(){
+    pc.clearChart = function(){
+      $('.comfortzone-range').remove()
+      pc.removeRHcurve()
+    }
+
+
+    pc.redraw_rh_lines = function(){
+        pc.remove_rh_lines()
+        pc.draw_rh_lines()
+        pc.clearChart()
+    }
+};

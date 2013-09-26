@@ -25,7 +25,6 @@ def csv2json(f):
           found = True
       if not found:
         head_abbr.append(h)
-    print head_abbr
     for row in csv_reader:
         d = dict(zip(head_abbr, row))
         l.append(d)

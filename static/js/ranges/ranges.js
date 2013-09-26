@@ -437,6 +437,7 @@ $('#specPressure').click(function() {
         customPressure = parseFloat(customPressure)
         if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
             psy.PROP.Patm = customPressure
+            pc.redraw_rh_lines()
             update()
         } else {
             window.alert('The entered atmospheric pressure is invalid.')
