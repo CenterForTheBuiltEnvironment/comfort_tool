@@ -989,7 +989,7 @@ function update() {
     }
     keys.forEach(function(element) {
         d_cache[element] = d[element];
-        var e = document.getElementById(element+i).value
+        var e = document.getElementById(element).value
         e = e.replace(/,/g, '.')
         d[element] = parseFloat(e);
     });
