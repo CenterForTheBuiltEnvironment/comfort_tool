@@ -129,7 +129,7 @@
       e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
       r = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
       e.pmv = r;
-       e.hr = pc.getHumRatio(e.ta, e.rh) 
+      e.hr = pc.getHumRatio(e.ta, e.rh) 
       pmv_average += r.pmv;
       if (Math.abs(r.pmv) > 0.5) {
         exceedance += 1;
@@ -137,7 +137,8 @@
       }   
       N += 1
      }); 
-     pmv_average = pmv_average / N;
+     pmv_average /= N;
+     weighted_exceedance /= N;
      $('#metrics-pmv-avg').html("Average PMV: " + pmv_average.toFixed(2));
      $('#metrics-exceedance').html("# of measurements outside comfort zone: " + exceedance);
      $('#metrics-weighted-exceedance').html("Weighted average exceedance intervals: " + weighted_exceedance.toFixed(2));

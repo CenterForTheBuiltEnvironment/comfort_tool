@@ -609,10 +609,10 @@ var pc = new function() {
           .attr("cx", pc.db_scale(d.ta))
           .attr("cy", pc.hr_scale(1000 * d.hr))
           .on("mouseover", function() {
-            d3.select('#rh-value').text(d.rh.toFixed(0))
-            d3.select('#met-value').text(d.met.toFixed(1))
-            d3.select('#clo-value').text(d.clo.toFixed(1))
-            d3.select('#pmv-value').text(d.pmv.pmv.toFixed(1))
+            d3.select('#rh-value').text(d.rh.toFixed(1))
+            d3.select('#met-value').text(d.met.toFixed(2))
+            d3.select('#clo-value').text(d.clo.toFixed(2))
+            d3.select('#pmv-value').text(d.pmv.pmv.toFixed(2))
             if (isCelsius) { 
               d3.select('#db-value').text(d.ta.toFixed(1))
               d3.select('#mrt-value').text(d.tr.toFixed(1))
