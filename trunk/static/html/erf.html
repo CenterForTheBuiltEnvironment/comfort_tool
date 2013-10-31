@@ -19,25 +19,25 @@
     <span class='unit'> &deg;</span>
   </div><br />
 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar beam intensity (normal)</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Direct solar beam intensity (normal)</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='I_n' value='700'/>
+    <input class='input-dialog' id='Idir' value='700'/>
     <span class='unit'> W/m<sup>2</sup></span>
   </div><br />
   
   <div class='leftlabel-dialog' style='padding-bottom:7px;'>Transmitted solar fraction (sw)</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='tsol' value='0.8'/>
+    <input class='input-dialog' id='ftrans' value='0.8'/>
   </div><br />
   
   <div class='leftlabel-dialog' style='padding-bottom:7px;'>Sky vault view fraction</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='svvf' value='0.2'/>
+    <input class='input-dialog' id='fsvv' value='0.2'/>
   </div><br />
  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Body exposure fraction</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Fraction of body exposed to sun</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog' id='bef' value='0.5'/>
+    <input class='input-dialog' id='fbes' value='0.5'/>
   </div><br />
   
   <div class='leftlabel-dialog' style='padding-bottom:7px;'>Average shortwave absorptivity</div>
@@ -60,22 +60,22 @@
     <span class='tempunit' id='dmrt-unit'> &deg;C</span>
   </div>
   <script>
-    function ERF(alt, az, posture, I_n, tsol, svvf, bef, asa){
+    function ERF(alt, az, posture, Idir, ftrans, fsvv, fbes, asa){
       //  ERF function to estimate the impact of solar radiation on occupant comfort
       //  INPUTS:
       //  alt : altitude of sun in degrees [0, 90] Integer
       //  az : azimuth of sun in degrees [0, 180] Integer
       //  posture: posture of occupant (seated or standing)
-      //  I_n : direct beam intensity (normal)
-      //  tsol : transmitted solar : I_inside / I_outside
-      //  svvf : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]: 0.2
-      //  bef : body exposure frac : fraction of body exposed to sun
+      //  Idir : direct beam intensity (normal)
+      //  ftrans: solar transmittance (SC * 0.87)
+      //  fsvv : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]: 0.2
+      //  fbes : fraction body exposed to sun
       //  asa : avg shortwave abs : average shortwave absorptivity of body
       
       var hr = 6
       var Ith = 665
-      var Ir = 0.2 * Ith
-      var Id = Ir
+      var Irefl = 0.2 * Ith
+      var Idiff = Irefl
       var Adu = 1.8
       
       if (posture=='standing'){
@@ -91,8 +91,8 @@
 
       var sw_abs = asa
       var lw_abs = 0.95
-      var ERF_diff = feff * svvf * 0.5 * (Id + Ir) * (sw_abs / lw_abs);
-      var ERF_direct = (Ap / Adu) * tsol * bef * I_n * (sw_abs / lw_abs);
+      var ERF_diff = feff * fsvv * 0.5 * ftrans * (Idiff + Irefl) * (sw_abs / lw_abs);
+      var ERF_direct = (Ap / Adu) * ftrans * fbes * Idir * (sw_abs / lw_abs);
       var ERF = ERF_diff + ERF_direct 
       
       var dMRT = ERF / (hr * feff)
