@@ -67,12 +67,12 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
 comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     // returns pmv at elevated airspeed (>0.15m/s)
     var r = {}
+    var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
     if (vel <= 0.15) {
         var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme)
         var ta_adj = ta
         var ce = 0
     } else {
-        var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
         var ta_adj_l = -200;
         var ta_adj_r = 200;
         var eps = 0.001;  // precision of ta_adj
@@ -88,6 +88,7 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     }
     r.pmv = pmv.pmv;
     r.ppd = pmv.ppd;
+    r.set = set;
     r.ta_adj = ta_adj;
     r.cooling_effect = ce
     return r

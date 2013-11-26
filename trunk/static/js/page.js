@@ -1009,6 +1009,9 @@ function update() {
     model = document.getElementById('model-type').value;
     if (model == 'pmvElevatedAirspeed') {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        if (!isCelsius){
+            r.set = util.CtoF(r.set)
+        }
         renderPmvElevResults(r);
         calcPmvElevCompliance(d, r);
         if ($('#chart-div').is(':visible')) {
@@ -1039,6 +1042,7 @@ function renderPmvResults(r) {
     $('#ppd-res').html(r.ppd.toFixed(0));
     var sensation = util.getSensation(r.pmv);
     $('#sensation').html(sensation);
+    $('#SET').html(r.set.toFixed(1));
 }
 
 function renderPmvElevResults(r) {
