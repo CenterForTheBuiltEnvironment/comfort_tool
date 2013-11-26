@@ -40,6 +40,7 @@ _Outputs_ an object with properties:
     * `ppd` : Percent predicted dissatisfied [%]
     * `ta_adj`: Air temperature adjusted for air speed [°C]
     * `cooling_effect` : The difference between the air temperature and adjusted air temperature [°C]
+    * `set`: The Standard Effective Temperature [°C] (see below)
 
 ===`comf.pierceSET(ta, tr, vel, rh, met, clo, wme)`===
 
