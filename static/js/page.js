@@ -402,10 +402,10 @@ $(function() {
 
     $('#ERFdialog').dialog({
         autoOpen: false,
-        height: 435,
-        width: 422,
+        height: 450,
+        width: 510,
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Calculate": function(){
                 var alt = parseFloat($('#alt').val());
