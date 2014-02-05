@@ -119,13 +119,13 @@
     var N = 0;
     var pmv;
     if (!isCelsius) {
-      conds.forEach(function(e){
+      _.each(conds, function(e){
         e.ta = util.FtoC(e.ta)
         e.tr = util.FtoC(e.tr)
         e.vel = e.vel = 196.9
       });
     }
-    conds.forEach(function(e){
+    _.each(conds, function(e){
       e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
       r = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
       e.pmv = r;
@@ -153,10 +153,10 @@
         var r = $.parseJSON(res.result)
         var fields = ['ta', 'tr', 'rh', 'vel', 'met', 'clo'];
         var defaults = {};
-        fields.forEach(function(f){
+        _.each(fields, function(f){
           defaults[f] = parseFloat($('#default-'+f).val())
         });
-        r.forEach(function(el){
+        _.each(r, function(el){
           for (var key in el){
             el[key] = parseFloat(el[key])
           }

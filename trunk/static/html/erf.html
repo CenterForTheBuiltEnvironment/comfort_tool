@@ -1,3 +1,10 @@
+<style>
+
+  div .leftlabel-dialog {
+    width: 360px;
+  }
+</style>
+
 <form style="font-size:80%">
   <div class='leftlabel-dialog' style='padding-bottom:15px;'>Posture</div>
   <div class='inputfield-dialog'> 
@@ -7,7 +14,7 @@
     </select>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar altitude (0 - 90&deg;)</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar altitude (0 - 90&deg;) [β]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='alt' value='45'/>
     <span class='unit'> &deg;</span>
@@ -19,28 +26,28 @@
     <span class='unit'> &deg;</span>
   </div><br />
 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Direct solar beam intensity (normal)</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Direct normal solar beam intensity [I<sub>dir</sub>]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='Idir' value='700'/>
     <span class='unit'> W/m<sup>2</sup></span>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Transmitted solar fraction (sw)</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Direct solar heat transmittance [f<sub>transmittance</sub>]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='ftrans' value='0.8'/>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Sky vault view fraction</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Sky vault view fraction [f<sub>svv</sub>]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='fsvv' value='0.2'/>
   </div><br />
  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Fraction of body exposed to sun</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Fraction of body exposed to sun [f<sub>bes</sub>]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='fbes' value='0.5'/>
   </div><br />
   
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Average shortwave absorptivity</div>
+  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Average shortwave absorptivity [α]</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog' id='asa' value='0.7'/>
   </div><br />
@@ -73,9 +80,8 @@
       //  asa : avg shortwave abs : average shortwave absorptivity of body
       
       var hr = 6
-      var Ith = 665
-      var Irefl = 0.2 * Ith
-      var Idiff = Irefl
+      var Idiff = 0.2 * Idir 
+      var Irefl = 0.2 * (Idir * Math.cos(90 - alt) + Idiff) 
       var Adu = 1.8
       
       if (posture=='standing'){
