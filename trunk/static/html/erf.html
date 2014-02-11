@@ -85,8 +85,9 @@
       //  asa : avg shortwave abs : average shortwave absorptivity of body
       //  Rfloor: floor reflectance
       
+      var DEG_TO_RAD = 0.0174532925
       var hr = 6
-      var Idiff = 0.175 * Idir * Math.sin(alt)
+      var Idiff = 0.175 * Idir * Math.sin(alt * DEG_TO_RAD)
       var Adu = 1.8
       
       if (posture=='standing'){
