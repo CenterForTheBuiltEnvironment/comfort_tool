@@ -402,8 +402,8 @@ $(function() {
 
     $('#ERFdialog').dialog({
         autoOpen: false,
-        height: 450,
-        width: 510,
+        height: 480,
+        width: 500,
         modal: true,
         resizable: true,
         buttons: {
@@ -412,12 +412,13 @@ $(function() {
                 var az = parseFloat($('#az').val());
                 var posture = $('#posture').val();
                 var Idir = parseFloat($('#Idir').val());
-                var ftrans = parseFloat($('#ftrans').val());
+                var tsol = parseFloat($('#tsol').val());
                 var fsvv = parseFloat($('#fsvv').val());
                 var fbes = parseFloat($('#fbes').val());
                 var asa = parseFloat($('#asa').val());
+                var Rfloor = parseFloat($('#Rfloor').val());
 
-                var r = ERF(alt, az, posture, Idir, ftrans, fsvv, fbes, asa)
+                var r = ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor)
                 $('#erf-result').val(r.ERF.toFixed(1))
                 if (!isCelsius) r.dMRT = util.CtoF(r.dMRT) - 32
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
