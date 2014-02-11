@@ -106,7 +106,7 @@
 
       var E_diff = feff * fsvv * 0.5 * tsol * Idiff
       var E_direct = (Ap / Adu) * tsol * fbes * Idir 
-      var E_refl = feff * fsvv * 0.5 * tsol * (Idir * Math.sin(alt) + Idiff) * Rfloor
+      var E_refl = feff * fsvv * 0.5 * tsol * (Idir * Math.sin(alt * DEG_TO_RAD) + Idiff) * Rfloor
 
       var E_solar = E_diff + E_direct + E_refl
       var ERF = E_solar * (sw_abs / lw_abs)
