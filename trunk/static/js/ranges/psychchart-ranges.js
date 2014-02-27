@@ -228,4 +228,4 @@ $(document).ready(function(){
         pc.draw_rh_lines()
         pc.clearChart()
     }
-};
+});
