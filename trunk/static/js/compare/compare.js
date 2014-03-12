@@ -529,6 +529,10 @@ function renderPmvResults(r, i) {
     $('#ppd-res'+i).html(r.ppd.toFixed(0));
     var sensation = util.getSensation(r.pmv);
     $('#sensation'+i).html(sensation);
+    if (!isCelsius){
+      r.set = util.CtoF(r.set);
+    }
+    $('#set'+i).html(r.set.toFixed(1));
 }
 
 function renderPmvElevResults(r, i) {
