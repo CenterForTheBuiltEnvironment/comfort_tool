@@ -75,7 +75,11 @@ $(function() {
 		    });
 			pc.drawThings("2")
 			bc.drawThings("2")
-
+            if (!isCelsius){
+                d.ta = util.FtoC(d.ta);
+                d.tr = util.FtoC(d.tr);
+                d.vel = d.vel / 196.85;
+            }
 	        r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
 	        renderPmvElevResults(r, "2");
 	        calcPmvElevCompliance(d, r, "2");
@@ -96,6 +100,11 @@ $(function() {
 			pc.drawThings("3")
 			bc.drawThings("3")
 
+            if (!isCelsius){
+                d.ta = util.FtoC(d.ta);
+                d.tr = util.FtoC(d.tr);
+                d.vel = d.vel / 196.85;
+            }
 	        r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
 	        renderPmvElevResults(r, "3");
 	        calcPmvElevCompliance(d, r, "3");
