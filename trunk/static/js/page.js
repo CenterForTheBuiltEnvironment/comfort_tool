@@ -570,7 +570,7 @@ $(function() {
 
     $('#clo').spinner({
         step: 0.05,
-        min: 0.1,
+        min: 0.0,
         max: 10,
         numberFormat: "n"
     });
