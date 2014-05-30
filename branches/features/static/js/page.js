@@ -392,7 +392,7 @@ $(function() {
         buttons: {
             "Set mean radiant temperature": function() {
                 var tr = parseFloat($('#mrt-result').val());
-                if (!isCelsius) tr = CtoF(tr);
+                if (!isCelsius) tr = util.CtoF(tr);
                 $('#tr').val(tr);
                 $(this).dialog("close");
                 update();
@@ -402,24 +402,25 @@ $(function() {
 
     $('#ERFdialog').dialog({
         autoOpen: false,
-        height: 435,
-        width: 422,
+        height: 480,
+        width: 500,
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Calculate": function(){
                 var alt = parseFloat($('#alt').val());
                 var az = parseFloat($('#az').val());
                 var posture = $('#posture').val();
-                var I_n = parseFloat($('#I_n').val());
+                var Idir = parseFloat($('#Idir').val());
                 var tsol = parseFloat($('#tsol').val());
-                var svvf = parseFloat($('#svvf').val());
-                var bef = parseFloat($('#bef').val());
+                var fsvv = parseFloat($('#fsvv').val());
+                var fbes = parseFloat($('#fbes').val());
                 var asa = parseFloat($('#asa').val());
+                var Rfloor = parseFloat($('#Rfloor').val());
 
-                var r = ERF(alt, az, posture, I_n, tsol, svvf, bef, asa)
+                var r = ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor)
                 $('#erf-result').val(r.ERF.toFixed(1))
-                if (!isCelsius) r.dMRT = CtoF(r.dMRT) - 32
+                if (!isCelsius) r.dMRT = util.CtoF(r.dMRT) - 32
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
             },
             "Adjust MRT": function(){
@@ -456,6 +457,14 @@ $(function() {
         resizable: true,
     });
 
+    $('#GBCAdialog').dialog({
+        autoOpen: false,
+        height: 700,
+        width: 500,
+        modal: true,
+        resizable: true,
+    });
+
     $('#link').button({}).click(function() {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
@@ -469,8 +478,10 @@ $(function() {
     });
 
     $('#local-control').button();
-    $('#radio').buttonset();
+    $('#radioLEED').buttonset();
     $('.leed-buttons').buttonset();
+    $('#radioGBCA').buttonset();
+    $('.gbca-buttons').buttonset();
 
     $('#customClo').button({
         icons: {
@@ -482,6 +493,12 @@ $(function() {
             $('#leedInterfaceToggle').toggle('fast');
             $('#leedInterface').removeAttr('checked');
             $('#leedInterface').button('refresh');
+            $('#unitsToggle').removeAttr('disabled');
+        }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#gbcaInterfaceToggle').toggle('fast');
+            $('#gbcaInterface').removeAttr('checked');
+            $('#gbcaInterface').button('refresh');
             $('#unitsToggle').removeAttr('disabled');
         }
     });
@@ -513,6 +530,11 @@ $(function() {
             $('#customCloToggle').toggle('fast');
             $('#customClo').removeAttr('checked');
             $('#customClo').button('refresh');
+        }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#gbcaInterfaceToggle').toggle('fast');
+            $('#gbcaInterface').removeAttr('checked');
+            $('#gbcaInterface').button('refresh');
         }
     });
 
@@ -550,6 +572,67 @@ $(function() {
         }
     });
 
+    $('#gbcaInterface').button({
+        icons: {
+            primary: 'ui-icon-document'
+        }
+    }).click(function() {
+        $('#gbcaInterfaceToggle').toggle('fast');
+        if (!isCelsius) {
+            toggleUnits();
+            update();
+        }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#unitsToggle').attr('disabled', 'disabled');
+        } else {
+            $('#unitsToggle').removeAttr('disabled');
+        }
+        if ($('#customClo').is(':checked')) {
+            $('#customCloToggle').toggle('fast');
+            $('#customClo').removeAttr('checked');
+            $('#customClo').button('refresh');
+        }
+        if ($('#leedInterface').is(':checked')) {
+            $('#leedInterfaceToggle').toggle('fast');
+            $('#leedInterface').removeAttr('checked');
+            $('#leedInterface').button('refresh');
+        }
+    });
+
+    $('#gbca-winter').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "winter")
+    });
+    $('#gbca-spring').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "spring")
+    });
+    $('#gbca-summer').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "summer")
+    });
+    $('#gbca-fall').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "fall")
+    });
+
+    $('#gbca-submit').button().click(function() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "/static/html/gbca.html");
+        xmlhttp.send();
+        xmlhttp.onload = function(e) {
+            gbca_html = xmlhttp.responseText;
+            doc = createGBCADocument(gbca_html);
+            openwindow = openGBCADocument(doc);
+            generateGBCATables(openwindow);
+            $(openwindow.document.getElementsByClassName("box-texts")).remove();
+        }
+    });
+
     $('button').button();
     $('.buttons').buttonset();
 
@@ -569,7 +652,7 @@ $(function() {
 
     $('#clo').spinner({
         step: 0.05,
-        min: 0.1,
+        min: 0.0,
         max: 10,
         numberFormat: "n"
     });
@@ -618,11 +701,11 @@ $(function() {
 $('#humidity-spec').change(function() {
     var v = $('#humidity-spec').val();
     var ta = parseFloat($('#ta').val());
-    if (!isCelsius) ta = FtoC(ta);
+    if (!isCelsius) ta = util.FtoC(ta);
     var maxVapPress = parseFloat(psy.satpress(ta));
     var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
     var rh = parseFloat($('#rh').val());
-    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh = FtoC(rh);
+    if (!isCelsius & (window.humUnit == 'wetbulb' | window.humUnit == 'dewpoint')) rh = util.FtoC(rh);
     if (window.humUnit == 'vappress') if (!isCelsius) rh *= 2953;
     else rh *= 1000;
 
@@ -640,7 +723,7 @@ $('#humidity-spec').change(function() {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
             $('#rh-unit').html(' &deg;C');
         } else {
-            $('#rh').val(CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
@@ -654,7 +737,7 @@ $('#humidity-spec').change(function() {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
             $('#rh-unit').html(' &deg;C');
         } else {
-            $('#rh').val(CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
@@ -723,11 +806,12 @@ $('#specPressure').click(function() {
     var customPressure = prompt('Enter atmospheric pressure in Pascals');
     if (customPressure != '' && customPressure != null) {
         customPressure = parseFloat(customPressure)
-        if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
+        if (!isNaN(customPressure) && customPressure >= 60000 && customPressure <= 108000) {
             psy.PROP.Patm = customPressure
+            pc.redraw_rh_lines()
             update()
         } else {
-            window.alert('The entered atmospheric pressure is invalid.')
+            window.alert('The entered atmospheric pressure is invalid. It must be in the range of 60,000 to 108,000 pascals.')
         }
     }
 });
@@ -807,6 +891,18 @@ $('#LEED-help').click(function() {
         url: '/static/html/leed-help.html',
         success: function(data) {
             $('#LEEDdialog').html(data);
+        },
+        async: false
+    });
+    container.dialog("open");
+});
+
+$('#GBCA-help').click(function() {
+    var container = $('#GBCAdialog');
+    $.ajax({
+        url: '/static/html/gbca-help.html',
+        success: function(data) {
+            $('#GBCAdialog').html(data);
         },
         async: false
     });
@@ -899,14 +995,6 @@ $("#chartSelect").change(function(){
 	update();
 });
 
-function CtoF(x) {
-    return x * 9 / 5 + 32;
-}
-
-function FtoC(x) {
-    return (x - 32) * 5 / 9;
-}
-
 function toggleUnits() {
     var v, el;
     var hs = $('#humidity-spec').val();
@@ -916,7 +1004,7 @@ function toggleUnits() {
             $(this).html(' &deg;C');
         });
         $('#ta, #tr, #trm').each(function() {
-            v = FtoC($(this).val());
+            v = util.FtoC($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit').html(' m/s');
@@ -929,7 +1017,7 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;C');
-            v = (FtoC($('#rh').val()));
+            v = (util.FtoC($('#rh').val()));
             $('#rh').val(v.toFixed(1));
         } else if (hs == 'vappress') {
             $('#rh-unit').html(' KPa');
@@ -941,7 +1029,7 @@ function toggleUnits() {
             $(this).html(' &deg;F');
         });
         $('#ta, #tr, #trm').each(function() {
-            v = CtoF($(this).val());
+            v = util.CtoF($(this).val());
             $(this).val(v.toFixed(1));
         });
         $('#vel-unit, #vel-a-unit').html(' fpm');
@@ -954,7 +1042,7 @@ function toggleUnits() {
         });
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;F');
-            v = (CtoF($('#rh').val()));
+            v = (util.CtoF($('#rh').val()));
             $('#rh').val(v.toFixed(1));
         } else if (hs == 'vappress') {
             $('#rh-unit').html(' in HG');
@@ -997,15 +1085,17 @@ function update() {
     }
     keys.forEach(function(element) {
         d_cache[element] = d[element];
-        d[element] = parseFloat(document.getElementById(element).value);
+        var e = document.getElementById(element).value
+        e = e.replace(/,/g, '.')
+        d[element] = parseFloat(e);
     });
     d.wme = 0;
     if (!isCelsius) {
-        d.ta = FtoC(d.ta);
-        d.tr = FtoC(d.tr);
-        d.trm = FtoC(d.trm);
+        d.ta = util.FtoC(d.ta);
+        d.tr = util.FtoC(d.tr);
+        d.trm = util.FtoC(d.trm);
         d.vel /= 196.9;
-        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = FtoC(d.rh);
+        if (window.humUnit == 'wetbulb' || window.humUnit == 'dewpoint') d.rh = util.FtoC(d.rh);
         else if (window.humUnit == 'vappress') d.rh *= 2953;
     } else {
         if (window.humUnit == 'vappress') d.rh *= 1000;
@@ -1014,6 +1104,9 @@ function update() {
     model = document.getElementById('model-type').value;
     if (model == 'pmvElevatedAirspeed') {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        if (!isCelsius){
+            r.set = util.CtoF(r.set)
+        }
         renderPmvElevResults(r);
         calcPmvElevCompliance(d, r);
         if ($('#chart-div').is(':visible')) {
@@ -1044,13 +1137,14 @@ function renderPmvResults(r) {
     $('#ppd-res').html(r.ppd.toFixed(0));
     var sensation = util.getSensation(r.pmv);
     $('#sensation').html(sensation);
+    $('#SET').html(r.set.toFixed(1));
 }
 
 function renderPmvElevResults(r) {
     renderPmvResults(r);
     if (!isCelsius) {
-        r.ta_adj = CtoF(r.ta_adj);
-        r.cooling_effect = CtoF(r.cooling_effect) - 32;
+        r.ta_adj = util.CtoF(r.ta_adj);
+        r.cooling_effect = util.CtoF(r.cooling_effect) - 32;
     }
     $('#ta-still').html(r.ta_adj.toFixed(1));
     $('#cooling-effect').html(r.cooling_effect.toFixed(1));
@@ -1059,10 +1153,10 @@ function renderPmvElevResults(r) {
 function renderAdaptiveResults(r) {
     var to = (parseFloat($('#ta').val()) + parseFloat($('#tr').val())) / 2;
     if (!isCelsius) {
-        r.tComf90Upper = CtoF(r.tComf90Upper);
-        r.tComf90Lower = CtoF(r.tComf90Lower);
-        r.tComf80Upper = CtoF(r.tComf80Upper);
-        r.tComf80Lower = CtoF(r.tComf80Lower);
+        r.tComf90Upper = util.CtoF(r.tComf90Upper);
+        r.tComf90Lower = util.CtoF(r.tComf90Lower);
+        r.tComf80Upper = util.CtoF(r.tComf80Upper);
+        r.tComf80Lower = util.CtoF(r.tComf80Lower);
     }
     $('#limits80').html('Operative temperature: ' + r.tComf80Lower.toFixed(1) + ' to ' + r.tComf80Upper.toFixed(1));
     $('#limits90').html('Operative temperature: ' + r.tComf90Lower.toFixed(1) + ' to ' + r.tComf90Upper.toFixed(1));
@@ -1264,13 +1358,13 @@ function updateGlobe() {
     var diameter = parseFloat($('#diameter').val());
     var emissivity = parseFloat($('#emissivity').val());
     if (!isCelsius) {
-        ta = FtoC(ta)
+        ta = util.FtoC(ta)
         vel /= 196.9
-        tglobe = FtoC(tglobe)
+        tglobe = util.FtoC(tglobe)
         diameter *= 0.0254
     }
     var tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = CtoF(tr)
+    if (!isCelsius) tr = util.CtoF(tr)
     $('#mrt-result').val(tr.toFixed(1));
 }
 
