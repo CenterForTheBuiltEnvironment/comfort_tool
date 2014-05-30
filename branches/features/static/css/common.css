@@ -10,18 +10,25 @@
 		       }
 					
 #leedInterfaceToggle { display: none;
-                       float: left;
+               float: left;
+		       background-color: #c7d9f2;
+		       width: 94%;
+		       margin: 5px 5px 10px 10px;
+		       border-radius: 5px;
+		       }
+					
+#gbcaInterfaceToggle { display: none;
+               float: left;
 		       background-color: #c7d9f2;
 		       width: 94%;
 		       margin: 5px 5px 10px 10px;
 		       border-radius: 5px;
 		       }
 
-
 .local-disc-result { position: relative;
-                     clear: both;
-                     height: 17px;
-		     text-align: center;}
+               clear: both;
+               height: 17px;
+               text-align: center;}
 
 .leftlabel-loc-dialog { position: relative;
 			float: left;
@@ -30,6 +37,7 @@
 			color: #636363;
 			margin-top: 5px;
 			margin-left: 5px;}
+
 .leftlabel-dialog { position: relative;
 			float: left;
 			clear: both;
@@ -40,28 +48,16 @@
 			
 .inputfield-dialog { position: relative;
 			float: left;
-                        width: 100px;}
+            width: 100px;}
 
 .input-dialog { padding: 0px 0px 0px 5px; 
 			width: 40px;}
+
 .input-dialog-local { padding: 0px 0px 0px 5px; 
 			width: 40px;}
 
 .multiselect {width: 385px;
 			height: 200px;}
-
-a.mainlink:link {color: black; text-decoration: none;}
-a.mainlink:visited {color: #636363;}
-a.mainlink:hover {color: #2A4583;}
-
-a.footerlink:link {color: black;}
-a.footerlink:visited {color: #636363;}
-a.footerlink:hover {color: #2A4583;}
-
-.link-over{
-	fill: #2A4583;
-	font-size:13px;
-}
 
 .clear { clear: both; }
 
@@ -85,6 +81,10 @@ a.footerlink:hover {color: #2A4583;}
 .unit { color: #000000; }
 
 .leed-notes { color: #6e6e6e;
+	          font-size:12px;          
+	 }
+
+.gbca-notes { color: #6e6e6e;
 	          font-size:12px;          
 	 }
 
@@ -126,16 +126,12 @@ a.footerlink:hover {color: #2A4583;}
 
 .inputbox { width: 60px; }
 			
-#all_content, #footer {margin:0 auto;
+#all_content {margin:0 auto;
              width:988px;
 	     font-family: sans-serif;
 	     font-color: #000000;
 	     font-size:14px;
 	     clear: both;}
-
-#header {width: 985px;
-		align: center;
-	        margin: auto;}
 
 #left_content{width:405px;
 			height: 902px;
@@ -152,13 +148,6 @@ a.footerlink:hover {color: #2A4583;}
             padding-left: 2px;
 			border:1px solid #cccccc;
 			border-radius:5px;}
-
-#footer{width: 985;
-			font-size: 12px;
-		    font-family: sans-serif;
-		    text-align: center;
-		    color: #000000;
-			margin: auto;}
 
 #comply-msg {padding-left:5px;
 			    font-family: sans-serif;}
