@@ -1,6 +1,6 @@
 import os
 import csv
-from flask import Flask, request, make_response, render_template, json
+from flask import Flask, request, make_response, render_template, json, send_from_directory, abort
 
 ALLOWED_EXTENSIONS = set(['csv', 'json'])
 
@@ -14,10 +14,28 @@ def csv2json(f):
     l = []
     csv_reader = csv.reader(f)
     head = csv_reader.next()
+    fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 
+              'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level' : 'clo'}
+    head_abbr = []
+    for h in head:
+      found = False
+      for f in fields.keys():
+        if f in h:
+          head_abbr.append(fields[f])
+          found = True
+      if not found:
+        head_abbr.append(h)
     for row in csv_reader:
-        d = dict(zip(head, row))
+        d = dict(zip(head_abbr, row))
         l.append(d)
     return l
+
+@app.route('/download/<path:filename>')
+def download_file(filename):
+  if '..' in filename:
+    abort(404)
+  return send_from_directory('./media/', filename, mimetype="application/octet-stream")
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -28,14 +46,6 @@ def upload_file():
             return make_response(json.dumps(conds))
                  
     return render_template('upload.html')
-
-@app.route('/simulation')
-def simulation():
-    return render_template('simulation.html')
-
-@app.route('/heat-loss')
-def heat_loss():
-    return render_template('heat-loss.html')
 
 @app.route('/compare')
 def compare():
@@ -48,6 +58,10 @@ def ranges():
 @app.route('/EN')
 def EN():
     return render_template('EN.html')
+
+@app.route('/GBCA')
+def GBCA():
+    return render_template('greenstar.html')
 
 @app.route('/')
 def index():
