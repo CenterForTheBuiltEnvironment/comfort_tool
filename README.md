@@ -1,7 +1,7 @@
 CBE Thermal Comfort Tool
 ========================
 
-[Live deployment of the tool](http://smap.cbe.berkeley.edu/comforttool).
+A web interface for comfort model calculations and visualizations according to ASHRAE Standard-55. [Live deployment of the tool](http://smap.cbe.berkeley.edu/comforttool).
 
 Installation
 ------------
@@ -17,8 +17,8 @@ Once you have pip, start by installing virutalenv:
 Next, check out from the repo and create a virtualenv:
 
 `$ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git`
-$ cd comfort-tool
-$ virtualenv venv`
+`$ cd comfort-tool`
+`$ virtualenv venv`
 
 Activate the virtualenv:
 
@@ -34,9 +34,8 @@ Now you should be ready to run the tool locally.
 
 Visit http://localhost:5000 in your browser to check it out. Note that whenever you want to run the tool, you have to activate the virtualenv first.
 
-
 Features
-========
+--------
 
 1. Models
   * Adaptive (input: air temperature, MRT, mean outdoor temperature, air velocity)
