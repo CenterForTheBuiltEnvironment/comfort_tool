@@ -1,12 +1,38 @@
-comfort-tool
-============
+CBE Thermal Comfort Tool
+========================
 
-The Center for the Built Environment at University of California Berkeley has been developing a web-based tool for Standard-55 with several goals and motives in mind. Foremost, the need for having thermal comfort calculations available on all platforms, in particular Mac OSX, and the need for the ability to quickly fix bugs and update the software according to Standard Addenda. There is great potential for informative, interactive visualizations that would be suited very well for implementation in a browser. The existing tool is robust, but the C++/WIN32 platform has limitations. It would be much more difficult to implement visualizations for the tool, and they would still reach a smaller audience due to platform dependence.
+[Live deployment of the tool](http://smap.cbe.berkeley.edu/comforttool).
 
-A web application is instead easy to update and maintain, has great potential and resources for visualization, and can be used in any device with a supported browser, including mobile devices. The latest version of the tool is available here: cbe.berkeley.edu/comforttool
+Installation
+------------
 
-Existing features of the web-tool
-The short development time of the initial phase of the project has yielded most existing features of the official tool in web-based format. It has been designed with principles of user-friendliness and simplicity.
+This guide is for Mac OSX or Linux. For Windows, you can follow the instructions below, substituting the appropriate windows commands found in the [Flask installation instructions](http://flask.pocoo.org/docs/0.10/installation/).
+
+The installation is easiest with [pip](http://pip.readthedocs.org/en/latest/installing.html), a tool for managing python packages.
+
+Once you have pip, start by installing virutalenv:
+
+`$ sudo pip install virtualenv`
+
+Next, check out from the repo and create a virtualenv:
+
+`$ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git`
+$ cd comfort-tool
+$ virtualenv venv`
+
+Activate the virtualenv:
+
+`$ . venv/bin/activate`
+
+The dependencies of the comfort tool are all contained in `requirements.txt`. Installing them all in one command is pretty nifty:
+
+`$ pip install -r requirements.txt`
+
+Now you should be ready to run the tool locally.
+
+`$ python comfort.py`
+
+Visit http://localhost:5000 in your browser to check it out. Note that whenever you want to run the tool, you have to activate the virtualenv first.
 
 
 Features
