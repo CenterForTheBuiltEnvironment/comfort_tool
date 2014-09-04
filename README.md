@@ -16,9 +16,11 @@ Once you have pip, start by installing virutalenv:
 
 Next, check out from the repo and create a virtualenv:
 
-`$ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git`
-`$ cd comfort-tool`
-`$ virtualenv venv`
+```
+$ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git
+$ cd comfort-tool
+$ virtualenv venv
+```
 
 Activate the virtualenv:
 
