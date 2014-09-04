@@ -3,18 +3,20 @@ Comfort models
 
 This describes comfort model API, consisting of the functions of the comf object. To use this, simply include util.js, psychrometrics.js, and comfortmodels.js as scripts:
 
-`<script type="text/javascript" src="/static/js/util.js"></script>`
-`<script type="text/javascript" src="/static/js/psychrometrics.js"></script>`
-`<script type="text/javascript" src="/static/js/comfortmodels.js"></script>`
+```
+<script type="text/javascript" src="/static/js/util.js"></script>
+<script type="text/javascript" src="/static/js/psychrometrics.js"></script>
+<script type="text/javascript" src="/static/js/comfortmodels.js"></script>
+```
 
 Details
 -------
 
-`comf.pmv(ta, tr, vel, rh, met, clo, wme)`
+### comf.pmv(ta, tr, vel, rh, met, clo, wme)
 
 This function is Fanger's Predicted Mean Vote model.
 
-Input parameters:
+*Input parameters:*
 
 * ta : Air temperature [°C]
 * tr : Mean radiant temperature [°C]
@@ -24,18 +26,18 @@ Input parameters:
 * clo : Clothing insulation level [clo]
 * wme : External work [W/m^2] (typically zero)
 
-Outputs an object with properties pmv, and ppd, where
+*Outputs an object with properties pmv, and ppd, where*
 
 * pmv : Predicted mean vote
 * ppd : Percent predicted dissatisfied
 
-h3. comf.pmvElevatedAirspeed(ta, tr, vel, rh, met, clo, wme)
+### comf.pmvElevatedAirspeed(ta, tr, vel, rh, met, clo, wme)
 
 This is the PMV model, with a special technique that allows air speeds above 0.15m/s to be modeled.
 
-Input parameters as in comf.pmv.
+*Input parameters as in comf.pmv*.
 
-Outputs an object with properties:
+*Outputs an object with properties:*
 
 * pmv : Predicted mean vote
 * ppd : Percent predicted dissatisfied [%]
@@ -43,26 +45,26 @@ Outputs an object with properties:
 * cooling_effect : The difference between the air temperature and adjusted air temperature [°C]
 * set: The Standard Effective Temperature [°C] (see below)
 
-h3. comf.pierceSET(ta, tr, vel, rh, met, clo, wme)
+### comf.pierceSET(ta, tr, vel, rh, met, clo, wme)
 
 This is the pierce Standard Effective Temperature model, also known as the "two-node" model.
 
-Input parameters as in comf.pmv.
+*Input parameters as in comf.pmv*.
 
-Outputs a number representing SET* [°C]
+*Outputs a number representing SET [°C]*
 
-h3. comf.adaptiveComfortASH55(ta, tr, runningMean, vel)
+### comf.adaptiveComfortASH55(ta, tr, runningMean, vel)
 
 The ASHRAE Standard-55 adaptive comfort model.
 
-Input parameters
+*Input parameters:*
 
 * ta : Air temperature [°C]
 * tr : Mean radiant temperature [°C]
 * runningMean : Mean daily average outdoor temperature (see standard 55) [°C]
 * vel : Air velocity [m/s]. Must be less than or equal to 0.3, or one of 0.6, 0.9, and 1.2
 
-Outputs an object with properties:
+*Outputs an object with properties*:
 
 * tComfLower80 : The lower boundary of the 80% acceptability limits [°C]
 * tComfUpper80 : The upper boundary of the 80% acceptability limits [°C]
@@ -71,17 +73,17 @@ Outputs an object with properties:
 * acceptability80 : True if the input conditions lie within the 80% acceptability limits, false otherwise
 * acceptability90 : True if the input conditions lie within the 90% acceptability limits, false otherwise
 
-h3. comf.adaptiveComfortEN15251(ta, tr, runningMean)
+### comf.adaptiveComfortEN15251(ta, tr, runningMean)
 
 The EN-15251 adaptive comfort model.
 
-Input parameters
+*Input parameters:*
 
 * ta : Air temperature [°C]
 * tr : Mean radiant temperature [°C]
 * runningMean : Running mean average outdoor temperature (see EN15251) [°C]
 
-Outputs an object with properties:
+*Outputs an object with properties:*
 
 * tComfILower : The lower boundary of the class I acceptability limits [°C]
 * tComfIUpper : The upper boundary of the class I acceptability limits [°C]
