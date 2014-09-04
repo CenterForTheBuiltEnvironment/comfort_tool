@@ -457,6 +457,14 @@ $(function() {
         resizable: true,
     });
 
+    $('#GBCAdialog').dialog({
+        autoOpen: false,
+        height: 700,
+        width: 500,
+        modal: true,
+        resizable: true,
+    });
+
     $('#link').button({}).click(function() {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
@@ -470,8 +478,10 @@ $(function() {
     });
 
     $('#local-control').button();
-    $('#radio').buttonset();
+    $('#radioLEED').buttonset();
     $('.leed-buttons').buttonset();
+    $('#radioGBCA').buttonset();
+    $('.gbca-buttons').buttonset();
 
     $('#customClo').button({
         icons: {
@@ -483,6 +493,12 @@ $(function() {
             $('#leedInterfaceToggle').toggle('fast');
             $('#leedInterface').removeAttr('checked');
             $('#leedInterface').button('refresh');
+            $('#unitsToggle').removeAttr('disabled');
+        }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#gbcaInterfaceToggle').toggle('fast');
+            $('#gbcaInterface').removeAttr('checked');
+            $('#gbcaInterface').button('refresh');
             $('#unitsToggle').removeAttr('disabled');
         }
     });
@@ -515,6 +531,11 @@ $(function() {
             $('#customClo').removeAttr('checked');
             $('#customClo').button('refresh');
         }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#gbcaInterfaceToggle').toggle('fast');
+            $('#gbcaInterface').removeAttr('checked');
+            $('#gbcaInterface').button('refresh');
+        }
     });
 
     $('#leed-winter').click(function() {
@@ -543,10 +564,71 @@ $(function() {
         xmlhttp.open("GET", "/static/html/leed.html");
         xmlhttp.send();
         xmlhttp.onload = function(e) {
-            leed_html = xmlhttp.responseText;
-            doc = createDocument(leed_html);
+            var leed_html = xmlhttp.responseText;
+            var doc = createDocument(leed_html);
             openwindow = openDocument(doc);
             generateTables(openwindow);
+            $(openwindow.document.getElementsByClassName("box-texts")).remove();
+        }
+    });
+
+    $('#gbcaInterface').button({
+        icons: {
+            primary: 'ui-icon-document'
+        }
+    }).click(function() {
+        $('#gbcaInterfaceToggle').toggle('fast');
+        if (!isCelsius) {
+            toggleUnits();
+            update();
+        }
+        if ($('#gbcaInterface').is(':checked')) {
+            $('#unitsToggle').attr('disabled', 'disabled');
+        } else {
+            $('#unitsToggle').removeAttr('disabled');
+        }
+        if ($('#customClo').is(':checked')) {
+            $('#customCloToggle').toggle('fast');
+            $('#customClo').removeAttr('checked');
+            $('#customClo').button('refresh');
+        }
+        if ($('#leedInterface').is(':checked')) {
+            $('#leedInterfaceToggle').toggle('fast');
+            $('#leedInterface').removeAttr('checked');
+            $('#leedInterface').button('refresh');
+        }
+    });
+
+    $('#gbca-winter').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "winter")
+    });
+    $('#gbca-spring').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "spring")
+    });
+    $('#gbca-summer').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "summer")
+    });
+    $('#gbca-fall').click(function() {
+        var spaceType = $('#gbca-spacetype').val()
+        var ctype = $('#gbca-cooling').is(':checked') ? "cooling" : "heating"
+        setGBCADataSeason(spaceType, ctype, "fall")
+    });
+
+    $('#gbca-submit').button().click(function() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "/static/html/gbca.html");
+        xmlhttp.send();
+        xmlhttp.onload = function(e) {
+            var gbca_html = xmlhttp.responseText;
+            var doc = createGBCADocument(gbca_html);
+            openwindow = openGBCADocument(doc);
+            generateGBCATables(openwindow);
             $(openwindow.document.getElementsByClassName("box-texts")).remove();
         }
     });
@@ -809,6 +891,18 @@ $('#LEED-help').click(function() {
         url: '/static/html/leed-help.html',
         success: function(data) {
             $('#LEEDdialog').html(data);
+        },
+        async: false
+    });
+    container.dialog("open");
+});
+
+$('#GBCA-help').click(function() {
+    var container = $('#GBCAdialog');
+    $.ajax({
+        url: '/static/html/gbca-help.html',
+        success: function(data) {
+            $('#GBCAdialog').html(data);
         },
         async: false
     });

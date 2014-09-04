@@ -59,6 +59,10 @@ def ranges():
 def EN():
     return render_template('EN.html')
 
+@app.route('/GBCA')
+def GBCA():
+    return render_template('greenstar.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
