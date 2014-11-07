@@ -87,7 +87,6 @@
     function get_Ap(alt, az, posture){
         //  alt : altitude of sun in degrees [0, 90] Integer
         //  az : azimuth of sun in degrees [0, 180] Integer
-        
         var Ap;
         var alt_range = [0, 15, 30, 45, 60, 75, 90];
         var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
@@ -135,20 +134,13 @@
         var alt1 = alt_range[alt_i];
         var alt2 = alt_range[alt_i+1];
         
-        if (Ap11 == Ap21) {
-            // linear interpolation wrt alt
-            Ap = Ap11 + Ap12 * ((alt2 - alt) / (alt2 - alt1));
-        } else if (Ap11 == Ap12) {
-            // linear interpolation wrt alt
-            Ap = Ap11 + Ap21 * ((az2 - az) / (az2 - az1));
-        } else {
-            // bilinear interpolation
-            Ap = Ap11 * (az2 - az) * (alt2 - alt);
-            Ap += Ap21 * (az - az1) * (alt2 - alt);
-            Ap += Ap12 * (az2 - az) * (alt - alt1);
-            Ap += Ap22 * (az - az1) * (alt - alt1);
-            Ap /= (az2 - az1) * (alt2 - alt1);
-        }
+        // bilinear interpolation
+        Ap = Ap11 * (az2 - az) * (alt2 - alt);
+        Ap += Ap21 * (az - az1) * (alt2 - alt);
+        Ap += Ap12 * (az2 - az) * (alt - alt1);
+        Ap += Ap22 * (az - az1) * (alt - alt1);
+        Ap /= (az2 - az1) * (alt2 - alt1);
+
         return Ap;
     }
 
@@ -157,7 +149,7 @@
         //  INPUTS:
         //  alt : altitude of sun in degrees [0, 90]
         //  az : azimuth of sun in degrees [0, 180]
-        //  posture: posture of occupant (seated or standing)
+        //  posture: posture of occupant ('seated' or 'standing')
         //  Idir : direct beam intensity (normal)
         //  tsol: total solar transmittance (SC * 0.87)
         //  fsvv : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]
