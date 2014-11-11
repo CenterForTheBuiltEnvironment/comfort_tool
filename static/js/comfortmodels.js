@@ -73,24 +73,24 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
         var ta_adj = ta
         var ce = 0
     } else {
-        var ta_adj_l = -200;
-        var ta_adj_r = 200;
-        var eps = 0.001;  // precision of ta_adj
-        var fn = function(t){
-            return (set - comf.pierceSET(t, tr, 0.15, rh, met, clo, wme));
+        var ce_l = 0;
+        var ce_r = 100;
+        var eps = 0.001;  // precision of ce
+        var fn = function(ce){
+            return (set - comf.pierceSET(ta - ce, tr - ce, 0.15, rh, met, clo, wme));
         };
-        var ta_adj = util.secant(ta_adj_l, ta_adj_r, fn, eps);
-        if (isNaN(ta_adj)) {
-          ta_adj = util.bisect(ta_adj_l, ta_adj_r, fn, eps, 0);
+        var ce = util.secant(ce_l, ce_r, fn, eps);
+        if (isNaN(ce)) {
+            ce = util.bisect(ce_l, ce_r, fn, eps, 0);
         }
-        var pmv = comf.pmv(ta_adj, tr, 0.15, rh, met, clo, wme);
-        var ce = Math.abs(ta - ta_adj)
+        var pmv = comf.pmv(ta - ce, tr - ce, 0.15, rh, met, clo, wme);
     }
     r.pmv = pmv.pmv;
     r.ppd = pmv.ppd;
     r.set = set;
-    r.ta_adj = ta_adj;
-    r.cooling_effect = ce
+    r.ta_adj = ta - ce;
+    r.tr_adj = tr - ce;
+    r.cooling_effect = ce;
     return r
 }
 
