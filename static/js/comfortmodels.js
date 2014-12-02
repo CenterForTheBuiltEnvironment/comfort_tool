@@ -12,6 +12,18 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports.comf = comf;
 }
 
+comf.still_air_threshold = 0.15; // m/s
+
+comf.test = function() {
+    // reproduces the bug related to sweat saturation and heat loss from skin
+    met_values = [1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.83, 1.84, 1.85, 1.86, 1.87, 1.88, 1.89, 1.9];
+    for (var i = 0; i < met_values.length; i++){
+        console.log("MET:", met_values[i]);
+        var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0) // not normal
+        //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0) // normal
+        console.log(x)
+    }
+}
 
 comf.between = function (x, l, r) {
     return (x > l && x < r);
@@ -65,25 +77,25 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
 }
 
 comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
-    // returns pmv at elevated airspeed (>0.15m/s)
+    // returns pmv at elevated airspeed (> comf.still_air_threshold)
     var r = {}
     var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
-    if (vel <= 0.15) {
+    if (vel <= comf.still_air_threshold) {
         var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme)
         var ta_adj = ta
         var ce = 0
     } else {
         var ce_l = 0;
-        var ce_r = 100;
+        var ce_r = 40;
         var eps = 0.001;  // precision of ce
         var fn = function(ce){
-            return (set - comf.pierceSET(ta - ce, tr - ce, 0.15, rh, met, clo, wme));
+            return (set - comf.pierceSET(ta - ce, tr - ce, comf.still_air_threshold, rh, met, clo, wme));
         };
         var ce = util.secant(ce_l, ce_r, fn, eps);
         if (isNaN(ce)) {
             ce = util.bisect(ce_l, ce_r, fn, eps, 0);
         }
-        var pmv = comf.pmv(ta - ce, tr - ce, 0.15, rh, met, clo, wme);
+        var pmv = comf.pmv(ta - ce, tr - ce, comf.still_air_threshold, rh, met, clo, wme);
     }
     r.pmv = pmv.pmv;
     r.ppd = pmv.ppd;
@@ -309,7 +321,7 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
             ERSW = PRSW * EMAX;
             EDIF = 0.06 * (1.0 - PRSW) * EMAX;
             ESK = ERSW + EDIF;
-        }
+        } 
         if (EMAX < 0) {
             EDIF = 0;
             ERSW = 0;
@@ -325,6 +337,7 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
 
     //Define new heat flow terms, coeffs, and abbreviations
     STORE = M - wme - CRES - ERES - DRY - ESK; //rate of body heat storage
+
     HSK = DRY + ESK; //total heat loss from skin
     RN = M - wme; //net metabolic heat production
     ECOMF = 0.42 * (RN - (1 * METFACTOR));
