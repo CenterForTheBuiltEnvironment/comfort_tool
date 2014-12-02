@@ -1,5 +1,4 @@
 // ----- CODE to draw the comfort zone on a chart with Dry-Bulb Temp on the x-axis and Relative Humidity on the y-axis -----
-
 var bc = new function() {
 
     this.margin = 60
@@ -30,11 +29,11 @@ var bc = new function() {
     // defining a poliline
     this.pline = d3.svg.line()
         .x(function(d) {
-        return this.db_scale(d.db)
-    })
+            return this.db_scale(d.db)
+        })
         .y(function(d) {
-        return this.rh_scale(d.rh)
-    })
+            return this.rh_scale(d.rh)
+        })
 
     // ----------------------------------- Start DrawChart -----------------------------------
 
@@ -48,11 +47,11 @@ var bc = new function() {
 
         var line = d3.svg.line()
             .x(function(d) {
-            return bc.db_scale(d.db)
-        })
+                return bc.db_scale(d.db)
+            })
             .y(function(d) {
-            return bc.rh_scale(d.rh)
-        })
+                return bc.rh_scale(d.rh)
+            })
             .interpolate('cardinal')
 
         // drawing chart svg (the whole thing)
@@ -62,7 +61,7 @@ var bc = new function() {
             .attr("class", "svg-temphum")
             .attr("width", bc.width)
             .attr("height", bc.height)
-        
+
         bc.svg = d3.select(".svg-temphum")
 
         // ClipPath hides everything that goes outside the chart area
@@ -125,22 +124,22 @@ var bc = new function() {
             .text("Relative Humidity [%]")
             .attr("transform", "rotate (-90, -35, 0) translate(-350)");
 
-		bc.drawThings("1");
+        bc.drawThings("1");
     }
 
-   this.drawThings = function(i){
-	   var bound = bc.findComfortBoundary(d, 0.5)
-       bc.drawComfortRegion(bound, i);
-       bc.drawPoint(i);
-}
+    this.drawThings = function(i) {
+        var bound = bc.findComfortBoundary(d, 0.5)
+        bc.drawComfortRegion(bound, i);
+        bc.drawPoint(i);
+    }
 
-   // motofront construction
-	d3.selection.prototype.moveToFront = function() {
-	  return this.each(function() {
-	    this.parentNode.appendChild(this);
-	  });
-	};
-	
+    // motofront construction
+    d3.selection.prototype.moveToFront = function() {
+        return this.each(function() {
+            this.parentNode.appendChild(this);
+        });
+    };
+
     // Comfort Zone 
 
     this.drawComfortRegion = function(data, i) {
@@ -149,19 +148,19 @@ var bc = new function() {
             .append("path")
             .attr("clip-path", "url(#clip_th)")
             .attr("d", bc.pline(data) + "Z")
-            .attr("class", "comfortzone"+i).attr("id", "temphum-comfortzone"+i)
+            .attr("class", "comfortzone" + i).attr("id", "temphum-comfortzone" + i)
             .on("mouseover", function() {
-            d3.select(this).attr("class", "comfortzone"+i+"over");
-        })
+                d3.select(this).attr("class", "comfortzone" + i + "over");
+            })
             .on("mouseout", function() {
-            d3.select(this).attr("class", "comfortzone"+i);
-        });
+                d3.select(this).attr("class", "comfortzone" + i);
+            });
 
     }
 
     this.redrawComfortRegion = function(data, i) {
 
-        d3.select("#temphum-comfortzone"+i)
+        d3.select("#temphum-comfortzone" + i)
             .transition()
             .attr("d", bc.pline(data) + "Z")
     }
@@ -172,29 +171,29 @@ var bc = new function() {
     this.drawPoint = function(i) {
 
         bc.svg.append("circle")
-            .attr("class", "point"+i).attr('id', 'temphum-outer'+i)
+            .attr("class", "point" + i).attr('id', 'temphum-outer' + i)
             .attr("r", 12)
 
         bc.svg.append("circle")
-            .attr("class", "point"+i).attr('id', 'temphum-inner'+i)
+            .attr("class", "point" + i).attr('id', 'temphum-inner' + i)
             .attr("r", 2)
 
-        d3.select("#temphum-inner"+i).moveToFront()
-									 .attr("cx", bc.db_scale(d.ta))
-            					     .attr("cy", bc.rh_scale(d.rh))
-        d3.select("#temphum-outer"+i).moveToFront()
-									 .attr("cx", bc.db_scale(d.ta))
-            					     .attr("cy", bc.rh_scale(d.rh))
+        d3.select("#temphum-inner" + i).moveToFront()
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
+        d3.select("#temphum-outer" + i).moveToFront()
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
     }
 
     this.redrawPoint = function(i) {
 
-        d3.select("#temphum-inner"+i).moveToFront().transition()
-									 .attr("cx", bc.db_scale(d.ta))
-            					     .attr("cy", bc.rh_scale(d.rh))
-        d3.select("#temphum-outer"+i).moveToFront().transition()
-									 .attr("cx", bc.db_scale(d.ta))
-            					     .attr("cy", bc.rh_scale(d.rh))
+        d3.select("#temphum-inner" + i).moveToFront().transition()
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
+        d3.select("#temphum-outer" + i).moveToFront().transition()
+            .attr("cx", bc.db_scale(d.ta))
+            .attr("cy", bc.rh_scale(d.rh))
 
     }
 
@@ -213,9 +212,9 @@ var bc = new function() {
             var a = -50
             var b = 50
             var fn = function(db) {
-                return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme).pmv - target)
-            }
-            //t = util.bisect(a, b, fn, epsilon, target)
+                    return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme).pmv - target)
+                }
+                //t = util.bisect(a, b, fn, epsilon, target)
             t = util.secant(a, b, fn, epsilon)
             return {
                 "db": t,
