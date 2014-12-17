@@ -226,6 +226,9 @@ $(document).ready(function() {
         clo: 0.74
     }];
     var actData = [{
+        activity: 'Typing: 1.1',
+        met: 1.1
+    }, {
         activity: 'Standing, relaxed: 1.2',
         met: 1.2
     }, {
@@ -252,9 +255,6 @@ $(document).ready(function() {
     }, {
         activity: 'Writing: 1.0',
         met: 1.0
-    }, {
-        activity: 'Typing: 1.1',
-        met: 1.1
     }, {
         activity: 'Filing, seated: 1.2',
         met: 1.2
@@ -1246,7 +1246,7 @@ function setDefaults() {
         tr: 25,
         vel: 0.10,
         rh: rh.toFixed(psy.PREC[hs]),
-        met: 1.2,
+        met: 1.1,
         clo: 0.5,
         trm: 29,
         vel_a: 0.3
