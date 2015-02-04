@@ -47,6 +47,10 @@ def upload_file():
                  
     return render_template('upload.html')
 
+@app.route('/mrt')
+def mrt():
+    return render_template('mrt.html')
+    
 @app.route('/compare')
 def compare():
     return render_template('compare.html')
