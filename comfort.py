@@ -4,7 +4,9 @@ from flask import Flask, request, make_response, render_template, json, send_fro
 
 ALLOWED_EXTENSIONS = set(['csv', 'json'])
 
-app = Flask(__name__)
+STATIC_URL_PATH = '/static/'
+
+app = Flask(__name__, static_url_path=STATIC_URL_PATH)
 
 def allowed_file(filename):
     return '.' in filename and \

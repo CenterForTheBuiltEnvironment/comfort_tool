@@ -36,6 +36,17 @@ Now you should be ready to run the tool locally.
 
 Visit http://localhost:5000 in your browser to check it out. Note that whenever you want to run the tool, you have to activate the virtualenv first.
 
+Static files
+------------
+
+If you're serving static files from somewhere other than /static/, modify the static file paths ...
+
+Set STATIC_URL_PATH in `comfort.py`
+
+Set util.STATIC_URL_PATH in `static/js/util.js`
+
+Finally, manually change the path as needed in `static/html/leed.html` for the `/static/css/psychchart.css` stylesheet.
+
 Features
 --------
 
