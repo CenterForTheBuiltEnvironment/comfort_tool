@@ -1,5 +1,7 @@
 var util = util || {};
 
+util.STATIC_URL = '/static/';
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports.util = util
 }

@@ -609,7 +609,7 @@ $('#specPressure').click(function() {
 $('#globeTemp').click(function() {
     var container = $('#globedialog');
     $.ajax({
-        url: '/static/html/globetemp.html',
+        url: util.STATIC_URL + 'html/globetemp.html',
         success: function(data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
@@ -636,7 +636,7 @@ $('#globeTemp').click(function() {
 $('#localDisc').click(function() {
     var container = $('#localdialog');
     $.ajax({
-        url: '/static/html/localdisc.html',
+        url: util.STATIC_URL + 'html/localdisc.html',
         success: function(data) {
             $('#localdialog').html(data);
             if (!isCelsius) {

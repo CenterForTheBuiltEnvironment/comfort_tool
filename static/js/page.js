@@ -540,7 +540,7 @@ $(function() {
 
     $('#leed-submit').button().click(function() {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "/static/html/leed.html");
+        xmlhttp.open("GET", util.STATIC_URL + "html/leed.html");
         xmlhttp.send();
         xmlhttp.onload = function(e) {
             leed_html = xmlhttp.responseText;
@@ -737,7 +737,7 @@ $('#specPressure').click(function() {
 $('#globeTemp').click(function() {
     var container = $('#globedialog');
     $.ajax({
-        url: '/static/html/globetemp.html',
+        url: util.STATIC_URL + 'html/globetemp.html',
         success: function(data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
@@ -764,7 +764,7 @@ $('#globeTemp').click(function() {
 $('#ERF').click(function() {
   var container = $('#ERFdialog');
   $.ajax({
-    url: '/static/html/erf.html',
+    url: util.STATIC_URL + 'html/erf.html',
     success: function(data) {
       $('#ERFdialog').html(data);
       $('#posture').selectmenu({
@@ -782,7 +782,7 @@ $('#ERF').click(function() {
 $('#localDisc').click(function() {
     var container = $('#localdialog');
     $.ajax({
-        url: '/static/html/localdisc.html',
+        url: util.STATIC_URL + 'html/localdisc.html',
         success: function(data) {
             $('#localdialog').html(data);
             if (!isCelsius) {
@@ -806,7 +806,7 @@ $('#localDisc').click(function() {
 $('#LEED-help').click(function() {
     var container = $('#LEEDdialog');
     $.ajax({
-        url: '/static/html/leed-help.html',
+        url: util.STATIC_URL + 'html/leed-help.html',
         success: function(data) {
             $('#LEEDdialog').html(data);
         },
