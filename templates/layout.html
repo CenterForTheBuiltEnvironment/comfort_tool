@@ -37,7 +37,7 @@
   <div id="footer">
     {% block footer %}
     <div id='left' style="float:left; width:400px; text-align: left;">
-      <img style="float:left;" src="/static/img/logo150px.jpg">
+      <img style="float:left;" src="{{ url_for('static', filename='img/logo150px.jpg') }}">
       <b>To cite this webpage:</b>
        <br/>
        Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Moon Dustin, and Steinfeld Kyle, 2013, CBE Thermal Comfort Tool. <br>Center for the Built Environment, University of California Berkeley, http://cbe.berkeley.edu/comforttool/

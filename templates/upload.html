@@ -103,13 +103,13 @@
 
   </div>
 
-  <link rel="stylesheet" type="text/css" href="/static/css/common.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/css/jquery.fileupload-ui.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/css/psychchart.css"/>
-  <script src="/static/js/lib/jquery.ui.widget.js"></script>
-  <script src="/static/js/lib/jquery.iframe-transport.js"></script>
-  <script src="/static/js/lib/jquery.fileupload.js"></script>
-  <script src="/static/js/psychchart.js"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
+  <script src="{{ url_for('static', filename='js/lib/jquery.ui.widget.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/lib/jquery.iframe-transport.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/lib/jquery.fileupload.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
   <script>
 
   function appendPMV(conds){  
