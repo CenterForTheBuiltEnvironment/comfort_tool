@@ -403,7 +403,7 @@ $(function() {
     $('#ERFdialog').dialog({
         autoOpen: false,
         height: 480,
-        width: 500,
+        width: 600,
         modal: true,
         resizable: true,
         buttons: {
