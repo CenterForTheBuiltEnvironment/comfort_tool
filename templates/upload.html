@@ -122,7 +122,7 @@
       _.each(conds, function(e){
         e.ta = util.FtoC(e.ta)
         e.tr = util.FtoC(e.tr)
-        e.vel = e.vel = 196.9
+        e.vel = e.vel / 196.9
       });
     }
     _.each(conds, function(e){
