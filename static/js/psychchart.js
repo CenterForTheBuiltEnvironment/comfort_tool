@@ -491,111 +491,112 @@ var pc = new function() {
     }
 
     this.initDisplay = function(){
+
         pc.svg.append("text")
             .text("Air temperature")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 140) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 10) + ")")
 
         pc.svg.append("text")
             .text("MRT")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 160) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 30) + ")")
 
         pc.svg.append("text")
             .text("Air velocity")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 180) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 50) + ")")
 
         pc.svg.append("text")
             .text("Relative humidity")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 200) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 70) + ")")
 
         pc.svg.append("text")
             .text("Metabolic Rate")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 220) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 90) + ")")
 
         pc.svg.append("text")
             .text("Clothing level")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 240) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 110) + ")")
 
         pc.svg.append("text")
             .text("PMV")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 260) + ")")
+            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 130) + ")")
 
         pc.svg.append("text")
             .attr("id", "db-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 140) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 10) + ")")
 
         pc.svg.append("text")
             .attr("id", "mrt-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 160) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 30) + ")")
 
         pc.svg.append("text")
             .attr("id", "vel-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 180) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 50) + ")")
 
         pc.svg.append("text")
             .attr("id", "rh-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 200) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 70) + ")")
 
         pc.svg.append("text")
             .attr("id", "met-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 220) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 90) + ")")
 
         pc.svg.append("text")
             .attr("id", "clo-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 240) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 110) + ")")
 
         pc.svg.append("text")
             .attr("id", "pmv-value")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 260) + ")")
+            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 130) + ")")
 
         pc.svg.append("text")
             .text("°C")
             .attr("id", "box-db-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 140) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 10) + ")")
 
         pc.svg.append("text")
             .text("°C")
             .attr("id", "box-mrt-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 160) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 30) + ")")
 
         pc.svg.append("text")
             .text("m/s")
             .attr("id", "box-vel-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 180) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 50) + ")")
 
         pc.svg.append("text")
             .text("%")
             .attr("id", "box-rh-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 200) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 70) + ")")
 
         pc.svg.append("text")
             .text("met")
             .attr("id", "box-met-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 220) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 90) + ")")
 
         pc.svg.append("text")
             .text("clo")
             .attr("id", "box-clo-unit")
             .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 240) + ")")
+            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 110) + ")")
     }
 
     this.drawPoints = function(data) {
