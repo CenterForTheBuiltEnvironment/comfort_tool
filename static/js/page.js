@@ -540,7 +540,7 @@ $(function() {
 
     $('#leed-submit').button().click(function() {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", util.STATIC_URL + "html/leed.html");
+        xmlhttp.open("GET", util.STATIC_URL + "/html/leed.html");
         xmlhttp.send();
         xmlhttp.onload = function(e) {
             leed_html = xmlhttp.responseText;
@@ -764,7 +764,7 @@ $('#globeTemp').click(function() {
 $('#ERF').click(function() {
   var container = $('#ERFdialog');
   $.ajax({
-    url: util.STATIC_URL + 'html/erf.html',
+    url: util.STATIC_URL + '/html/erf.html',
     success: function(data) {
       $('#ERFdialog').html(data);
       $('#posture').selectmenu({
