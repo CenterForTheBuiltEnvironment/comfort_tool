@@ -18,13 +18,13 @@
 
     #chart-div {
       float: right;
-      margin-right: 10px;
+      margin-right: 25px;
     }
 
     #upload-options {
       font-size: 14px;
       float: left;
-      margin-left: 15px;
+      margin-left: 25px;
       margin-top: 15px;
     }
 
@@ -47,6 +47,7 @@
       margin-top: 20px;
       margin-bottom: 10px;
     }
+
   </style>
   <title>Comfort tool file upload</title>
 {% endblock %}
@@ -69,14 +70,18 @@
       <span class="btn btn-default" id='units-toggle'>SI / IP</span>
       <span class="btn btn-default" id='help-button'>?</span>
      
-      <table id="default-table">
-        <tr><td style="color: #696969">Default fields</td><td></td><td></td></tr>
-        <tr><td>Air temperature</td><td><input class='default-input' id='default-ta' value='25' /></td><td id='ta-unit'>&deg;C</td></tr>
-        <tr><td>MRT</td><td><input class='default-input' id='default-tr' value='25' /></td><td id='tr-unit'>&deg;C</td></tr>
-        <tr><td>Air velocity</td><td><input class='default-input' id='default-vel' value='0.15' /></td><td id='vel-unit'>m/s</td></tr>
-        <tr><td>Relative humidity</td><td><input class='default-input' id='default-rh' value='50' /></td><td>%</td></tr>
-        <tr><td>Metabolic rate</td><td><input class='default-input' id='default-met' value='1' /></td><td></td></tr>
-        <tr><td>Clothing level</td><td><input class='default-input' id='default-clo' value='1' /></td><td></td></tr>
+      <table class="table table-condensed" id="default-table">
+        <thead>
+          <tr><th style="color: #696969">Default fields</th><th></th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Air temperature</td><td><input class='default-input' id='default-ta' value='25' /></td><td id='ta-unit'>&deg;C</td></tr>
+          <tr><td>MRT</td><td><input class='default-input' id='default-tr' value='25' /></td><td id='tr-unit'>&deg;C</td></tr>
+          <tr><td>Air velocity</td><td><input class='default-input' id='default-vel' value='0.15' /></td><td id='vel-unit'>m/s</td></tr>
+          <tr><td>Relative humidity</td><td><input class='default-input' id='default-rh' value='50' /></td><td>%</td></tr>
+          <tr><td>Metabolic rate</td><td><input class='default-input' id='default-met' value='1' /></td><td></td></tr>
+          <tr><td>Clothing level</td><td><input class='default-input' id='default-clo' value='1' /></td><td></td></tr>
+	</tbody>
       </table>
       
       <div class="metric-result" id="metrics-pmv-avg" style="display:none"></div>
@@ -191,7 +196,7 @@
     });
 
     window.isCelsius = true
-    pc.width = $(window).width() - 400;
+    pc.width = $(window).width() - 370;
     pc.height = $(window).height() - 100;
     pc.init();
     pc.drawChart();
