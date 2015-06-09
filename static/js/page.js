@@ -392,7 +392,6 @@ $(function() {
         buttons: {
             "Set mean radiant temperature": function() {
                 var tr = parseFloat($('#mrt-result').val());
-                if (!isCelsius) tr = util.CtoF(tr);
                 $('#tr').val(tr);
                 $(this).dialog("close");
                 update();
