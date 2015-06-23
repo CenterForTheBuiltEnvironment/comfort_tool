@@ -58,7 +58,7 @@ function floorRisk(T_floor) {
 // -------------------------------- Draft ----------------------------------------------------------------------
 
 function draftRisk(T_op, local_vel) {
-    return (T_op < 22.5 && local_vel > 0.15)
+    return (T_op < 23.0 && local_vel > 0.2)
 };
 
 //------------------------------- For the dialog --------------------------------------

@@ -625,7 +625,7 @@ function calcPmvElevCompliance(d, r, i) {
         unit_v = ' m/s';
     }
 
-    if ($('#vel1').val() > 0.15 || $('#vel2').val() > 0.15 || $('#vel3').val() > 0.15) {
+    if ($('#vel1').val() > 0.2 || $('#vel2').val() > 0.2 || $('#vel3').val() > 0.2) {
         $("#pmv-out-label").html('PMV with elevated air')
         $("#ppd-out-label").html('PPD with elevated air')
         $("#pmv-elev-outputs").show();
@@ -666,8 +666,8 @@ function getComplianceRanges(d, r, local_control) {
         var to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
             a.vel_max = Math.min(a.vel_max, 0.8);
-        } else if (to < 22.5) {
-            a.vel_max = Math.min(a.vel_max, 0.15);
+        } else if (to < 23.0) {
+            a.vel_max = Math.min(a.vel_max, 0.2);
         } else {
             a.vel_max = Math.min(a.vel_max, 50.49 - 4.4047 * to + 0.096425 * to * to);
         }
