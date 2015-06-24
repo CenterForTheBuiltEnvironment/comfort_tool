@@ -1127,14 +1127,17 @@ function calcPmvElevCompliance(d, r) {
         special_msg += '&#8627; Clo values above 1.5 are not covered by this Standard<br>';
     }
 
-    compliance_ranges = getComplianceRanges(d, r, local_control);
-
-    if (!isNaN(compliance_ranges.vel_max)){
-        if (d.vel > compliance_ranges.vel_max && local_control) {
-            comply = false;
-            special_msg += '&#8627; Air speed exceeds limit set by standard<br>';
+    if (!local_control) {
+        var max_airspeed;
+        var to = (d.ta + d.tr) / 2;
+        if (to > 25.5) {
+            max_airspeed = 0.8 
+        } else if (to < 23.0) {
+            max_airspeed = 0.2
+        } else {
+            max_airspeed= 50.49 - 4.4047 * to + 0.096425 * to * to;
         }
-        if (d.vel > compliance_ranges.vel_max && !local_control) {
+        if (d.vel > max_airspeed) {
             comply = false;
             special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
         }
@@ -1158,63 +1161,23 @@ function calcPmvElevCompliance(d, r) {
 function calcAdaptiveCompliance(d, r) {
     var comply = true;
     var special_msg = '';
+    var to = (d.ta + d.tr) / 2;
 
     if (d.trm > 33.5 || d.trm < 10) {
         comply = false;
-        special_msg += '&#8627; Prevailing mean outdoor temperatures above ' + (isCelsius ? '33.5&deg;C ' : '92.3&deg;F ') 
-          + 'or below ' + (isCelsius ? '10&deg;C ' : '50&deg;F ') + 'are not covered by Standard-55<br>';
+        special_msg += '&#8627; Prevailing mean outdoor temperatures above ' 
+          + (isCelsius ? '33.5&deg;C ' : '92.3&deg;F ') 
+          + 'or below ' + (isCelsius ? '10&deg;C ' : '50&deg;F ') 
+          + 'are not covered by Standard-55<br>';
     }
-    if ((d.ta + d.tr) / 2 < 25 & d.vel_a > 0.3) {
-        special_msg += '&#8627; The cooling effect of air speed is used only when the operative temperature is above ' + (isCelsius ? '25&deg;C' : '77&deg;F');
+    if (to < 25 & d.vel_a > 0.3) {
+        special_msg += '&#8627; The cooling effect of air speed '
+          + 'is used only when the operative temperature is above ' 
+          + (isCelsius ? '25&deg;C' : '77&deg;F');
     }
     if (!r.acceptability80) comply = false;
 
     renderCompliance(comply, special_msg);
-}
-
-function getComplianceRanges(d, r, local_control) {
-
-    var a = {};
-    var found_lower = false;
-    var found_upper = false;
-    var c;
-    for (var v = 0; v <=  1.2; v+=0.01){
-         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv
-         if (c < 0.5 && c > -0.5){
-             a.vel_min = v;
-             found_lower = true;
-             break
-         }
-    }
-    for (var v = 1.2; v >= 0; v-=0.01){
-         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv
-         if (c > -0.5 && c < 0.5){
-             a.vel_max = v;
-             found_upper = true;
-             break
-         }
-    }
-
-    if (!local_control) {
-        var to = (d.ta + d.tr) / 2;
-        if (to > 25.5) {
-            a.vel_max = Math.min(a.vel_max, 0.8);
-        } else if (to < 23.0) {
-            a.vel_max = Math.min(a.vel_max, 0.2);
-        } else {
-            a.vel_max = Math.min(a.vel_max, 50.49 - 4.4047 * to + 0.096425 * to * to);
-        }
-    }
-
-    a.vel_min = Math.min(a.vel_max, a.vel_min)
-    a.vel_max = Math.max(a.vel_max, a.vel_min)
-    
-    if (!found_upper || !found_lower || a.vel_max < a.vel_min){
-        a.vel_max = Number.NaN;
-        a.vel_min = Number.NaN;
-    }
-
-    return a
 }
 
 function renderCompliance(comply, special_msg) {
