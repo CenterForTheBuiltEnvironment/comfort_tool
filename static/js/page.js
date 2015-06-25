@@ -1131,11 +1131,13 @@ function calcPmvElevCompliance(d, r) {
         var max_airspeed;
         var to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
-            max_airspeed = 0.8 
+            max_airspeed = 0.8;
         } else if (to < 23.0) {
             max_airspeed = 0.2
         } else {
-            max_airspeed= 50.49 - 4.4047 * to + 0.096425 * to * to;
+            max_airspeed = 50.49 - 4.4047 * to + 0.096425 * to * to;
+            if (max_airspeed < 0.2) max_airspeed = 0.2;
+            if (max_airspeed > 0.8) max_airspeed = 0.8;
         }
         if (d.vel > max_airspeed) {
             comply = false;
