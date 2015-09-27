@@ -189,7 +189,7 @@ function get_Ap(alt, az, posture) {
     return Ap;
 }
 
-function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa){
+function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, tsol_factor){
     //  ERF function to estimate the impact of solar radiation on occupant comfort
     //  INPUTS:
     //  alt : altitude of sun in degrees [0, 90]
@@ -200,6 +200,11 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa){
     //  fsvv : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]
     //  fbes : fraction body exposed to sun [0, 1]
     //  asa : avg shortwave abs : average shortwave absorptivity of body [0, 1]
+    //  tsol_factor : (optional) correction to tsol based on angle of incidence
+
+    if (tsol_factor === undefined) {
+      tsol_factor = 1.0;
+    }
 
     var DEG_TO_RAD = 0.0174532925;
     var hr = 6;
@@ -299,7 +304,7 @@ function ERF_test(){
   var pass = true;
   var eps = 0.01;
   for (var i = 0; i < v.length; i++){
-    var my_erf = ERF(v[i][0], v[i][1], v[i][2], v[i][3], v[i][4], v[i][5], v[i][6], v[i][7], v[i][8])
+    var my_erf = ERF(v[i][0], v[i][1], v[i][2], v[i][3], v[i][4], v[i][5], v[i][6], v[i][7])
     var my_res = res[i];
     var delta_erf = my_erf[0] - res[0];
     var delta_dMRT = my_erf[1] - res[1];

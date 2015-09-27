@@ -415,9 +415,8 @@ $(function() {
                 var fsvv = parseFloat($('#fsvv').val());
                 var fbes = parseFloat($('#fbes').val());
                 var asa = parseFloat($('#asa').val());
-                var Rfloor = parseFloat($('#Rfloor').val());
 
-                var r = ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor)
+                var r = ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa)
                 $('#erf-result').val(r.ERF.toFixed(1))
                 if (!isCelsius) r.dMRT = util.CtoF(r.dMRT) - 32
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
