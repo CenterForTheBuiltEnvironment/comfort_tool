@@ -189,7 +189,7 @@ function get_Ap(alt, az, posture) {
     return Ap;
 }
 
-function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor){
+function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa){
     //  ERF function to estimate the impact of solar radiation on occupant comfort
     //  INPUTS:
     //  alt : altitude of sun in degrees [0, 90]
@@ -200,14 +200,16 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor){
     //  fsvv : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]
     //  fbes : fraction body exposed to sun [0, 1]
     //  asa : avg shortwave abs : average shortwave absorptivity of body [0, 1]
-    //  Rfloor: floor reflectance [0, 1]
 
     var DEG_TO_RAD = 0.0174532925;
     var hr = 6;
     var Idiff = 0.175 * Idir * Math.sin(alt * DEG_TO_RAD);
-    
+
+    // Floor reflectance
+    var Rfloor = 0.6;
+ 
     var fp = get_fp(alt, az, posture);
-    
+ 
     if (posture=='standing'){
         var feff = 0.725;
     } else if (posture=='seated'){
@@ -233,36 +235,36 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, Rfloor){
 
 function ERF_test(){
 
-  // alt,az,posture,Idir,tsol,fsvv,fbes,asa,Rfloor
-  var v = [[0,120,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [60,120,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [90,120,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,0,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,30,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,60,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,90,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,150,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,180,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"standing",800,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"seated",400,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"seated",600,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"seated",1000,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"seated",800,0.1,0.5,0.5,0.7,0.5],
-    [30,120,"seated",800,0.3,0.5,0.5,0.7,0.5],
-    [30,120,"seated",800,0.7,0.5,0.5,0.7,0.5],
-    [30,120,"seated",800,0.5,0.1,0.5,0.7,0.5],
-    [30,120,"seated",800,0.5,0.3,0.5,0.7,0.5],
-    [30,120,"seated",800,0.5,0.7,0.5,0.7,0.5],
-    [30,120,"seated",800,0.5,0.5,0.1,0.7,0.5],
-    [30,120,"seated",800,0.5,0.5,0.3,0.7,0.5],
-    [30,120,"seated",800,0.5,0.5,0.7,0.7,0.5],
-    [30,120,"seated",800,0.5,0.5,0.5,0.3,0.5],
-    [30,120,"seated",800,0.5,0.5,0.5,0.5,0.5],
-    [30,120,"seated",800,0.5,0.5,0.5,0.9,0.5],
-    [30,120,"seated",800,0.5,0.5,0.5,0.7,0.1],
-    [30,120,"seated",800,0.5,0.5,0.5,0.7,0.3],
-    [30,120,"seated",800,0.5,0.5,0.5,0.7,0.5],
-    [30,120,"seated",800,0.5,0.5,0.5,0.7,0.7]];
+  // alt,az,posture,Idir,tsol,fsvv,fbes,asa
+  var v = [[0,120,"seated",800,0.5,0.5,0.5,0.7],
+    [60,120,"seated",800,0.5,0.5,0.5,0.7],
+    [90,120,"seated",800,0.5,0.5,0.5,0.7],
+    [30,0,"seated",800,0.5,0.5,0.5,0.7],
+    [30,30,"seated",800,0.5,0.5,0.5,0.7],
+    [30,60,"seated",800,0.5,0.5,0.5,0.7],
+    [30,90,"seated",800,0.5,0.5,0.5,0.7],
+    [30,150,"seated",800,0.5,0.5,0.5,0.7],
+    [30,180,"seated",800,0.5,0.5,0.5,0.7],
+    [30,120,"standing",800,0.5,0.5,0.5,0.7],
+    [30,120,"seated",400,0.5,0.5,0.5,0.7],
+    [30,120,"seated",600,0.5,0.5,0.5,0.7],
+    [30,120,"seated",1000,0.5,0.5,0.5,0.7],
+    [30,120,"seated",800,0.1,0.5,0.5,0.7],
+    [30,120,"seated",800,0.3,0.5,0.5,0.7],
+    [30,120,"seated",800,0.7,0.5,0.5,0.7],
+    [30,120,"seated",800,0.5,0.1,0.5,0.7],
+    [30,120,"seated",800,0.5,0.3,0.5,0.7],
+    [30,120,"seated",800,0.5,0.7,0.5,0.7],
+    [30,120,"seated",800,0.5,0.5,0.1,0.7],
+    [30,120,"seated",800,0.5,0.5,0.3,0.7],
+    [30,120,"seated",800,0.5,0.5,0.7,0.7],
+    [30,120,"seated",800,0.5,0.5,0.5,0.3],
+    [30,120,"seated",800,0.5,0.5,0.5,0.5],
+    [30,120,"seated",800,0.5,0.5,0.5,0.9],
+    [30,120,"seated",800,0.5,0.5,0.5,0.7],
+    [30,120,"seated",800,0.5,0.5,0.5,0.7],
+    [30,120,"seated",800,0.5,0.5,0.5,0.7],
+    [30,120,"seated",800,0.5,0.5,0.5,0.7]];
   
   var res = [[26.872926315789474,6.435087719298245],
     [53.9686502136441,12.923527350010561],
