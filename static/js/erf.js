@@ -12,15 +12,8 @@ function find_span(arr, x){
 function get_fp(alt, az, posture){
     //  alt : altitude of sun in degrees [0, 90] Integer
     //  az : azimuth of sun in degrees [0, 180] Integer
-    var fp;
-    var alt_range = [0, 15, 30, 45, 60, 75, 90];
-    var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
     
-    var alt_i = find_span(alt_range, alt);
-    var az_i = find_span(az_range, az);
-
-    // standing 
-    if (posture == 'standing'){
+    if (posture == 'standing' || posture == 'supine'){
         var fp_table = [[0.25,0.25,0.23,0.19,0.15,0.10,0.06],
             [0.25,0.25,0.23,0.18,0.15,0.10,0.06],
             [0.24,0.24,0.22,,0.18,0.14,0.10,0.06],
@@ -49,6 +42,21 @@ function get_fp(alt, az, posture){
             [0.21,0.17,0.13,0.11,0.11,0.12,0.12],
             [0.21,0.17,0.12,0.11,0.11,0.11,0.12]];
     }
+
+    if (posture == 'supine') {
+      // transpose alt and az for a supine person
+      alt_temp = alt;
+      alt = Math.abs(90 - az)
+      az = alt_temp;
+    }
+
+    var fp;
+    var alt_range = [0, 15, 30, 45, 60, 75, 90];
+    var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
+
+    var alt_i = find_span(alt_range, alt);
+    var az_i = find_span(az_range, az);
+
     var fp11 = fp_table[az_i][alt_i];
     var fp12 = fp_table[az_i][alt_i+1];
     var fp21 = fp_table[az_i+1][alt_i];
@@ -72,15 +80,8 @@ function get_fp(alt, az, posture){
 function get_fp_real(alt, az, posture){
     //  alt : altitude of sun in degrees [0, 90] Integer
     //  az : azimuth of sun in degrees [0, 180] Integer
-    var fp;
-    var alt_range = [0, 15, 30, 45, 60, 75, 90];
-    var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
-    
-    var alt_i = find_span(alt_range, alt);
-    var az_i = find_span(az_range, az);
 
-    // standing 
-    if (posture == 'standing'){
+    if (posture == 'standing' | posture == 'supine'){
         var fp_table = [[0.25375,0.25375,0.22765,0.18705,0.14935,0.1044,0.05945],
             [0.24795,0.24795,0.22475,0.1827,0.145,0.1015,0.05945],
             [0.23925,0.23925,0.2175,,0.1769,0.13775,0.0957,0.05945],
@@ -109,6 +110,21 @@ function get_fp_real(alt, az, posture){
             [0.212976,0.174,0.12528,0.108576,0.108576,0.115536,0.123192],
             [0.2088,0.16704,0.116928,0.105792,0.105792,0.114144,0.123192]];
     }
+
+    if (posture == 'supine') {
+      // transpose alt and az for a supine person
+      alt_temp = alt;
+      alt = Math.abs(90 - az)
+      az = alt_temp;
+    }
+
+    var fp;
+    var alt_range = [0, 15, 30, 45, 60, 75, 90];
+    var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
+
+    var alt_i = find_span(alt_range, alt);
+    var az_i = find_span(az_range, az);
+
     var fp11 = fp_table[az_i][alt_i];
     var fp12 = fp_table[az_i][alt_i+1];
     var fp21 = fp_table[az_i+1][alt_i];
@@ -129,72 +145,12 @@ function get_fp_real(alt, az, posture){
     return fp;
 }
 
-function get_Ap(alt, az, posture) {
-    //  alt : altitude of sun in degrees [0, 90] Integer
-    //  az : azimuth of sun in degrees [0, 180] Integer
-    var Ap;
-    var alt_range = [0, 15, 30, 45, 60, 75, 90];
-    var az_range = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
-    
-    var alt_i = find_span(alt_range, alt);
-    var az_i = find_span(az_range, az);
-
-    if (posture == 'standing'){
-        var Ap_table = [[0.45675,0.45675,0.40977,0.33669,0.26883,0.18792,0.10701],
-            [0.44631,0.44631,0.40455,0.32886,0.261,0.1827,0.10701],
-            [0.43065,0.43065,0.3915,0.31842,0.24795,0.17226,0.10701],
-            [0.40455,0.40455,0.358875,0.29754,0.228375,0.16182,0.10701],
-            [0.369315,0.369315,0.327555,0.27144,0.2088,0.14877,0.10701],
-            [0.32886,0.32886,0.29754,0.24534,0.19575,0.14094,0.10701],
-            [0.30015,0.30015,0.27927,0.2349,0.19314,0.14094,0.10701],
-            [0.31581,0.31581,0.28971,0.2349,0.199665,0.14616,0.10701],
-            [0.35757,0.35757,0.319725,0.264915,0.215325,0.15138,0.10701],
-            [0.39672,0.39672,0.35235,0.2871,0.22707,0.157905,0.10701],
-            [0.42804,0.42804,0.37845,0.30537,0.238815,0.163125,0.10701],
-            [0.44892,0.44892,0.39672,0.31842,0.24795,0.16704,0.10701],
-            [0.452835,0.452835,0.40194,0.32103,0.249255,0.16704,0.10701]];
-    } else if (posture == 'seated'){
-        var Ap_table = [[0.363312,0.4059072,0.382104,0.3795984,0.3282336,0.2806272,0.2217456],
-            [0.3658176,0.4109184,0.3683232,0.3608064,0.3357504,0.2843856,0.2217456],
-            [0.3608064,0.4159296,0.3733344,0.363312,0.3307392,0.2781216,0.2217456],
-            [0.3432672,0.4084128,0.3683232,0.3620592,0.3157056,0.2680992,0.2217456],
-            [0.3182112,0.3858624,0.350784,0.3457728,0.3019248,0.2530656,0.2217456],
-            [0.288144,0.3532896,0.3282336,0.325728,0.2919024,0.2417904,0.2217456],
-            [0.2706048,0.325728,0.3106944,0.3056832,0.275616,0.2330208,0.2217456],
-            [0.2931552,0.3232224,0.2956608,0.2843856,0.2605824,0.225504,0.2217456],
-            [0.3282336,0.325728,0.2806272,0.2605824,0.2455488,0.2204928,0.2217456],
-            [0.350784,0.325728,0.263088,0.2405376,0.2305152,0.212976,0.2217456],
-            [0.3733344,0.3207168,0.2430432,0.2179872,0.2104704,0.2104704,0.2217456],
-            [0.3833568,0.3132,0.225504,0.1954368,0.1954368,0.2079648,0.2217456],
-            [0.37584,0.300672,0.2104704,0.1904256,0.1904256,0.2054592,0.2217456]];
-    }
-    
-    var Ap11 = Ap_table[az_i][alt_i];
-    var Ap12 = Ap_table[az_i][alt_i+1];
-    var Ap21 = Ap_table[az_i+1][alt_i];
-    var Ap22 = Ap_table[az_i+1][alt_i+1];
-
-    var az1 = az_range[az_i];
-    var az2 = az_range[az_i+1];
-    var alt1 = alt_range[alt_i];
-    var alt2 = alt_range[alt_i+1];
-    
-    // bilinear interpolation
-    Ap = Ap11 * (az2 - az) * (alt2 - alt);
-    Ap += Ap21 * (az - az1) * (alt2 - alt);
-    Ap += Ap12 * (az2 - az) * (alt - alt1);
-    Ap += Ap22 * (az - az1) * (alt - alt1);
-    Ap /= (az2 - az1) * (alt2 - alt1);
-
-    return Ap;
-}
-
 function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, tsol_factor){
     //  ERF function to estimate the impact of solar radiation on occupant comfort
     //  INPUTS:
     //  alt : altitude of sun in degrees [0, 90]
     //  az : azimuth of sun in degrees [0, 180]
-    //  posture: posture of occupant ('seated' or 'standing')
+    //  posture: posture of occupant ('seated', 'standing', or 'supine')
     //  Idir : direct beam intensity (normal)
     //  tsol: total solar transmittance (SC * 0.87)
     //  fsvv : sky vault view fraction : fraction of sky vault in occupant's view [0, 1]
@@ -215,7 +171,7 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, tsol_factor){
  
     var fp = get_fp(alt, az, posture);
  
-    if (posture=='standing'){
+    if (posture=='standing' | posture=='supine'){
         var feff = 0.725;
     } else if (posture=='seated'){
         var feff = 0.696;
