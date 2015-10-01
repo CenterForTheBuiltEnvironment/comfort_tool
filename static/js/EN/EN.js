@@ -636,7 +636,7 @@ $('#globeTemp').click(function() {
 $('#localDisc').click(function() {
     var container = $('#localdialog');
     $.ajax({
-        url: util.STATIC_URL + 'html/localdisc.html',
+        url: util.STATIC_URL + '/html/localdisc.html',
         success: function(data) {
             $('#localdialog').html(data);
             if (!isCelsius) {
