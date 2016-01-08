@@ -9,7 +9,7 @@ these can be used to generate psychrometric charts.
 
 import math
 
-def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
+def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
     """
     This function accepts any input conditions (including low air speeds)
     but will return accurate values if the airspeed is above (>0.15m/s).
@@ -22,13 +22,13 @@ def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
     set: The Standard Effective Temperature [C] (see below)
     """
     r = []
-    set = self.comfPierceSET(ta, tr, vel, rh, met , clo, wme)
+    set = comfPierceSET(ta, tr, vel, rh, met , clo, wme)
 
     # This function is taken from the util.js script of the CBE comfort tool
     # page and has been modified to include the fn inside the utilSecant function
     def utilSecant(a, b, epsilon):
         def fn(t):
-            return (set - self.comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
+            return (set - comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
 
         f1 = fn(a)
         f2 = fn(b)
@@ -60,7 +60,7 @@ def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
     def utilBisect(a, b, epsilon, target):
 
         def fn(t):
-            return (set - self.comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
+            return (set - comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
 
         while abs(b - a) > (2 * epsilon):
             midpoint = (b + a) / 2
@@ -77,7 +77,7 @@ def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
 
 
     if vel <= 0.15:
-        pmv, ppd = self.comfPMV(ta, tr, vel, rh, met, clo, wme)
+        pmv, ppd = comfPMV(ta, tr, vel, rh, met, clo, wme)
         ta_adj = ta
         ce = 0
     else:
@@ -89,7 +89,7 @@ def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
         if ta_adj == 'NaN':
             ta_adj = utilBisect(ta_adj_l, ta_adj_r, eps, 0)
 
-        pmv, ppd = self.comfPMV(ta_adj, tr, 0.15, rh, met, clo, wme)
+        pmv, ppd = comfPMV(ta_adj, tr, 0.15, rh, met, clo, wme)
         ce = abs(ta - ta_adj)
 
     r.append(pmv)
@@ -101,7 +101,7 @@ def comfPMVElevatedAirspeed(self, ta, tr, vel, rh, met, clo, wme):
     return r
 
 
-def comfPMV(self, ta, tr, vel, rh, met, clo, wme):
+def comfPMV(ta, tr, vel, rh, met, clo, wme):
     #returns [pmv, ppd]
     #ta, air temperature (C)
     #tr, mean radiant temperature (C)
@@ -182,7 +182,7 @@ def comfPMV(self, ta, tr, vel, rh, met, clo, wme):
     return r
 
 
-def comfPierceSET(self, ta, tr, vel, rh, met, clo, wme):
+def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     """
     Function to find the saturation vapor pressure, used frequently
     throughtout the comfPierceSET function.
@@ -382,12 +382,12 @@ def comfPierceSET(self, ta, tr, vel, rh, met, clo, wme):
 
 
 def calcBalTemp(
-        self, initialGuess, windSpeed,
+        initialGuess, windSpeed,
         relHumid, metRate, cloLevel, exWork):
     balTemper = initialGuess
     delta = 3
     while abs(delta) > 0.01:
-        delta, ppd, set, taAdj, coolingEffect = self.comfPMVElevatedAirspeed(
+        delta, ppd, set, taAdj, coolingEffect = comfPMVElevatedAirspeed(
                 balTemper, balTemper, windSpeed,
                 relHumid, metRate, cloLevel, exWork)
         balTemper = balTemper - delta
@@ -395,13 +395,13 @@ def calcBalTemp(
 
 
 def calcComfRange(
-        self, initialGuessUp, initialGuessDown,
+        initialGuessUp, initialGuessDown,
         radTemp, windSpeed, relHumid,
         metRate, cloLevel, exWork, eightyPercent):
     upTemper = initialGuessUp
     upDelta = 3
     while abs(upDelta) > 0.01:
-        pmv, ppd, set, taAdj, coolingEffect = self.comfPMVElevatedAirspeed(
+        pmv, ppd, set, taAdj, coolingEffect = comfPMVElevatedAirspeed(
                 upTemper, radTemp, windSpeed,
                 relHumid, metRate, cloLevel, exWork)
         if eightyPercent == True:
@@ -416,7 +416,7 @@ def calcComfRange(
     else: downTemper = initialGuessDown
     downDelta = 3
     while abs(downDelta) > 0.01:
-        pmv, ppd, set, taAdj, coolingEffect = self.comfPMVElevatedAirspeed(
+        pmv, ppd, set, taAdj, coolingEffect = comfPMVElevatedAirspeed(
                 downTemper, radTemp, windSpeed,
                 relHumid, metRate, cloLevel, exWork)
         if eightyPercent == True:
@@ -429,7 +429,7 @@ def calcComfRange(
     return upTemper, downTemper
 
 
-def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety):
+def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, eightyOrNinety):
     r = []
     # See if the running mean temperature is between 10 C and 33.5 C and
     # if not, label the data as too extreme for the adaptive method.
@@ -485,7 +485,7 @@ def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety):
     return r
 
 
-def comfUTCI(self, Ta, Tmrt, va, RH):
+def comfUTCI(Ta, Tmrt, va, RH):
     # Define a function to change the RH to water saturation vapor
     # pressure in hPa
     def es(ta):
@@ -754,7 +754,7 @@ def comfUTCI(self, Ta, Tmrt, va, RH):
 
     return UTCI_approx, comfortable, stressRange
 
-def calcHumidRatio(self, airTemp, relHumid, barPress):
+def calcHumidRatio(airTemp, relHumid, barPress):
     # Convert Temperature to Kelvin
     TKelvin = []
     for item in airTemp:
