@@ -297,7 +297,7 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
     var CSTR = 0.5;
 
     TempSkinNeutral = 33.7; //setpoint (neutral) value for Tsk
-    TempCoreNeutral = 36.49; //setpoint value for Tcr
+    TempCoreNeutral = 36.8; //setpoint value for Tcr
     TempBodyNeutral = 36.49; //setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
     SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
 
