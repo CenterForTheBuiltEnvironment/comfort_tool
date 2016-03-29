@@ -22,75 +22,72 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
     set: The Standard Effective Temperature [C] (see below)
     """
     r = []
-    set = comfPierceSET(ta, tr, vel, rh, met , clo, wme)
+    set = comfPierceSET(ta, tr, vel, rh, met, clo, wme)
+    stillAirThreshold = 0.1
 
     # This function is taken from the util.js script of the CBE comfort tool
     # page and has been modified to include the fn inside the utilSecant function
     def utilSecant(a, b, epsilon):
+        # root-finding only
+        res = []
         def fn(t):
-            return (set - comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
+            return (set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme))
 
         f1 = fn(a)
-        f2 = fn(b)
-        if abs(f1) <= epsilon:
-            return a
-        elif abs(f2) <= epsilon:
-            return b
+        if abs(f1) <= epsilon: res.append(a)
         else:
-            for i in range(100):
-                if (b - a) != 0 and (f2 - f1) != 0:
-                    slope = (f2 - f1) / (b - a)
-                    c = b - f2/slope
-                    f3 = fn(c)
-                    if abs(f3) < epsilon:
-                        return c
-                    a = b
-                    b = c
-                    f1 = f2
-                    f2 = f3
-                else:
-                    f = fn(a)
-                    if abs(fn(a)) < epsilon:
-                        return a
-        return None
+            f2 = fn(b)
+            if abs(f2) <= epsilon: res.append(b)
+            else:
+                count = range(100)
+                for i in count:
+                    if (b - a) != 0 and (f2 - f1) != 0:
+                        slope = (f2 - f1) / (b - a)
+                        c = b - f2 / slope
+                        f3 = fn(c)
+                        if abs(f3) < epsilon:
+                            res.append(c)
+                        a = b
+                        b = c
+                        f1 = f2
+                        f2 = f3
+            res.append('NaN')
+
+        return res[0]
 
     # This function is taken from the util.js script of the CBE comfort
     # tool page and has been modified to include the fn inside the
     # function definition.
     def utilBisect(a, b, epsilon, target):
-
         def fn(t):
-            return (set - comfPierceSET(t, tr, 0.15, rh, met, clo, wme))
+            return (set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme))
 
         while abs(b - a) > (2 * epsilon):
             midpoint = (b + a) / 2
             a_T = fn(a)
             b_T = fn(b)
             midpoint_T = fn(midpoint)
-            if (a_T - target) * (midpoint_T - target) < 0:
-                b = midpoint
-            elif (b_T - target) * (midpoint_T - target) < 0:
-                a = midpoint
-            else:
-                return None
+            if (a_T - target) * (midpoint_T - target) < 0: b = midpoint
+            elif (b_T - target) * (midpoint_T - target) < 0: a = midpoint
+            else: return -999
         return midpoint
 
 
-    if vel <= 0.15:
+    if vel <= stillAirThreshold:
         pmv, ppd = comfPMV(ta, tr, vel, rh, met, clo, wme)
         ta_adj = ta
         ce = 0
     else:
-        ta_adj_l = -200
-        ta_adj_r = 200
-        eps = 0.001  # precision of ta_adj
+        ce_l = 0
+        ce_r = 40
+        eps = 0.001  # precision of ce
 
-        ta_adj = utilSecant(ta_adj_l, ta_adj_r, eps)
-        if ta_adj == 'NaN':
-            ta_adj = utilBisect(ta_adj_l, ta_adj_r, eps, 0)
+        ce = utilSecant(ce_l, ce_r, eps)
+        if ce == 'NaN':
+            ce = utilBisect(ce_l, ce_r, eps, 0)
 
-        pmv, ppd = comfPMV(ta_adj, tr, 0.15, rh, met, clo, wme)
-        ce = abs(ta - ta_adj)
+        pmv, ppd = comfPMV(ta - ce, tr - ce, stillAirThreshold, rh, met, clo, wme)
+        ta_adj = ta - ce
 
     r.append(pmv)
     r.append(ppd)
@@ -102,27 +99,29 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
 
 
 def comfPMV(ta, tr, vel, rh, met, clo, wme):
-    #returns [pmv, ppd]
-    #ta, air temperature (C)
-    #tr, mean radiant temperature (C)
-    #vel, relative air velocity (m/s)
-    #rh, relative humidity (%) Used only this way to input humidity level
-    #met, metabolic rate (met)
-    #clo, clothing (clo)
-    #wme, external work, normally around 0 (met)
+    """
+    returns [pmv, ppd]
+    ta, air temperature (C)
+    tr, mean radiant temperature (C)
+    vel, relative air velocity (m/s)
+    rh, relative humidity (%) Used only this way to input humidity level
+    met, metabolic rate (met)
+    clo, clothing (clo)
+    wme, external work, normally around 0 (met)
+    """
 
     pa = rh * 10 * math.exp(16.6536 - 4030.183 / (ta + 235))
 
-    icl = 0.155 * clo #thermal insulation of the clothing in M2K/W
-    m = met * 58.15 #metabolic rate in W/M2
-    w = wme * 58.15 #external work in W/M2
-    mw = m - w #internal heat production in the human body
+    icl = 0.155 * clo  # thermal insulation of the clothing in M2K/W
+    m = met * 58.15  # metabolic rate in W/M2
+    w = wme * 58.15  # external work in W/M2
+    mw = m - w  # internal heat production in the human body
     if (icl <= 0.078):
         fcl = 1 + (1.29 * icl)
     else:
         fcl = 1.05 + (0.645 * icl)
 
-    #heat transf. coeff. by forced convection
+    # heat transf. coeff. by forced convection
     hcf = 12.1 * math.sqrt(vel)
     taa = ta + 273
     tra = tr + 273
@@ -154,20 +153,20 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme):
 
     tcl = 100 * xn - 273
 
-    #heat loss diff. through skin
+    # heat loss diff. through skin
     hl1 = 3.05 * 0.001 * (5733 - (6.99 * mw) - pa)
-    #heat loss by sweating
+    # heat loss by sweating
     if mw > 58.15:
         hl2 = 0.42 * (mw - 58.15)
     else:
         hl2 = 0
-    #latent respiration heat loss
+    # latent respiration heat loss
     hl3 = 1.7 * 0.00001 * m * (5867 - pa)
-    #dry respiration heat loss
+    # dry respiration heat loss
     hl4 = 0.0014 * m * (34 - ta)
-    #heat loss by radiation
+    # heat loss by radiation
     hl5 = 3.96 * fcl * (math.pow(xn, 4) - math.pow(tra / 100, 4))
-    #heat loss by convection
+    # heat loss by convection
     hl6 = fcl * hc * (tcl - ta)
 
     ts = 0.303 * math.exp(-0.036 * m) + 0.028
@@ -190,7 +189,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     res = None
 
     def findSaturatedVaporPressureTorr(T):
-        #calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
+        # calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
         return math.exp(18.6686 - 4030.183 / (T + 235.0))
 
     # Key initial variables.
@@ -200,16 +199,16 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     BODYWEIGHT = 69.9
     BODYSURFACEAREA = 1.8258
     METFACTOR = 58.2
-    SBC = 0.000000056697 # Stefan-Boltzmann constant (W/m2K4)
+    SBC = 0.000000056697  # Stefan-Boltzmann constant (W/m2K4)
     CSW = 170
     CDIL = 120
     CSTR = 0.5
 
-    TempSkinNeutral = 33.7 # setpoint (neutral) value for Tsk
-    TempCoreNeutral = 36.49 # setpoint value for Tcr
+    TempSkinNeutral = 33.7  # setpoint (neutral) value for Tsk
+    TempCoreNeutral = 36.49  # setpoint value for Tcr
     # setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
     TempBodyNeutral = 36.49
-    SkinBloodFlowNeutral = 6.3 # neutral value for SkinBloodFlow
+    SkinBloodFlowNeutral = 6.3  # neutral value for SkinBloodFlow
 
     # INITIAL VALUES - start of 1st experiment
     TempSkin = TempSkinNeutral
@@ -231,8 +230,8 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     TIMEH = LTIME / 60.0
     RCL = 0.155 * clo
 
-    FACL = 1.0 + 0.15 * clo # INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
-    LR = 2.2 / PressureInAtmospheres # Lewis Relation is 2.2 at sea level
+    FACL = 1.0 + 0.15 * clo  # INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
+    LR = 2.2 / PressureInAtmospheres  # Lewis Relation is 2.2 at sea level
     RM = met * METFACTOR
     M = met * METFACTOR
 
@@ -247,10 +246,10 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     CHCV = 8.600001 * pow((AirVelocity * PressureInAtmospheres), 0.53)
     CHC = max(CHC, CHCV)
 
-    #initial estimate of Tcl
+    # initial estimate of Tcl
     CHR = 4.7
     CTC = CHR + CHC
-    RA = 1.0 / (FACL * CTC) #resistance of air layer to dry heat transfer
+    RA = 1.0 / (FACL * CTC)  # resistance of air layer to dry heat transfer
     TOP = (CHR * tr + CHC * ta) / CTC
     TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCL))
 
@@ -281,8 +280,8 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         SSK = HFCS - DRY - ESK
         TCSK = 0.97 * ALFA * BODYWEIGHT
         TCCR = 0.97 * (1 - ALFA) * BODYWEIGHT
-        DTSK = (SSK * BODYSURFACEAREA) / (TCSK * 60.0)# //deg C per minute
-        DTCR = SCR * BODYSURFACEAREA / (TCCR * 60.0)# //deg C per minute
+        DTSK = (SSK * BODYSURFACEAREA) / (TCSK * 60.0)  # deg C per minute
+        DTCR = SCR * BODYSURFACEAREA / (TCCR * 60.0)  # deg C per minute
         TempSkin = TempSkin + DTSK
         TempCore = TempCore + DTCR
         TB = ALFA * TempSkin + (1 - ALFA) * TempCore
@@ -302,7 +301,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         REGSW = CSW * WARMB * math.exp(WARMS / 10.7)
         if REGSW > 500.0: REGSW = 500.0
         ERSW = 0.68 * REGSW
-        REA = 1.0 / (LR * FACL * CHC) #evaporative resistance of air layer
+        REA = 1.0 / (LR * FACL * CHC)  # evaporative resistance of air layer
         # evaporative resistance of clothing (icl=.45)
         RECL = RCL / (LR * ICL)
         EMAX = ((findSaturatedVaporPressureTorr(TempSkin) - VaporPressure) /
@@ -329,19 +328,19 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         ALFA = 0.0417737 + 0.7451833 / (SkinBloodFlow + .585417)
 
 
-    #Define new heat flow terms, coeffs, and abbreviations
-    STORE = M - wme - CRES - ERES - DRY - ESK #rate of body heat storage
-    HSK = DRY + ESK #total heat loss from skin
-    RN = M - wme #net metabolic heat production
+    # Define new heat flow terms, coeffs, and abbreviations
+    STORE = M - wme - CRES - ERES - DRY - ESK  # rate of body heat storage
+    HSK = DRY + ESK  # total heat loss from skin
+    RN = M - wme  # net metabolic heat production
     ECOMF = 0.42 * (RN - (1 * METFACTOR))
-    if ECOMF < 0.0: ECOMF = 0.0 #from Fanger
+    if ECOMF < 0.0: ECOMF = 0.0  # from Fanger
     EREQ = RN - ERES - CRES - DRY
     EMAX = EMAX * WCRIT
     HD = 1.0 / (RA + RCL)
     HE = 1.0 / (REA + RECL)
     W = PWET
     PSSK = findSaturatedVaporPressureTorr(TempSkin)
-    #Definition of ASHRAE standard environment... denoted "S"
+    # Definition of ASHRAE standard environment... denoted "S"
     CHRS = CHR
     if met < 0.85:
         CHCS = 3.0
@@ -368,7 +367,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
 
     DELTA = .0001
     dx = 100.0
-    X_OLD = TempSkin - HSK / HD_S # lower bound for SET
+    X_OLD = TempSkin - HSK / HD_S  # lower bound for SET
     while abs(dx) > .01:
         ERR1 = (HSK - HD_S * (TempSkin - X_OLD) - W * HE_S
             * (PSSK - 0.5 * findSaturatedVaporPressureTorr(X_OLD)))
@@ -492,12 +491,12 @@ def comfUTCI(Ta, Tmrt, va, RH):
         g = [
             -2836.5744, -6028.076559, 19.54263612,
             -0.02737830188, 0.000016261698,
-            (7.0229056*(10**(-10))), (-1.8680009*(10**(-13)))]
-        tk = ta + 273.15 # air temp in K
+            (7.0229056 * (10**(-10))), (-1.8680009*(10**(-13)))]
+        tk = ta + 273.15  # air temp in K
         es = 2.7150305 * math.log1p(tk)
         for count, i in enumerate(g):
             es = es + (i * (tk**(count - 2)))
-        es = math.exp(es) * 0.01	# convert Pa to hPa
+        es = math.exp(es) * 0.01  # convert Pa to hPa
         return es
 
     # Do a series of checks to be sure that the input values are within
@@ -519,9 +518,9 @@ def comfUTCI(Ta, Tmrt, va, RH):
     # va10m: wind speed 10m above ground level in m/s
 
     if check == True:
-        ehPa = es(Ta) * (RH/100.0)
+         ehPa = es(Ta) * (RH/ 100.0)
         D_Tmrt = Tmrt - Ta
-        Pa = ehPa/10.0  # convert vapour pressure to kPa
+        Pa = ehPa / 10.0  # convert vapour pressure to kPa
 
         UTCI_approx = (Ta +
             (0.607562052) +
