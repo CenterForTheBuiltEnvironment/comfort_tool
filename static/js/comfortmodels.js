@@ -50,7 +50,7 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
     var hr = 0.01;
     var met = 1.1;
     var vel = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8];
-   
+
     // first, solve for t_op where pmv = -0.5 at still air;
 
     var fn = function(t){
@@ -69,7 +69,7 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
     var set0_R = comf.pierceSET(t_op_R, t_op_R, 0.1, rh_R, met, clo, 0);
 
     var a = {'clo': clo, 'still_air': still_air_threshold, 'contour_L': [], 'contour_R': []};
-     
+
     for (var i = 0; i < vel.length; i++){
         var vel_i = vel[i];
         var fn_set = function(t){
@@ -245,16 +245,16 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
 
     tcl = 100 * xn - 273;
 
-    // heat loss diff. through skin 
+    // heat loss diff. through skin
     hl1 = 3.05 * 0.001 * (5733 - (6.99 * mw) - pa);
     // heat loss by sweating
     if (mw > 58.15) hl2 = 0.42 * (mw - 58.15);
     else hl2 = 0;
-    // latent respiration heat loss 
+    // latent respiration heat loss
     hl3 = 1.7 * 0.00001 * m * (5867 - pa);
     // dry respiration heat loss
     hl4 = 0.0014 * m * (34 - ta);
-    // heat loss by radiation  
+    // heat loss by radiation
     hl5 = 3.96 * fcl * (pow(xn, 4) - pow(tra / 100, 4));
     // heat loss by convection
     hl6 = fcl * hc * (tcl - ta);
@@ -406,7 +406,7 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
             ERSW = PRSW * EMAX;
             EDIF = 0.06 * (1.0 - PRSW) * EMAX;
             ESK = ERSW + EDIF;
-        } 
+        }
         if (EMAX < 0) {
             EDIF = 0;
             ERSW = 0;
@@ -490,36 +490,36 @@ comf.schiavonClo = function(ta6) {
 comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
     var to = (ta + tr) / 2;
     var coolingEffect = 0;
-	if (vel >= 0.2 && to > 25) {
-	    // calculate cooling effect of elevated air speed
-	    // when top > 25 degC.
-    var coolingEffect = 1.7856 * Math.log(vel) + 2.9835;
-	}
-	var tComf = 0.33 * runningMean + 18.8;
-	if(runningMean > 15){
-	    var tComfILower = tComf - 2;
-	    var tComfIUpper = tComf + 2 + coolingEffect;
-		var tComfIILower = tComf - 3;
-	    var tComfIIUpper = tComf + 3 + coolingEffect;
-	    var tComfIIILower = tComf - 4;
-	    var tComfIIIUpper = tComf + 4 + coolingEffect;
+    if (vel >= 0.2 && to > 25) {
+        // calculate cooling effect of elevated air speed
+        // when top > 25 degC.
+        var coolingEffect = 1.7856 * Math.log(vel) + 2.9835;
+    }
+    var tComf = 0.33 * runningMean + 18.8;
+    if(runningMean > 15){
+        var tComfILower = tComf - 2;
+        var tComfIUpper = tComf + 2 + coolingEffect;
+        var tComfIILower = tComf - 3;
+        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIILower = tComf - 4;
+        var tComfIIIUpper = tComf + 4 + coolingEffect;
     } else if (12.73 < runningMean && runningMean < 15){
-	    var tComfLow = 0.33 * 15 + 18.8;
-		var tComfILower = tComfLow - 2;
-	    var tComfIUpper = tComf + 2 + coolingEffect;
-		var tComfIILower = tComfLow - 3;
-	    var tComfIIUpper = tComf + 3 + coolingEffect;
-	    var tComfIIILower = tComfLow - 4;
-	    var tComfIIIUpper = tComf + 4 + coolingEffect;
-	} else {
-		var tComfLow = 0.33 * 15 + 18.8;
-		var tComfILower = tComfLow - 2;
-	    var tComfIUpper = tComf + 2;
-		var tComfIILower = tComfLow - 3;
-	    var tComfIIUpper = tComf + 3 + coolingEffect;
-	    var tComfIIILower = tComfLow - 4;
-	    var tComfIIIUpper = tComf + 4 + coolingEffect;
-	}
+        var tComfLow = 0.33 * 15 + 18.8;
+        var tComfILower = tComfLow - 2;
+        var tComfIUpper = tComf + 2 + coolingEffect;
+        var tComfIILower = tComfLow - 3;
+        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIILower = tComfLow - 4;
+        var tComfIIIUpper = tComf + 4 + coolingEffect;
+    } else {
+        var tComfLow = 0.33 * 15 + 18.8;
+        var tComfILower = tComfLow - 2;
+        var tComfIUpper = tComf + 2;
+        var tComfIILower = tComfLow - 3;
+        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIILower = tComfLow - 4;
+        var tComfIIIUpper = tComf + 4 + coolingEffect;
+    }
     var acceptabilityI, acceptabilityII, acceptabilityIII;
 
     if (comf.between(to, tComfILower, tComfIUpper)) {
@@ -529,7 +529,7 @@ comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
         // compliance at II and III only
         acceptabilityII = acceptabilityIII = true;
         acceptabilityI = false;
-	} else if (comf.between(to, tComfIIILower, tComfIIIUpper)) {
+    } else if (comf.between(to, tComfIIILower, tComfIIIUpper)) {
         // compliance at III only
         acceptabilityIII = true;
         acceptabilityI = acceptabilityII = false;
