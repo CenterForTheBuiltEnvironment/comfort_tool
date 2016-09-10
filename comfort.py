@@ -16,7 +16,7 @@ def csv2json(f):
     l = []
     csv_reader = csv.reader(f)
     head = csv_reader.next()
-    fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 
+    fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel',
               'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level' : 'clo'}
     head_abbr = []
     for h in head:
@@ -32,38 +32,38 @@ def csv2json(f):
         l.append(d)
     return l
 
-@app.route('/download/<path:filename>')
-def download_file(filename):
-  if '..' in filename:
-    abort(404)
-  return send_from_directory('./media/', filename, mimetype="application/octet-stream")
-
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['files[]']
-        if f and allowed_file(f.filename):
-            conds = csv2json(f) 
-            return make_response(json.dumps(conds))
-                 
-    return render_template('upload.html')
-
-@app.route('/mrt')
-def mrt():
-    return render_template('mrt.html')
-    
-@app.route('/compare')
-def compare():
-    return render_template('compare.html')
-    
-@app.route('/ranges')
-def ranges():
-    return render_template('ranges.html')
-
-@app.route('/EN')
-def EN():
-    return render_template('EN.html')
+#@app.route('/download/<path:filename>')
+#def download_file(filename):
+#  if '..' in filename:
+#    abort(404)
+#  return send_from_directory('./media/', filename, mimetype="application/octet-stream")
+#
+#
+#@app.route('/upload', methods=['GET', 'POST'])
+#def upload_file():
+#    if request.method == 'POST':
+#        f = request.files['files[]']
+#        if f and allowed_file(f.filename):
+#            conds = csv2json(f)
+#            return make_response(json.dumps(conds))
+#
+#    return render_template('upload.html')
+#
+#@app.route('/mrt')
+#def mrt():
+#    return render_template('mrt.html')
+#
+#@app.route('/compare')
+#def compare():
+#    return render_template('compare.html')
+#
+#@app.route('/ranges')
+#def ranges():
+#    return render_template('ranges.html')
+#
+#@app.route('/EN')
+#def EN():
+#    return render_template('EN.html')
 
 @app.route('/')
 def index():

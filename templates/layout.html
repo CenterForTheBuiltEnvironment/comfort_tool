@@ -15,47 +15,44 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/erf.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/underscore-min.js') }}"></script>
     {% endblock %}
-  
+
   </head>
 <body>
   <div id="header">
-    {% block header %} 
+    {% block header %}
     <div id="banner">
-      CBE Thermal Comfort Tool
+      CBE/ASHRAE Thermal Comfort Tool
     </div>
-    <div class="nav">
+    <!--div class="nav">
       <a id='ashrae-link' href="/">ASHRAE-55</a>
       <a id='EN-link' href="EN">EN-15251</a>
       <a id='compare-link' href="compare">Compare</a>
       <a id='ranges-link' href="ranges">Ranges</a>
       <a id='upload-link' href="upload">Upload</a>
-    </div>
+    </div-->
     {% endblock %}
   </div>
-    
+
   {% block content %}{% endblock %}
 
-  <div id="footer">
+  <div id="footer" style="font-color: #c0c0c0; text-size: 0.8em;">
     {% block footer %}
-    <div id='left' style="float:left; width:400px; text-align: left;">
-      <img style="float:left;" src="{{ url_for('static', filename='img/logo150px.jpg') }}">
-      <b>To cite this webpage:</b>
-       <br/>
-       Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Moon Dustin, and Steinfeld Kyle, 2013, CBE Thermal Comfort Tool. <br>Center for the Built Environment, University of California Berkeley, http://cbe.berkeley.edu/comforttool/
+    <img style="float:left; margin-right: 15px;" src="{{ url_for('static', filename='img/logo150px.jpg') }}">
+    <!--div id='left' style="float:left; width:400px; text-align: left;">
     </div>
-   
-    <div id='right' style="padding-left:10px; float:right; width:569px; text-align: left;">
-      <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" align='right' style="border-width:0" src="http://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">The CBE Thermal Comfort Tool</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
-      <b>Developed by: </b>
-      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-tyler.htm">Tyler Hoyt</a>,
-      <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-stefano.htm">Stefano Schiavon</a>,
-      <a class="footerlink" href="http://www.linkedin.com/pub/alberto-piccioli/4b/361/7a5">Alberto Piccioli</a>, 
-      <span class="footerlink">Dustin Moon</span> and 
-      <a class="footerlink" href="http://ced.berkeley.edu/ced/faculty-staff/kyle-steinfeld">Kyle Steinfeld</a>.
 
+    <div id='right' style="padding-left:10px; float:right; width:569px; text-align: left;"-->
+      The CBE/ASHRAE Thermal Comfort Tool has been developed by the <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built Environment (CBE)</a>
+      for use with ASHRAE Standard 55-2013 including all addenda up to “g”. The computer code has not been
+      validated by ASHRAE. The responsibility for use of the tool rests solely with the user. ASHRAE and CBE
+      are not responsible for results and information made available through the tool, and results and information are
+      provided “as is” without warranty of any kind, either expressed or implied. In no event will ASHRAE or CBE
+      be liable to you for any damages, including without limitation any lost profits, lost savings, or other incidental
+      or consequential damages arising out of the use of or inability to use this information or results.
 
-      Based on work at <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built Environment</a>.
-      <b>Note:</b>  Internet Explorer is not fully supported. Some features (e.g. LEED documentation) do not function in latest versions of IE, and older versions of IE may not work at all. We recommend using Chrome, Firefox, or Safari.
+      <br /><br />
+      <b>To cite this webpage:</b>
+       Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Moon Dustin, and Steinfeld Kyle, 2013, CBE Thermal Comfort Tool. <br>Center for the Built Environment, University of California Berkeley, http://cbe.berkeley.edu/comforttool/
     </div>
     {% endblock %}
   </div>
