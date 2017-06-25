@@ -1,10 +1,10 @@
 import os
 import csv
-from flask import Flask, request, make_response, render_template, json, send_from_directory, abort
+from flask import Flask, request, make_response, render_template, json, send_from_directory, abort, redirect
 
 ALLOWED_EXTENSIONS = set(['csv', 'json'])
 
-STATIC_URL_PATH = '/static/'
+STATIC_URL_PATH = '/static'
 
 app = Flask(__name__, static_url_path=STATIC_URL_PATH)
 
@@ -64,6 +64,10 @@ def ranges():
 @app.route('/EN')
 def EN():
     return render_template('EN.html')
+
+@app.route('/comforttool')
+def comforttool():
+    return redirect('/')
 
 @app.route('/')
 def index():

@@ -431,7 +431,7 @@ $(function() {
                 }
             },
             "Help": function(){
-                
+                window.location.href = "http://escholarship.org/uc/item/89m1h2dg";
             },
             "Close": function() {
                 $(this).dialog("close");
@@ -538,7 +538,8 @@ $(function() {
 
     $('#leed-submit').button().click(function() {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", util.STATIC_URL + "/html/leed.html");
+        var url = util.STATIC_URL + "/html/leed.html"; 
+        xmlhttp.open("GET",  url);
         xmlhttp.send();
         xmlhttp.onload = function(e) {
             leed_html = xmlhttp.responseText;
@@ -735,7 +736,7 @@ $('#specPressure').click(function() {
 $('#globeTemp').click(function() {
     var container = $('#globedialog');
     $.ajax({
-        url: util.STATIC_URL + 'html/globetemp.html',
+        url: util.STATIC_URL + '/html/globetemp.html',
         success: function(data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
