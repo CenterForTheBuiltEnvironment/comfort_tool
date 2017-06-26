@@ -49,7 +49,11 @@ path.comfortzone{
 path.comfortzone-temphum{
   fill: rgb(0,0,100);
   fill-opacity: 0.5;
-}  
+}
+path.comfortzone-veltop{
+  fill: rgb(0,0,100);
+  fill-opacity: 0.5;
+}
 path.comfortzoneover{
 	-webkit-transition-property: fill;
 	-webkit-transition-duration: .5s;
@@ -67,6 +71,10 @@ path.comfortzoneover{
 path.psyregion {
 	fill: rgb(200,200,200);
 	fill-opacity: 0.0;
+}
+
+path.whiteregion {
+	fill: White;
 }
 
 .tick {

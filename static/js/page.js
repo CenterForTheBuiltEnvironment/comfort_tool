@@ -361,7 +361,7 @@ $(document).ready(function() {
             dividerLocation: 0.5
         });
     });
-    $('#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div').hide();
+    $('#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #veltopchart-div').hide();
     window.isCelsius = true;
     window.humUnit = 'rh';
     setDefaults();
@@ -371,6 +371,12 @@ $(document).ready(function() {
     var bound = bc.findComfortBoundary(d, 0.5)
     bc.drawComfortRegion(bound);
     bc.drawPoint();
+    vc.drawChart();
+    var bound = vc.findComfortBoundary(d, 0.5)
+    vc.drawComfortRegion(bound);
+    var whitebound = vc.findWhiteBoundary()
+    vc.drawWhiteRegion(whitebound);
+    vc.drawPoint();
     pc.drawChart();
     var json = [{ "db": d.ta,
                   "hr": pc.getHumRatio(d.ta, d.rh) }];
@@ -441,8 +447,8 @@ $(function() {
 
     $('#localdialog').dialog({
         autoOpen: false,
-        height: 600,
-        width: 432,
+        height: 900,
+        width: 500,
         modal: true,
         resizable: false,
     });
@@ -467,7 +473,7 @@ $(function() {
         }
     });
 
-    $('#local-control').button();
+/*    $('#local-control').button();*/
     $('#radio').buttonset();
     $('.leed-buttons').buttonset();
 
@@ -599,6 +605,10 @@ $(function() {
         width: 200
     });
 
+    $('select#local-control').selectmenu({
+        width: 200
+    });
+
 
     $('select#cloSelect').selectmenu({
         width: 200
@@ -724,8 +734,8 @@ $('#specPressure').click(function() {
         customPressure = parseFloat(customPressure)
         if (!isNaN(customPressure) && customPressure >= 60000 && customPressure <= 108000) {
             psy.PROP.Patm = customPressure
-            pc.redraw_rh_lines()
-            update()
+            pc.redraw_rh_lines();
+            update();
         } else {
             window.alert('The entered atmospheric pressure is invalid. It must be in the range of 60,000 to 108,000 pascals.')
         }
@@ -780,7 +790,7 @@ $('#ERF').click(function() {
 $('#localDisc').click(function() {
     var container = $('#localdialog');
     $.ajax({
-        url: util.STATIC_URL + '/html/localdisc.html',
+        url: util.STATIC_URL + '/html/localdiscASH55.html',
         success: function(data) {
             $('#localdialog').html(data);
             if (!isCelsius) {
@@ -790,6 +800,10 @@ $('#localDisc').click(function() {
                 $('#T_ankle').val('77')
                 $('#T_floor').val('77')
                 $('#T_op').val('77')
+                $('#local_Ta').val('77')
+                $('#local_Tr').val('77')
+                $('#local_ank_vel').val('20')
+                $('#local_vel_1').val('20')
                 $('#local_vel').val('20')
             }
         },
@@ -829,21 +843,24 @@ $('#setDynamicClo').click(function() {
 
 $('#model-type').change(function() {
     $('#pmv-out-label').html('PMV');
-    $('#local-control-div').hide();
+//    $('#local-control-div').hide();
+//    $('#local-control').hide();
     $('#localDisc').removeAttr('disabled');
     model = $('#model-type').val();
     if (model == 'pmvElevatedAirspeed') {
-        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
-        $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
+        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes, #veltopchart-div').show();
+        $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
         if (model == 'pmvElevatedAirspeed') {
+//            $('#pmv-elev-outputs, #local-control-div').show();
             $('#pmv-elev-outputs, #local-control-div').show();
             $('#pmv-out-label').html('PMV Adjusted');
         } else {
             $('#pmv-elev-outputs').hide();
         }
     } else if (model == 'adaptiveComfort') {
-        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
-        $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont').hide();
+//        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+        $('#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+        $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
     }
@@ -854,10 +871,10 @@ $("#chartSelect").change(function(){
 	chart = $("#chartSelect").val();
 	if (chart == "psychta" || chart == "psychtop"){
 		$("#chart-div").show();
-		$("#temphumchart-div").hide();
+		$("#temphumchart-div, veltopchart-div").hide();
 		if (chart == "psychta") {
 			$("#psychta-note").show();
-			$("#psychtop-note, #temphum-note").hide();
+			$("#psychtop-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
 			
 			$("#db-axis-C-label").text("Drybulb Temperature [°C]");
 			$("#db-axis-F-label").text("Drybulb Temperature [°F]");
@@ -874,7 +891,7 @@ $("#chartSelect").change(function(){
 			
 		} else if (chart == "psychtop") {
 			$("#psychtop-note").show();
-			$("#psychta-note, #temphum-note").hide();
+			$("#psychta-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
 			
 			$("#db-axis-C-label").text("Operative Temperature [°C]");
 			$("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -887,7 +904,7 @@ $("#chartSelect").change(function(){
 		}
 	} else if (chart == "temphum") {
 		$("#temphumchart-div, #temphum-note").show();
-		$("#chart-div, #psychta-note, #psychtop-note").hide();
+		$("#chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div").hide();
 		if ($('#link').is(':checked')) {
         	$('#labelforlink').show();
 		} else {
@@ -895,8 +912,31 @@ $("#chartSelect").change(function(){
         	$('#globeTemp').removeAttr('disabled');
         	$('#tr-input, #tr-lab, #labelforlink').show();
 		}
+	} else if (chart == "veltop") {
+		$("#veltopchart-div, #veltop-note").show();
+		$("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div").hide();
+//		if ($('#link').is(':checked')) {
+//        	$('#labelforlink').show();
+//		} else {
+//			$('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
+//        	$('#globeTemp').removeAttr('disabled');
+//        	$('#tr-input, #tr-lab, #labelforlink').show();
+//		}
+            $('#link').is(':checked');
+            $('#labelforlink').show();
+            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+            $('#globeTemp').attr('disabled', 'disabled');
+            $('#tr-input, #tr-lab, #labelforlink').hide();
 	}
 	update();
+});
+
+$("#local-control-div").change(function(){
+    var local_control = $('#local-control').val();
+    if (local_control == 'withairspeedcontrol' || local_control == 'noairspeedcontrol' ){
+//    $("#local-control-div").show();
+    }
+    update();
 });
 
 function toggleUnits() {
@@ -956,6 +996,7 @@ function toggleUnits() {
     }
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
+    vc.toggleUnits(isCelsius);
     ac.toggleUnits(isCelsius);
 }
 
@@ -984,7 +1025,7 @@ function addToEnsembles() {
 
 function update() {
 
-    if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop") {
+    if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop" || $("#chartSelect").val() == "veltop") {
         $('#tr').val($('#ta').val());
     }
     keys.forEach(function(element) {
@@ -1025,6 +1066,12 @@ function update() {
             var b = bc.findComfortBoundary(d, 0.5)
             bc.redrawComfortRegion(b);
             bc.redrawPoint();
+        } else if ($('#veltopchart-div').is(':visible')) {
+            var b = vc.findComfortBoundary(d, 0.5)
+            vc.redrawComfortRegion(b);
+            var whitebound = vc.findWhiteBoundary()
+            vc.redrawWhiteRegion(whitebound);
+            vc.redrawPoint();
         };
 
     } else if (model == 'adaptiveComfort') {
@@ -1084,10 +1131,11 @@ function calcPmvCompliance(d, r) {
     var pmv_comply = Math.abs(r.pmv) <= 0.5;
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').is(':checked');
+//    var local_control = $('#local-control').is(':checked');
+    var local_control = $('#local-control').val();
     var special_msg = '';
     comply = true;
-
+    if (local_control == 'withairspeedcontrol'){
     if (!met_comply) {
         comply = false;
         special_msg += '&#8627; Metabolic rates below 1.0 or above 2.0 are not covered by this standard<br>';
@@ -1103,16 +1151,16 @@ function calcPmvCompliance(d, r) {
     if (!pmv_comply) {
         comply = false;
     }
-
+    }
     renderCompliance(comply, special_msg);
-
 }
 
 function calcPmvElevCompliance(d, r) {
     var pmv_comply = (Math.abs(r.pmv) <= 0.5);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').is(':checked');
+//    var local_control = $('#local-control').is(':checked');
+    var local_control = $('#local-control').val();
     var special_msg = '';
     var compliance_ranges, unit_t, unit_v;
     comply = true;
@@ -1125,8 +1173,22 @@ function calcPmvElevCompliance(d, r) {
         comply = false;
         special_msg += '&#8627; Clo values above 1.5 are not covered by this Standard<br>';
     }
+    if (!pmv_comply) {
+        comply = false;
+    }
 
-    if (!local_control) {
+    if (d.vel > 0.2) {
+        $("#pmv-out-label").html('PMV with elevated air speed')
+        $("#ppd-out-label").html('PPD with elevated air speed')
+        $("#pmv-elev-outputs").show();
+    } else {
+        $("#pmv-out-label").html('PMV')
+        $("#ppd-out-label").html('PPD')
+        $("#pmv-elev-outputs").hide();
+    }
+
+//    if (!local_control) {
+    if (local_control == 'noairspeedcontrol'){
         var max_airspeed;
         var to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
@@ -1142,19 +1204,6 @@ function calcPmvElevCompliance(d, r) {
             comply = false;
             special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
         }
-    }
-    if (!pmv_comply) {
-        comply = false;
-    }
-
-    if (d.vel > 0.2) {
-        $("#pmv-out-label").html('PMV with elevated air speed')
-        $("#ppd-out-label").html('PPD with elevated air speed')
-        $("#pmv-elev-outputs").show();
-    } else {
-        $("#pmv-out-label").html('PMV')
-        $("#ppd-out-label").html('PPD')
-        $("#pmv-elev-outputs").hide();
     }
     renderCompliance(comply, special_msg);
 }

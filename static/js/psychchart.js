@@ -439,6 +439,8 @@ var pc = new function() {
         var b = pc.findComfortBoundary(d, 0.5);
         pc.drawComfortRegion(b);
         pc.drawPoint(json);
+        bc.drawPoint();
+        vc.drawPoint();
     }
      
     this.redrawComfortRegion = function(data) {

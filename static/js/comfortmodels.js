@@ -97,7 +97,7 @@ comf.go = function(){
     return r;
 }
 
-comf.still_air_threshold = 0.1; // m/s
+comf.still_air_threshold = 0.2; // m/s
 
 comf.test = function() {
     // reproduces the bug related to sweat saturation and heat loss from skin
