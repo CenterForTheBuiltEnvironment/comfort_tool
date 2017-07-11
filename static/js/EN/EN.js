@@ -593,9 +593,12 @@ $('#setDefaults').click(function() {
 });
 
 $('#specPressure').click(function() {
-    var customPressure = prompt('Enter atmospheric pressure in Pascals');
+    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)':'inches of mercury (inHg)'));
     if (customPressure !== '' && customPressure !== null) {
         customPressure = parseFloat(customPressure);
+        if (!isCelsius) {
+            customPressure *= 3386.39;
+        }
         if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
             psy.PROP.Patm = customPressure;
             enpc.redraw_rh_lines()
