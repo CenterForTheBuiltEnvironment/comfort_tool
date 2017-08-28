@@ -69,20 +69,6 @@ function ankledraft(ankle_vel, overall_pmv) {
     return (exp(-2.58 + 3.05*ankle_vel - 1.06*overall_pmv)/(1+ exp(-2.58 + 3.05*ankle_vel - 1.06*overall_pmv )));
 };
 
-
-//function sum(T_op, ankle_vel) {
-//    console.log(T_op + ankle_vel);
-//    var val = 0;
-//    if(!isNaN(T_op)){
-//        val = val+ T_op;
-//    }
-//    if(!isNaN(ankle_vel)){
-//        val = val+ ankle_vel;
-//    }
-//    return val;//(T_op + ankle_vel);
-//};
-
-
 //------------------------------- For the dialog --------------------------------------
 // NOTE: due to how the code is structured, "true" means that there is local discomfort, so the space does NOT comply.
 
