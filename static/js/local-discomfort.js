@@ -91,7 +91,6 @@ function updateLocalDisc() {
     dlocal.local_met = parseFloat($('#local_met').val());
     dlocal.local_clo = parseFloat($('#local_clo').val());
     dlocal.local_vel = parseFloat($('#local_vel').val());
-//    dlocal.local_vel_1 = parseFloat($('#local_vel_1').val());
     dlocal.local_ank_vel = parseFloat($('#local_ank_vel').val());
 
  $(function () {
@@ -120,7 +119,6 @@ function updateLocalDisc() {
         dlocal.local_met = parseFloat($('#local_met').val());
         dlocal.local_clo = parseFloat($('#local_clo').val());
         dlocal.local_vel /= 196.9;
-//        dlocal.local_vel_1 /= 196.9;
         dlocal.local_ank_vel /= 196.9;
 
          $(function () {
@@ -139,7 +137,6 @@ function updateLocalDisc() {
     var vert_res = verticalRisk(dlocal.T_head, dlocal.T_ankle);
     var floor_res = floorRisk(dlocal.T_floor);
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
-//    var addup = sum(dlocal.T_op, dlocal.local_ank_vel);
     var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, 0.2, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
     var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100
 
@@ -220,9 +217,8 @@ function updateLocalDisc() {
     }
     $("#all-disc").html(msg)
 
-//    $('#draft_pmv_res').html(addup);
-    $('#draft_pmv_res').html(draft_pmv_res.pmv.toFixed(2));
-    $('#ankle-draft-disc').html(ank_draft_res.toFixed(0) + '%')
+    $('#draft_pmv_res').attr('value', draft_pmv_res.pmv.toFixed(2));
+    $('#ankle-draft-disc').attr('value', ank_draft_res.toFixed(0));
 
     if (ank_draft_res > 20) {
         msg = "&#10008; &nbsp; &nbsp; "
