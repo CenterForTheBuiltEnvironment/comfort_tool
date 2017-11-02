@@ -1231,8 +1231,8 @@ function calcAdaptiveCompliance(d, r) {
 }
 
 function renderCompliance(comply, special_msg) {
-    var comply_msg = '&#10004; &nbsp;Complies with ASHRAE Standard 55-2013';
-    var no_comply_msg = '&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2013';
+    var comply_msg = '&#10004; &nbsp;Complies with ASHRAE Standard 55-2017';
+    var no_comply_msg = '&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2017';
 
     $('#vel-range').html('');
     if (comply) {
