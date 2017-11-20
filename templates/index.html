@@ -13,8 +13,9 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/adaptchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/veltopchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/local-discomfort.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"</script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"></script>
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -77,9 +78,11 @@
         <input class='inputbox' id="vel" />
         <span class='unit' id='vel-unit'> m/s</span>
       </div>
-      <div class='right' id='local-control-div'>
-        <input type='checkbox' id='local-control'/>
-        <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
+      <div class='right' id='local-control-div' >
+        <select id='local-control'>
+          <option value='noairspeedcontrol'>No local air speed control</option>
+          <option value='withairspeedcontrol'>With local air speed control</option>
+        </select>
       </div>
      
       <div class='leftlabel' style="margin-top:15px;">
@@ -195,12 +198,12 @@
     </div>
         
     <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 5px; margin-left:10px;'>
-      <button id='globeTemp' style="width:60px; float:left; height:45px;">Globe temp</button>
+      <button id='localDisc' style="width:90px; float:left; height:45px;">Local discomfort</button>
       <button id='ERF' style="width:90px; float:left; height:45px;">SolarCal</button>
       <button id='specPressure' style="width:75px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
+      <button id='globeTemp' style="width:60px; float:left; height:45px;">Globe temp</button>
       <!--button id='setDefaults' style="width:75px; float:left; height:45px;">Set defaults</button-->
       <button id='unitsToggle' style="width:44px; float:left; height:45px;">SI IP</button>
-      <button id='localDisc' style="width:90px; float:left; height:45px;">Local discomfort</button>
       <a style="width:48px; float:left; height:43px; font-size:18px;" title="Help" href="{{ url_for('static', filename='html/help.html') }}" target="_new">? Help</a>
     </div>
 
@@ -301,6 +304,7 @@
         <option value='psychta'>Psychrometric chart (air temperature)</option>
         <option value='psychtop'>Psychrometric chart (operative temperature)</option>
         <option value='temphum'>Temperature – Relative Humidity chart</option>
+        <option value='veltop'>Operative Temperature – Velocity chart</option>
       </select>
     </div>
     <div class='leftlabel' id="chart-title-adaptive" style="display:none; font-size: 16px; position: relative; left: 240px; top:35px;">
@@ -313,6 +317,7 @@
     <div id='ERFdialog' title='SolarCal: shortwave radiation calculator'></div>
     <div style="margin-left:-15px;" id="chart-div"></div>
     <div style="margin-left:10px;" id="temphumchart-div"></div>
+    <div style="margin-left:10px;" id="veltopchart-div"></div>
     <div style="margin-left:20px;" id="chart-div-adaptive"></div>
 
   <div id ="pmv-notes">
@@ -325,6 +330,9 @@
 	<div class='note' id="temphum-note">
     <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity. The PMV calculations are still based on all the psychrometric variables, but the visualization becomes easier to understand.
     </div>
+    <div class='note' id="veltop-note">
+    <b>NOTE:</b> This chart represents only two variables, air speed against operative temperature. The operative temperature for each point is determined by dry-bulb temperature equals mean radiant temperature (DBT = MRT). The calculation of PMV comfort zone is based on all the psychrometric variables, with PMV values between -0.5 and +0.5 according to the standard.
+    </div>
   </div><!--end of div "pmv-notes"-->
 
     <div class='note' id="adaptive-note">
@@ -333,7 +341,7 @@
   </div><!--id="right_content"-->
   <br class="clear">
   <br />
-    
+
   <script language="javascript" src="{{ url_for('static', filename='js/page.js') }}" type="text/javascript"></script>
   <script>
     $(document).ready(function(){

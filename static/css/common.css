@@ -31,6 +31,15 @@
 			margin-top: 5px;
 			margin-left: 5px;}
 
+.leftlabel-loc-dialog-1 { position: relative;
+			float: left;
+			clear: both;
+			width: 450px;
+			color: #636363;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			margin-left: 5px;}
+
 .leftlabel-dialog { position: relative;
 			float: left;
 			clear: both;
