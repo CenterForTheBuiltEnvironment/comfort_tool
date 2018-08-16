@@ -139,7 +139,8 @@ function updateLocalDisc() {
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
     var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, 0.2, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
     var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100
-
+    var clo_check = dlocal.local_clo
+    var met_check = dlocal.local_met
 
     //if (asym_res[1] > 5){
     if (asym_res[1]) {
@@ -228,4 +229,22 @@ function updateLocalDisc() {
         $("#ank-draft-sign").css('color', 'green')
     }
         $("#ank-draft-sign").html(msg)
+
+    if (clo_check > 0.7) {
+        msg = "&#10008; clo > 0.7"
+        $("#col-sign").css('color', 'red')
+    }   else {
+        msg = "trivial"
+        $("#col-sign").css('color', 'white')
+    }
+        $("#col-sign").html(msg)
+
+     if (met_check > 1.3) {
+        msg = "&#10008; met > 1.3"
+        $("#met-sign").css('color', 'red')
+    }   else {
+        msg = "trivial"
+        $("#met-sign").css('color', 'white')
+    }
+        $("#met-sign").html(msg)
 }
