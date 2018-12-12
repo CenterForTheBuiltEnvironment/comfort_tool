@@ -39,15 +39,15 @@ def download_file(filename):
   return send_from_directory('./media/', filename, mimetype="application/octet-stream")
 
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['files[]']
-        if f and allowed_file(f.filename):
-            conds = csv2json(f) 
-            return make_response(json.dumps(conds))
-                 
-    return render_template('upload.html')
+#@app.route('/upload', methods=['GET', 'POST'])
+#def upload_file():
+#    if request.method == 'POST':
+#        f = request.files['files[]']
+#        if f and allowed_file(f.filename):
+#            conds = csv2json(f) 
+#            return make_response(json.dumps(conds))
+#                 
+#    return render_template('upload.html')
 
 @app.route('/mrt')
 def mrt():
