@@ -366,7 +366,6 @@ $(document).ready(function() {
     window.humUnit = 'rh';
     setDefaults();
     update();
-
     bc.drawChart();
     var bound = bc.findComfortBoundary(d, 0.5)
     bc.drawComfortRegion(bound);
@@ -379,6 +378,21 @@ $(document).ready(function() {
     pc.drawPoint(json);
     ac.drawChart();
     ac.drawPoint([d]);
+
+    $('#link').button({}).click(function() {
+        if ($('#tr-input').is(':hidden')) {
+            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
+            $('#globeTemp').removeAttr('disabled');
+            $('#tr-input, #tr-lab').show();
+        } else {
+            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+            $('#globeTemp').attr('disabled', 'disabled');
+            $('#tr-input, #tr-lab').hide();
+        }
+    });
+
+    $('#chartSelect').val('psychtop');
+    $('#chartSelect').change();
 });
 
 $(function() {
@@ -453,18 +467,6 @@ $(function() {
         width: 500,
         modal: true,
         resizable: true,
-    });
-
-    $('#link').button({}).click(function() {
-        if ($('#tr-input').is(':hidden')) {
-            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
-            $('#globeTemp').removeAttr('disabled');
-            $('#tr-input, #tr-lab').show();
-        } else {
-            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-            $('#globeTemp').attr('disabled', 'disabled');
-            $('#tr-input, #tr-lab').hide();
-        }
     });
 
     $('#local-control').button();
