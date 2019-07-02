@@ -5,24 +5,51 @@ Thermal Climate Index (UTCI) for outdoor comfort. The module also includes
 functions to calculate humidity ratio and enthalpy from EWP variables so that
 these can be used to generate psychrometric charts.
 @author Chris Mackey <Chris@MackeyArchitecture.com>
+@author Federico Tartarini <federico.tartarini@bears-berkeley.sg>
 """
 
 import math
 
-def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
-    """
+
+def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme=0):
+    """ Estimates PMV and other comfort parameters for elevated air speeds
+
     This function accepts any input conditions (including low air speeds)
     but will return accurate values if the airspeed is above (>0.15m/s).
-    The function will return the following:
-    pmv : Predicted mean vote
-    ppd : Percent predicted dissatisfied [%]
-    ta_adj: Air temperature adjusted for air speed [C]
-    cooling_effect : The difference between the air temperature and adjusted
-        air temperature [C]
-    set: The Standard Effective Temperature [C] (see below)
+    The function returns a list containing the following values listed in order as they appear below:
+    - pmv : Predicted mean vote
+    - ppd : Percent predicted dissatisfied [%]
+    - ta_adj: Air temperature adjusted for air speed [C]
+    - cooling_effect : The difference between the air temperature and adjusted air temperature [C]
+    - set: The Standard Effective Temperature [C] (see below)
+
+    :param ta: dry bulb air temperature, [C]
+    :type  ta: float
+    :param tr: mean radiant temperature, [C]
+    :type  tr: float
+    :param vel: air velocity, [m/s]
+    :type  vel: float
+    :param rh: relative humidity, [%]
+    :type  rh: float
+    :param met: metabolic rate, [met]
+    :type  met: float
+    :param clo: clothing insulation, [clo]
+    :type  clo: float
+    :param wme: external work, [met]
+    :type  wme: float
+
+    :return: list containing estimated parameters [PMV, PPD, Ta_adj, cooling_effect, SET]
+    :rtype: list
+
     """
+
+    # initialize the list that contains the results todo: return a json (e.g. {'pmv': xx, 'ppd': yy, ....})
     r = []
+
+    # calculate set temperature
     set = comfPierceSET(ta, tr, vel, rh, met, clo, wme)
+
+    # define still air threshold
     stillAirThreshold = 0.1
 
     # This function is taken from the util.js script of the CBE comfort tool
@@ -30,14 +57,17 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
     def utilSecant(a, b, epsilon):
         # root-finding only
         res = []
+
         def fn(t):
-            return (set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme))
+            return set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme)
 
         f1 = fn(a)
-        if abs(f1) <= epsilon: res.append(a)
+        if abs(f1) <= epsilon:
+            res.append(a)
         else:
             f2 = fn(b)
-            if abs(f2) <= epsilon: res.append(b)
+            if abs(f2) <= epsilon:
+                res.append(b)
             else:
                 count = range(100)
                 for i in count:
@@ -60,18 +90,20 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
     # function definition.
     def utilBisect(a, b, epsilon, target):
         def fn(t):
-            return (set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme))
+            return set - comfPierceSET(ta - t, tr - t, stillAirThreshold, rh, met, clo, wme)
 
         while abs(b - a) > (2 * epsilon):
             midpoint = (b + a) / 2
             a_T = fn(a)
             b_T = fn(b)
             midpoint_T = fn(midpoint)
-            if (a_T - target) * (midpoint_T - target) < 0: b = midpoint
-            elif (b_T - target) * (midpoint_T - target) < 0: a = midpoint
-            else: return -999
+            if (a_T - target) * (midpoint_T - target) < 0:
+                b = midpoint
+            elif (b_T - target) * (midpoint_T - target) < 0:
+                a = midpoint
+            else:
+                return -999
         return midpoint
-
 
     if vel <= stillAirThreshold:
         pmv, ppd = comfPMV(ta, tr, vel, rh, met, clo, wme)
@@ -98,16 +130,29 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme):
     return r
 
 
-def comfPMV(ta, tr, vel, rh, met, clo, wme):
-    """
-    returns [pmv, ppd]
-    ta, air temperature (C)
-    tr, mean radiant temperature (C)
-    vel, relative air velocity (m/s)
-    rh, relative humidity (%) Used only this way to input humidity level
-    met, metabolic rate (met)
-    clo, clothing (clo)
-    wme, external work, normally around 0 (met)
+def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
+    """ Estimates PMV and PPD
+    The function returns a list containing the following values listed in order as they appear below:
+    - pmv : Predicted mean vote
+    - ppd : Percent predicted dissatisfied [%]
+
+    :param ta: dry bulb air temperature, [C]
+    :type  ta: float
+    :param tr: mean radiant temperature, [C]
+    :type  tr: float
+    :param vel: air velocity, [m/s]
+    :type  vel: float
+    :param rh: relative humidity, [%]
+    :type  rh: float
+    :param met: metabolic rate, [met]
+    :type  met: float
+    :param clo: clothing insulation, [clo]
+    :type  clo: float
+    :param wme: external work, [met] default 0
+    :type  wme: float
+
+    :return: list containing estimated parameters [PMV, PPD]
+    :rtype: list
     """
 
     pa = rh * 10 * math.exp(16.6536 - 4030.183 / (ta + 235))
@@ -116,7 +161,7 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme):
     m = met * 58.15  # metabolic rate in W/M2
     w = wme * 58.15  # external work in W/M2
     mw = m - w  # internal heat production in the human body
-    if (icl <= 0.078):
+    if icl <= 0.078:
         fcl = 1 + (1.29 * icl)
     else:
         fcl = 1.05 + (0.645 * icl)
@@ -146,10 +191,9 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme):
             hc = hcn
         xn = (p5 + p4 * hc - p2 * math.pow(xf, 4)) / (100 + p3 * hc)
         n += 1
-        if (n > 150):
-            print 'Max iterations exceeded'
+        if n > 150:
+            print('Max iterations exceeded')
             return 1
-
 
     tcl = 100 * xn - 273
 
@@ -171,46 +215,71 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme):
 
     ts = 0.303 * math.exp(-0.036 * m) + 0.028
     pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6)
-    ppd = 100.0 - 95.0 * math.exp(-0.03353 * pow(pmv, 4.0)
-        - 0.2179 * pow(pmv, 2.0))
+    ppd = 100.0 - 95.0 * math.exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0))
 
-    r = []
-    r.append(pmv)
-    r.append(ppd)
+    # todo I would recoommend to return json instead
 
-    return r
+    return [pmv, ppd]
 
 
-def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
+def comfPierceSET(ta, tr, vel, rh, met, clo, wme=0):
+    """ SET calculation using SI units
+
+    The function returns a list containing the following values listed in order as they appear below:
+    - pmv : Predicted mean vote
+    - ppd : Percent predicted dissatisfied [%]
+    - ta_adj: Air temperature adjusted for air speed [C]
+    - cooling_effect : The difference between the air temperature and adjusted air temperature [C]
+    - set: The Standard Effective Temperature [C] (see below)
+
+    :param ta: dry bulb air temperature, [C]
+    :type  ta: float
+    :param tr: mean radiant temperature, [C]
+    :type  tr: float
+    :param vel: air velocity, [m/s]
+    :type  vel: float
+    :param rh: relative humidity, [%]
+    :type  rh: float
+    :param met: metabolic rate, [met]
+    :type  met: float
+    :param clo: clothing insulation, [clo]
+    :type  clo: float
+    :param wme: external work, [met] default 0
+    :type  wme: float
+
+    :return: list containing estimated parameters [PMV, PPD, Ta_adj, cooling_effect, SET]
+    :rtype: list
+
     """
-    Function to find the saturation vapor pressure, used frequently
-    throughtout the comfPierceSET function.
-    """
-    res = None
 
-    def findSaturatedVaporPressureTorr(T):
-        # calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
-        return math.exp(18.6686 - 4030.183 / (T + 235.0))
+    def findSaturatedVaporPressureTorr(t):
+        """ Estimate the saturation vapor pressure in [torr]
 
-    # Key initial variables.
-    VaporPressure = (rh * findSaturatedVaporPressureTorr(ta)) / 100
+        :param t: air temperature, [C]
+        :type  t: float
+
+        :return: saturated vapour pressure, [torr]
+        :rtype: float
+        """
+        return math.exp(18.6686 - 4030.183 / (t + 235.0))
+
+    # Initial variables as defined in the ASHRAE 55-2017
+    VaporPressure = rh * findSaturatedVaporPressureTorr(ta) / 100
     AirVelocity = max(vel, 0.1)
     KCLO = 0.25
     BODYWEIGHT = 69.9
     BODYSURFACEAREA = 1.8258
     METFACTOR = 58.2
-    SBC = 0.000000056697  # Stefan-Boltzmann constant (W/m2K4)
+    SBC = 0.000000056697
     CSW = 170
     CDIL = 120
     CSTR = 0.5
 
-    TempSkinNeutral = 33.7  # setpoint (neutral) value for Tsk
-    TempCoreNeutral = 36.49  # setpoint value for Tcr
-    # setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
+    TempSkinNeutral = 33.7
+    TempCoreNeutral = 36.8
     TempBodyNeutral = 36.49
-    SkinBloodFlowNeutral = 6.3  # neutral value for SkinBloodFlow
+    SkinBloodFlowNeutral = 6.3
 
-    # INITIAL VALUES - start of 1st experiment
     TempSkin = TempSkinNeutral
     TempCore = TempCoreNeutral
     SkinBloodFlow = SkinBloodFlowNeutral
@@ -218,20 +287,14 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     ALFA = 0.1
     ESK = 0.1 * met
 
-    # Start new experiment here (for graded experiments)
-    # UNIT CONVERSIONS (from input variables)
-
-    # This variable is the pressure of the atmosphere in kPa and was taken
-    # from the psychrometrics.js file of the CBE comfort tool.
     p = 101325.0 / 1000
-
     PressureInAtmospheres = p * 0.009869
     LTIME = 60
     TIMEH = LTIME / 60.0
     RCL = 0.155 * clo
 
-    FACL = 1.0 + 0.15 * clo  # INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
-    LR = 2.2 / PressureInAtmospheres  # Lewis Relation is 2.2 at sea level
+    FACL = 1.0 + 0.15 * clo
+    LR = 2.2 / PressureInAtmospheres
     RM = met * METFACTOR
     M = met * METFACTOR
 
@@ -246,31 +309,26 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     CHCV = 8.600001 * pow((AirVelocity * PressureInAtmospheres), 0.53)
     CHC = max(CHC, CHCV)
 
-    # initial estimate of Tcl
     CHR = 4.7
     CTC = CHR + CHC
-    RA = 1.0 / (FACL * CTC)  # resistance of air layer to dry heat transfer
+    RA = 1.0 / (FACL * CTC)
     TOP = (CHR * tr + CHC * ta) / CTC
     TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCL))
 
-    # ========================  BEGIN ITERATION
-    #
-    # Tcl and CHR are solved iteratively using: H(Tsk - To) = CTC(Tcl - To),
-    # where H = 1/(Ra + Rcl) and Ra = 1/Facl*CTC
-
-    TCL_OLD = TCL
-    TIME = range(LTIME)
+    TCL_OLD = False
     flag = True
-    for TIM in TIME:
-        if flag == True:
-            while abs(TCL - TCL_OLD) > 0.01:
+    i = 0
+    for TIM in range(LTIME):
+        while abs(TCL - TCL_OLD) > 0.01:
+            if flag:
+                i += 1
                 TCL_OLD = TCL
                 CHR = 4.0 * SBC * pow(((TCL + tr) / 2.0 + 273.15), 3.0) * 0.72
                 CTC = CHR + CHC
-                # resistance of air layer to dry heat transfer
                 RA = 1.0 / (FACL * CTC)
                 TOP = (CHR * tr + CHC * ta) / CTC
-                TCL = (RA * TempSkin + RCL * TOP) / (RA + RCL)
+            TCL = (RA * TempSkin + RCL * TOP) / (RA + RCL);
+            flag = True
         flag = False
         DRY = (TempSkin - TOP) / (RA + RCL)
         HFCS = (TempCore - TempSkin) * (5.28 + 1.163 * SkinBloodFlow)
@@ -280,8 +338,8 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         SSK = HFCS - DRY - ESK
         TCSK = 0.97 * ALFA * BODYWEIGHT
         TCCR = 0.97 * (1 - ALFA) * BODYWEIGHT
-        DTSK = (SSK * BODYSURFACEAREA) / (TCSK * 60.0)  # deg C per minute
-        DTCR = SCR * BODYSURFACEAREA / (TCCR * 60.0)  # deg C per minute
+        DTSK = (SSK * BODYSURFACEAREA) / (TCSK * 60.0)
+        DTCR = SCR * BODYSURFACEAREA / (TCCR * 60.0)
         TempSkin = TempSkin + DTSK
         TempCore = TempCore + DTCR
         TB = ALFA * TempSkin + (1 - ALFA) * TempCore
@@ -294,18 +352,18 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         BDSIG = TB - TempBodyNeutral
         WARMB = (BDSIG > 0) * BDSIG
         COLDB = ((-1.0 * BDSIG) > 0) * (-1.0 * BDSIG)
-        SkinBloodFlow = ((SkinBloodFlowNeutral + CDIL * WARMC)
-            / (1 + CSTR * COLDS))
-        if SkinBloodFlow > 90.0: SkinBloodFlow = 90.0
-        if SkinBloodFlow < 0.5: SkinBloodFlow = 0.5
+        SkinBloodFlow = (SkinBloodFlowNeutral + CDIL * WARMC) / (1 + CSTR * COLDS)
+        if SkinBloodFlow > 90.0:
+            SkinBloodFlow = 90.0
+        if SkinBloodFlow < 0.5:
+            SkinBloodFlow = 0.5
         REGSW = CSW * WARMB * math.exp(WARMS / 10.7)
-        if REGSW > 500.0: REGSW = 500.0
+        if REGSW > 500.0:
+            REGSW = 500.0
         ERSW = 0.68 * REGSW
-        REA = 1.0 / (LR * FACL * CHC)  # evaporative resistance of air layer
-        # evaporative resistance of clothing (icl=.45)
+        REA = 1.0 / (LR * FACL * CHC)
         RECL = RCL / (LR * ICL)
-        EMAX = ((findSaturatedVaporPressureTorr(TempSkin) - VaporPressure) /
-            (REA + RECL))
+        EMAX = (findSaturatedVaporPressureTorr(TempSkin) - VaporPressure) / (REA + RECL)
         PRSW = ERSW / EMAX
         PWET = 0.06 + 0.94 * PRSW
         EDIF = PWET * EMAX - ERSW
@@ -327,27 +385,25 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
         M = RM + MSHIV
         ALFA = 0.0417737 + 0.7451833 / (SkinBloodFlow + .585417)
 
-
-    # Define new heat flow terms, coeffs, and abbreviations
-    STORE = M - wme - CRES - ERES - DRY - ESK  # rate of body heat storage
-    HSK = DRY + ESK  # total heat loss from skin
-    RN = M - wme  # net metabolic heat production
+    STORE = M - wme - CRES - ERES - DRY - ESK
+    HSK = DRY + ESK
+    RN = M - wme
     ECOMF = 0.42 * (RN - (1 * METFACTOR))
-    if ECOMF < 0.0: ECOMF = 0.0  # from Fanger
+    if (ECOMF < 0.0):
+        ECOMF = 0.0
     EREQ = RN - ERES - CRES - DRY
     EMAX = EMAX * WCRIT
     HD = 1.0 / (RA + RCL)
     HE = 1.0 / (REA + RECL)
     W = PWET
     PSSK = findSaturatedVaporPressureTorr(TempSkin)
-    # Definition of ASHRAE standard environment... denoted "S"
-    CHRS = CHR
+    CHRS = CHR;
     if met < 0.85:
         CHCS = 3.0
     else:
-        CHCS = 5.66 * pow((met - 0.85), 0.39)
-        if CHCS < 3.0: CHCS = 3.0
-
+        CHCS = 5.66 * pow(((met - 0.85)), 0.39)
+    if (CHCS < 3.0):
+        CHCS = 3.0
     CTCS = CHCS + CHRS
     RCLOS = 1.52 / ((met - wme / METFACTOR) + 0.6944) - 0.1835
     RCLS = 0.155 * RCLOS
@@ -361,47 +417,78 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme):
     HD_S = 1.0 / (RAS + RCLS)
     HE_S = 1.0 / (REAS + RECLS)
 
-    # SET* (standardized humidity, clo, Pb, and CHC)
-    # determined using Newton's iterative solution
-    # FNERRS is defined in the GENERAL SETUP section above
-
     DELTA = .0001
     dx = 100.0
-    X_OLD = TempSkin - HSK / HD_S  # lower bound for SET
+    set_old = round(TempSkin - HSK / HD_S, 2)
     while abs(dx) > .01:
-        ERR1 = (HSK - HD_S * (TempSkin - X_OLD) - W * HE_S
-            * (PSSK - 0.5 * findSaturatedVaporPressureTorr(X_OLD)))
-        ERR2 = (HSK - HD_S * (TempSkin - (X_OLD + DELTA)) - W * HE_S
-            * (PSSK - 0.5 * findSaturatedVaporPressureTorr((X_OLD + DELTA))))
-        X = X_OLD - DELTA * ERR1 / (ERR2 - ERR1)
-        dx = X - X_OLD
-        X_OLD = X
-
-    return X
+        ERR1 = (HSK - HD_S * (TempSkin - set_old) - W * HE_S * (PSSK - 0.5 * findSaturatedVaporPressureTorr(set_old)))
+        ERR2 = (HSK - HD_S * (TempSkin - (set_old + DELTA)) - W * HE_S * (PSSK - 0.5 * findSaturatedVaporPressureTorr((set_old + DELTA))))
+        set = set_old - DELTA * ERR1 / (ERR2 - ERR1)
+        dx = set - set_old
+        set_old = set
+    return set
 
 
-def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety, levelOfConditioning=0):
+def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, eighty_accept_limit_eighty=True, levelOfConditioning=0):
+    """ Determine the adaptive thermal comfort based on ASHRAE 55
+
+    The function returns a list containing the following values listed in order as they appear below:
+    - tComf : comfort temperature calculated with adaptive thermal comfort model
+    - tempDiff : delta between tempeature and comfort temperature
+    - tComfLower: lowest acceptable temperature
+    - tComfUpper: highest acceptable temperature
+    - acceptability: boolen, 1 if comply with adaptive thermal comfort
+    - condit: todo define meaning of this parameter
+
+    :param ta: dry bulb air temperature, [C]
+    :type  ta: float
+    :param tr: mean radiant temperature, [C]
+    :type  tr: float
+    :param runningMean: running mean temperature, [C]
+    :type  runningMean: float
+    :param vel: air velocity, [m/s]
+    :type  vel: float
+    :param eighty_accept_limit_eighty: default selected as the 80% aceptability limit, use false for the 90% acceptability limit
+    :type  eighty_accept_limit_eighty: bool
+    :param levelOfConditioning: todo description to be added
+    :type  levelOfConditioning: float
+
+    :return: list [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
+    """
+
     # Define the variables that will be used throughout the calculation.
     r = []
     coolingEffect = 0
-    if eightyOrNinety == True: offset = 3.5
-    else: offset = 2.5
+    if eighty_accept_limit_eighty:
+        offset = 3.5
+    else:
+        offset = 2.5
     to = (ta + tr) / 2
-    # See if the running mean temperature is between 10 C and 33.5 C (the range where the adaptive model is supposed to be used).
-    if runningMean >= 10.0 and runningMean <= 33.5:
 
-        if (vel >= 0.6 and to >= 25):
-            # calculate cooling effect of elevated air speed
-            # when top > 25 degC.
-            if vel < 0.9: coolingEffect = 1.2
-            elif vel < 1.2: coolingEffect = 1.8
-            elif vel >= 1.2: coolingEffect = 2.2
-            else: pass
+    # See if the running mean temperature is between 10 C and 33.5 C (the range where the adaptive model is supposed to be used)
+    if 10.0 <= runningMean <= 33.5:
+
+        # fixme should return error if oustide this range or at least an explanation should be added
+
+        if vel >= 0.6 and to >= 25:
+            # calculate cooling effect of elevated air speed when top > 25 degC.
+            if vel < 0.9:
+                coolingEffect = 1.2
+            elif vel < 1.2:
+                coolingEffect = 1.8
+            elif vel >= 1.2:
+                coolingEffect = 2.2
+            else:
+                pass
 
         # Figure out the relation between comfort and outdoor temperature depending on the level of conditioning.
-        if levelOfConditioning == 0: tComf = 0.31 * runningMean + 17.8
-        elif levelOfConditioning == 1: tComf = 0.09 * runningMean + 22.6
-        else: tComf = ((0.09 * levelOfConditioning) + (0.31 * (1 - levelOfConditioning))) * runningMean + ((22.6 * levelOfConditioning) + (17.8 * (1 - levelOfConditioning)))
+        if levelOfConditioning == 0:
+            tComf = 0.31 * runningMean + 17.8
+        elif levelOfConditioning == 1:
+            tComf = 0.09 * runningMean + 22.6
+        else:
+            tComf = ((0.09 * levelOfConditioning) + (0.31 * (1 - levelOfConditioning))) * runningMean + (
+                    (22.6 * levelOfConditioning) + (17.8 * (1 - levelOfConditioning)))
 
         tComfLower = tComf - offset
         tComfUpper = tComf + offset + coolingEffect
@@ -411,7 +498,7 @@ def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety, lev
         r.append(tComfUpper)
 
         # See if the conditions are comfortable.
-        if to > tComfLower and to < tComfUpper:
+        if tComfLower < to < tComfUpper:
             # compliance
             acceptability = True
         else:
@@ -420,13 +507,17 @@ def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety, lev
         r.append(acceptability)
 
         # Append a number to the result list to show whether the values are too hot, too cold, or comfortable.
-        if acceptability == True: r.append(0)
-        elif to > tComfUpper: r.append(1)
-        else: r.append(-1)
+        if acceptability:
+            r.append(0)
+        elif to > tComfUpper:
+            r.append(1)
+        else:
+            r.append(-1)
 
     elif runningMean < 10.0:
         # The prevailing temperature is too cold for the adaptive standard but we will use some correlations from adaptive-style surveys of conditioned buildings to give a good guess.
-        if levelOfConditioning == 0: tComf = 24.024 + (0.295 * (runningMean - 22.0)) * math.exp((-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
+        if levelOfConditioning == 0:
+            tComf = 24.024 + (0.295 * (runningMean - 22.0)) * math.exp((-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
         else:
             conditOffset = 2.6 * levelOfConditioning
             tComf = conditOffset + 24.024 + (0.295 * (runningMean - 22.0)) * math.exp((-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
@@ -434,55 +525,109 @@ def comfAdaptiveComfortASH55(self, ta, tr, runningMean, vel, eightyOrNinety, lev
         tempDiff = to - tComf
         tComfLower = tComf - offset
         tComfUpper = tComf + offset
-        if to > tComfLower and to < tComfUpper: acceptability = True
-        else: acceptability = False
-        if acceptability == True: condit = 0
-        elif to > tComfUpper: condit = 1
-        else: condit = -1
+        if to > tComfLower and to < tComfUpper:
+            acceptability = True
+        else:
+            acceptability = False
+        if acceptability == True:
+            condit = 0
+        elif to > tComfUpper:
+            condit = 1
+        else:
+            condit = -1
         outputs = [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
         r.extend(outputs)
     else:
         # The prevailing temperature is too hot for the adaptive method.  This should usually not happen for climates on today's earth but it might be possible in the future with global warming. For this case, we will just use the adaptive model at its hottest limit.
         if (vel >= 0.6 and to >= 25):
-            if vel < 0.9: coolingEffect = 1.2
-            elif vel < 1.2: coolingEffect = 1.8
-            elif vel >= 1.2: coolingEffect = 2.2
-            else: pass
-        if levelOfConditioning == 0: tComf = 0.31 * 33.5 + 17.8
-        else: tComf = ((0.09 * levelOfConditioning) + (0.31 * (1 - levelOfConditioning))) * 33.5 + ((22.6 * levelOfConditioning) + (17.8 * (1 - levelOfConditioning)))
+            if vel < 0.9:
+                coolingEffect = 1.2
+            elif vel < 1.2:
+                coolingEffect = 1.8
+            elif vel >= 1.2:
+                coolingEffect = 2.2
+            else:
+                pass
+        if levelOfConditioning == 0:
+            tComf = 0.31 * 33.5 + 17.8
+        else:
+            tComf = ((0.09 * levelOfConditioning) + (0.31 * (1 - levelOfConditioning))) * 33.5 + (
+                    (22.6 * levelOfConditioning) + (17.8 * (1 - levelOfConditioning)))
         tempDiff = to - tComf
         tComfLower = tComf - offset
         tComfUpper = tComf + offset + coolingEffect
-        if to > tComfLower and to < tComfUpper: acceptability = True
-        else: acceptability = False
-        if acceptability == True: condit = 0
-        elif to > tComfUpper: condit = 1
-        else: condit = -1
+        if to > tComfLower and to < tComfUpper:
+            acceptability = True
+        else:
+            acceptability = False
+        if acceptability == True:
+            condit = 0
+        elif to > tComfUpper:
+            condit = 1
+        else:
+            condit = -1
         outputs = [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
         r.extend(outputs)
 
     return r
 
 
-def comfAdaptiveComfortEN15251(self, ta, tr, runningMean, vel, comfortClass, levelOfConditioning=0):
+def comfAdaptiveComfortEN15251(ta, tr, runningMean, vel, comfort_category, levelOfConditioning=0):
+    """ Determine the adaptive thermal comfort based on EN 15251
+
+        The function returns a list containing the following values listed in order as they appear below:
+        - tComf : comfort temperature calculated with adaptive thermal comfort model
+        - tempDiff : delta between tempeature and comfort temperature
+        - tComfLower: lowest acceptable temperature
+        - tComfUpper: highest acceptable temperature
+        - acceptability: boolen, 1 if comply with adaptive thermal comfort
+        - condit: todo define meaning of this parameter
+
+        :param ta: dry bulb air temperature, [C]
+        :type  ta: float
+        :param tr: mean radiant temperature, [C]
+        :type  tr: float
+        :param runningMean: running mean temperature, [C]
+        :type  runningMean: float
+        :param vel: air velocity, [m/s]
+        :type  vel: float
+        :param comfort_category: comfort category as defined by the EN
+            Three comfort categories are available, as follows:
+                Category 1: PPD < 6 and -.2 < PMV < .2
+                Category 2: PPD < 10 and -.5 < PMV < .5
+                Category 3: PPD < 15 and -.7 < PMV < .7
+        :type  comfort_category: int
+        :param levelOfConditioning: todo description to be added
+        :type  levelOfConditioning: float
+
+        :return: list [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit] todo we should return json
+        """
     # Define the variables that will be used throughout the calculation.
     r = []
     coolingEffect = 0
-    if comfortClass == 1: offset = 2
-    elif comfortClass == 2: offset = 3
-    else: offset = 4
+    if comfort_category == 1:
+        offset = 2
+    elif comfort_category == 2:
+        offset = 3
+    elif comfort_category == 3:
+        offset = 4
+    else:
+        raise NameError('Wrong comfort category. Select between category 1, 2 or 3. See function description for more information')
     to = (ta + tr) / 2
 
     # See if the running mean temperature is between 10 C and 30.0 C (the range where the adaptive model is supposed to be used).
-    if runningMean >= 10.0 and runningMean <= 30.0:
-        if (vel >= 0.2 and to >= 25):
-            # calculate cooling effect of elevated air speed
-            # when top > 25 degC.
+    if 10.0 <= runningMean <= 30.0:
+        if vel >= 0.2 and to >= 25:
+            # calculate cooling effect of elevated air speed when top > 25 degC.
             coolingEffect = 1.7856 * math.log(vel) + 2.9835
 
-        if levelOfConditioning == 0: tComf = 0.33 * runningMean + 18.8
-        elif levelOfConditioning == 1: tComf = 0.09 * runningMean + 22.6
-        else: tComf = ((0.09 * levelOfConditioning) + (0.33 * (1 - levelOfConditioning))) * runningMean + ((22.6 * levelOfConditioning) + (18.8 * (1 - levelOfConditioning)))
+        if levelOfConditioning == 0:
+            tComf = 0.33 * runningMean + 18.8
+        elif levelOfConditioning == 1:
+            tComf = 0.09 * runningMean + 22.6
+        else:
+            tComf = ((0.09 * levelOfConditioning) + (0.33 * (1 - levelOfConditioning))) * runningMean + (
+                    (22.6 * levelOfConditioning) + (18.8 * (1 - levelOfConditioning)))
 
         if runningMean > 15:
             tComfLower = tComf - offset
@@ -497,8 +642,10 @@ def comfAdaptiveComfortEN15251(self, ta, tr, runningMean, vel, comfortClass, lev
         else:
             tComfLow = 23.75
             tComfLower = tComfLow - offset
-            if comfortClass == 1: tComfUpper = tComf + offset
-            else: tComfUpper = tComf + offset + coolingEffect
+            if comfort_category == 1:
+                tComfUpper = tComf + offset
+            else:
+                tComfUpper = tComf + offset + coolingEffect
 
         r.append(tComf)
         r.append(to - tComf)
@@ -515,25 +662,36 @@ def comfAdaptiveComfortEN15251(self, ta, tr, runningMean, vel, comfortClass, lev
         r.append(acceptability)
 
         # Append a number to the result list to show whether the values are too hot, too cold, or comfortable.
-        if acceptability == True: r.append(0)
-        elif to > tComfUpper: r.append(1)
-        else: r.append(-1)
+        if acceptability == True:
+            r.append(0)
+        elif to > tComfUpper:
+            r.append(1)
+        else:
+            r.append(-1)
 
     elif runningMean < 10.0:
         # The prevailing temperature is too cold for the adaptive standard but we will use some correlations from adaptive-style surveys of conditioned buildings to give a good guess.
-        if levelOfConditioning == 0: tComf = 25.224 + (0.295 * (runningMean - 22.0)) * math.exp((-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
+        if levelOfConditioning == 0:
+            tComf = 25.224 + (0.295 * (runningMean - 22.0)) * math.exp(
+                (-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
         else:
             conditOffset = 1.4 * levelOfConditioning
-            tComf = conditOffset + 25.224 + (0.295 * (runningMean - 22.0)) * math.exp((-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
+            tComf = conditOffset + 25.224 + (0.295 * (runningMean - 22.0)) * math.exp(
+                (-1) * (((runningMean - 22) / (33.941125)) * ((runningMean - 22) / (33.941125))))
 
         tempDiff = to - tComf
         tComfLower = tComf - offset
         tComfUpper = tComf + offset
-        if to > tComfLower and to < tComfUpper: acceptability = True
-        else: acceptability = False
-        if acceptability == True: condit = 0
-        elif to > tComfUpper: condit = 1
-        else: condit = -1
+        if to > tComfLower and to < tComfUpper:
+            acceptability = True
+        else:
+            acceptability = False
+        if acceptability == True:
+            condit = 0
+        elif to > tComfUpper:
+            condit = 1
+        else:
+            condit = -1
         outputs = [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
         r.extend(outputs)
     else:
@@ -542,16 +700,24 @@ def comfAdaptiveComfortEN15251(self, ta, tr, runningMean, vel, comfortClass, lev
             # calculate cooling effect of elevated air speed
             # when top > 25 degC.
             coolingEffect = 1.7856 * math.log(vel) + 2.9835
-        if levelOfConditioning == 0: tComf = 0.33 * 30.0 + 18.8
-        else: tComf = ((0.09 * levelOfConditioning) + (0.33 * (1 - levelOfConditioning))) * 30.0 + ((22.6 * levelOfConditioning) + (18.8 * (1 - levelOfConditioning)))
+        if levelOfConditioning == 0:
+            tComf = 0.33 * 30.0 + 18.8
+        else:
+            tComf = ((0.09 * levelOfConditioning) + (0.33 * (1 - levelOfConditioning))) * 30.0 + (
+                    (22.6 * levelOfConditioning) + (18.8 * (1 - levelOfConditioning)))
         tempDiff = to - tComf
         tComfLower = tComf - offset
         tComfUpper = tComf + offset + coolingEffect
-        if to > tComfLower and to < tComfUpper: acceptability = True
-        else: acceptability = False
-        if acceptability == True: condit = 0
-        elif to > tComfUpper: condit = 1
-        else: condit = -1
+        if to > tComfLower and to < tComfUpper:
+            acceptability = True
+        else:
+            acceptability = False
+        if acceptability == True:
+            condit = 0
+        elif to > tComfUpper:
+            condit = 1
+        else:
+            condit = -1
         outputs = [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
         r.extend(outputs)
 
@@ -559,17 +725,16 @@ def comfAdaptiveComfortEN15251(self, ta, tr, runningMean, vel, comfortClass, lev
 
 
 def comfUTCI(Ta, Tmrt, va, RH):
-    # Define a function to change the RH to water saturation vapor
-    # pressure in hPa
+    # Define a function to change the RH to water saturation vapor pressure in hPa
     def es(ta):
         g = [
             -2836.5744, -6028.076559, 19.54263612,
             -0.02737830188, 0.000016261698,
-            (7.0229056 * (10**(-10))), (-1.8680009 * (10**(-13)))]
+            (7.0229056 * (10 ** (-10))), (-1.8680009 * (10 ** (-13)))]
         tk = ta + 273.15  # air temp in K
         es = 2.7150305 * math.log1p(tk)
         for count, i in enumerate(g):
-            es = es + (i * (tk**(count - 2)))
+            es = es + (i * (tk ** (count - 2)))
         es = math.exp(es) * 0.01  # convert Pa to hPa
         return es
 
@@ -597,216 +762,216 @@ def comfUTCI(Ta, Tmrt, va, RH):
         Pa = ehPa / 10.0  # convert vapour pressure to kPa
 
         UTCI_approx = (Ta +
-            (0.607562052) +
-            (-0.0227712343) * Ta +
-            (8.06470249*(10**(-4))) * Ta * Ta +
-            (-1.54271372*(10**(-4))) * Ta * Ta * Ta +
-            (-3.24651735*(10**(-6))) * Ta * Ta * Ta * Ta +
-            (7.32602852*(10**(-8))) * Ta * Ta * Ta * Ta * Ta +
-            (1.35959073*(10**(-9))) * Ta * Ta * Ta * Ta * Ta * Ta +
-            (-2.25836520) * va +
-            (0.0880326035) * Ta * va +
-            (0.00216844454) * Ta * Ta * va +
-            (-1.53347087*(10**(-5))) * Ta * Ta * Ta * va +
-            (-5.72983704*(10**(-7))) * Ta * Ta * Ta * Ta * va +
-            (-2.55090145*(10**(-9))) * Ta * Ta * Ta * Ta * Ta * va +
-            (-0.751269505) * va * va +
-            (-0.00408350271) * Ta * va * va +
-            (-5.21670675*(10**(-5))) * Ta * Ta * va * va +
-            (1.94544667*(10**(-6))) * Ta * Ta * Ta * va * va +
-            (1.14099531*(10**(-8))) * Ta * Ta * Ta * Ta * va * va +
-            (0.158137256) * va * va * va +
-            (-6.57263143*(10**(-5))) * Ta * va * va * va +
-            (2.22697524*(10**(-7))) * Ta * Ta * va * va * va +
-            (-4.16117031*(10**(-8))) * Ta * Ta * Ta * va * va * va +
-            (-0.0127762753) * va * va * va * va +
-            (9.66891875*(10**(-6))) * Ta * va * va * va * va +
-            (2.52785852*(10**(-9))) * Ta * Ta * va * va * va * va +
-            (4.56306672*(10**(-4))) * va * va * va * va * va +
-            (-1.74202546*(10**(-7))) * Ta * va * va * va * va * va +
-            (-5.91491269*(10**(-6))) * va * va * va * va * va * va +
-            (0.398374029) * D_Tmrt +
-            (1.83945314*(10**(-4))) * Ta * D_Tmrt +
-            (-1.73754510*(10**(-4))) * Ta * Ta * D_Tmrt +
-            (-7.60781159*(10**(-7))) * Ta * Ta * Ta * D_Tmrt +
-            (3.77830287*(10**(-8))) * Ta * Ta * Ta * Ta * D_Tmrt +
-            (5.43079673*(10**(-10))) * Ta * Ta * Ta * Ta * Ta * D_Tmrt +
-            (-0.0200518269) * va * D_Tmrt +
-            (8.92859837*(10**(-4))) * Ta * va * D_Tmrt +
-            (3.45433048*(10**(-6))) * Ta * Ta * va * D_Tmrt +
-            (-3.77925774*(10**(-7))) * Ta * Ta * Ta * va * D_Tmrt +
-            (-1.69699377*(10**(-9))) * Ta * Ta * Ta * Ta * va * D_Tmrt +
-            (1.69992415*(10**(-4))) * va*va*D_Tmrt +
-            ( -4.99204314*(10**(-5)) ) * Ta*va*va*D_Tmrt +
-            ( 2.47417178*(10**(-7)) ) * Ta*Ta*va*va*D_Tmrt +
-            ( 1.07596466*(10**(-8)) ) * Ta*Ta*Ta*va*va*D_Tmrt +
-            ( 8.49242932*(10**(-5)) ) * va*va*va*D_Tmrt +
-            ( 1.35191328*(10**(-6)) ) * Ta*va*va*va*D_Tmrt +
-            ( -6.21531254*(10**(-9)) ) * Ta*Ta*va*va*va*D_Tmrt +
-            ( -4.99410301*(10**(-6)) ) * va*va*va*va*D_Tmrt +
-            ( -1.89489258*(10**(-8)) ) * Ta*va*va*va*va*D_Tmrt +
-            ( 8.15300114*(10**(-8)) ) * va*va*va*va*va*D_Tmrt +
-            ( 7.55043090*(10**(-4)) ) * D_Tmrt*D_Tmrt +
-            ( -5.65095215*(10**(-5)) ) * Ta*D_Tmrt*D_Tmrt +
-            ( -4.52166564*(10**(-7)) ) * Ta*Ta*D_Tmrt*D_Tmrt +
-            ( 2.46688878*(10**(-8)) ) * Ta*Ta*Ta*D_Tmrt*D_Tmrt +
-            ( 2.42674348*(10**(-10)) ) * Ta*Ta*Ta*Ta*D_Tmrt*D_Tmrt +
-            ( 1.54547250*(10**(-4)) ) * va*D_Tmrt*D_Tmrt +
-            ( 5.24110970*(10**(-6)) ) * Ta*va*D_Tmrt*D_Tmrt +
-            ( -8.75874982*(10**(-8)) ) * Ta*Ta*va*D_Tmrt*D_Tmrt +
-            ( -1.50743064*(10**(-9)) ) * Ta*Ta*Ta*va*D_Tmrt*D_Tmrt +
-            ( -1.56236307*(10**(-5)) ) * va*va*D_Tmrt*D_Tmrt +
-            ( -1.33895614*(10**(-7)) ) * Ta*va*va*D_Tmrt*D_Tmrt +
-            ( 2.49709824*(10**(-9)) ) * Ta*Ta*va*va*D_Tmrt*D_Tmrt +
-            ( 6.51711721*(10**(-7)) ) * va*va*va*D_Tmrt*D_Tmrt +
-            ( 1.94960053*(10**(-9)) ) * Ta*va*va*va*D_Tmrt*D_Tmrt +
-            ( -1.00361113*(10**(-8)) ) * va*va*va*va*D_Tmrt*D_Tmrt +
-            ( -1.21206673*(10**(-5)) ) * D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -2.18203660*(10**(-7)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 7.51269482*(10**(-9)) ) * Ta*Ta*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 9.79063848*(10**(-11)) ) * Ta*Ta*Ta*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 1.25006734*(10**(-6)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -1.81584736*(10**(-9)) ) * Ta*va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -3.52197671*(10**(-10)) ) * Ta*Ta*va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -3.36514630*(10**(-8)) ) * va*va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 1.35908359*(10**(-10)) ) * Ta*va*va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 4.17032620*(10**(-10)) ) * va*va*va*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -1.30369025*(10**(-9)) ) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 4.13908461*(10**(-10)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 9.22652254*(10**(-12)) ) * Ta*Ta*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -5.08220384*(10**(-9)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -2.24730961*(10**(-11)) ) * Ta*va*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 1.17139133*(10**(-10)) ) * va*va*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 6.62154879*(10**(-10)) ) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 4.03863260*(10**(-13)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 1.95087203*(10**(-12)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( -4.73602469*(10**(-12))) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt +
-            ( 5.12733497) * Pa +
-            ( -0.312788561) * Ta*Pa +
-            ( -0.0196701861 ) * Ta*Ta*Pa +
-            ( 9.99690870*(10**(-4)) ) * Ta*Ta*Ta*Pa +
-            ( 9.51738512*(10**(-6)) ) * Ta*Ta*Ta*Ta*Pa +
-            ( -4.66426341*(10**(-7)) ) * Ta*Ta*Ta*Ta*Ta*Pa +
-            ( 0.548050612 ) * va*Pa +
-            ( -0.00330552823) * Ta*va*Pa +
-            ( -0.00164119440 ) * Ta*Ta*va*Pa +
-            ( -5.16670694*(10**(-6)) ) * Ta*Ta*Ta*va*Pa +
-            ( 9.52692432*(10**(-7)) ) * Ta*Ta*Ta*Ta*va*Pa +
-            ( -0.0429223622 ) * va*va*Pa +
-            ( 0.00500845667 ) * Ta*va*va*Pa +
-            ( 1.00601257*(10**(-6)) ) * Ta*Ta*va*va*Pa +
-            ( -1.81748644*(10**(-6)) ) * Ta*Ta*Ta*va*va*Pa +
-            ( -1.25813502*(10**(-3)) ) * va*va*va*Pa +
-            ( -1.79330391*(10**(-4)) ) * Ta*va*va*va*Pa +
-            ( 2.34994441*(10**(-6)) ) * Ta*Ta*va*va*va*Pa +
-            ( 1.29735808*(10**(-4)) ) * va*va*va*va*Pa +
-            ( 1.29064870*(10**(-6)) ) * Ta*va*va*va*va*Pa +
-            ( -2.28558686*(10**(-6)) ) * va*va*va*va*va*Pa +
-            ( -0.0369476348 ) * D_Tmrt*Pa +
-            ( 0.00162325322 ) * Ta*D_Tmrt*Pa +
-            ( -3.14279680*(10**(-5)) ) * Ta*Ta*D_Tmrt*Pa +
-            ( 2.59835559*(10**(-6)) ) * Ta*Ta*Ta*D_Tmrt*Pa +
-            ( -4.77136523*(10**(-8)) ) * Ta*Ta*Ta*Ta*D_Tmrt*Pa +
-            ( 8.64203390*(10**(-3)) ) * va*D_Tmrt*Pa +
-            ( -6.87405181*(10**(-4)) ) * Ta*va*D_Tmrt*Pa +
-            ( -9.13863872*(10**(-6)) ) * Ta*Ta*va*D_Tmrt*Pa +
-            ( 5.15916806*(10**(-7)) ) * Ta*Ta*Ta*va*D_Tmrt*Pa +
-            ( -3.59217476*(10**(-5)) ) * va*va*D_Tmrt*Pa +
-            ( 3.28696511*(10**(-5)) ) * Ta*va*va*D_Tmrt*Pa +
-            ( -7.10542454*(10**(-7)) ) * Ta*Ta*va*va*D_Tmrt*Pa +
-            ( -1.24382300*(10**(-5)) ) * va*va*va*D_Tmrt*Pa +
-            ( -7.38584400*(10**(-9)) ) * Ta*va*va*va*D_Tmrt*Pa +
-            ( 2.20609296*(10**(-7)) ) * va*va*va*va*D_Tmrt*Pa +
-            ( -7.32469180*(10**(-4)) ) * D_Tmrt*D_Tmrt*Pa +
-            ( -1.87381964*(10**(-5)) ) * Ta*D_Tmrt*D_Tmrt*Pa +
-            ( 4.80925239*(10**(-6)) ) * Ta*Ta*D_Tmrt*D_Tmrt*Pa +
-            ( -8.75492040*(10**(-8)) ) * Ta*Ta*Ta*D_Tmrt*D_Tmrt*Pa +
-            ( 2.77862930*(10**(-5)) ) * va*D_Tmrt*D_Tmrt*Pa +
-            ( -5.06004592*(10**(-6)) ) * Ta*va*D_Tmrt*D_Tmrt*Pa +
-            ( 1.14325367*(10**(-7)) ) * Ta*Ta*va*D_Tmrt*D_Tmrt*Pa +
-            ( 2.53016723*(10**(-6)) ) * va*va*D_Tmrt*D_Tmrt*Pa +
-            ( -1.72857035*(10**(-8)) ) * Ta*va*va*D_Tmrt*D_Tmrt*Pa +
-            ( -3.95079398*(10**(-8)) ) * va*va*va*D_Tmrt*D_Tmrt*Pa +
-            ( -3.59413173*(10**(-7)) ) * D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( 7.04388046*(10**(-7)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( -1.89309167*(10**(-8)) ) * Ta*Ta*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( -4.79768731*(10**(-7)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( 7.96079978*(10**(-9)) ) * Ta*va*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( 1.62897058*(10**(-9)) ) * va*va*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( 3.94367674*(10**(-8)) ) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( -1.18566247*(10**(-9)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( 3.34678041*(10**(-10)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( -1.15606447*(10**(-10)) ) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*Pa +
-            ( -2.80626406 ) * Pa*Pa +
-            ( 0.548712484 ) * Ta*Pa*Pa +
-            ( -0.00399428410 ) * Ta*Ta*Pa*Pa +
-            ( -9.54009191*(10**(-4)) ) * Ta*Ta*Ta*Pa*Pa +
-            ( 1.93090978*(10**(-5)) ) * Ta*Ta*Ta*Ta*Pa*Pa +
-            ( -0.308806365 ) * va*Pa*Pa +
-            ( 0.0116952364 ) * Ta*va*Pa*Pa +
-            ( 4.95271903*(10**(-4)) ) * Ta*Ta*va*Pa*Pa +
-            ( -1.90710882*(10**(-5)) ) * Ta*Ta*Ta*va*Pa*Pa +
-            ( 0.00210787756 ) * va*va*Pa*Pa +
-            ( -6.98445738*(10**(-4)) ) * Ta*va*va*Pa*Pa +
-            ( 2.30109073*(10**(-5)) ) * Ta*Ta*va*va*Pa*Pa +
-            ( 4.17856590*(10**(-4)) ) * va*va*va*Pa*Pa +
-            ( -1.27043871*(10**(-5)) ) * Ta*va*va*va*Pa*Pa +
-            ( -3.04620472*(10**(-6)) ) * va*va*va*va*Pa*Pa +
-            ( 0.0514507424 ) * D_Tmrt*Pa*Pa +
-            ( -0.00432510997 ) * Ta*D_Tmrt*Pa*Pa +
-            ( 8.99281156*(10**(-5)) ) * Ta*Ta*D_Tmrt*Pa*Pa +
-            ( -7.14663943*(10**(-7)) ) * Ta*Ta*Ta*D_Tmrt*Pa*Pa +
-            ( -2.66016305*(10**(-4)) ) * va*D_Tmrt*Pa*Pa +
-            ( 2.63789586*(10**(-4)) ) * Ta*va*D_Tmrt*Pa*Pa +
-            ( -7.01199003*(10**(-6)) ) * Ta*Ta*va*D_Tmrt*Pa*Pa +
-            ( -1.06823306*(10**(-4)) ) * va*va*D_Tmrt*Pa*Pa +
-            ( 3.61341136*(10**(-6)) ) * Ta*va*va*D_Tmrt*Pa*Pa +
-            ( 2.29748967*(10**(-7)) ) * va*va*va*D_Tmrt*Pa*Pa +
-            ( 3.04788893*(10**(-4)) ) * D_Tmrt*D_Tmrt*Pa*Pa +
-            ( -6.42070836*(10**(-5)) ) * Ta*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( 1.16257971*(10**(-6)) ) * Ta*Ta*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( 7.68023384*(10**(-6)) ) * va*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( -5.47446896*(10**(-7)) ) * Ta*va*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( -3.59937910*(10**(-8)) ) * va*va*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( -4.36497725*(10**(-6)) ) * D_Tmrt*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( 1.68737969*(10**(-7)) ) * Ta*D_Tmrt*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( 2.67489271*(10**(-8)) ) * va*D_Tmrt*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( 3.23926897*(10**(-9)) ) * D_Tmrt*D_Tmrt*D_Tmrt*D_Tmrt*Pa*Pa +
-            ( -0.0353874123 ) * Pa*Pa*Pa +
-            ( -0.221201190 ) * Ta*Pa*Pa*Pa +
-            ( 0.0155126038 ) * Ta*Ta*Pa*Pa*Pa +
-            ( -2.63917279*(10**(-4)) ) * Ta*Ta*Ta*Pa*Pa*Pa +
-            ( 0.0453433455 ) * va*Pa*Pa*Pa +
-            ( -0.00432943862 ) * Ta*va*Pa*Pa*Pa +
-            ( 1.45389826*(10**(-4)) ) * Ta*Ta*va*Pa*Pa*Pa +
-            ( 2.17508610*(10**(-4)) ) * va*va*Pa*Pa*Pa +
-            ( -6.66724702*(10**(-5)) ) * Ta*va*va*Pa*Pa*Pa +
-            ( 3.33217140*(10**(-5)) ) * va*va*va*Pa*Pa*Pa +
-            ( -0.00226921615 ) * D_Tmrt*Pa*Pa*Pa +
-            ( 3.80261982*(10**(-4)) ) * Ta*D_Tmrt*Pa*Pa*Pa +
-            ( -5.45314314*(10**(-9)) ) * Ta*Ta*D_Tmrt*Pa*Pa*Pa +
-            ( -7.96355448*(10**(-4)) ) * va*D_Tmrt*Pa*Pa*Pa +
-            ( 2.53458034*(10**(-5)) ) * Ta*va*D_Tmrt*Pa*Pa*Pa +
-            ( -6.31223658*(10**(-6)) ) * va*va*D_Tmrt*Pa*Pa*Pa +
-            ( 3.02122035*(10**(-4)) ) * D_Tmrt*D_Tmrt*Pa*Pa*Pa +
-            ( -4.77403547*(10**(-6)) ) * Ta*D_Tmrt*D_Tmrt*Pa*Pa*Pa +
-            ( 1.73825715*(10**(-6)) ) * va*D_Tmrt*D_Tmrt*Pa*Pa*Pa +
-            ( -4.09087898*(10**(-7)) ) * D_Tmrt*D_Tmrt*D_Tmrt*Pa*Pa*Pa +
-            ( 0.614155345 ) * Pa*Pa*Pa*Pa +
-            ( -0.0616755931 ) * Ta*Pa*Pa*Pa*Pa +
-            ( 0.00133374846 ) * Ta*Ta*Pa*Pa*Pa*Pa +
-            ( 0.00355375387 ) * va*Pa*Pa*Pa*Pa +
-            ( -5.13027851*(10**(-4)) ) * Ta*va*Pa*Pa*Pa*Pa +
-            ( 1.02449757*(10**(-4)) ) * va*va*Pa*Pa*Pa*Pa +
-            ( -0.00148526421 ) * D_Tmrt*Pa*Pa*Pa*Pa +
-            ( -4.11469183*(10**(-5)) ) * Ta*D_Tmrt*Pa*Pa*Pa*Pa +
-            ( -6.80434415*(10**(-6)) ) * va*D_Tmrt*Pa*Pa*Pa*Pa +
-            ( -9.77675906*(10**(-6)) ) * D_Tmrt*D_Tmrt*Pa*Pa*Pa*Pa +
-            ( 0.0882773108 ) * Pa*Pa*Pa*Pa*Pa +
-            ( -0.00301859306 ) * Ta*Pa*Pa*Pa*Pa*Pa +
-            ( 0.00104452989 ) * va*Pa*Pa*Pa*Pa*Pa +
-            ( 2.47090539*(10**(-4)) ) * D_Tmrt*Pa*Pa*Pa*Pa*Pa +
-            ( 0.00148348065 ) * Pa*Pa*Pa*Pa*Pa*Pa)
+                       (0.607562052) +
+                       (-0.0227712343) * Ta +
+                       (8.06470249 * (10 ** (-4))) * Ta * Ta +
+                       (-1.54271372 * (10 ** (-4))) * Ta * Ta * Ta +
+                       (-3.24651735 * (10 ** (-6))) * Ta * Ta * Ta * Ta +
+                       (7.32602852 * (10 ** (-8))) * Ta * Ta * Ta * Ta * Ta +
+                       (1.35959073 * (10 ** (-9))) * Ta * Ta * Ta * Ta * Ta * Ta +
+                       (-2.25836520) * va +
+                       (0.0880326035) * Ta * va +
+                       (0.00216844454) * Ta * Ta * va +
+                       (-1.53347087 * (10 ** (-5))) * Ta * Ta * Ta * va +
+                       (-5.72983704 * (10 ** (-7))) * Ta * Ta * Ta * Ta * va +
+                       (-2.55090145 * (10 ** (-9))) * Ta * Ta * Ta * Ta * Ta * va +
+                       (-0.751269505) * va * va +
+                       (-0.00408350271) * Ta * va * va +
+                       (-5.21670675 * (10 ** (-5))) * Ta * Ta * va * va +
+                       (1.94544667 * (10 ** (-6))) * Ta * Ta * Ta * va * va +
+                       (1.14099531 * (10 ** (-8))) * Ta * Ta * Ta * Ta * va * va +
+                       (0.158137256) * va * va * va +
+                       (-6.57263143 * (10 ** (-5))) * Ta * va * va * va +
+                       (2.22697524 * (10 ** (-7))) * Ta * Ta * va * va * va +
+                       (-4.16117031 * (10 ** (-8))) * Ta * Ta * Ta * va * va * va +
+                       (-0.0127762753) * va * va * va * va +
+                       (9.66891875 * (10 ** (-6))) * Ta * va * va * va * va +
+                       (2.52785852 * (10 ** (-9))) * Ta * Ta * va * va * va * va +
+                       (4.56306672 * (10 ** (-4))) * va * va * va * va * va +
+                       (-1.74202546 * (10 ** (-7))) * Ta * va * va * va * va * va +
+                       (-5.91491269 * (10 ** (-6))) * va * va * va * va * va * va +
+                       (0.398374029) * D_Tmrt +
+                       (1.83945314 * (10 ** (-4))) * Ta * D_Tmrt +
+                       (-1.73754510 * (10 ** (-4))) * Ta * Ta * D_Tmrt +
+                       (-7.60781159 * (10 ** (-7))) * Ta * Ta * Ta * D_Tmrt +
+                       (3.77830287 * (10 ** (-8))) * Ta * Ta * Ta * Ta * D_Tmrt +
+                       (5.43079673 * (10 ** (-10))) * Ta * Ta * Ta * Ta * Ta * D_Tmrt +
+                       (-0.0200518269) * va * D_Tmrt +
+                       (8.92859837 * (10 ** (-4))) * Ta * va * D_Tmrt +
+                       (3.45433048 * (10 ** (-6))) * Ta * Ta * va * D_Tmrt +
+                       (-3.77925774 * (10 ** (-7))) * Ta * Ta * Ta * va * D_Tmrt +
+                       (-1.69699377 * (10 ** (-9))) * Ta * Ta * Ta * Ta * va * D_Tmrt +
+                       (1.69992415 * (10 ** (-4))) * va * va * D_Tmrt +
+                       (-4.99204314 * (10 ** (-5))) * Ta * va * va * D_Tmrt +
+                       (2.47417178 * (10 ** (-7))) * Ta * Ta * va * va * D_Tmrt +
+                       (1.07596466 * (10 ** (-8))) * Ta * Ta * Ta * va * va * D_Tmrt +
+                       (8.49242932 * (10 ** (-5))) * va * va * va * D_Tmrt +
+                       (1.35191328 * (10 ** (-6))) * Ta * va * va * va * D_Tmrt +
+                       (-6.21531254 * (10 ** (-9))) * Ta * Ta * va * va * va * D_Tmrt +
+                       (-4.99410301 * (10 ** (-6))) * va * va * va * va * D_Tmrt +
+                       (-1.89489258 * (10 ** (-8))) * Ta * va * va * va * va * D_Tmrt +
+                       (8.15300114 * (10 ** (-8))) * va * va * va * va * va * D_Tmrt +
+                       (7.55043090 * (10 ** (-4))) * D_Tmrt * D_Tmrt +
+                       (-5.65095215 * (10 ** (-5))) * Ta * D_Tmrt * D_Tmrt +
+                       (-4.52166564 * (10 ** (-7))) * Ta * Ta * D_Tmrt * D_Tmrt +
+                       (2.46688878 * (10 ** (-8))) * Ta * Ta * Ta * D_Tmrt * D_Tmrt +
+                       (2.42674348 * (10 ** (-10))) * Ta * Ta * Ta * Ta * D_Tmrt * D_Tmrt +
+                       (1.54547250 * (10 ** (-4))) * va * D_Tmrt * D_Tmrt +
+                       (5.24110970 * (10 ** (-6))) * Ta * va * D_Tmrt * D_Tmrt +
+                       (-8.75874982 * (10 ** (-8))) * Ta * Ta * va * D_Tmrt * D_Tmrt +
+                       (-1.50743064 * (10 ** (-9))) * Ta * Ta * Ta * va * D_Tmrt * D_Tmrt +
+                       (-1.56236307 * (10 ** (-5))) * va * va * D_Tmrt * D_Tmrt +
+                       (-1.33895614 * (10 ** (-7))) * Ta * va * va * D_Tmrt * D_Tmrt +
+                       (2.49709824 * (10 ** (-9))) * Ta * Ta * va * va * D_Tmrt * D_Tmrt +
+                       (6.51711721 * (10 ** (-7))) * va * va * va * D_Tmrt * D_Tmrt +
+                       (1.94960053 * (10 ** (-9))) * Ta * va * va * va * D_Tmrt * D_Tmrt +
+                       (-1.00361113 * (10 ** (-8))) * va * va * va * va * D_Tmrt * D_Tmrt +
+                       (-1.21206673 * (10 ** (-5))) * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-2.18203660 * (10 ** (-7))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (7.51269482 * (10 ** (-9))) * Ta * Ta * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (9.79063848 * (10 ** (-11))) * Ta * Ta * Ta * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (1.25006734 * (10 ** (-6))) * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-1.81584736 * (10 ** (-9))) * Ta * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-3.52197671 * (10 ** (-10))) * Ta * Ta * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-3.36514630 * (10 ** (-8))) * va * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (1.35908359 * (10 ** (-10))) * Ta * va * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (4.17032620 * (10 ** (-10))) * va * va * va * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-1.30369025 * (10 ** (-9))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (4.13908461 * (10 ** (-10))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (9.22652254 * (10 ** (-12))) * Ta * Ta * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-5.08220384 * (10 ** (-9))) * va * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-2.24730961 * (10 ** (-11))) * Ta * va * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (1.17139133 * (10 ** (-10))) * va * va * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (6.62154879 * (10 ** (-10))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (4.03863260 * (10 ** (-13))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (1.95087203 * (10 ** (-12))) * va * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (-4.73602469 * (10 ** (-12))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt +
+                       (5.12733497) * Pa +
+                       (-0.312788561) * Ta * Pa +
+                       (-0.0196701861) * Ta * Ta * Pa +
+                       (9.99690870 * (10 ** (-4))) * Ta * Ta * Ta * Pa +
+                       (9.51738512 * (10 ** (-6))) * Ta * Ta * Ta * Ta * Pa +
+                       (-4.66426341 * (10 ** (-7))) * Ta * Ta * Ta * Ta * Ta * Pa +
+                       (0.548050612) * va * Pa +
+                       (-0.00330552823) * Ta * va * Pa +
+                       (-0.00164119440) * Ta * Ta * va * Pa +
+                       (-5.16670694 * (10 ** (-6))) * Ta * Ta * Ta * va * Pa +
+                       (9.52692432 * (10 ** (-7))) * Ta * Ta * Ta * Ta * va * Pa +
+                       (-0.0429223622) * va * va * Pa +
+                       (0.00500845667) * Ta * va * va * Pa +
+                       (1.00601257 * (10 ** (-6))) * Ta * Ta * va * va * Pa +
+                       (-1.81748644 * (10 ** (-6))) * Ta * Ta * Ta * va * va * Pa +
+                       (-1.25813502 * (10 ** (-3))) * va * va * va * Pa +
+                       (-1.79330391 * (10 ** (-4))) * Ta * va * va * va * Pa +
+                       (2.34994441 * (10 ** (-6))) * Ta * Ta * va * va * va * Pa +
+                       (1.29735808 * (10 ** (-4))) * va * va * va * va * Pa +
+                       (1.29064870 * (10 ** (-6))) * Ta * va * va * va * va * Pa +
+                       (-2.28558686 * (10 ** (-6))) * va * va * va * va * va * Pa +
+                       (-0.0369476348) * D_Tmrt * Pa +
+                       (0.00162325322) * Ta * D_Tmrt * Pa +
+                       (-3.14279680 * (10 ** (-5))) * Ta * Ta * D_Tmrt * Pa +
+                       (2.59835559 * (10 ** (-6))) * Ta * Ta * Ta * D_Tmrt * Pa +
+                       (-4.77136523 * (10 ** (-8))) * Ta * Ta * Ta * Ta * D_Tmrt * Pa +
+                       (8.64203390 * (10 ** (-3))) * va * D_Tmrt * Pa +
+                       (-6.87405181 * (10 ** (-4))) * Ta * va * D_Tmrt * Pa +
+                       (-9.13863872 * (10 ** (-6))) * Ta * Ta * va * D_Tmrt * Pa +
+                       (5.15916806 * (10 ** (-7))) * Ta * Ta * Ta * va * D_Tmrt * Pa +
+                       (-3.59217476 * (10 ** (-5))) * va * va * D_Tmrt * Pa +
+                       (3.28696511 * (10 ** (-5))) * Ta * va * va * D_Tmrt * Pa +
+                       (-7.10542454 * (10 ** (-7))) * Ta * Ta * va * va * D_Tmrt * Pa +
+                       (-1.24382300 * (10 ** (-5))) * va * va * va * D_Tmrt * Pa +
+                       (-7.38584400 * (10 ** (-9))) * Ta * va * va * va * D_Tmrt * Pa +
+                       (2.20609296 * (10 ** (-7))) * va * va * va * va * D_Tmrt * Pa +
+                       (-7.32469180 * (10 ** (-4))) * D_Tmrt * D_Tmrt * Pa +
+                       (-1.87381964 * (10 ** (-5))) * Ta * D_Tmrt * D_Tmrt * Pa +
+                       (4.80925239 * (10 ** (-6))) * Ta * Ta * D_Tmrt * D_Tmrt * Pa +
+                       (-8.75492040 * (10 ** (-8))) * Ta * Ta * Ta * D_Tmrt * D_Tmrt * Pa +
+                       (2.77862930 * (10 ** (-5))) * va * D_Tmrt * D_Tmrt * Pa +
+                       (-5.06004592 * (10 ** (-6))) * Ta * va * D_Tmrt * D_Tmrt * Pa +
+                       (1.14325367 * (10 ** (-7))) * Ta * Ta * va * D_Tmrt * D_Tmrt * Pa +
+                       (2.53016723 * (10 ** (-6))) * va * va * D_Tmrt * D_Tmrt * Pa +
+                       (-1.72857035 * (10 ** (-8))) * Ta * va * va * D_Tmrt * D_Tmrt * Pa +
+                       (-3.95079398 * (10 ** (-8))) * va * va * va * D_Tmrt * D_Tmrt * Pa +
+                       (-3.59413173 * (10 ** (-7))) * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (7.04388046 * (10 ** (-7))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (-1.89309167 * (10 ** (-8))) * Ta * Ta * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (-4.79768731 * (10 ** (-7))) * va * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (7.96079978 * (10 ** (-9))) * Ta * va * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (1.62897058 * (10 ** (-9))) * va * va * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (3.94367674 * (10 ** (-8))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (-1.18566247 * (10 ** (-9))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (3.34678041 * (10 ** (-10))) * va * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (-1.15606447 * (10 ** (-10))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * Pa +
+                       (-2.80626406) * Pa * Pa +
+                       (0.548712484) * Ta * Pa * Pa +
+                       (-0.00399428410) * Ta * Ta * Pa * Pa +
+                       (-9.54009191 * (10 ** (-4))) * Ta * Ta * Ta * Pa * Pa +
+                       (1.93090978 * (10 ** (-5))) * Ta * Ta * Ta * Ta * Pa * Pa +
+                       (-0.308806365) * va * Pa * Pa +
+                       (0.0116952364) * Ta * va * Pa * Pa +
+                       (4.95271903 * (10 ** (-4))) * Ta * Ta * va * Pa * Pa +
+                       (-1.90710882 * (10 ** (-5))) * Ta * Ta * Ta * va * Pa * Pa +
+                       (0.00210787756) * va * va * Pa * Pa +
+                       (-6.98445738 * (10 ** (-4))) * Ta * va * va * Pa * Pa +
+                       (2.30109073 * (10 ** (-5))) * Ta * Ta * va * va * Pa * Pa +
+                       (4.17856590 * (10 ** (-4))) * va * va * va * Pa * Pa +
+                       (-1.27043871 * (10 ** (-5))) * Ta * va * va * va * Pa * Pa +
+                       (-3.04620472 * (10 ** (-6))) * va * va * va * va * Pa * Pa +
+                       (0.0514507424) * D_Tmrt * Pa * Pa +
+                       (-0.00432510997) * Ta * D_Tmrt * Pa * Pa +
+                       (8.99281156 * (10 ** (-5))) * Ta * Ta * D_Tmrt * Pa * Pa +
+                       (-7.14663943 * (10 ** (-7))) * Ta * Ta * Ta * D_Tmrt * Pa * Pa +
+                       (-2.66016305 * (10 ** (-4))) * va * D_Tmrt * Pa * Pa +
+                       (2.63789586 * (10 ** (-4))) * Ta * va * D_Tmrt * Pa * Pa +
+                       (-7.01199003 * (10 ** (-6))) * Ta * Ta * va * D_Tmrt * Pa * Pa +
+                       (-1.06823306 * (10 ** (-4))) * va * va * D_Tmrt * Pa * Pa +
+                       (3.61341136 * (10 ** (-6))) * Ta * va * va * D_Tmrt * Pa * Pa +
+                       (2.29748967 * (10 ** (-7))) * va * va * va * D_Tmrt * Pa * Pa +
+                       (3.04788893 * (10 ** (-4))) * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (-6.42070836 * (10 ** (-5))) * Ta * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (1.16257971 * (10 ** (-6))) * Ta * Ta * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (7.68023384 * (10 ** (-6))) * va * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (-5.47446896 * (10 ** (-7))) * Ta * va * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (-3.59937910 * (10 ** (-8))) * va * va * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (-4.36497725 * (10 ** (-6))) * D_Tmrt * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (1.68737969 * (10 ** (-7))) * Ta * D_Tmrt * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (2.67489271 * (10 ** (-8))) * va * D_Tmrt * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (3.23926897 * (10 ** (-9))) * D_Tmrt * D_Tmrt * D_Tmrt * D_Tmrt * Pa * Pa +
+                       (-0.0353874123) * Pa * Pa * Pa +
+                       (-0.221201190) * Ta * Pa * Pa * Pa +
+                       (0.0155126038) * Ta * Ta * Pa * Pa * Pa +
+                       (-2.63917279 * (10 ** (-4))) * Ta * Ta * Ta * Pa * Pa * Pa +
+                       (0.0453433455) * va * Pa * Pa * Pa +
+                       (-0.00432943862) * Ta * va * Pa * Pa * Pa +
+                       (1.45389826 * (10 ** (-4))) * Ta * Ta * va * Pa * Pa * Pa +
+                       (2.17508610 * (10 ** (-4))) * va * va * Pa * Pa * Pa +
+                       (-6.66724702 * (10 ** (-5))) * Ta * va * va * Pa * Pa * Pa +
+                       (3.33217140 * (10 ** (-5))) * va * va * va * Pa * Pa * Pa +
+                       (-0.00226921615) * D_Tmrt * Pa * Pa * Pa +
+                       (3.80261982 * (10 ** (-4))) * Ta * D_Tmrt * Pa * Pa * Pa +
+                       (-5.45314314 * (10 ** (-9))) * Ta * Ta * D_Tmrt * Pa * Pa * Pa +
+                       (-7.96355448 * (10 ** (-4))) * va * D_Tmrt * Pa * Pa * Pa +
+                       (2.53458034 * (10 ** (-5))) * Ta * va * D_Tmrt * Pa * Pa * Pa +
+                       (-6.31223658 * (10 ** (-6))) * va * va * D_Tmrt * Pa * Pa * Pa +
+                       (3.02122035 * (10 ** (-4))) * D_Tmrt * D_Tmrt * Pa * Pa * Pa +
+                       (-4.77403547 * (10 ** (-6))) * Ta * D_Tmrt * D_Tmrt * Pa * Pa * Pa +
+                       (1.73825715 * (10 ** (-6))) * va * D_Tmrt * D_Tmrt * Pa * Pa * Pa +
+                       (-4.09087898 * (10 ** (-7))) * D_Tmrt * D_Tmrt * D_Tmrt * Pa * Pa * Pa +
+                       (0.614155345) * Pa * Pa * Pa * Pa +
+                       (-0.0616755931) * Ta * Pa * Pa * Pa * Pa +
+                       (0.00133374846) * Ta * Ta * Pa * Pa * Pa * Pa +
+                       (0.00355375387) * va * Pa * Pa * Pa * Pa +
+                       (-5.13027851 * (10 ** (-4))) * Ta * va * Pa * Pa * Pa * Pa +
+                       (1.02449757 * (10 ** (-4))) * va * va * Pa * Pa * Pa * Pa +
+                       (-0.00148526421) * D_Tmrt * Pa * Pa * Pa * Pa +
+                       (-4.11469183 * (10 ** (-5))) * Ta * D_Tmrt * Pa * Pa * Pa * Pa +
+                       (-6.80434415 * (10 ** (-6))) * va * D_Tmrt * Pa * Pa * Pa * Pa +
+                       (-9.77675906 * (10 ** (-6))) * D_Tmrt * D_Tmrt * Pa * Pa * Pa * Pa +
+                       (0.0882773108) * Pa * Pa * Pa * Pa * Pa +
+                       (-0.00301859306) * Ta * Pa * Pa * Pa * Pa * Pa +
+                       (0.00104452989) * va * Pa * Pa * Pa * Pa * Pa +
+                       (2.47090539 * (10 ** (-4))) * D_Tmrt * Pa * Pa * Pa * Pa * Pa +
+                       (0.00148348065) * Pa * Pa * Pa * Pa * Pa * Pa)
 
         comfortable = UTCI_approx > 9 and UTCI_approx < 26
 
@@ -827,6 +992,7 @@ def comfUTCI(Ta, Tmrt, va, RH):
 
     return UTCI_approx, comfortable, stressRange
 
+
 def calcHumidRatio(airTemp, relHumid, barPress):
     # Convert Temperature to Kelvin
     TKelvin = []
@@ -837,22 +1003,22 @@ def calcHumidRatio(airTemp, relHumid, barPress):
     Sigma = []
     for item in TKelvin:
         if item >= 273:
-            Sigma.append(1-(item/647.096))
+            Sigma.append(1 - (item / 647.096))
         else:
             Sigma.append(0)
 
     ExpressResult = []
     for item in Sigma:
         ExpressResult.append(((item) * (-7.85951783)) +
-            ((item**1.5) * 1.84408259) + ((item**3) * (-11.7866487)) +
-            ((item**3.5) * 22.6807411) + ((item**4)*(-15.9618719)) +
-            ((item**7.5)*1.80122502))
+                             ((item ** 1.5) * 1.84408259) + ((item ** 3) * (-11.7866487)) +
+                             ((item ** 3.5) * 22.6807411) + ((item ** 4) * (-15.9618719)) +
+                             ((item ** 7.5) * 1.80122502))
 
     CritTemp = []
     for item in TKelvin:
-        CritTemp.append(647.096/item)
+        CritTemp.append(647.096 / item)
 
-    Exponent = [a*b for a,b in zip(CritTemp,ExpressResult)]
+    Exponent = [a * b for a, b in zip(CritTemp, ExpressResult)]
 
     Power = []
     for item in Exponent:
@@ -861,7 +1027,7 @@ def calcHumidRatio(airTemp, relHumid, barPress):
     SatPress1 = []
     for item in Power:
         if item != 1:
-            SatPress1.append(item*22064000)
+            SatPress1.append(item * 22064000)
         else:
             SatPress1.append(0)
 
@@ -869,14 +1035,14 @@ def calcHumidRatio(airTemp, relHumid, barPress):
     Theta = []
     for item in TKelvin:
         if item < 273:
-            Theta.append(item/273.16)
+            Theta.append(item / 273.16)
         else:
             Theta.append(1)
 
     Exponent2 = []
     for x in Theta:
-        Exponent2.append(((1 - (x**(-1.5))) * (-13.928169)) +
-            ((1-(x**(-1.25)))*34.707823))
+        Exponent2.append(((1 - (x ** (-1.5))) * (-13.928169)) +
+                         ((1 - (x ** (-1.25))) * 34.707823))
 
     Power = []
     for item in Exponent2:
@@ -885,41 +1051,41 @@ def calcHumidRatio(airTemp, relHumid, barPress):
     SatPress2 = []
     for item in Power:
         if item != 1:
-            SatPress2.append(item*611.657)
+            SatPress2.append(item * 611.657)
         else:
             SatPress2.append(0)
 
     # Combine into final saturation vapor pressure
-    saturationPressure = [a+b for a,b in zip(SatPress1,SatPress2)]
+    saturationPressure = [a + b for a, b in zip(SatPress1, SatPress2)]
 
     # Calculate hourly water vapor pressure
     DecRH = []
     for item in relHumid:
-        DecRH.append(item*0.01)
+        DecRH.append(item * 0.01)
 
-    partialPressure = [a*b for a,b in zip(DecRH,saturationPressure)]
+    partialPressure = [a * b for a, b in zip(DecRH, saturationPressure)]
 
     # Calculate hourly humidity ratio
-    PressDiffer = [a-b for a,b in zip(barPress,partialPressure)]
+    PressDiffer = [a - b for a, b in zip(barPress, partialPressure)]
 
     Constant = []
     for item in partialPressure:
-        Constant.append(item*0.621991)
+        Constant.append(item * 0.621991)
 
-    humidityRatio = [a/b for a,b in zip(Constant,PressDiffer)]
+    humidityRatio = [a / b for a, b in zip(Constant, PressDiffer)]
 
     # Calculate hourly enthalpy
     EnVariable1 = []
     for item in humidityRatio:
-        EnVariable1.append(1.01+(1.89*item))
+        EnVariable1.append(1.01 + (1.89 * item))
 
-    EnVariable2 = [a*b for a,b in zip(EnVariable1,airTemp)]
+    EnVariable2 = [a * b for a, b in zip(EnVariable1, airTemp)]
 
     EnVariable3 = []
     for item in humidityRatio:
-        EnVariable3.append(2500*item)
+        EnVariable3.append(2500 * item)
 
-    EnVariable4 = [a+b for a,b in zip(EnVariable2,EnVariable3)]
+    EnVariable4 = [a + b for a, b in zip(EnVariable2, EnVariable3)]
 
     enthalpy = []
     for x in EnVariable4:

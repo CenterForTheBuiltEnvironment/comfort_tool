@@ -76,7 +76,7 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
             var rh = psy.convert(hr, t, 'w', 'rh');
             var set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0);
             return set;
-        }
+        };
 
         var LL = util.bisect(15, 40, fn_set, eps, set0_L);
         var RR = util.bisect(15, 40, fn_set, eps, set0_R);
@@ -84,7 +84,7 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
         a.contour_R.push(RR);
     }
     return a;
-}
+};
 
 comf.go = function(){
     var r = []
@@ -162,6 +162,17 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
 }
 
 comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
+    /**
+     * Returns comfort values for elevated air speeds
+     * @param  {Number} ta      air temperature, [C]
+     * @param  {Number} tr      mean radiant temperature, [C]
+     * @param  {Number} vel     air velocity, [m/s]
+     * @param  {Number} rh      relative humidity, [%]
+     * @param  {Number} met     metabolic rate, [met]
+     * @param  {Number} clo     clothing level, [clo]
+     * @param  {Number} wme     external work, [met]
+     * @return {Class}  r       containing estimated parameters [PMV, PPD, Ta_adj, Tr_adj, cooling_effect, SET]
+     */
     // returns pmv at elevated airspeed (> comf.still_air_threshold)
     var r = {}
     var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
@@ -263,7 +274,7 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6);
     ppd = 100.0 - 95.0 * exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0));
 
-    var r = {}
+    var r = {};
     r.pmv = pmv;
     r.ppd = ppd;
 
@@ -276,6 +287,17 @@ comf.FindSaturatedVaporPressureTorr = function(T) {
 }
 
 comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
+    /**
+     * SET calculation using code provided in ASHRAE 55
+     * @param  {Number} ta      dry bulb air temperature, [C]
+     * @param  {Number} tr      mean radiant temperature, [C]
+     * @param  {Number} vel     air velocity, [m/s]
+     * @param  {Number} rh      relative humidity, [%]
+     * @param  {Number} met     metabolic rate, [met]
+     * @param  {Number} clo     clothing level, [clo]
+     * @param  {Number} wme     external work, [met]
+     * @return {Number} X       SET temperature
+     */
 
     var TempSkinNeutral, TempBodyNeutral, SkinBloodFlowNeutral, TempSkin, TempCore,
     SkinBloodFlow, MSHIV, ALFA, ESK, PressureInAtmospheres, TIMEH, LTIME, DELTA, RCL,
