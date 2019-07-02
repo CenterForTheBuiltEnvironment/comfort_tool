@@ -1054,8 +1054,7 @@ function update() {
     d.rh = psy.convert(d.rh, d.ta, window.humUnit, 'rh');
     model = document.getElementById('model-type').value;
     if (model == 'pmvElevatedAirspeed') {
-        r = comf.pmvElevated
-        Airspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
         if (!isCelsius){
             r.set = util.CtoF(r.set)
         }
