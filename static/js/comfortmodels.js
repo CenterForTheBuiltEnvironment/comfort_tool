@@ -4,11 +4,11 @@ var max = Math.max;
 var abs = Math.abs;
 var sqrt = Math.sqrt;
 
-var comf = comf || {}
+var comf = comf || {};
 
 if (typeof module !== 'undefined' && module.exports) {
-  var psy = require('./psychrometrics.js').psy
-  var util = require('./util.js').util
+  var psy = require('./psychrometrics.js').psy;
+  var util = require('./util.js').util;
   module.exports.comf = comf;
 }
 
@@ -36,13 +36,13 @@ comf.validation_table = function(){
       [25, 25, 0.15, 50, 0.8, 0.5],
       [25, 25, 0.15, 50, 2, 0.5],
       [25, 25, 0.15, 50, 4, 0.5]
-  ]
+  ];
   for (var i = 0; i < cases.length; i++){
     var c = cases[i];
     var s = comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
     console.log(s.set, util.CtoF(s.set))
   }
-}
+};
 
 comf.calc_set_contours = function(still_air_threshold, clo) {
 
@@ -87,7 +87,7 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
 };
 
 comf.go = function(){
-    var r = []
+    var r = [];
     r[0] = comf.calc_set_contours(0.1, 0.5);
     r[1] = comf.calc_set_contours(0.1, 1.0);
     r[2] = comf.calc_set_contours(0.15, 0.5);
@@ -95,7 +95,7 @@ comf.go = function(){
     r[4] = comf.calc_set_contours(0.2, 0.5);
     r[5] = comf.calc_set_contours(0.2, 1.0);
     return r;
-}
+};
 
 comf.still_air_threshold = 0.1; // m/s
 
@@ -104,37 +104,37 @@ comf.test = function() {
     met_values = [1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.83, 1.84, 1.85, 1.86, 1.87, 1.88, 1.89, 1.9];
     for (var i = 0; i < met_values.length; i++){
         console.log("MET:", met_values[i]);
-        var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0) // not normal
+        var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0); // not normal
         //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0) // normal
         console.log(x)
     }
-}
+};
 
 comf.between = function (x, l, r) {
     return (x > l && x < r);
-}
+};
 
 comf.globeTemperature = function(tw, tr, ta) {
     // calculate composite globe temperature
     return 0.7 * tw + 0.2 * tr + 0.1 * ta;
-}
+};
 
 comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
-    var r = {}
+    var r = {};
     var to = (ta + tr) / 2;
     var coolingEffect = 0;
-    if (vel > 0.3 & to >= 25) {
+    if (vel > 0.3 && to >= 25) {
         // calculate cooling effect of elevated air speed
         // when top > 25 degC.
         switch (vel) {
             case 0.6:
-                coolingEffect = 1.2
-                break
+                coolingEffect = 1.2;
+                break;
             case 0.9:
-                coolingEffect = 1.8
-                break
+                coolingEffect = 1.8;
+                break;
             case 1.2:
-                coolingEffect = 2.2
+                coolingEffect = 2.2;
                 break
         }
     }
@@ -159,7 +159,7 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
     r.acceptability90 = acceptability90;
     r.acceptability80 = acceptability80;
     return r
-}
+};
 
 comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     /**
@@ -174,11 +174,11 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
      * @return {Class}  r       containing estimated parameters [PMV, PPD, Ta_adj, Tr_adj, cooling_effect, SET]
      */
     // returns pmv at elevated airspeed (> comf.still_air_threshold)
-    var r = {}
+    var r = {};
     var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
     if (vel <= comf.still_air_threshold) {
-        var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme)
-        var ta_adj = ta
+        var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
+        // var ta_adj = ta
         var ce = 0
     } else {
         var ce_l = 0;
@@ -200,7 +200,7 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     r.tr_adj = tr - ce;
     r.cooling_effect = ce;
     return r
-}
+};
 
 comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     // returns [pmv, ppd]
@@ -279,12 +279,12 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     r.ppd = ppd;
 
     return r
-}
+};
 
 comf.FindSaturatedVaporPressureTorr = function(T) {
     //calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
     return exp(18.6686 - 4030.183 / (T + 235.0));
-}
+};
 
 comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
     /**
@@ -492,11 +492,11 @@ comf.pierceSET = function(ta, tr, vel, rh, met, clo, wme) {
         X_OLD = X;
     }
     return X;
-}
+};
 
 comf.schiavonClo = function(ta6) {
-    var clo_r
-    if(!isCelsius) ta6 = util.FtoC(ta6)
+    var clo_r;
+    if(!isCelsius) ta6 = util.FtoC(ta6);
     if (ta6 < -5) {
         clo_r = 1
     } else if (ta6 < 5) {
@@ -507,40 +507,40 @@ comf.schiavonClo = function(ta6) {
         clo_r = 0.46
     }
     return clo_r
-}
+};
 
 comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
     var to = (ta + tr) / 2;
-    var coolingEffect = 0;
-    if (vel >= 0.2 && to > 25) {
-        // calculate cooling effect of elevated air speed
-        // when top > 25 degC.
-        var coolingEffect = 1.7856 * Math.log(vel) + 2.9835;
-    }
+    // var coolingEffect = 0;
+    // if (vel >= 0.2 && to > 25) {
+    //     // calculate cooling effect of elevated air speed
+    //     // when top > 25 degC.
+    //     var coolingEffect = 1.7856 * Math.log(vel) + 2.9835;
+    // }
     var tComf = 0.33 * runningMean + 18.8;
     if(runningMean > 15){
         var tComfILower = tComf - 2;
-        var tComfIUpper = tComf + 2 + coolingEffect;
+        var tComfIUpper = tComf + 2; // + coolingEffect;
         var tComfIILower = tComf - 3;
-        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIUpper = tComf + 3; // + coolingEffect;
         var tComfIIILower = tComf - 4;
-        var tComfIIIUpper = tComf + 4 + coolingEffect;
+        var tComfIIIUpper = tComf + 4; // + coolingEffect;
     } else if (12.73 < runningMean && runningMean < 15){
         var tComfLow = 0.33 * 15 + 18.8;
         var tComfILower = tComfLow - 2;
-        var tComfIUpper = tComf + 2 + coolingEffect;
+        var tComfIUpper = tComf + 2; // + coolingEffect;
         var tComfIILower = tComfLow - 3;
-        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIUpper = tComf + 3; // + coolingEffect;
         var tComfIIILower = tComfLow - 4;
-        var tComfIIIUpper = tComf + 4 + coolingEffect;
+        var tComfIIIUpper = tComf + 4; // + coolingEffect;
     } else {
         var tComfLow = 0.33 * 15 + 18.8;
         var tComfILower = tComfLow - 2;
         var tComfIUpper = tComf + 2;
         var tComfIILower = tComfLow - 3;
-        var tComfIIUpper = tComf + 3 + coolingEffect;
+        var tComfIIUpper = tComf + 3; // + coolingEffect;
         var tComfIIILower = tComfLow - 4;
-        var tComfIIIUpper = tComf + 4 + coolingEffect;
+        var tComfIIIUpper = tComf + 4; // + coolingEffect;
     }
     var acceptabilityI, acceptabilityII, acceptabilityIII;
 
@@ -559,17 +559,17 @@ comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
         // neither
         acceptabilityI = acceptabilityII = acceptabilityIII = false;
     }
-    r = {}
-    r.acceptabilityI = acceptabilityI
-    r.acceptabilityII = acceptabilityII
-    r.acceptabilityIII = acceptabilityIII
-    r.tComfILower = tComfILower
-    r.tComfIILower = tComfIILower
-    r.tComfIIILower = tComfIIILower
-    r.tComfIUpper = tComfIUpper
-    r.tComfIIUpper = tComfIIUpper
-    r.tComfIIIUpper = tComfIIIUpper
-    return r
+    r = {};
+    r.acceptabilityI = acceptabilityI;
+    r.acceptabilityII = acceptabilityII;
+    r.acceptabilityIII = acceptabilityIII;
+    r.tComfILower = tComfILower;
+    r.tComfIILower = tComfIILower;
+    r.tComfIIILower = tComfIIILower;
+    r.tComfIUpper = tComfIUpper;
+    r.tComfIIUpper = tComfIIUpper;
+    r.tComfIIIUpper = tComfIIIUpper;
+    return r;
     return [[acceptabilityIII, tComfIIILower, tComfIIIUpper],
             [acceptabilityII, tComfIILower, tComfIIUpper],
             [acceptabilityI, tComfILower, tComfIUpper]];

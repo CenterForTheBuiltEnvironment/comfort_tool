@@ -920,21 +920,27 @@ function renderAdaptiveResults(r) {
     } else if (r.acceptabilityII) {
         $('#sensationIII, #sensationII').html('Comfortable');
         if (to < r.tComfIUpper) {
-            $('#sensationI').html('Too cool');
+            // language=HTML
+            $('#sensationI').html('<span style="color:blue;">Too cool</span>');
         } else {
-            $('#sensationI').html('Too warm');
+            // language=HTML
+            $('#sensationI').html('<span style="color:red;">Too warm</span>');
         }
 	} else if (r.acceptabilityIII) {
         $('#sensationIII').html('Comfortable');
         if (to < r.tComfIIUpper) {
-            $('#sensationI, #sensationII').html('Too cool');
+            // language=HTML
+            $('#sensationI, #sensationII').html('<span style="color:blue;">Too cool</span>');
         } else {
-            $('#sensationI, #sensationII').html('Too warm');
+            // language=HTML
+            $('#sensationI, #sensationII').html('<span style="color:red;">Too warm</span>');
         }
     } else if (to < r.tComfIIIUpper) {
-        $('#sensationIII, #sensationII, #sensationI').html('Too cool');
+        // language=HTML
+        $('#sensationIII, #sensationII, #sensationI').html('<span style="color:blue;">Too cool</span>');
     } else {
-        $('#sensationIII, #sensationII, #sensationI').html('Too warm');
+        // language=HTML
+        $('#sensationIII, #sensationII, #sensationI').html('<span style="color:red;">Too warm</span>');
     }
 }
 
