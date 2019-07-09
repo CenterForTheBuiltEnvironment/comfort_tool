@@ -575,12 +575,10 @@ $('.inputbox').focusout(function() {
 
 $('#vel_a').focusout(function() {
     update();
-    // updateBounds();
 });
 
 $('#vel-a-box').click(function() {
     update();
-    updateBounds();
 });
 
 $('#unitsToggle').click(function() {
@@ -878,15 +876,6 @@ function update() {
     }
 }
 
-// function updateBounds() {
-// 	var coolingEffect = 1.7856 * Math.log(d.vel_a) + 2.9835;
-//     if (coolingEffect > 0) {
-//         ac.redrawBounds(coolingEffect);
-//     } else {
-// 	    ac.redrawBounds(0);
-//     }
-// }
-
 function getCategory(pmv) {
 	if (Math.abs(pmv) <= 0.2) return 'I';
 	else if (Math.abs(pmv) <= 0.5) return 'II';
@@ -920,36 +909,31 @@ function renderAdaptiveResults(r) {
     } else if (r.acceptabilityII) {
         $('#sensationIII, #sensationII').html('Comfortable');
         if (to < r.tComfIUpper) {
-            // language=HTML
             $('#sensationI').html('<span style="color:blue;">Too cool</span>');
         } else {
-            // language=HTML
             $('#sensationI').html('<span style="color:red;">Too warm</span>');
         }
 	} else if (r.acceptabilityIII) {
         $('#sensationIII').html('Comfortable');
         if (to < r.tComfIIUpper) {
-            // language=HTML
             $('#sensationI, #sensationII').html('<span style="color:blue;">Too cool</span>');
         } else {
-            // language=HTML
             $('#sensationI, #sensationII').html('<span style="color:red;">Too warm</span>');
         }
     } else if (to < r.tComfIIIUpper) {
-        // language=HTML
         $('#sensationIII, #sensationII, #sensationI').html('<span style="color:blue;">Too cool</span>');
     } else {
-        // language=HTML
         $('#sensationIII, #sensationII, #sensationI').html('<span style="color:red;">Too warm</span>');
     }
 }
 
 function calcPmvCompliance(d, r) {
-    // var pmv_complyI = Math.abs(r.pmv) <= 0.2;
-    // var pmv_complyII = Math.abs(r.pmv) <= 0.5;
+    var pmv_complyI = Math.abs(r.pmv) <= 0.2;
+    var pmv_complyII = Math.abs(r.pmv) <= 0.5;
     var pmv_complyIII = Math.abs(r.pmv) <= 0.7;
     var met_comply = d.met <= 4 && d.met >= 0.8;
     var clo_comply = d.clo <= 2;
+
     // var local_control = $('#local-control').is(':checked');
     var special_msg = '';
     comply = true;

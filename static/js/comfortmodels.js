@@ -124,8 +124,7 @@ comf.adaptiveComfortASH55 = function(ta, tr, runningMean, vel) {
     var to = (ta + tr) / 2;
     var coolingEffect = 0;
     if (vel > 0.3 && to >= 25) {
-        // calculate cooling effect of elevated air speed
-        // when top > 25 degC.
+        // calculate cooling effect of elevated air speed when top > 25 degC.
         switch (vel) {
             case 0.6:
                 coolingEffect = 1.2;
@@ -511,36 +510,30 @@ comf.schiavonClo = function(ta6) {
 
 comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
     var to = (ta + tr) / 2;
-    // var coolingEffect = 0;
-    // if (vel >= 0.2 && to > 25) {
-    //     // calculate cooling effect of elevated air speed
-    //     // when top > 25 degC.
-    //     var coolingEffect = 1.7856 * Math.log(vel) + 2.9835;
-    // }
     var tComf = 0.33 * runningMean + 18.8;
     if(runningMean > 15){
         var tComfILower = tComf - 2;
-        var tComfIUpper = tComf + 2; // + coolingEffect;
+        var tComfIUpper = tComf + 2;
         var tComfIILower = tComf - 3;
-        var tComfIIUpper = tComf + 3; // + coolingEffect;
+        var tComfIIUpper = tComf + 3;
         var tComfIIILower = tComf - 4;
-        var tComfIIIUpper = tComf + 4; // + coolingEffect;
+        var tComfIIIUpper = tComf + 4;
     } else if (12.73 < runningMean && runningMean < 15){
         var tComfLow = 0.33 * 15 + 18.8;
         var tComfILower = tComfLow - 2;
-        var tComfIUpper = tComf + 2; // + coolingEffect;
+        var tComfIUpper = tComf + 2;
         var tComfIILower = tComfLow - 3;
-        var tComfIIUpper = tComf + 3; // + coolingEffect;
+        var tComfIIUpper = tComf + 3;
         var tComfIIILower = tComfLow - 4;
-        var tComfIIIUpper = tComf + 4; // + coolingEffect;
+        var tComfIIIUpper = tComf + 4;
     } else {
         var tComfLow = 0.33 * 15 + 18.8;
         var tComfILower = tComfLow - 2;
         var tComfIUpper = tComf + 2;
         var tComfIILower = tComfLow - 3;
-        var tComfIIUpper = tComf + 3; // + coolingEffect;
+        var tComfIIUpper = tComf + 3;
         var tComfIIILower = tComfLow - 4;
-        var tComfIIIUpper = tComf + 4; // + coolingEffect;
+        var tComfIIIUpper = tComf + 4;
     }
     var acceptabilityI, acceptabilityII, acceptabilityIII;
 
