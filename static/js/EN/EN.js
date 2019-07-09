@@ -353,7 +353,7 @@ $(document).ready(function() {
     setDefaults();
     update();
     bc.drawChart();
-    // var bound = bc.findComfortBoundary(d, 0.5)
+    var bound = bc.findComfortBoundary(d, 0.5);
     enbc.drawComfortRegions(d);
     bc.drawPoint();
 
@@ -733,7 +733,7 @@ $("#chartSelect").change(function(){
 });
 
 function toggleUnits() {
-    var v, v_a; //, el;
+    var v, v_a, el;
     var hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
     if (isCelsius) {

@@ -270,7 +270,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme=0):
     BODYWEIGHT = 69.9
     BODYSURFACEAREA = 1.8258
     METFACTOR = 58.2
-    SBC = 0.000000056697
+    SBC = 0.000000056697  # Stefan-Boltzmann constant (W/m2K4)
     CSW = 170
     CDIL = 120
     CSTR = 0.5
@@ -293,7 +293,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme=0):
     TIMEH = LTIME / 60.0
     RCL = 0.155 * clo
 
-    FACL = 1.0 + 0.15 * clo
+    FACL = 1.0 + 0.15 * clo  # INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
     LR = 2.2 / PressureInAtmospheres
     RM = met * METFACTOR
     M = met * METFACTOR
@@ -429,7 +429,7 @@ def comfPierceSET(ta, tr, vel, rh, met, clo, wme=0):
     return set
 
 
-def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, eighty_accept_limit_eighty=True, levelOfConditioning=0):
+def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, accept_limit_eighty=True, levelOfConditioning=0):
     """ Determine the adaptive thermal comfort based on ASHRAE 55
 
     The function returns a list containing the following values listed in order as they appear below:
@@ -448,8 +448,8 @@ def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, eighty_accept_limit_eight
     :type  runningMean: float
     :param vel: air velocity, [m/s]
     :type  vel: float
-    :param eighty_accept_limit_eighty: default selected as the 80% aceptability limit, use false for the 90% acceptability limit
-    :type  eighty_accept_limit_eighty: bool
+    :param accept_limit_eighty: default selected as the 80% aceptability limit, use false for the 90% acceptability limit
+    :type  accept_limit_eighty: bool
     :param levelOfConditioning: todo description to be added
     :type  levelOfConditioning: float
 
@@ -459,7 +459,7 @@ def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, eighty_accept_limit_eight
     # Define the variables that will be used throughout the calculation.
     r = []
     coolingEffect = 0
-    if eighty_accept_limit_eighty:
+    if accept_limit_eighty:
         offset = 3.5
     else:
         offset = 2.5
