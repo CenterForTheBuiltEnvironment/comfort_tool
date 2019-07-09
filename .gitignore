@@ -1,5 +1,6 @@
 *.pyc
 venv/
+.idea/
 
 # pytest
 contib/.pytest_cache
