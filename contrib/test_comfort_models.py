@@ -5,6 +5,9 @@ import csv
 
 class TestComfortFunctions(unittest.TestCase):
 
+    def setUp(self):
+        self.verificationErrors = []
+
     def test_comfAdaptiveComfortASH55(self):
         """ Test the SET function using the reference table from the ASHRAE 55 2017"""
 
@@ -22,4 +25,11 @@ class TestComfortFunctions(unittest.TestCase):
                 for el in row.keys():
                     row[el] = float(row[el])
                 # assert that the SET calculated value matches the value from the ASHRAE standard
-                self.assertEqual(round(comfort_models.comfPierceSET(row['t'], row['mrt'], row['v'], row['rh'], row['met'], row['clo']), 1), row['set'])
+                try:
+                    self.assertEqual(round(comfort_models.comfPierceSET(row['t'], row['mrt'], row['v'], row['rh'], row['met'], row['clo']), 1), row['set'])
+                except Exception as e:
+                    print('Assetion error Pierce SET: ' + str(e))
+
+
+if __name__ == '__main__':
+    unittest.main()
