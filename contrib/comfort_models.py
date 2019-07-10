@@ -43,7 +43,6 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme=0):
 
     """
 
-    # initialize the list that contains the results todo: return a dictionary (e.g. {'pmv': xx, 'ppd': yy, ....})
     r = []
 
     # calculate set temperature
@@ -216,8 +215,6 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
     ts = 0.303 * math.exp(-0.036 * m) + 0.028
     pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6)
     ppd = 100.0 - 95.0 * math.exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0))
-
-    # todo I would recoommend to return dictionary instead
 
     return [pmv, ppd]
 
@@ -600,7 +597,7 @@ def comfAdaptiveComfortEN15251(ta, tr, runningMean, vel, comfort_category, level
         :param levelOfConditioning: todo description to be added
         :type  levelOfConditioning: float
 
-        :return: list [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit] todo we should return dictionary
+        :return: list [tComf, tempDiff, tComfLower, tComfUpper, acceptability, condit]
         """
     # Define the variables that will be used throughout the calculation.
     r = []
