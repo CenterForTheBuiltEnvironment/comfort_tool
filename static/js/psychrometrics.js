@@ -54,9 +54,16 @@ psy.convert = function(x, tdb, origin, target) {
     }
 }
 
+/**
+ * return psychrometric values of air based on dry bulb air temperature and relative humidity
+ * @param  {float} tdb dry bulb air temperature, degreeC
+ * @param  {float} rh relative humidity, %
+ * @return {object}   dictionary containing: relative humidity, %; vapour pressure, ; humidity ratio, kg water/kg dry air;
+ *                  wet bulb temperature, degreeC; dew point temperature, degreeC;
+ */
 psy.tdb_rh = function(tdb, rh) {
-    var a = {};
-    var psat = this.satpress(tdb);
+    let a = {};
+    const psat = this.satpress(tdb);
 
     a.rh = parseFloat(rh);
     a.vappress = rh / 100 * psat;
@@ -64,7 +71,7 @@ psy.tdb_rh = function(tdb, rh) {
     a.wetbulb = this.wetbulb(tdb, a.w);
     a.dewpoint = this.dewpoint(a.w);
     return a;
-}
+};
 
 psy.tdb_twb = function(tdb, twb) {
     var a = {};

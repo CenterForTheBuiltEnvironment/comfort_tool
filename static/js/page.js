@@ -62,8 +62,6 @@ $(document).ready(function () {
     vc.drawChart();
     bound = vc.findComfortBoundary(d, 0.5);
     vc.drawComfortRegion(bound);
-    var whitebound = vc.findWhiteBoundary();
-    vc.drawWhiteRegion(whitebound);
     vc.drawPoint();
     pc.drawChart();
     var json = [{
@@ -633,13 +631,6 @@ $("#chartSelect").change(function () {
     } else if (chart === "veltop") {
         $("#veltopchart-div, #veltop-note").show();
         $("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div").hide();
-//		if ($('#link').is(':checked')) {
-//        	$('#labelforlink').show();
-//		} else {
-//			$('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
-//        	$('#globeTemp').removeAttr('disabled');
-//        	$('#tr-input, #tr-lab, #labelforlink').show();
-//		}
         $('#link').is(':checked');
         $('#labelforlink').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
@@ -702,8 +693,6 @@ function update() {
         } else if ($('#veltopchart-div').is(':visible')) {
             b = vc.findComfortBoundary(d, 0.5);
             vc.redrawComfortRegion(b);
-            var whitebound = vc.findWhiteBoundary();
-            vc.redrawWhiteRegion(whitebound);
             vc.redrawPoint();
         }
     } else if (model === 'adaptiveComfort') {

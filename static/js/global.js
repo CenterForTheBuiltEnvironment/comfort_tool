@@ -403,7 +403,7 @@ const envVarLimits = {
     },
     'clo': {
         'step': 0.1,
-        'default': 0.75,
+        'default': 0.6,
         'min': 0,
         'max': 1.5  // ISO imposes 2 and ASHRAE 1.5
     },
@@ -451,7 +451,7 @@ const envVarLimits = {
 };
 
 // Handles the toggling of the units between SI and IP
-function toggleUnits(vc) {
+function toggleUnits() {
     var v;
     let hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
@@ -601,9 +601,8 @@ function validateUserEntry(i) {
         let measurementSystem;
         if (isCelsius) {
             measurementSystem = 'si'
-        }
-        else {
-            measurementSystem ='ip'
+        } else {
+            measurementSystem = 'ip'
         }
 
         // check user entry. if value is beyond the acceptability limit replace it with the default value
@@ -612,7 +611,7 @@ function validateUserEntry(i) {
                 $('#' + element + i).val(envVarLimits[element][measurementSystem]['default']);
                 e = envVarLimits[element][measurementSystem]['default'];
                 window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
-                    envVarLimits[element][measurementSystem]['min'] + ' and ' + envVarLimits[element][measurementSystem]['max'] +'.');
+                    envVarLimits[element][measurementSystem]['min'] + ' and ' + envVarLimits[element][measurementSystem]['max'] + '.');
             }
         } catch {
         }
@@ -621,7 +620,7 @@ function validateUserEntry(i) {
                 $('#' + element + i).val(envVarLimits[element]['default']);
                 e = envVarLimits[element]['default'];
                 window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
-                    envVarLimits[element]['min'] + ' and ' + envVarLimits[element]['max'] +'.');
+                    envVarLimits[element]['min'] + ' and ' + envVarLimits[element]['max'] + '.');
             }
         } catch {
         }
@@ -629,5 +628,14 @@ function validateUserEntry(i) {
         // store the value into json
         d[element] = parseFloat(e);
     });
+
+    if (d.clo > 0.7 || d.met > 1.3) {
+        const select = document.getElementById("local-control");
+        select.selectedIndex = 1;
+        $('#local-control-button').hide();
+    } else {
+        $('#local-control-button').show();
+    }
+
 
 }

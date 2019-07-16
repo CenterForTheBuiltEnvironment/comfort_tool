@@ -2,6 +2,8 @@
 
 var bc = new function () {
 
+    // todo issue with calculations dbt = 27.5, mrt = 10, air speed 0.5 - 2
+
     // set up viewport
     this.margin = 60;
     this.rbmargin = 40;
@@ -117,8 +119,256 @@ var bc = new function () {
             .text("Relative Humidity [%]")
             .attr("transform", "rotate (-90, -35, 0) translate(-350)");
 
+        // add all the text needed to show psychrometric information
+        const y_shift = 5;
+        const x_shift = 345;
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Dry-bulb_temperature")
+            .append("text")
+            .text("t")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 10) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Dry-bulb_temperature")
+            .append("text").text("db")
+            .attr("class", "box-texts")
+            .attr("id", "box-db")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 5) + "," + ((bc.rbmargin + y_shift) + 10) + ")");
+        document.getElementById("box-db").style.fontSize = "9px";
+
+        bc.svg.append("text")
+            .text("°C")
+            .attr("class", "box-texts")
+            .attr("id", "unit-dbt")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 10) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Relative_humidity")
+            .append("text")
+            .text("rh")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 30) + ")");
+
+        bc.svg.append("text")
+            .text("%")
+            .attr("class", "box-texts")
+            .attr("id", "unit-rh")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 30) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Humidity#Absolute_humidity")
+            .append("text")
+            .text("W")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        bc.svg.append("text")
+            .text("a")
+            .attr("class", "box-texts")
+            .attr("id", "box-a")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 12) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        document.getElementById("box-a").style.fontSize = "9px";
+
+        bc.svg.append("text")
+            .text("g")
+            .attr("class", "box-texts")
+            .attr("id", "unit-hr1")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        bc.svg.append("text")
+            .text("w")
+            .attr("class", "box-texts")
+            .attr("id", "unit-hr2")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 76) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        document.getElementById("unit-hr2").style.fontSize = "9px";
+
+        bc.svg.append("text")
+            .text("/kg")
+            .attr("class", "box-texts")
+            .attr("id", "unit-hr3")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 83) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        bc.svg.append("text")
+            .text("da")
+            .attr("class", "box-texts")
+            .attr("id", "unit-hr4")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 105) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        document.getElementById("unit-hr4").style.fontSize = "9px";
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Wet-bulb_temperature")
+            .append("text").text("t")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 70) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Wet-bulb_temperature")
+            .append("text").text("wb")
+            .attr("class", "box-texts")
+            .attr("id", "wb")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 5) + "," + ((bc.rbmargin + y_shift) + 70) + ")");
+
+        document.getElementById("wb").style.fontSize = "9px";
+
+        bc.svg.append("text").text("°C")
+            .attr("class", "box-texts")
+            .attr("id", "unit-wbt")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 70) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Dew_point")
+            .append("text").text("t")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 90) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Dew_point")
+            .append("text")
+            .text("dp")
+            .attr("class", "box-texts")
+            .attr("id", "box-dp")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 5) + "," + ((bc.rbmargin + y_shift) + 90) + ")");
+
+        document.getElementById("box-dp").style.fontSize = "9px";
+
+        bc.svg.append("text")
+            .text("°C")
+            .attr("class", "box-texts")
+            .attr("id", "unit-dew")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 90) + ")");
+
+        bc.svg.append("svg:a")
+            .attr("xlink:href", "http://en.wikipedia.org/wiki/Enthalpy")
+            .append("text")
+            .text("h")
+            .attr("class", "box-texts")
+            .attr("transform", "translate(" + (bc.margin + x_shift) + "," + ((bc.rbmargin + y_shift) + 110) + ")");
+
+        bc.svg.append("text")
+            .text("kJ/kg")
+            .attr("class", "box-texts")
+            .attr("id", "unit-ent")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 65) + "," + ((bc.rbmargin + y_shift) + 110) + ")");
+
+        // this is for the initial values, set to 0.0
+        bc.svg.append("text").text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-dbt")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 10) + ")");
+
+        bc.svg.append("text")
+            .text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-rh")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 30) + ")");
+
+        bc.svg.append("text")
+            .text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-hr")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 50) + ")");
+
+        bc.svg.append("text")
+            .text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-wbt")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 70) + ")");
+
+        bc.svg.append("text")
+            .text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-dew")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 90) + ")");
+
+        bc.svg.append("text")
+            .text("0.0")
+            .attr("class", "box-texts")
+            .attr("id", "box-ent")
+            .attr("transform", "translate(" + ((bc.margin + x_shift) + 32) + "," + ((bc.rbmargin + y_shift) + 110) + ")");
+
+        bc.svg.on("mousemove", bc.mousemove);
     };
 
+    // calculate the values and draws the numbers in the box
+    this.mousemove = function () {
+        let mouseDBT = bc.db_scale.invert(d3.mouse(this)[0]);
+        let mouseRH = bc.rh_scale.invert(d3.mouse(this)[1]);
+        let mouseHR = psy.tdb_rh(mouseDBT, mouseRH).w * 1000;
+        let mouseVP = (psy.PROP.Patm * mouseHR / 1000) / (0.62198 + mouseHR / 1000);
+        let mouseEnt = 1.006 * mouseDBT + (mouseHR / 1000) * (2501 + 1.86 * mouseDBT);
+        let mouseWBT = psy.tdb_rh(mouseDBT, mouseRH).wetbulb;
+        let mouseDew = psy.tdb_rh(mouseDBT, mouseRH).dewpoint;
+
+        if (mouseDew <= 0.01) {
+            d3.selectAll("#box-dew").text("N/A");
+        }
+        else {
+            d3.selectAll("#box-dew").text(mouseDew.toFixed(1));
+        }
+        if (mouseRH >= 100) {
+            mouseRH = 100
+        }
+        if (!isCelsius) {
+            mouseDBT = util.CtoF(mouseDBT);
+            mouseDew = util.CtoF(mouseDew);
+            mouseWBT = util.CtoF(mouseWBT);
+            mouseEnt *= 0.43
+        }
+        d3.selectAll("#box-dbt").text(mouseDBT.toFixed(1));
+        d3.selectAll("#box-rh").text(mouseRH.toFixed(1));
+        d3.selectAll("#box-hr").text(mouseHR.toFixed(1));
+        d3.selectAll("#box-wbt").text(mouseWBT.toFixed(1));
+
+        d3.selectAll("#box-ent").text(mouseEnt.toFixed(1))
+    };
+
+    this.convertBox = function () {
+        let dbt = parseFloat($('#box-dbt').text());
+        let wbt = parseFloat($('#box-wbt').text());
+        let dew = parseFloat($('#box-dew').text());
+        let ent = parseFloat($('#box-ent').text());
+        if (isCelsius) {
+            dbt = util.FtoC(dbt);
+            wbt = util.FtoC(wbt);
+            dew = util.FtoC(dew);
+            ent /= 0.43;
+            $('#unit-dbt').text('°C');
+            $('#unit-wbt').text('°C');
+            $('#unit-dew').text('°C');
+            $('#unit-ent').text('kJ/kg');
+            $('#unit-hr1').text('g');
+            $('#unit-hr3').text('/kg');
+
+            $('#box-db-unit').text('°C');
+            $('#box-mrt-unit').text('°C');
+            $('#box-vel-unit').text('m/s')
+
+        } else {
+            dbt = util.CtoF(dbt);
+            wbt = util.CtoF(wbt);
+            dew = util.CtoF(dew);
+            ent *= 0.43;
+            $('#unit-dbt').text('°F');
+            $('#unit-wbt').text('°F');
+            $('#unit-dew').text('°F');
+            $('#unit-ent').text('btu/lb');
+            $('#unit-hr1').text('lb');
+            $('#unit-hr3').text('/klb');
+
+            $('#box-db-unit').text('°F');
+            $('#box-mrt-unit').text('°F');
+            $('#box-vel-unit').text('fpm')
+        }
+        $('#box-dbt').text(dbt.toFixed(1));
+        $('#box-wbt').text(wbt.toFixed(1));
+        $('#box-dew').text(dew.toFixed(1));
+        $('#box-ent').text(ent.toFixed(1))
+    };
 
     this.drawComfortRegion = function (data) {
 
@@ -172,11 +422,6 @@ var bc = new function () {
 
     };
 
-    // determine humidity ratio as a function of dry-bulb temperature and relative humidity
-    this.getHumRatio = function (db, rh) {
-        return psy.humratio(psy.PROP.Patm, rh * psy.satpress(db) / 100)
-    };
-
     this.findComfortBoundary = function (d, pmvlimit) {
         var boundary = [];
 
@@ -216,6 +461,6 @@ var bc = new function () {
             d3.select("#db-axis-C-temphum").attr("opacity", "0");
             d3.select("#db-axis-F-temphum").attr("opacity", "100")
         }
+        this.convertBox()
     }
-
 };

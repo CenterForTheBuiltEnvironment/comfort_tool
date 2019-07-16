@@ -736,7 +736,6 @@ var pc = new function () {
         return psyboundary
     };
 
-
     this.toggleUnits = function (isCelsius) {
 
         if (isCelsius) {
