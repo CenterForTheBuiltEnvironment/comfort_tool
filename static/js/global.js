@@ -637,5 +637,4 @@ function validateUserEntry(i) {
         $('#local-control-button').show();
     }
 
-
 }

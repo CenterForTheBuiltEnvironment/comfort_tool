@@ -585,12 +585,13 @@ $('#model-type').change(function () {
 
 $("#chartSelect").change(function () {
     chart = $("#chartSelect").val();
+    $('#output-b, #output-a, #ta-input, #ta-lab').show();
     if (chart === "psychta" || chart === "psychtop") {
         $("#chart-div").show();
         $("#temphumchart-div, veltopchart-div").hide();
         if (chart === "psychta") {
             $("#psychta-note").show();
-            $("#psychtop-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
+            $("#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div").hide();
 
             $("#db-axis-C-label").text("Drybulb Temperature [°C]");
             $("#db-axis-F-label").text("Drybulb Temperature [°F]");
@@ -603,11 +604,9 @@ $("#chartSelect").change(function () {
                 $('#tr-input, #tr-lab, #labelforlink').show();
             }
 
-            //$(".comfortzone").css("fill", "rgb(0,0,100)")
-
         } else if (chart === "psychtop") {
             $("#psychtop-note").show();
-            $("#psychta-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
+            $("#chartWrapper, #psychta-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div").hide();
 
             $("#db-axis-C-label").text("Operative Temperature [°C]");
             $("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -620,7 +619,7 @@ $("#chartSelect").change(function () {
         }
     } else if (chart === "temphum") {
         $("#temphumchart-div, #temphum-note").show();
-        $("#chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div").hide();
+        $("#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div").hide();
         if ($('#link').is(':checked')) {
             $('#labelforlink').show();
         } else {
@@ -630,12 +629,21 @@ $("#chartSelect").change(function () {
         }
     } else if (chart === "veltop") {
         $("#veltopchart-div, #veltop-note").show();
-        $("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div").hide();
+        $("#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div, #chart_heatLoss_div").hide();
         $('#link').is(':checked');
         $('#labelforlink').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
         $('#globeTemp').attr('disabled', 'disabled');
         $('#tr-input, #tr-lab, #labelforlink').hide();
+    } else if (chart === "heatloss") {
+        heatLoss_chart.draw(d);
+        $("#chartWrapper, #chart_heatLoss_div").show();
+        $("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div, #veltopchart-div, #veltop-note, #pmv-notes").hide();
+        $('#link').is(':checked');
+        $('#tr-input, #tr-lab').show();
+        $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+        $('#globeTemp').attr('disabled', 'disabled');
+        $('#labelforlink, #ta-input, #ta-lab, #output-b, #output-a').hide();
     }
     update();
 });
@@ -694,6 +702,8 @@ function update() {
             b = vc.findComfortBoundary(d, 0.5);
             vc.redrawComfortRegion(b);
             vc.redrawPoint();
+        } else if ($('#chart_heatLoss_div').is(':visible')) {
+            heatLoss_chart.update();
         }
     } else if (model === 'adaptiveComfort') {
         r = comf.adaptiveComfortASH55(d.ta, d.tr, d.trm, d.vel_a);
@@ -857,11 +867,11 @@ function renderCompliance(comply, special_msg) {
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#comply-msg').css('color', 'green');
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success");
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#comply-msg').css('color', 'red');
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger");
         $('#special-msg').html(special_msg);
     }
 }

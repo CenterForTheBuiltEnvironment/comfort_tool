@@ -149,6 +149,17 @@
     margin-left: 5px;
 }
 
+.leftLabelResults {
+    position: relative;
+    float: left;
+    clear: both;
+    width: 120px;
+    font-size: 14px;
+    color: #3B3B3B;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
 .sublabel {
     width: 209px;
     padding-left: 20px;

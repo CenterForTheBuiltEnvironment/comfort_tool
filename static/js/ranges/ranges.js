@@ -598,6 +598,7 @@ function toggleUnits() {
     }
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
+
     toggleSliders();
 }
 

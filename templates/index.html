@@ -6,16 +6,17 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/adaptchart.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/veltopchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/heatLoss_tempetaure.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/local-discomfort.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/veltopchart.js') }}"></script>
     <script type="text/javascript">
 
         var _gaq = _gaq || [];
@@ -58,7 +59,7 @@
                     <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air
                         temperature</a>
                 </div>
-                <div class='inputfield'>
+                <div class='inputfield' id='ta-input'>
                     <input class='inputbox' id='ta'/>
                     <span class='tempunit'>&deg;C</span>
                 </div>
@@ -244,23 +245,23 @@
 
         </div><!--id="left_content"-->
 
-
         <div id="right_content">
 
             <br class="clear">
-            <div class='out' id='output-b' style='float:left;'>
+            <div class="alert alert-success mx-3 py-1" role="alert" id='output-b'>
                 <div id='comply-msg'></div>
                 <div id='special-msg'></div>
             </div><!--id="output-b"-->
 
-            <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
+            <div id='output-a' style='margin-left: 30px; float:left'>
+
                 <div id='pmv-outputs'>
-                    <div id='pmv-out-label' class='leftlabel'>PMV</div>
+                    <div id='pmv-out-label' class="leftLabelResults">PMV</div>
                     <div class='divresult'>
                         <span class='result' id='pmv-res'></span>
                     </div>
                     <br/>
-                    <div id='ppd-out-label' class='leftlabel'>PPD</div>
+                    <div id='ppd-out-label' class='leftLabelResults'>PPD</div>
                     <div class='divresult'>
                         <span class='result' id='ppd-res'></span>
                     </div>
@@ -268,12 +269,12 @@
                         <span class='unit'> %</span>
                     </div>
                     <br/>
-                    <div class='leftlabel'>Sensation</div>
+                    <div class='leftLabelResults'>Sensation</div>
                     <div class='divresult'>
                         <span class='result' id='sensation'></span>
                     </div>
                     <br/>
-                    <div class='leftlabel'>SET</div>
+                    <div class='leftLabelResults'>SET</div>
                     <div class='divresult'>
                         <span class='result' id='SET'></span><br/>
                     </div>
@@ -340,6 +341,7 @@
                     <option value='psychtop'>Psychrometric chart (operative temperature)</option>
                     <option value='temphum'>Temperature – Relative Humidity chart</option>
                     <option value='veltop'>Operative Temperature – Velocity chart</option>
+                    <option value='heatloss'>Heat loss vs Temperature</option>
                 </select>
             </div>
             <div class='leftlabel' id="chart-title-adaptive"
@@ -351,60 +353,76 @@
             <div id='localdialog' title='Local discomfort assessment'></div>
             <div id='LEEDdialog' title='LEED Document - Instructions'></div>
             <div id='ERFdialog' title='SolarCal: shortwave radiation calculator'></div>
-            <div style="margin-left:-15px;" id="chart-div"></div>
-            <div style="margin-left:10px;" id="temphumchart-div"></div>
-            <div style="margin-left:10px;" id="veltopchart-div"></div>
-            <div style="margin-left:20px;" id="chart-div-adaptive"></div>
 
-            <div id="pmv-notes">
-                <div class='note' id="psychta-note" style="margin-left:58px;">
+            {# divider that contains the figures#}
+            <div>
+                <div style="margin-left:-15px;" id="chart-div"></div>
+                <div style="margin-left:10px;" id="temphumchart-div"></div>
+                <div style="margin-left:10px;" id="veltopchart-div"></div>
+                <div style="margin-left:20px;" id="chart-div-adaptive"></div>
+                <div id="chartWrapper" style="height: 600px">
+                    <canvas id="chart_heatLoss_div" style="margin-top: 30px"></canvas>
+                </div>
+            </div>
+
+            <div id="pmv-notes" class="card m-2" style="font-family: sans-serif; font-size: 12px;">
+                <div class='card-body p-1 m-1' id="psychta-note">
                     <b>NOTE:</b> In this <a class="mainlink"
                                             href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
                                             target="_new">psychrometric chart</a> the
-                    abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed, controlled by
+                    abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed,
+                    controlled by
                     the inputbox. Each point on the chart has the same MRT,
-                    which defines the comfort zone boundary. In this way you can see how changes in MRT affect thermal
+                    which defines the comfort zone boundary. In this way you can see how changes in MRT affect
+                    thermal
                     comfort. You can also still use the operative temperature
                     button, yet each point will have the same MRT. <br>
                     <b>Limits of Applicability:</b> This standard is only applicable to healthy men and women.
                     This standard does not apply to occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
                     clothing is highly
-                    impermeable; or c) who are sleeping, reclining in contact with bedding, or able to adjust blankets
+                    impermeable; or c) who are sleeping, reclining in contact with bedding, or able to adjust
+                    blankets
                     or bedding.
                 </div>
-                <div class='note' id="psychtop-note" style="margin-left:58px;">
+                <div class='card-body p-1 m-1' id="psychtop-note">
                     <b>NOTE:</b> In this <a class="mainlink"
                                             href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
                                             target="_new">psychrometric chart</a> the
-                    abscissa is the operative temperature and for each point dry-bulb temperature equals mean radiant
+                    abscissa is the operative temperature and for each point dry-bulb temperature equals mean
+                    radiant
                     temperature (DBT = MRT). The comfort zone represents the
                     combination of conditions with the same DBT and MRT for which the PMV is between -0.5 and +0.5,
                     according to the standard. <br>
                     <b>Limits of Applicability:</b> This standard is only applicable to healthy men and women.
                     This standard does not apply to occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
                     clothing is highly
-                    impermeable; or c) who are sleeping, reclining in contact with bedding, or able to adjust blankets
+                    impermeable; or c) who are sleeping, reclining in contact with bedding, or able to adjust
+                    blankets
                     or bedding.
                 </div>
-                <div class='note' id="temphum-note">
-                    <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity.
+                <div class='card-body p-1 m-1' id="temphum-note">
+                    <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative
+                    humidity.
                     The PMV calculations are still based on all the psychrometric
                     variables, but the visualization becomes easier to understand.
                 </div>
-                <div class='note' id="veltop-note">
-                    <b>NOTE:</b> This chart represents only two variables, air speed against operative temperature. The
+                <div class='card-body p-1 m-1' id="veltop-note">
+                    <b>NOTE:</b> This chart represents only two variables, air speed against operative temperature.
+                    The
                     operative temperature for each point is determined by
                     dry-bulb temperature equals mean radiant temperature (DBT = MRT). The calculation of PMV comfort
                     zone is based on all the psychrometric variables, with PMV
                     values between -0.5 and +0.5 according to the standard. <br>
-                    <b>Limits of Applicability:</b> The elevated air speed comfort zone method is to all spaces where the occupants have
+                    <b>Limits of Applicability:</b> The elevated air speed comfort zone method is to all spaces
+                    where
+                    the occupants have
                     activity levels between 1.0 and 2.0 met and clothing insulation between 0.0 and 1.5 clo.
                     There is no upper limit to air speed if occupant's
                     total clothing > 0.7 clo and metabolic rate > 1.3 met
                 </div>
             </div><!--end of div "pmv-notes"-->
 
-            <div class='note' id="adaptive-note">
+            <div class='card-boby' id="adaptive-note">
                 <b>NOTE:</b> Method is applicable only for occupant-controlled naturally conditioned spaces that meet
                 all of the following criteria: (a) There is no mechanical
                 cooling system installed. No heating system is in operation; (b) Metabolic rates ranging from 1.0 to 1.3
