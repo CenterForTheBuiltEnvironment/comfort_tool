@@ -167,11 +167,11 @@
 
 #left_content {
     width: 415px;
-    height: 802px;
+    /*height: 802px;*/
     top: 0;
     left: 0px;
     float: left;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
 }
 
 #right_content {
@@ -181,7 +181,7 @@
     left: 605px;
     float: right;
     padding-left: 2px;
-    border: 1px solid #cccccc;
+    /*border: 1px solid #cccccc;*/
     border-radius: 5px;
 }
 

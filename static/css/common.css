@@ -199,22 +199,22 @@
 
 #left_content {
     width: 405px;
-    height: 902px;
+    /*height: 902px;*/
     top: 0;
     left: 0px;
-    float: left;
-    border-radius: 5px;
+    /*float: left;*/
+    /*border-radius: 5px;*/
 }
 
 #right_content {
-    width: 578px;
-    height: 900px;
+    /*width: 578px;*/
+    /*height: 900px;*/
     top: 0;
-    left: 605px;
-    float: right;
-    padding-left: 2px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
+    /*left: 605px;*/
+    /*float: right;*/
+    /*padding-left: 2px;*/
+    /*border: 1px solid #cccccc;*/
+    /*border-radius: 5px;*/
 }
 
 #comply-msg {
