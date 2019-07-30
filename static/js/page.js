@@ -272,7 +272,7 @@ $(function () {
         numberFormat: "n"
     });
 
-    $('#vel, #vel_a').spinner({
+    $('#vel').spinner({
         step: envVarLimits.vel.si.step,
         min: envVarLimits.vel.si.min,
         max: envVarLimits.vel.si.max,
@@ -745,15 +745,15 @@ function renderAdaptiveResults(r) {
         $('#sensation80, #sensation90').html('Comfortable');
     } else if (r.acceptability80) {
         $('#sensation80').html('Comfortable');
-        if (to < r.tComfUpper90) {
-            $('#sensation90').html('Too cool');
+        if (to < r.tComf90Lower) {
+            $('#sensation90').html('<span style="color:blue;">Too cool</span>');;
         } else {
-            $('#sensation90').html('Too warm');
+            $('#sensation90').html('<span style="color:red;">Too warm</span>');
         }
-    } else if (to < r.tComfLower80) {
-        $('#sensation80, #sensation90').html('Too cool');
+    } else if (to < r.tComf80Lower) {
+        $('#sensation80, #sensation90').html('<span style="color:blue;">Too cool</span>');;
     } else {
-        $('#sensation80, #sensation90').html('Too warm');
+        $('#sensation80, #sensation90').html('<span style="color:red;">Too warm</span>');
     }
 }
 
@@ -786,14 +786,12 @@ function calcPmvCompliance(d, r) {
 }
 
 function calcPmvElevCompliance(d, r) {
-    var pmv_comply = (Math.abs(r.pmv) <= 0.5);
+    var pmv_comply = (Math.abs(r.pmv) <= 0.8);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
-//    var local_control = $('#local-control').is(':checked');
     var local_control = $('#local-control').val();
-    var special_msg = '';
-    var compliance_ranges, unit_t, unit_v;
-    comply = true;
+    let special_msg = '';
+    let comply = true;
 
     if (!met_comply) {
         comply = false;
@@ -832,7 +830,8 @@ function calcPmvElevCompliance(d, r) {
         }
         if (d.vel > max_airspeed) {
             comply = false;
-            special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
+            // language=HTML
+            special_msg += '<hr> <p class="mb-0">Maximum air speed has been limited due to no occupant control</p>';
         }
     }
     renderCompliance(comply, special_msg);
@@ -861,8 +860,8 @@ function calcAdaptiveCompliance(d, r) {
 }
 
 function renderCompliance(comply, special_msg) {
-    var comply_msg = '&#10004; &nbsp;Complies with ASHRAE Standard 55-2017';
-    var no_comply_msg = '&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2017';
+    const comply_msg = '&#10004; &nbsp;Complies with ASHRAE Standard 55-2017';
+    const no_comply_msg = '&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2017';
 
     $('#vel-range').html('');
     if (comply) {

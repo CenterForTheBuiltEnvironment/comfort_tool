@@ -466,7 +466,7 @@ function renderPmvElevResults(r, i) {
 }
 
 function calcPmvElevCompliance(d, r, i) {
-    var pmv_comply = (Math.abs(r.pmv) <= 0.5);
+    var pmv_comply = (Math.abs(r.pmv) <= 0.8);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
     var local_control = $('#local-control').is(':checked');

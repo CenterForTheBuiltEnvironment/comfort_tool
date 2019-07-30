@@ -1,3 +1,5 @@
+keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
+
 $(document).ready(function () {
 
     var cloSelect = document.getElementById('cloSelect');
@@ -583,17 +585,17 @@ function calcAdaptiveCompliance(d, r) {
 }
 
 function renderCompliance(comply, special_msg) {
-    var comply_msg = '&#10004; &nbsp;Complies with EN-15251';
-    var no_comply_msg = '&#10008 &nbsp; Does not comply with EN-15251';
+    const comply_msg = '&#10004; &nbsp;Complies with EN-15251';
+    const no_comply_msg = '&#10008 &nbsp; Does not comply with EN-15251';
 
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#comply-msg').css('color', 'green');
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success");
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#comply-msg').css('color', 'red');
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger");
         $('#special-msg').html(special_msg);
     }
 }

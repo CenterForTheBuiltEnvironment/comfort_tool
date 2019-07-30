@@ -114,7 +114,6 @@ var vc = new function () {
 
 
         // giving labels to the axes
-
         d3.select("#db-axis-C-veltop")
             .append("text")
             .text("Operative Temperature [°C]")

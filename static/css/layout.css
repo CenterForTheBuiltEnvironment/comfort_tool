@@ -30,12 +30,9 @@ a.mainlink:hover {
 }
 
 .footer {
-    /*margin: 0 auto;*/
-    /*width: 988px;*/
     font-family: sans-serif;
     font-color: #000000;
     font-size: 12px;
-    /*clear: both;*/
 }
 
 a.footerlink:link {
