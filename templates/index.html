@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <select id='model-type'>
+                        <select class="form-control form-control-sm" id='model-type'>
                             <option value='pmvElevatedAirspeed'>PMV method</option>
                             <option value='adaptiveComfort'>Adaptive method</option>
                         </select>
@@ -78,9 +78,9 @@
                                 <span class='tempunit'>&deg;C</span>
                             </div>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-lg-auto col-md-5">
                             <input type='checkbox' id='link'/>
-                            <label id='labelforlink' style='text-align:left; width:200px;' for='link'>Use operative temperature</label>
+                            <label id='labelforlink' for='link'>Use operative temperature</label>
                         </div>
                     </div>
 
@@ -96,6 +96,7 @@
                                 <span class='tempunit'>&deg;C</span>
                             </div>
                         </div>
+                        <div class="col-lg-auto col-md-5"></div>
                     </div>
 
                     <div id='pmv-inputs'>
@@ -106,14 +107,14 @@
                                     <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
                                 </div>
                             </div>
-                            <div class="col-sm-3 col-lg-3">
+                            <div class="col-sm-3">
                                 <div class='inputfield'>
                                     <input class='inputbox' id="vel"/>
                                     <span class='unit' id='vel-unit'> m/s</span>
                                 </div>
                             </div>
-                            <div class="col-auto" id='local-control-div'>
-                                <select id='local-control' AutoPostBack="true">
+                            <div class="col-lg-auto col-md-5" id='local-control-div'>
+                                <select class="form-control form-control-sm" id='local-control'>
                                     <option value='noairspeedcontrol'>No local air speed control</option>
                                     <option value='withairspeedcontrol'>With local air speed control</option>
                                 </select>
@@ -132,8 +133,8 @@
                                     <span class='unit' id='rh-unit'> %</span>
                                 </div>
                             </div>
-                            <div class="col-auto" id='humidity-spec-cont'>
-                                <select id='humidity-spec'>
+                            <div class="col-lg-auto col-md-5" id='humidity-spec-cont'>
+                                <select class="form-control form-control-sm" id='humidity-spec'>
                                     <option value='rh'>Relative humidity</option>
                                     <option value='w'>Humidity ratio (w)</option>
                                     <option value='dewpoint'>Dew point</option>
@@ -156,8 +157,8 @@
                                     <span class='unit'> met</span>
                                 </div>
                             </div>
-                            <div class="col-auto" id='actSelectDiv'>
-                                <select id='actSelect' style="width:200px; margin-left:5px;"></select>
+                            <div class="col-lg-auto col-md-5" id='actSelectDiv'>
+                                <select class="form-control form-control-sm" id='actSelect'></select>
                             </div>
                         </div>
 
@@ -174,8 +175,8 @@
                                     <span class='unit'> clo</span>
                                 </div>
                             </div>
-                            <div class="col-auto" id='cloSelectDiv'>
-                                <select id='cloSelect'></select>
+                            <div class="col-lg-7 col-md-5" id='cloSelectDiv'>
+                                <select class="form-control form-control-sm" id='cloSelect'></select>
                             </div>
                         </div>
 
@@ -265,7 +266,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-12" style="width: 300px;">
-                                <select id='vel_a'>
+                                <select class="form-control form-control-sm" id='vel_a'>
                                     <option value="0.3" selected="selected">0.3 m/s (59 fpm)</option>
                                     <option value="0.6">0.6 m/s (118 fpm)</option>
                                     <option value="0.9">0.9 m/s (177 fpm)</option>
@@ -376,7 +377,7 @@
 
                 {# Chart selection #}
                 <div class="row justify-content-center p-1" id='chartSelect-cont'>
-                    <select id='chartSelect'>
+                    <select class="form-control form-control-sm" id='chartSelect'>
                         <option value='psychta'>Psychrometric chart (air temperature)</option>
                         <option value='psychtop'>Psychrometric chart (operative temperature)</option>
                         <option value='temphum'>Temperature – Relative Humidity chart</option>
@@ -409,27 +410,14 @@
                 <div class="row justify-content-center">
                     <div id="pmv-notes" class="card m-2 footer">
                         <div class='card-body p-1 m-1' id="psychta-note">
-                            <b>NOTE:</b> In this <a class="mainlink"
-                                                    href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
-                                                    target="_new">psychrometric chart</a> the
-                            abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed,
-                            controlled by
-                            the inputbox. Each point on the chart has the same MRT,
-                            which defines the comfort zone boundary. In this way you can see how changes in MRT
-                            affect
-                            thermal
-                            comfort. You can also still use the operative temperature
-                            button, yet each point will have the same MRT. <br>
-                            <b>Limits of Applicability:</b> This standard is only applicable to healthy men and
-                            women.
-                            This standard does not apply to occupant: a) whose clothing insulation exceed 1.5 clo;
-                            b)
-                            whose
-                            clothing is highly
-                            impermeable; or c) who are sleeping, reclining in contact with bedding, or able to
-                            adjust
-                            blankets
-                            or bedding.
+                            <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
+                                                    target="_new">psychrometric chart</a>
+                            the abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed, controlled by
+                            the inputbox. Each point on the chart has the same MRT, which defines the comfort zone boundary. In this way you can see how changes in MRT
+                            affect thermal comfort. You can also still use the operative temperature button, yet each point will have the same MRT. <br>
+                            <b>Limits of Applicability:</b> This standard is only applicable to healthy men and women.
+                            This standard does not apply to occupant: a) whose clothing insulation exceed 1.5 clo; b) whose clothing is highly
+                            impermeable; or c) who are sleeping, reclining in contact with bedding, or able to adjust blankets or bedding.
                         </div>
                         <div class='card-body p-1 m-1' id="psychtop-note">
                             <b>NOTE:</b> In this <a class="mainlink"

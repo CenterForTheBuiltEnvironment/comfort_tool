@@ -158,27 +158,6 @@ $(function () {
         numberFormat: "n"
     });
 
-    // define select menu width
-    $('select#humidity-spec').selectmenu({
-        width: 200
-    });
-
-    $('select#model-type').selectmenu({
-        width: 200
-    });
-
-    $('select#cloSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#actSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#chartSelect').selectmenu({
-        width: 350
-    });
-
 });
 
 $('#humidity-spec').change(function () {

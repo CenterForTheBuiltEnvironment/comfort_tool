@@ -164,7 +164,6 @@ $(function () {
         resizable: true,
     });
 
-    /*    $('#local-control').button();*/
     $('#radio').buttonset();
     $('.leed-buttons').buttonset();
 
@@ -298,36 +297,6 @@ $(function () {
         min: envVarLimits.rh.min,
         max: envVarLimits.rh.max,
         numberFormat: "n"
-    });
-
-    // define select menu width
-    $('#vel_a').selectmenu({
-        width: 165
-    });
-
-    $('select#humidity-spec').selectmenu({
-        width: 200
-    });
-
-    $('select#model-type').selectmenu({
-        width: 200
-    });
-
-    $('select#local-control').selectmenu({
-        width: 200
-    });
-
-
-    $('select#cloSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#actSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#chartSelect').selectmenu({
-        width: 350
     });
 
 });
@@ -574,7 +543,7 @@ $('#model-type').change(function () {
             $('#pmv-elev-outputs').hide();
         }
     } else if (model === 'adaptiveComfort') {
-//        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+        $("#chartWrapper, #chart_heatLoss_div").hide();
         $('#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
@@ -586,6 +555,7 @@ $('#model-type').change(function () {
 $("#chartSelect").change(function () {
     chart = $("#chartSelect").val();
     $('#output-b, #output-a, #ta-input, #ta-lab').show();
+    $('#pmv-notes').show();
     if (chart === "psychta" || chart === "psychtop") {
         $("#chart-div").show();
         $("#temphumchart-div, veltopchart-div").hide();
@@ -638,7 +608,7 @@ $("#chartSelect").change(function () {
     } else if (chart === "heatloss") {
         heatLoss_chart.draw(d);
         $("#chartWrapper, #chart_heatLoss_div").show();
-        $("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div, #veltopchart-div, #veltop-note, #pmv-notes").hide();
+        $("#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note").hide();
         $('#link').is(':checked');
         $('#tr-input, #tr-lab').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
@@ -746,12 +716,14 @@ function renderAdaptiveResults(r) {
     } else if (r.acceptability80) {
         $('#sensation80').html('Comfortable');
         if (to < r.tComf90Lower) {
-            $('#sensation90').html('<span style="color:blue;">Too cool</span>');;
+            $('#sensation90').html('<span style="color:blue;">Too cool</span>');
+            ;
         } else {
             $('#sensation90').html('<span style="color:red;">Too warm</span>');
         }
     } else if (to < r.tComf80Lower) {
-        $('#sensation80, #sensation90').html('<span style="color:blue;">Too cool</span>');;
+        $('#sensation80, #sensation90').html('<span style="color:blue;">Too cool</span>');
+        ;
     } else {
         $('#sensation80, #sensation90').html('<span style="color:red;">Too warm</span>');
     }
