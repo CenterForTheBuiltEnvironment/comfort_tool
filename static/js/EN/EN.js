@@ -1,346 +1,27 @@
-var d = {
-    ta: '',
-    tr: '',
-    vel: '',
-    rh: '',
-    met: '',
-    clo: '',
-    trm: '',
-    vel_a: ''
-};
-var d_cache = {
-    ta: '',
-    tr: '',
-    vel: '',
-    rh: '',
-    met: '',
-    clo: '',
-    trm: '',
-    vel_a: ''
-};
-var keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
+$(document).ready(function () {
 
-$(document).ready(function() {
-
-    var cloArticles = [{
-        article: 'Men\'s underwear',
-        clo: 0.04
-    }, {
-        article: 'Women\'s underwear',
-        clo: 0.03
-    }, {
-        article: 'Bra',
-        clo: 0.01
-    }, {
-        article: 'T-shirt',
-        clo: 0.08
-    }, {
-        article: 'Full slip',
-        clo: 0.16
-    }, {
-        article: 'Half slip',
-        clo: 0.14
-    }, {
-        article: 'Long underwear top',
-        clo: 0.2
-    }, {
-        article: 'Long underwear bottoms',
-        clo: 0.15
-    }, {
-        article: 'Shoes or sandals',
-        clo: 0.02
-    }, {
-        article: 'Slippers',
-        clo: 0.03
-    }, {
-        article: 'Knee socks (thick)',
-        clo: 0.06
-    }, {
-        article: 'Ankle socks',
-        clo: 0.02
-    }, {
-        article: 'Calf length socks',
-        clo: 0.03
-    }, {
-        article: 'Panty hose',
-        clo: 0.02
-    }, {
-        article: 'Boots',
-        clo: 0.1
-    }, {
-        article: 'Sleeveless scoop-neck blouse',
-        clo: 0.12
-    }, {
-        article: 'Short-sleeve dress shirt',
-        clo: 0.19
-    }, {
-        article: 'Long-sleeve dress shirt',
-        clo: 0.25
-    }, {
-        article: 'Long-sleeve flannel shirt',
-        clo: 0.34
-    }, {
-        article: 'Short-sleeve knit shirt',
-        clo: 0.17
-    }, {
-        article: 'Long-sleeve sweat shirt',
-        clo: 0.34
-    }, {
-        article: 'Short shorts',
-        clo: 0.06
-    }, {
-        article: 'Walking shorts',
-        clo: 0.08
-    }, {
-        article: 'Thin trousers',
-        clo: 0.15
-    }, {
-        article: 'Thick trousers',
-        clo: 0.24
-    }, {
-        article: 'Sweatpants',
-        clo: 0.28
-    }, {
-        article: 'Overalls',
-        clo: 0.30
-    }, {
-        article: 'Coveralls',
-        clo: 0.49
-    }, {
-        article: 'Thin skirt',
-        clo: 0.14
-    }, {
-        article: 'Thick skirt',
-        clo: 0.23
-    }, {
-        article: 'Long-sleeve shirtdress (thin)',
-        clo: 0.33
-    }, {
-        article: 'Long-sleeve shirtdress (thick)',
-        clo: 0.47
-    }, {
-        article: 'Short-sleeve shirtdress',
-        clo: 0.29
-    }, {
-        article: 'Sleeveless, scoop-neck shirt (thin)',
-        clo: 0.23
-    }, {
-        article: 'Sleeveless, scoop-neck shirt (thick)',
-        clo: 0.27
-    }, {
-        article: 'Sleeveless vest (thin)',
-        clo: 0.13
-    }, {
-        article: 'Sleeveless vest (thick)',
-        clo: 0.22
-    }, {
-        article: 'Longsleeve shirt (thin)',
-        clo: 0.25
-    }, {
-        article: 'Longsleeve shirt (thick)',
-        clo: 0.36
-    }, {
-        article: 'Single-breasted coat (thin)',
-        clo: 0.36
-    }, {
-        article: 'Single-breasted coat (thick)',
-        clo: 0.44
-    }, {
-        article: 'Double-breasted coat (thin)',
-        clo: 0.42
-    }, {
-        article: 'Double-breasted coat (thick)',
-        clo: 0.48
-    }, {
-        article: 'Sleeveless vest (thin)',
-        clo: 0.1
-    }, {
-        article: 'Sleeveless vest (thick)',
-        clo: 0.17
-    }, {
-        article: 'Sleeveless short gown (thin)',
-        clo: 0.18
-    }, {
-        article: 'Sleeveless long gown (thin)',
-        clo: 0.2
-    }, {
-        article: 'Short-sleeve hospital gown',
-        clo: 0.31
-    }, {
-        article: 'Short-sleeve short robe (thin)',
-        clo: 0.34
-    }, {
-        article: 'Long-sleeve long gown',
-        clo: 0.46
-    }, {
-        article: 'Long-sleeve short wrap robe (thick)',
-        clo: 0.48
-    }, {
-        article: 'Short-sleeve pajamas',
-        clo: 0.42
-    }, {
-        article: 'Long-sleeve pajamas (thick)',
-        clo: 0.57
-    }, {
-        article: 'Long-sleeve long wrap robe (thick)',
-        clo: 0.69
-    }, {
-        article: 'Metal chair',
-        clo: 0.00
-    }, {
-        article: 'Wooden stool',
-        clo: 0.01
-    }, {
-        article: 'Standard office chair',
-        clo: 0.10
-    }, {
-        article: 'Executive chair',
-        clo: 0.15
-    }];
-    var cloEnsembles = [{
-        clothing: 'Typical summer indoor clothing: 0.5',
-        clo: 0.5
-    }, {
-        clothing: 'Typical winter indoor clothing: 1.0',
-        clo: 1.0
-    }, {
-        clothing: 'Trousers, short-sleeve shirt, socks, shoes, underwear (SSU): 0.57',
-        clo: 0.57
-    }, {
-        clothing: 'Trousers, long-sleeve shirt, SSU: 0.61',
-        clo: 0.61
-    }, {
-        clothing: 'Jacket, Trousers, long-sleeve shirt, SSU: 0.96',
-        clo: 0.96
-    }, {
-        clothing: 'Knee-length skirt, short-sleeve shirt, sandals, underwear: 0.54',
-        clo: 0.54
-    }, {
-        clothing: 'Knee-length skirt, long-sleeve shirt, full slip, SSU: 0.67',
-        clo: 0.67
-    }, {
-        clothing: 'Walking shorts, short-sleeve shirt, SSU: 0.36',
-        clo: 0.36
-    }, {
-        clothing: 'Sweat pants, long-sleeve sweatshirt, SSU: 0.74',
-        clo: 0.74
-    }];
-    var actData = [{
-        activity: 'Standing, relaxed: 1.2',
-        met: 1.2
-    }, {
-        activity: 'Seated, quiet: 1.0',
-        met: 1.0
-    }, {
-        activity: 'Sleeping: 0.7',
-        met: 0.7
-    }, {
-        activity: 'Reclining: 0.8',
-        met: 0.8
-    }, {
-        activity: 'Walking 2mph (3.2kmh): 2.0',
-        met: 2.0
-    }, {
-        activity: 'Walking 3mph (4.8kmh): 2.6',
-        met: 2.6
-    }, {
-        activity: 'Walking 4mph (6.4kmh): 3.8',
-        met: 3.8
-    }, {
-        activity: 'Reading, seated: 1.0',
-        met: 1.0
-    }, {
-        activity: 'Writing: 1.0',
-        met: 1.0
-    }, {
-        activity: 'Typing: 1.1',
-        met: 1.1
-    }, {
-        activity: 'Filing, seated: 1.2',
-        met: 1.2
-    }, {
-        activity: 'Filing, standing: 1.4',
-        met: 1.4
-    }, {
-        activity: 'Walking about: 1.7',
-        met: 1.7
-    }, {
-        activity: 'Lifting/packing: 2.1',
-        met: 2.1
-    }, {
-        activity: 'Driving a car: 1.5',
-        met: 1.5
-    }, {
-        activity: 'Flying aircraft, routine: 1.2',
-        met: 1.2
-    }, {
-        activity: 'Flying aircraft, combat: 2.4',
-        met: 2.4
-    }, {
-        activity: 'Driving, heavy vehicle: 3.2',
-        met: 3.2
-    }, {
-        activity: 'Cooking: 1.8',
-        met: 1.8
-    }, {
-        activity: 'House cleaning: 2.7',
-        met: 2.7
-    }, {
-        activity: 'Seated, heavy limb movement: 2.2',
-        met: 2.2
-    }, {
-        activity: 'Table sawing: 1.8',
-        met: 1.8
-    }, {
-        activity: 'Light machine work: 2.2',
-        met: 2.2
-    }, {
-        activity: 'Heavy machine work: 4.0',
-        met: 4.0
-    }, {
-        activity: 'Handling 100lb (45 kg) bags: 4.0',
-        met: 4.0
-    }, {
-        activity: 'Pick and shovel work: 4.4',
-        met: 4.4
-    }, {
-        activity: 'Dancing: 3.4',
-        met: 3.4
-    }, {
-        activity: 'Calisthenics: 3.5',
-        met: 3.5
-    }, {
-        activity: 'Tennis: 3.8',
-        met: 3.8
-    }, {
-        activity: 'Basketball: 6.3',
-        met: 6.3
-    }, {
-        activity: 'Wrestling: 7.8',
-        met: 7.8
-    }];
     var cloSelect = document.getElementById('cloSelect');
-    cloSelect.onchange = function() {
+    cloSelect.onchange = function () {
         document.getElementById('clo').value = cloSelect.value;
         update();
     };
-    cloEnsembles.forEach(function(element) {
+    cloInsulationTypicalEnsambles.forEach(function (element) {
         cloSelect.options.add(new Option(element.clothing, element.clo));
     });
     var cloMultiSelect = document.getElementById('cloMultiSelect');
-    cloArticles.forEach(function(element) {
+    cloInsulationGarments.forEach(function (element) {
         cloMultiSelect.options.add(new Option(element.article, element.clo));
     });
     var actSelect = document.getElementById('actSelect');
-    actSelect.onchange = function() {
+    actSelect.onchange = function () {
         document.getElementById('met').value = actSelect.value;
         update();
     };
-    actData.forEach(function(element) {
+    metRatesTypicalTasks.forEach(function (element) {
         actSelect.options.add(new Option(element.activity, element.met));
     });
 
-    $(function() {
+    $(function () {
         $(".multiselect").multiselect({
             sortable: false,
             searchable: false,
@@ -358,8 +39,10 @@ $(document).ready(function() {
     bc.drawPoint();
 
     pc.drawChart();
-    var json = [{ "db": d.ta,
-                  "hr": pc.getHumRatio(d.ta, d.rh) }];
+    var json = [{
+        "db": d.ta,
+        "hr": pc.getHumRatio(d.ta, d.rh)
+    }];
     enpc.drawComfortRegions(d);
     pc.drawPoint(json);
 
@@ -367,7 +50,7 @@ $(document).ready(function() {
     ac.drawPoint([d]);
 });
 
-$(function() {
+$(function () {
 
     $('#globedialog').dialog({
         autoOpen: false,
@@ -376,7 +59,7 @@ $(function() {
         modal: true,
         resizable: false,
         buttons: {
-            "Set mean radiant temperature": function() {
+            "Set mean radiant temperature": function () {
                 var tr = parseFloat($('#mrt-result').val());
                 if (!isCelsius) tr = util.CtoF(tr);
                 $('#tr').val(tr);
@@ -394,7 +77,7 @@ $(function() {
         resizable: false,
     });
 
-    $('#link').button({}).click(function() {
+    $('#link').button({}).click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
@@ -407,6 +90,7 @@ $(function() {
     });
 
     $('#local-control').button();
+
     $('#radio').buttonset();
     //$('#local-control-adapt').button();
 
@@ -414,48 +98,65 @@ $(function() {
         icons: {
             primary: 'ui-icon-person'
         }
-    }).click(function() {
+    }).click(function () {
         $('#customCloToggle').toggle('fast');
     });
 
     $('button').button();
+
     $('.buttons').buttonset();
 
-    $('#ta, #tr, #trm').spinner({
-        step: 0.1,
-        min: 0,
-        max: 120,
+    // create spinners and impose limits based on value defined in envValLimits
+    $('#ta').spinner({
+        step: envVarLimits.ta.si.step,
+        min: envVarLimits.ta.si.min,
+        max: envVarLimits.ta.si.max,
+        numberFormat: "n"
+    });
+
+    $('#tr').spinner({
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
+        numberFormat: "n"
+    });
+
+    $('#trm').spinner({
+        step: envVarLimits.trm.si.step,
+        min: envVarLimits.trm.si.min,
+        max: envVarLimits.trm.si.max,
         numberFormat: "n"
     });
 
     $('#vel, #vel_a').spinner({
-        step: 0.01,
-        min: 0,
-        max: 4,
+        step: envVarLimits.vel.si.step,
+        min: envVarLimits.vel.si.min,
+        max: envVarLimits.vel.si.max,
         numberFormat: "n"
     });
 
     $('#clo').spinner({
-        step: 0.05,
-        min: 0.0,
-        max: 2.0,
+        step: envVarLimits.clo.step,
+        min: envVarLimits.clo.min,
+        max: envVarLimits.clo.max,
         numberFormat: "n"
     });
 
     $('#met').spinner({
-        step: 0.05,
-        min: 0.8,
-        max: 4.0,
+        step: envVarLimits.met.step,
+        min: envVarLimits.met.min,
+        max: envVarLimits.met.max,
         numberFormat: "n"
     });
 
     $('#rh').spinner({
-        step: 1,
-        min: 0,
-        max: 100,
+        step: envVarLimits.rh.step,
+        min: envVarLimits.rh.min,
+        max: envVarLimits.rh.max,
         numberFormat: "n"
     });
 
+    // define select menu width
     $('select#humidity-spec').selectmenu({
         width: 200
     });
@@ -464,7 +165,6 @@ $(function() {
         width: 200
     });
 
-
     $('select#cloSelect').selectmenu({
         width: 200
     });
@@ -472,14 +172,14 @@ $(function() {
     $('select#actSelect').selectmenu({
         width: 200
     });
-    
+
     $('select#chartSelect').selectmenu({
         width: 350
     });
 
 });
 
-$('#humidity-spec').change(function() {
+$('#humidity-spec').change(function () {
     var v = $('#humidity-spec').val();
     var ta = parseFloat($('#ta').val());
     if (!isCelsius) ta = util.FtoC(ta);
@@ -493,13 +193,15 @@ $('#humidity-spec').change(function() {
     if (v === 'rh') {
         $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
         $('#rh-unit').html(' %');
+        $('#rh-description').html('Relative humidity');
         $('#rh').spinner({
-            step: 1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.rh.step,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
             numberFormat: "n"
         });
     } else if (v === 'dewpoint') {
+        $('#rh-description').html('Dew point temperature');
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
             $('#rh-unit').html(' &deg;C');
@@ -508,12 +210,13 @@ $('#humidity-spec').change(function() {
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
-            step: 0.1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.tdp.si.step,
+            min: envVarLimits.tdp.si.min,
+            max: envVarLimits.tdp.si.max,
             numberFormat: "n"
         });
     } else if (v === 'wetbulb') {
+        $('#rh-description').html('Wet bulb temperature');
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
             $('#rh-unit').html(' &deg;C');
@@ -522,12 +225,13 @@ $('#humidity-spec').change(function() {
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
-            step: 0.1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.twb.si.step,
+            min: envVarLimits.twb.si.min,
+            max: envVarLimits.twb.si.max,
             numberFormat: "n"
         });
     } else if (v === 'w') {
+        $('#rh-description').html('Humidity ratio');
         $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
         $('#rh-unit').html('');
         $('#rh').spinner({
@@ -536,6 +240,7 @@ $('#humidity-spec').change(function() {
             max: maxHumRatio
         });
     } else if (v === 'vappress') {
+        $('#rh-description').html('Vapor pressure');
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
             $('#rh-unit').html(' KPa');
@@ -552,11 +257,11 @@ $('#humidity-spec').change(function() {
     window.humUnit = v;
 });
 
-$('#link').click(function() {
+$('#link').click(function () {
     $('#tr').val($('#ta').val());
 });
 
-$('.inputbox').keydown(function(event) {
+$('.inputbox').keydown(function (event) {
     if (event.keyCode === 13) {
         var inputs = $('.inputbox:visible:enabled');
         var nextBox = inputs.index(this) + 1;
@@ -565,34 +270,34 @@ $('.inputbox').keydown(function(event) {
     }
 });
 
-$('.in').click(function() {
+$('.in').click(function () {
     update();
 });
 
-$('.inputbox').focusout(function() {
+$('.inputbox').focusout(function () {
     update();
 });
 
-$('#vel_a').focusout(function() {
+$('#vel_a').focusout(function () {
     update();
 });
 
-$('#vel-a-box').click(function() {
+$('#vel-a-box').click(function () {
     update();
 });
 
-$('#unitsToggle').click(function() {
+$('#unitsToggle').click(function () {
     toggleUnits();
     update();
 });
 
-$('#setDefaults').click(function() {
+$('#setDefaults').click(function () {
     setDefaults();
     update();
 });
 
-$('#specPressure').click(function() {
-    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)':'inches of mercury (inHg)'));
+$('#specPressure').click(function () {
+    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)' : 'inches of mercury (inHg)'));
     if (customPressure !== '' && customPressure !== null) {
         customPressure = parseFloat(customPressure);
         if (!isCelsius) {
@@ -608,11 +313,11 @@ $('#specPressure').click(function() {
     }
 });
 
-$('#globeTemp').click(function() {
+$('#globeTemp').click(function () {
     var container = $('#globedialog');
     $.ajax({
         url: util.STATIC_URL + 'html/globetemp.html',
-        success: function(data) {
+        success: function (data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
                 $('#ta-g').val('77');
@@ -630,16 +335,16 @@ $('#globeTemp').click(function() {
     });
     container.dialog("open");
     updateGlobe();
-    $('.input-dialog').focusout(function() {
+    $('.input-dialog').focusout(function () {
         updateGlobe();
     });
 });
 
-$('#localDisc').click(function() {
+$('#localDisc').click(function () {
     var container = $('#localdialog');
     $.ajax({
         url: util.STATIC_URL + '/html/localdisc.html',
-        success: function(data) {
+        success: function (data) {
             $('#localdialog').html(data);
             if (!isCelsius) {
                 $('.tempunit').html(' &deg;F');
@@ -654,20 +359,21 @@ $('#localDisc').click(function() {
         async: false
     });
     container.dialog("open");
-    $('.input-dialog-local').focusout(function() {
+    $('.input-dialog-local').focusout(function () {
         updateLocalDisc();
     });
 });
 
-$('#setClo').click(function() {
+$('#setClo').click(function () {
     setClo();
     update();
 });
-$('#addToEnsembles').click(function() {
+
+$('#addToEnsembles').click(function () {
     addToEnsembles();
 });
 
-$('#model-type').change(function() {
+$('#model-type').change(function () {
     $('#pmv-out-label').html('PMV');
     $('#local-control-div').hide();
     $('#localDisc').removeAttr('disabled');
@@ -685,18 +391,23 @@ $('#model-type').change(function() {
     update();
 });
 
-$("#chartSelect").change(function(){
-    var chart = $("#chartSelect").val();
-    if (chart === "psychta" || chart === "psychtop"){
+/* Code used to select which fields to be displayed when the user selct the method: adaptive or PMV */
+$("#chartSelect").change(function () {
+    const chart = $("#chartSelect").val();
+
+    // PMV method selection
+    if (chart === "psychta" || chart === "psychtop") {
         $("#chart-div").show();
         $("#temphumchart-div").hide();
+
+        // Selction to use air temperature as well as mean radiant temperature
         if (chart === "psychta") {
             $("#psychta-note").show();
             $("#psychtop-note, #temphum-note").hide();
-            
+
             $("#db-axis-C-label").text("Drybulb Temperature [°C]");
             $("#db-axis-F-label").text("Drybulb Temperature [°F]");
-            
+
             if ($('#link').is(':checked')) {
                 $('#labelforlink').show();
             } else {
@@ -704,18 +415,21 @@ $("#chartSelect").change(function(){
                 $('#globeTemp').removeAttr('disabled');
                 $('#tr-input, #tr-lab, #labelforlink').show();
             }
-            
+
+            // Selction to use air operative temperature
         } else if (chart === "psychtop") {
             $("#psychtop-note").show();
             $("#psychta-note, #temphum-note").hide();
-            
+
             $("#db-axis-C-label").text("Operative Temperature [°C]");
             $("#db-axis-F-label").text("Operative Temperature [°F]");
-            
+
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
             $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab, #labelforlink').hide();
         }
+
+        // selection Adaptive method
     } else if (chart === "temphum") {
         $("#temphumchart-div, #temphum-note").show();
         $("#chart-div, #psychta-note, #psychtop-note").hide();
@@ -730,114 +444,15 @@ $("#chartSelect").change(function(){
     update();
 });
 
-function toggleUnits() {
-    var v, v_a, el;
-    var hs = $('#humidity-spec').val();
-    isCelsius = !isCelsius;
-    if (isCelsius) {
-        $('.tempunit').each(function() {
-            $(this).html(' &deg;C');
-        });
-        $('#ta, #tr, #trm').each(function() {
-            v = util.FtoC($(this).val());
-            $(this).val(v.toFixed(1));
-        });
-        $('#vel-unit, #vel-a-unit').html(' m/s');
-        v = $('#vel').val();
-        $('#vel').val(v / 196.9).spinner({
-            step: 0.01,
-            min: 0,
-            max: 3,
-            numberFormat: 'n'
-        });
-		v_a = $('#vel_a').val();
-        $('#vel_a').val(v_a / 196.9).spinner({
-            step: 0.01,
-            min: 0,
-            max: 3,
-            numberFormat: 'n'
-        });
-        if (hs === 'dewpoint' || hs === 'wetbulb') {
-            $('#rh-unit').html(' &deg;C');
-            v = (util.FtoC($('#rh').val()));
-            $('#rh').val(v.toFixed(1));
-        } else if (hs === 'vappress') {
-            $('#rh-unit').html(' KPa');
-            v = $('#rh').val() * 2.953;
-            $('#rh').val(v.toFixed(2));
-        }
-    } else {
-        $('.tempunit').each(function() {
-            $(this).html(' &deg;F');
-        });
-        $('#ta, #tr, #trm').each(function() {
-            v = util.CtoF($(this).val());
-            $(this).val(v.toFixed(1));
-        });
-        $('#vel-unit, #vel-a-unit').html(' fpm');
-        v = $('#vel').val();
-        $('#vel').val(v * 196.9).spinner({
-            step: 1,
-            min: 0,
-            max: 300,
-            numberFormat: 'n'
-        });
-	    v_a = $('#vel_a').val();
-        $('#vel_a').val(v_a * 196.9).spinner({
-            step: 1,
-            min: 0,
-            max: 300,
-            numberFormat: 'n'
-        });
-        if (hs === 'dewpoint' || hs === 'wetbulb') {
-            $('#rh-unit').html(' &deg;F');
-            v = (util.CtoF($('#rh').val()));
-            $('#rh').val(v.toFixed(1));
-        } else if (hs === 'vappress') {
-            $('#rh-unit').html(' in HG');
-            v = $('#rh').val() / 2.953;
-            $('#rh').val(v.toFixed(2));
-        }
-    }
-    pc.toggleUnits(isCelsius);
-    bc.toggleUnits(isCelsius);
-    ac.toggleUnits(isCelsius);
-}
-
-
-function setClo() {
-    var clo = 0;
-    var opt = document.getElementById('cloMultiSelect').options;
-    for (var i = 0; i < opt.length; i++) {
-        if (opt[i].selected) clo += parseFloat(opt[i].value);
-    }
-    document.getElementById('clo').value = clo.toFixed(2);
-}
-
-function addToEnsembles() {
-    var items = [];
-    var ensembleClo = 0;
-    var opt = document.getElementById('cloMultiSelect').options;
-    for (var i = 0; i < opt.length; i++) {
-        if (opt[i].selected) {
-            items.push(opt[i].text);
-            ensembleClo += parseFloat(opt[i].value);
-        }
-    }
-    cloSelect.options.add(new Option(items.join(', '), ensembleClo.toFixed(2)));
-}
-
 function update() {
 
     if ($('#link').is(':checked') || $("#chartSelect").val() === "psychtop") {
         $('#tr').val($('#ta').val());
     }
-    keys.forEach(function(element) {
-        d_cache[element] = d[element];
-        var e = document.getElementById(element).value;
-        e = e.replace(/,/g, '.');
-        d[element] = parseFloat(e);
-    });
+
+    // get user input and validate that complies with standard applicability limits
+    validateUserEntry('');
+
     d.wme = 0;
     if (!isCelsius) {
         d.ta = util.FtoC(d.ta);
@@ -877,11 +492,11 @@ function update() {
 }
 
 function getCategory(pmv) {
-	if (Math.abs(pmv) <= 0.2) return 'I';
-	else if (Math.abs(pmv) <= 0.5) return 'II';
-	else if (Math.abs(pmv) <= 0.7) return 'III';
-	else if (Math.abs(pmv) > 0.7) return 'IV';
-	else return '-';
+    if (Math.abs(pmv) <= 0.2) return 'I';
+    else if (Math.abs(pmv) <= 0.5) return 'II';
+    else if (Math.abs(pmv) <= 0.7) return 'III';
+    else if (Math.abs(pmv) > 0.7) return 'IV';
+    else return '-';
 }
 
 function renderPmvResults(r) {
@@ -892,7 +507,7 @@ function renderPmvResults(r) {
 }
 
 function renderAdaptiveResults(r) {
-    var to = (parseFloat($('#ta').val()) + parseFloat($('#tr').val())) / 2;
+    const to = (parseFloat($('#ta').val()) + parseFloat($('#tr').val())) / 2;
     if (!isCelsius) {
         r.tComfIUpper = util.CtoF(r.tComfIUpper);
         r.tComfIIUpper = util.CtoF(r.tComfIIUpper);
@@ -913,7 +528,7 @@ function renderAdaptiveResults(r) {
         } else {
             $('#sensationI').html('<span style="color:red;">Too warm</span>');
         }
-	} else if (r.acceptabilityIII) {
+    } else if (r.acceptabilityIII) {
         $('#sensationIII').html('Comfortable');
         if (to < r.tComfIIUpper) {
             $('#sensationI, #sensationII').html('<span style="color:blue;">Too cool</span>');
@@ -959,8 +574,8 @@ function calcAdaptiveCompliance(d, r) {
 
     if (d.trm > 30 || d.trm < 10) {
         comply = false;
-        special_msg += '&#8627; Running mean outdoor temperatures above ' + (isCelsius ? '30&deg;C ' : '92.3&deg;F ') 
-          + 'or below ' + (isCelsius ? '10&deg;C ' : '50&deg;F ') + 'are not covered by Standard-55<br>';
+        special_msg += '&#8627; Running mean outdoor temperatures above ' + (isCelsius ? '30&deg;C ' : '92.3&deg;F ')
+            + 'or below ' + (isCelsius ? '10&deg;C ' : '50&deg;F ') + 'are not covered by Standard-55<br>';
     }
     if (!r.acceptabilityIII) comply = false;
 
@@ -995,30 +610,37 @@ function setDefaults() {
         tr: 25,
         vel: 0.10,
         rh: rh.toFixed(psy.PREC[hs]),
-        met: 1.2,
+        met: 1.1,
         clo: 0.5,
         trm: 24,
         vel_a: 0.2
     };
 
-    keys.forEach(function(element) {
+    keys.forEach(function (element) {
         document.getElementById(element).value = defaults[element];
     });
 }
 
-function updateGlobe() {
-    var ta = parseFloat($('#ta-g').val());
-    var vel = parseFloat($('#vel-g').val());
-    var tglobe = parseFloat($('#tglobe').val());
-    var diameter = parseFloat($('#diameter').val());
-    var emissivity = parseFloat($('#emissivity').val());
-    if (!isCelsius) {
-        ta = util.FtoC(ta);
-        vel /= 196.9;
-        tglobe = util.FtoC(tglobe);
-        diameter *= 0.0254
+// Set clo value created by the custom ensemble dialog
+function setClo() {
+    let clo = 0;
+    var opt = document.getElementById('cloMultiSelect').options;
+    for (var i = 0; i < opt.length; i++) {
+        if (opt[i].selected) clo += parseFloat(opt[i].value);
     }
-    var tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = util.CtoF(tr);
-    $('#mrt-result').val(tr.toFixed(1));
+    document.getElementById('clo').value = clo.toFixed(2);
+}
+
+// Add selected clothing items to create a custom ensemble
+function addToEnsembles() {
+    var items = [];
+    var ensembleClo = 0;
+    var opt = document.getElementById('cloMultiSelect').options;
+    for (var i = 0; i < opt.length; i++) {
+        if (opt[i].selected) {
+            items.push(opt[i].text);
+            ensembleClo += parseFloat(opt[i].value);
+        }
+    }
+    cloSelect.options.add(new Option(items.join(', '), ensembleClo.toFixed(2)));
 }

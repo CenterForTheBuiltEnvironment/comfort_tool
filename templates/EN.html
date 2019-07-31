@@ -1,291 +1,298 @@
-
 {% extends "layout.html" %}
 {% block head %}
-{{ super() }}
-  <title>CBE Thermal Comfort Tool for EN-15251</title>
+    {{ super() }}
+    <title>CBE Thermal Comfort Tool for EN-15251</title>
 
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart-EN.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart-EN.css') }}"/>
 
-  <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/EN/psychchart-EN.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/EN/adaptchart-EN.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/EN/temphumchart-EN.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/EN/local-discomfort-EN.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/EN/psychchart-EN.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/EN/adaptchart-EN.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/EN/temphumchart-EN.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/EN/local-discomfort-EN.js') }}"></script>
 
 {% endblock %}
 
 {% block content %}
-  <div id="all_content">
+    <div id="all_content">
 
-  <div id="left_content" style="background-color: #DCE7F7;"> 
+        <div id="left_content" style="background-color: #DCE7F7;">
 
-  <div id="select_comfort_model" style = "margin-bottom:7px; padding-top:6px; float:left;" class='in'>
-    <div id='modelDiv'>
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models" target="_new">&nbsp;Select method:</a>
+            <div id="select_comfort_model" style="margin-bottom:7px; padding-top:6px; float:left;" class='in'>
+                <div id='modelDiv'>
+                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models" target="_new">&nbsp;Select method:</a>
+                </div>
+            </div>
+
+            <div class='right' style='margin-bottom:5px; margin-bottom:7px; padding-top:10px;'>
+                <select id='model-type' style="width:200px; float:right; margin-right:14px;margin-bottom:5px;">
+                    <option value='pmv'>PMV method</option>
+                    <option value='adaptiveComfort'>Adaptive method</option>
+                </select>
+            </div>
+
+            <div id="inputs" style="margin-bottom:7px; padding-left:5px;" class='in' style='float:left;'>
+                <div class='leftlabel' id='ta-lab'>
+                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
+                </div>
+                <div class='inputfield'>
+                    <input class='inputbox' id='ta'/>
+                    <span class='tempunit'>&deg;C</span>
+                </div>
+                <div class='right'>
+                    <input type='checkbox' id='link'/>
+                    <label id='labelforlink' style='text-align:left; width:200px;' for='link'>Use operative temperature</label>
+                </div>
+
+                <div class='leftlabel' id='tr-lab' style="margin-top:15px;">
+                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
+                </div>
+                <div class='inputfield' id='tr-input'>
+                    <input class='inputbox' id="tr"/>
+                    <span class='tempunit'> &deg;C &nbsp;</span>
+                </div>
+
+                <div id='pmv-inputs'>
+                    <div class='leftlabel' style="margin-top:15px;">
+                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+                    </div>
+                    <div class='inputfield'>
+                        <input class='inputbox' id="vel"/>
+                        <span class='unit' id='vel-unit'> m/s</span>
+                    </div>
+                    <div class='right' id='local-control-div'>
+                        <input type='checkbox' id='local-control'/>
+                        <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
+                    </div>
+
+                    <div class='leftlabel' style="margin-top:15px;">
+                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" id='rh-description'>Relative humidity</a>
+                    </div>
+                    <div class='inputfield'>
+                        <input class='inputbox' id="rh"/>
+                        <span class='unit' id='rh-unit'> %</span>
+                    </div>
+                </div><!--end div id="pmv-inputs"-->
+
+                <div class='right' id='humidity-spec-cont'>
+                    <select id='humidity-spec'>
+                        <option value='rh'>Relative humidity</option>
+                        <option value='w'>Humidity ratio (w)</option>
+                        <option value='dewpoint'>Dew point</option>
+                        <option value='wetbulb'>Wet bulb</option>
+                        <option value='vappress'>Vapor pressure</option>
+                    </select>
+                </div><!--end div id="humidity-spec-cont"-->
+
+                <div style="margin-bottom: 7px;" id='adaptive-inputs'>
+                    <div class='leftlabel' style="margin-top:15px;">
+                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Outdoor running mean temperature</a>
+                    </div>
+                    <div class='inputfield'>
+                        <input class='inputbox' id="trm"/>
+                        <span class='tempunit'> &deg;C</span>
+                    </div>
+
+                    <div class='leftlabel' style="margin-top:15px;">
+                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+                    </div>
+                    <div class='inputfield' id="vel-a-box">
+                        <input class='inputbox' id="vel_a"/>
+                        <span class='unit' id='vel-a-unit'> m/s</span>
+                    </div>
+                    <div class='right' style="font-size:12px; margin-top:8px;" id='local-control-div-adapt'>Local air speed control required
+                    </div>
+                    <!-- <div class='right' id='local-control-div-adapt'>
+                      <input type='checkbox' id='local-control-adapt'/>
+                      <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
+                    </div> -->
+
+                </div><!--end div id="adaptive-inputs"-->
+
+            </div><!--end div id="inputs"-->
+
+            <div class='in' id='actInput' style="padding-left:5px;">
+                <div class='leftlabel' style="margin-top:15px;">
+                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
+                </div>
+                <div class='inputfield' id="met_input">
+                    <input class='inputbox' id="met"/>
+                    <span class='unit'> met</span>
+                </div>
+                <div class='right' id='actSelectDiv'>
+                    <select id='actSelect' style="width:200px; margin-left:5px;"></select>
+                </div>
+            </div><!--end div id="actInput"-->
+
+            <div style="margin-bottom: 7px; padding-left:5px;" class='in' id='cloInput'>
+                <div class='leftlabel' style="margin-top:15px;">
+                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
+                </div>
+                <div class='inputfield'>
+                    <input class='inputbox' id="clo"/>
+                    <span class='unit'> clo</span>
+                </div>
+                <div class='inputfield' id='cloSelectDiv'>
+                    <select style="width:200px;" id='cloSelect'></select>
+                </div>
+                <div>
+                    <input type='checkbox' id='customClo'/>
+                    <label style="width:200px; margin-top:15px; width:380px; float:left;" for='customClo'>Create custom ensemble</label>
+                </div>
+                <div id='customCloToggle' style='display:none; float:left;'><br/>
+                    <select id='cloMultiSelect' class='multiselect' multiple='multiple'></select>
+                    <button id='setClo' style="margin-top: 5px;">Set clo value</button>
+                </div>
+
+            </div><!--end div id="cloInput"-->
+
+            <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 5px; margin-left:10px;'>
+                <button id='globeTemp' style="width:60px; float:left; height:45px;">Globe temp</button>
+                <button id='specPressure' style="width:80px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
+                <button id='setDefaults' style="width:75px; float:left; height:45px;">Set defaults</button>
+                <button id='unitsToggle' style="width:44px; float:left; height:45px;">SI IP</button>
+                <button id='localDisc' style="width:95px; float:left; height:45px;">Local discomfort</button>
+                <a style="width:48px; float:left; height:43px; font-size:18px;" title="Help" href="{{ url_for('static', filename='html/help-EN.html') }}" target="_new">? Help</a>
+            </div>
+
+        </div><!--id="left_content"-->
+
+
+        <div id="right_content">
+
+            <br class="clear">
+            <div class='out' id='output-b' style='float:left;'>
+                <div id='comply-msg'></div>
+                <div id='special-msg'></div>
+            </div><!--id="output-b"-->
+
+            <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
+                <div id='pmv-outputs'>
+                    <div id='pmv-out-label' class='leftlabel'>PMV</div>
+                    <div class='divresult'>
+                        <span class='result' id='pmv-res'></span>
+                    </div>
+                    <br/>
+                    <div id='ppd-out-label' class='leftlabel'>PPD</div>
+                    <div class='divresult'>
+                        <span class='result' id='ppd-res'></span>
+                    </div>
+                    <div class='resultunit'>
+                        <span class='unit'> %</span>
+                    </div>
+                    <br/>
+                    <!-- <div class='leftlabel'>Sensation</div>
+                    <div class='divresult'>
+                      <span class='result' id='sensation'></span>
+                    </div> -->
+                    <div class='leftlabel'>Category</div>
+                    <div class='divresult'>
+                        <span class='result' id='category'></span>
+                    </div>
+                </div><!--id="pmv-outputs"-->
+
+                <div id='adaptive-outputs' style='display:none; float:left;'>
+                    <div class='leftlabel'>Class III acceptability limits</div>
+                    <div class='divresult'>
+                        <span class='result' id='limitsIII'></span><br/>
+                    </div>
+                    <div class='resultunit'>
+                        <span class='tempunit'> &deg;C</span>
+                    </div>
+                    <br/>
+                    <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
+                    <div class='divresult'>
+                        <span class='result' id='sensationIII'></span><br/>
+                    </div>
+                    <br/>
+                    <div class='leftlabel'>Class II acceptability limits</div>
+                    <div class='divresult'>
+                        <span class='result' id='limitsII'></span><br/>
+                    </div>
+                    <div class='resultunit'>
+                        <span class='tempunit'> &deg;C</span>
+                    </div>
+                    <br/>
+                    <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
+                    <div class='divresult'>
+                        <span class='result' id='sensationII'></span><br/>
+                    </div>
+                    <br/>
+                    <div class='leftlabel'>Class I acceptability limits</div>
+                    <div class='divresult'>
+                        <span class='result' id='limitsI'></span><br/>
+                    </div>
+                    <div class='resultunit'>
+                        <span class='tempunit'> &deg;C</span>
+                    </div>
+                    <br/>
+                    <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
+                    <div class='divresult'>
+                        <span class='result' id='sensationI'></span><br/>
+                    </div>
+                    <br/>
+                </div><!--id="adaptive-outputs"-->
+                <br/>
+
+            </div><!--id="output-a"-->
+
+            <div class='leftlabel' id='chartSelect-cont' style="position:relative; left:100px; top:30px;">
+                <select id='chartSelect'>
+                    <option value='psychta'>Psychrometric chart (air temperature)</option>
+                    <option value='psychtop'>Psychrometric chart (operative temperature)</option>
+                    <option value='temphum'>Temperature – Relative Humidity chart</option>
+                </select>
+            </div>
+            <div class='leftlabel' id="chart-title-adaptive" style="display:none; font-size: 16px; position: relative; left: 240px; top:35px;">
+                <a class="mainlink">Adaptive chart</a>
+            </div>
+
+            <div id='globedialog' title='Globe to MRT converter'></div>
+            <div id='localdialog' title='Local discomfort assessment'></div>
+            <div style="margin-left:-15px;" id="chart-div"></div>
+            <div style="margin-left:10px;" id="temphumchart-div"></div>
+            <div style="margin-left:20px;" id="chart-div-adaptive"></div>
+
+            <div id="pmv-notes">
+                <div class='note' id="psychta-note" style="margin-left:58px;">
+                    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the
+                    abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed, controlled by the inputbox. Each point on the chart has the same MRT,
+                    which defines the comfort zone boundary. In this way you can see how changes in MRT affect thermal comfort. You can also still use the operative temperature
+                    button, yet each point will have the same MRT.
+                </div>
+                <div class='note' id="psychtop-note" style="margin-left:58px;">
+                    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the
+                    abscissa is the operative temperature and for each point dry-bulb temperature equals mean radiant temperature (DBT = MRT). The comfort zone represents the
+                    combination of conditions with the same DBT and MRT for which the PMV is between -0.5 and +0.5, according to the standard.
+                </div>
+                <div class='note' id="temphum-note">
+                    <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity. The PMV calculations are still based on all the psychrometric
+                    variables, but the visualization becomes easier to understand.
+                </div>
+            </div><!--end of div "pmv-notes"-->
+
+            <div class='note' id="adaptive-note">
+                <b>NOTE:</b> Method is applicable only for buildings without mechanical cooling systems and where there is easy access to operable windows and occupants may freely
+                adapt their clothing to the indoor and/or outdoor thermal conditions. The criteria for the spaces are the following: (a) There is no mechanical cooling or heating
+                system in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; (c) Occupants are allowed to freely adapt their clothing insulation.
+            </div>
+        </div><!--id="right_content"-->
+        <br class="clear">
+        <br/>
+
+        <script language="javascript" src="{{ url_for('static', filename='js/EN/EN.js') }}" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                $('#EN-link').addClass('highlight')
+            });
+        </script>
     </div>
-  </div>
-        
-  <div class='right' style='margin-bottom:5px; margin-bottom:7px; padding-top:10px;' >
-    <select id='model-type' style="width:200px; float:right; margin-right:14px;margin-bottom:5px;">
-       <option value='pmv'>PMV method</option>
-       <option value='adaptiveComfort'>Adaptive method</option>
-    </select>
-  </div>
-
-  <div id="inputs" style="margin-bottom:7px; padding-left:5px;" class='in' style='float:left;'>
-    <div class='leftlabel' id='ta-lab'>
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
-    </div>
-    <div class='inputfield'>
-      <input class='inputbox' id='ta' />
-      <span class='tempunit'>&deg;C</span>
-    </div>
-    <div class='right'>
-      <input type='checkbox' id='link'/>
-      <label id='labelforlink' style='text-align:left; width:200px;' for='link'>Use operative temperature</label>
-    </div>  
-    
-    <div class='leftlabel' id='tr-lab' style="margin-top:15px;">
-      <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
-    </div>
-    <div class='inputfield' id='tr-input'>
-      <input class='inputbox' id="tr" />
-      <span class='tempunit'> &deg;C &nbsp;</span>
-    </div>
-
-    <div id='pmv-inputs'>
-      <div class='leftlabel' style="margin-top:15px;">
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
-      </div>
-      <div class='inputfield'>
-        <input class='inputbox' id="vel" />
-        <span class='unit' id='vel-unit'> m/s</span>
-      </div>
-      <div class='right' id='local-control-div'>
-        <input type='checkbox' id='local-control'/>
-        <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
-      </div>
-     
-      <div class='leftlabel' style="margin-top:15px;">
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" target="_new">Humidity</a>
-      </div>
-      <div class='inputfield'>
-        <input class='inputbox' id="rh" />
-        <span class='unit' id='rh-unit'> %</span>
-      </div>
-    </div><!--end div id="pmv-inputs"-->
-     
-    <div class='right' id='humidity-spec-cont'>
-      <select id='humidity-spec'>
-        <option value='rh'>Relative humidity</option>
-        <option value='w'>Humidity ratio (w)</option>
-        <option value='dewpoint'>Dew point</option>
-        <option value='wetbulb'>Wet bulb</option>
-        <option value='vappress'>Vapor pressure</option>
-      </select>
-    </div><!--end div id="humidity-spec-cont"-->      
-
-    <div style="margin-bottom: 7px;" id='adaptive-inputs'>
-      <div class='leftlabel' style="margin-top:15px;">
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Outdoor running mean temperature</a>
-      </div>
-      <div class='inputfield'>
-        <input class='inputbox' id="trm" />
-        <span class='tempunit'> &deg;C</span>
-      </div>
-
-      <div class='leftlabel' style="margin-top:15px;">
-        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
-      </div>
-      <div class='inputfield' id="vel-a-box">
-        <input class='inputbox' id="vel_a" />
-        <span class='unit' id='vel-a-unit'> m/s</span>
-      </div>
-	  <div class='right' style="font-size:12px; margin-top:8px;" id='local-control-div-adapt'>Local air speed control required
-      </div>
-      <!-- <div class='right' id='local-control-div-adapt'>
-        <input type='checkbox' id='local-control-adapt'/>
-        <label style='text-align:left; width:200px;' for='local-control'>Local air speed control</label>
-      </div> -->
-
-    </div><!--end div id="adaptive-inputs"-->
-
-  </div><!--end div id="inputs"-->    
-
-     <div class='in' id='actInput' style="padding-left:5px;">
-       <div class='leftlabel' style="margin-top:15px;">
-         <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
-       </div>
-       <div class='inputfield' id="met_input">
-         <input class='inputbox' id="met" />
-         <span class='unit' > met</span>
-       </div>
-       <div class='right' id='actSelectDiv'>
-         <select id='actSelect' style="width:200px; margin-left:5px;"></select>
-       </div>
-     </div><!--end div id="actInput"-->
-        
-     <div style="margin-bottom: 7px; padding-left:5px;" class='in' id='cloInput'>
-       <div class='leftlabel' style="margin-top:15px;">
-         <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
-       </div>
-       <div class='inputfield'>
-         <input class='inputbox' id="clo" />
-         <span class='unit'> clo</span>
-       </div>
-       <div class='inputfield' id='cloSelectDiv'>
-         <select style="width:200px;" id='cloSelect'></select>
-       </div>
-       <div>
-         <input type='checkbox' id='customClo'/>
-         <label style="width:200px; margin-top:15px; width:380px; float:left;" for='customClo'>Create custom ensemble</label>
-       </div>
-       <div id='customCloToggle' style='display:none; float:left;'><br />
-         <select id='cloMultiSelect' class='multiselect' multiple='multiple'></select>
-         <button id='setClo' style="margin-top: 5px;">Set clo value</button>
-       </div>
-    
-    </div><!--end div id="cloInput"--> 
-        
-    <div class='buttons' style='float:left; margin-bottom:5px; margin-top: 5px; margin-left:10px;'>
-      <button id='globeTemp' style="width:60px; float:left; height:45px;">Globe temp</button>
-      <button id='specPressure' style="width:80px; float:left; height:45px; position:relative; top: 50%">Specify pressure</button>
-      <button id='setDefaults' style="width:75px; float:left; height:45px;">Set defaults</button>
-      <button id='unitsToggle' style="width:44px; float:left; height:45px;">SI IP</button>
-      <button id='localDisc' style="width:95px; float:left; height:45px;">Local discomfort</button>
-      <a style="width:48px; float:left; height:43px; font-size:18px;" title="Help" href="{{ url_for('static', filename='html/help-EN.html') }}" target="_new">? Help</a>
-    </div>
-
-  </div><!--id="left_content"-->
-
-
-  <div id="right_content" >
-
-    <br class="clear">
-    <div class='out' id='output-b' style='float:left;'>
-    <div id='comply-msg'></div>
-    <div id='special-msg'></div>
-    </div><!--id="output-b"-->       
-
-    <div class='out' id='output-a' style='float:left; margin-top:-5px;'>
-      <div id='pmv-outputs'>
-        <div id='pmv-out-label' class='leftlabel'>PMV</div>
-        <div class='divresult'>
-          <span class='result' id='pmv-res'></span>
-        </div>
-        <br />
-        <div id='ppd-out-label' class='leftlabel'>PPD</div>
-        <div class='divresult'>
-          <span class='result' id='ppd-res'></span>
-        </div>
-        <div class='resultunit'>
-          <span class='unit'> %</span>
-        </div>
-        <br /> 
-        <!-- <div class='leftlabel'>Sensation</div>
-        <div class='divresult'>
-          <span class='result' id='sensation'></span>
-        </div> -->
-        <div class='leftlabel'>Category</div>
-        <div class='divresult'>
-          <span class='result' id='category'></span>
-        </div>
-      </div><!--id="pmv-outputs"-->
-        
-      <div id='adaptive-outputs' style='display:none; float:left;'>
-        <div class='leftlabel'>Class III acceptability limits</div>
-        <div class='divresult'>
-          <span class='result' id='limitsIII'></span><br />
-        </div>
-        <div class='resultunit'>
-          <span class='tempunit'> &deg;C</span>
-        </div>
-        <br />
-        <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
-        <div class='divresult'>
-          <span class='result' id='sensationIII'></span><br />
-        </div>
-        <br />
-        <div class='leftlabel'>Class II acceptability limits</div>
-        <div class='divresult'>
-          <span class='result' id='limitsII'></span><br />
-        </div>
-        <div class='resultunit'>
-          <span class='tempunit'> &deg;C</span>
-        </div>
-        <br />
-        <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
-        <div class='divresult'>
-          <span class='result' id='sensationII'></span><br />
-        </div>
-        <br />
-        <div class='leftlabel'>Class I acceptability limits</div>
-        <div class='divresult'>
-          <span class='result' id='limitsI'></span><br />
-        </div>
-        <div class='resultunit'>
-          <span class='tempunit'> &deg;C</span>
-        </div>
-        <br />
-        <div class='leftlabel sublabel'>&#8627; &nbsp;Status</div>
-        <div class='divresult'>
-          <span class='result' id='sensationI'></span><br />
-        </div>
-        <br />
-      </div><!--id="adaptive-outputs"-->
-      <br />
-
-    </div><!--id="output-a"-->
-
-	<div class='leftlabel' id='chartSelect-cont' style="position:relative; left:100px; top:30px;">
-      <select id='chartSelect'>
-        <option value='psychta'>Psychrometric chart (air temperature)</option>
-        <option value='psychtop'>Psychrometric chart (operative temperature)</option>
-        <option value='temphum'>Temperature – Relative Humidity chart</option>
-      </select>
-    </div>
-    <div class='leftlabel' id="chart-title-adaptive" style="display:none; font-size: 16px; position: relative; left: 240px; top:35px;">
-      <a class="mainlink">Adaptive chart</a>
-    </div>
-       
-    <div id='globedialog' title='Globe to MRT converter'></div>
-    <div id='localdialog' title='Local discomfort assessment'></div>
-    <div style="margin-left:-15px;" id="chart-div"></div>
-    <div style="margin-left:10px;" id="temphumchart-div"></div>
-    <div style="margin-left:20px;" id="chart-div-adaptive"></div>
-
-  <div id ="pmv-notes">
-    <div class='note' id="psychta-note" style="margin-left:58px;">
-    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the abscissa is the dry-bulb temperature, and the mean radiant temperature (MRT) is fixed, controlled by the inputbox. Each point on the chart has the same MRT, which defines the comfort zone boundary. In this way you can see how changes in MRT affect thermal comfort. You can also still use the operative temperature button, yet each point will have the same MRT.
-    </div>
- <div class='note' id="psychtop-note" style="margin-left:58px;">
-    <b>NOTE:</b> In this <a class="mainlink" href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts" target="_new">psychrometric chart</a> the abscissa is the operative temperature and for each point dry-bulb temperature equals mean radiant temperature (DBT = MRT). The comfort zone represents the combination of conditions with the same DBT and MRT for which the PMV is between -0.5 and +0.5, according to the standard.
-    </div>
-	<div class='note' id="temphum-note">
-    <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity. The PMV calculations are still based on all the psychrometric variables, but the visualization becomes easier to understand.
-    </div>
-  </div><!--end of div "pmv-notes"-->
-
-    <div class='note' id="adaptive-note">
-    <b>NOTE:</b> Method is applicable only for buildings without mechanical cooling systems and where there is easy access to operable windows and occupants may freely adapt their clothing to the indoor and/or outdoor thermal conditions. The criteria for the spaces are the following: (a) There is no mechanical cooling or heating system in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; (c) Occupants are allowed to freely adapt their clothing insulation.
-    </div>
-  </div><!--id="right_content"-->
-  <br class="clear">
-  <br />
-    
-  <script language="javascript" src="{{ url_for('static', filename='js/EN/EN.js') }}" type="text/javascript"></script>
-  <script>
-    $(document).ready(function(){
-      $('#EN-link').addClass('highlight')
-    });
-  </script>
-  </div>
 {% endblock %}
