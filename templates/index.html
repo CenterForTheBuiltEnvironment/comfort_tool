@@ -19,19 +19,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/veltopchart.js') }}"></script>
     <script type="text/javascript">
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-30562462-2']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-
     </script>
 {% endblock %}
 
@@ -181,19 +168,19 @@
                         </div>
 
                         {# custom clothing button #}
-                        <div class="row justify-content-center m-1">
+                        <div class="row justify-content-center mt-4">
                             <input type='checkbox' id='customClo'/>
                             <label for='customClo'>Create custom ensemble</label>
                         </div>
 
                         {# custom clothing interface #}
-                        <div class="row justify-content-center m-1" id='customCloToggle' style='display:none'><br/>
+                        <div class="row justify-content-center mt-2" id='customCloToggle' style='display:none'><br/>
                             <select id='cloMultiSelect' class='col-sm-12 multiselect' multiple='multiple'></select>
                             <button id='setClo' class="col-sm-12">Set clo value</button>
                         </div>
 
                         {# dynamic prediction of clothing #}
-                        <div class="row justify-content-center m-1">
+                        <div class="row justify-content-center mt-2">
                             <input type='checkbox' id='dynamicClo'/>
                             <label for='dynamicClo'>Dynamic predictive clothing</label>
                         </div>
@@ -205,38 +192,6 @@
                                 <input id='taOut6' maxlength=10 placeholder='0.0' style='height: 20px'/>
                                 <span class='tempunit'>&deg;C</span>
                                 <button id='setDynamicClo'>Set clo</button>
-                            </div>
-                        </div>
-
-                        {# LEED #}
-                        <div class="row justify-content-center m-1">
-                            <input type='checkbox' id='leedInterface'/>
-                            <label for='leedInterface'>LEED documentation</label>
-                        </div>
-
-                        {# LEED interface #}
-                        <div class="row card justify-content-center m-1" id='leedInterfaceToggle'>
-                            <div class="card-body">
-                                <div class="leftlabel">Space type</div>
-                                <input id='leed-spacetype' maxlength=15 placeholder='input name' style='height: 20px; font-size: 14px; padding: 3px; width: 130px'/>
-                                <span class='leed-notes'>e.g. Office, classroom, etc.</span>
-                                <div id='radio'>
-                                    <input type='radio' id='leed-cooling' name='radio' checked="checked"><label for='leed-cooling'>Cooling</label>
-                                    <input type='radio' id='leed-heating' name='radio'><label for='leed-heating'>Heating</label>
-                                    <span class='leed-notes'>   conditioning system in use </span>
-                                </div>
-                                <div class='leed-buttons btn-group btn-group-sm'>
-                                    <button id='leed-winter' title="click to save the data for winter">Set winter</button>
-                                    <button id='leed-spring' title="click to save the data for spring">Set spring</button>
-                                    <button id='leed-summer' title="click to save the data for summer">Set summer</button>
-                                    <button id='leed-fall' title="click to save the data for fall">Set fall</button>
-                                </div>
-                                <br/>
-                                <button id='leed-submit' title="(note: enable pop-ups)">View document</button>
-                                <button id='LEED-help'
-                                        style="width:30px; float:right; height:30px; margin-bottom: 10px; margin-right: 10px;">
-                                    ?
-                                </button>
                             </div>
                         </div>
 
@@ -279,7 +234,7 @@
                 </div><!--end div id="inputs"-->
 
                 {# set of buttons at the bottom #}
-                <div class="row justify-content-center mt-5 btn-group btn-group-sm" role="group">
+                <div class="row justify-content-center mt-2 btn-group btn-group-sm" role="group">
                     <button id='localDisc'>Local discomfort</button>
                     <button id='ERF'>Solar Cal</button>
                     <button id='specPressure'>Set pressure</button>

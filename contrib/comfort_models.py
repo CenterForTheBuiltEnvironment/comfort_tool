@@ -38,12 +38,10 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme=0):
     :param wme: external work, [met]
     :type  wme: float
 
-    :return: list containing estimated parameters [PMV, PPD, Ta_adj, cooling_effect, SET]
+    :return: dictionary containing the following parameters [PMV, PPD, Ta_adj, cooling_effect, SET]
     :rtype: list
 
     """
-
-    r = []
 
     # calculate set temperature
     set = comfPierceSET(ta, tr, vel, rh, met, clo, wme)
@@ -120,11 +118,12 @@ def comfPMVElevatedAirspeed(ta, tr, vel, rh, met, clo, wme=0):
         pmv, ppd = comfPMV(ta - ce, tr - ce, stillAirThreshold, rh, met, clo, wme)
         ta_adj = ta - ce
 
-    r.append(pmv)
-    r.append(ppd)
-    r.append(set)
-    r.append(ta_adj)
-    r.append(ce)
+    r = dict()
+    r['pmv'] = pmv
+    r['ppd'] = ppd
+    r['set'] = set
+    r['ta_adj'] = ta_adj
+    r['ce'] = ce
 
     return r
 
@@ -1092,3 +1091,8 @@ def calcHumidRatio(airTemp, relHumid, barPress):
             enthalpy.append(0)
 
     return humidityRatio, enthalpy, partialPressure, saturationPressure
+
+
+def fahrenheit_to_celsius(t):
+    """ Convert from fahrenheit to celsius"""
+    return (t - 32) * 0.5556

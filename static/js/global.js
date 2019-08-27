@@ -31,7 +31,7 @@ let keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
 let cloInsulationTypicalEnsambles = [
     {
-        clothing: 'Walking shorts, short-sleeve shirt:0.36 clo',
+        clothing: 'Walking shorts, short-sleeve shirt: 0.36 clo',
         clo: 0.36
     }, {
         clothing: 'Typical summer indoor clothing: 0.5 clo',
@@ -610,7 +610,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element][measurementSystem]['max'] || e < envVarLimits[element][measurementSystem]['min']) {
                 $('#' + element + i).val(envVarLimits[element][measurementSystem]['default']);
                 e = envVarLimits[element][measurementSystem]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
+                window.alert('The value you entered is outside the stardard\'s applicability limits.\nPlease select a value between ' +
                     envVarLimits[element][measurementSystem]['min'] + ' and ' + envVarLimits[element][measurementSystem]['max'] + '.');
             }
         } catch {
@@ -619,7 +619,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element]['max'] || e < envVarLimits[element]['min']) {
                 $('#' + element + i).val(envVarLimits[element]['default']);
                 e = envVarLimits[element]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
+                window.alert('The value you entered is outside the stardard\'s applicability limits.\nPlease select a value between ' +
                     envVarLimits[element]['min'] + ' and ' + envVarLimits[element]['max'] + '.');
             }
         } catch {

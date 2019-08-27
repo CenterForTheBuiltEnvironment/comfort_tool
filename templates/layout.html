@@ -5,6 +5,21 @@
           content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
     <meta charset="utf-8">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146504560-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-146504560-1');
+    </script>
+
+
     {% block head %}
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}"/>
@@ -45,6 +60,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="ranges">Ranges</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="upload">Upload</a>
+            </li>
         </ul>
     </nav>
 </div>
@@ -56,40 +74,33 @@
 </div>
 
 {# Footer #}
-<div class="container bg-light">
+<div class="container bg-light pt-3">
     <div class="row footer justify-content-center">
         <div class="col-sm-12 col-md-auto">
             <img src="static/img/logo150px.jpg">
         </div>
-        <div class="col-sm-12 col-md-4">
-            <b>To cite this webpage:</b>
-            <br/>
-            Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Cheung Toby, Moon Dustin, and Steinfeld Kyle, 2017,
-            CBE
-            Thermal Comfort Tool. <br>Center for the Built Environment, University of California Berkeley,
-            http://comfort.cbe.berkeley.edu/
-        </div>
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-8">
+            <b>Please cite us if you use this tool. To cite this webpage:</b>
+            <br>
+            Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Cheung Toby, Tartarini Federico, Moon Dustin, and Steinfeld Kyle, 2017, CBE Thermal Comfort Tool.
+            <br>
+            Center for the Built Environment, University of California Berkeley, http://comfort.cbe.berkeley.edu/
+            <div class="license-icons">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/" title="Creative Commons Attribution 4.0 International license">
+                    <i class="cc-icon-cc"></i><i class="cc-icon-cc-by"></i>
+                </a>
+            </div>
+
             <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img
                     alt="Creative Commons License" align='right' style="border-width:0"
                     src="http://i.creativecommons.org/l/by-nc/4.0/88x31.png"/></a><br/><span
                 xmlns:dct="http://purl.org/dc/terms/" property="dct:title">The CBE Thermal Comfort Tool</span>is
             licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons
             Attribution-NonCommercial 4.0 International License</a>. {# todo add creative commons to image folder #}
-            <b>Developed by: </b>
-            <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-tyler.htm">Tyler Hoyt</a>,
-            <a class="footerlink" href="http://cbe.berkeley.edu/aboutus/staff-stefano.htm">Stefano Schiavon</a>,
-            <a class="footerlink" href="http://www.linkedin.com/pub/alberto-piccioli/4b/361/7a5">Alberto Piccioli</a>,
-            <a class="footerlink" href="https://www.linkedin.com/in/chin-to-cheung-4b2864114/">Toby Cheung</a>,
-            <span class="footerlink">Dustin Moon</span> and<a class="footerlink" href="http://ced.berkeley.edu/ced/faculty-staff/kyle-steinfeld">Kyle Steinfeld</a>.
-
-            Based on work at <a class="footerlink" href="http://cbe.berkeley.edu">Center for the Built
-            Environment</a>.
-            <b>Note:</b> Internet Explorer is not fully supported. Some features (e.g. LEED documentation) do
-            not
-            function in latest versions of IE, and older versions of IE may not work at all. We recommend using
-            Chrome,
-            Firefox, or Safari.
+            <br>
+            <b>Note:</b> We recommend using Chrome, Firefox, Opera or Safari.
+            <br>
+            <b>Contact Us:</b> For any enquiries contact us via email at cbecomforttool@gmail.com
         </div>
     </div>
 </div>

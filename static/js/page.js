@@ -822,7 +822,7 @@ function calcAdaptiveCompliance(d, r) {
             + 'are not covered by Standard-55<br>';
     }
     if (to < 25 && d.vel_a > 0.3) {
-        special_msg += '&#8627; The cooling effect of air speed '
+        special_msg += 'The cooling effect of air speed '
             + 'is used only when the operative temperature is above '
             + (isCelsius ? '25&deg;C' : '77&deg;F');
     }

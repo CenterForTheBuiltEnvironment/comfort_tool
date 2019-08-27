@@ -11,3 +11,4 @@ zope.deprecation==4.0.2
 zope.event==4.0.2
 zope.interface==4.0.5
 zope.lifecycleevent==4.0.2
+flask_csv==1.2.0
