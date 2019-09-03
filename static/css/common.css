@@ -7,9 +7,9 @@
     display: none;
 }
 
-#leedInterfaceToggle {
-    display: none;
-}
+/*#leedInterfaceToggle {*/
+/*    display: none;*/
+/*}*/
 
 .local-disc-result {
     position: relative;
@@ -93,10 +93,10 @@
     font-size: 12px;
 }
 
-.leed-notes {
-    color: #6e6e6e;
-    font-size: 12px;
-}
+/*.leed-notes {*/
+/*    color: #6e6e6e;*/
+/*    font-size: 12px;*/
+/*}*/
 
 .divresult {
     position: relative;
@@ -159,10 +159,6 @@
 }
 
 #link {
-    font-size: 10px;
-}
-
-#customClo {
     font-size: 10px;
 }
 

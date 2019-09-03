@@ -41,13 +41,13 @@ util.secant = function(a, b, fn, epsilon) {
 }
 
 util.getSensation = function(pmv) {
-    if (pmv < -2.5) return '<span style="color:#3b3eff;">Cold</span>';
-    else if (pmv < -1.5) return '<span style="color:#3b80ff;">Cool</span>';
-    else if (pmv < -0.5) return '<span style="color:#51c1d5;">Slightly Cool</span>';
-    else if (pmv < 0.5) return '<span class="text-success">Neutral</span>';
-    else if (pmv < 1.5) return '<span style="color:#d4c452;">Slightly Warm</span>';
-    else if (pmv < 2.5) return '<span style="color:#ff833c;">Warm</span>';
-    else return '<span style="color:#ff3c3b;">Hot</span>';
+    if (pmv < -2.5) return '<span>Cold</span>';
+    else if (pmv < -1.5) return '<span">Cool</span>';
+    else if (pmv < -0.5) return '<span>Slightly Cool</span>';
+    else if (pmv < 0.5) return '<span>Neutral</span>';
+    else if (pmv < 1.5) return '<span>Slightly Warm</span>';
+    else if (pmv < 2.5) return '<span">Warm</span>';
+    else return '<span">Hot</span>';
 };
 
 util.CtoF = function(x){

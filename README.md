@@ -60,11 +60,10 @@ Features
 6. Operative temperature specification or Air temperature and Mean Radiant Temperature specification
 7. 1-to-1 humidity specification conversion (Relative humidity, vapor pressure, dew point, wet bulb, humidity ratio)
 8. Globe temperature to MRT converter – input: air temperature, air speed, globe temperature, globe diameter, globe emissivity. Output: Mean Radiant Temperature
-9. Feeding model calculations to a LEED document: This feature automates the creation of LEED documents relating to thermal comfort. It includes thermal comfort model outputs and local thermal discomfort questionnaire.
-10. Local thermal discomfort: short questionnaire that allows the user to assess risks of local thermal discomfort as defined by Standard 55
-11. Interactive charts: psychrometric chart, temperature–relative humidity chart, adaptive chart
-12. Mouse values: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart
-13. Dynamic predictive clothing calculator
-14. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range
-15. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions
-16. EN 15251 compliance: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.
+9. Local thermal discomfort: short questionnaire that allows the user to assess risks of local thermal discomfort as defined by Standard 55
+10. Interactive charts: psychrometric chart, temperature–relative humidity chart, adaptive chart
+11. Mouse values: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart
+12. Dynamic predictive clothing calculator
+13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range
+14. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions
+15. EN 15251 compliance: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.

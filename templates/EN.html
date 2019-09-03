@@ -25,202 +25,227 @@
 
     <div class="container">
 
-        <div class="row justify-content-center bg-light">
-            <div id="left_content" class="col-md-12 col-lg-5 py-2">
-
-                {# Select method PMV or adaptive #}
-                <div class="row justify-content-between">
-                    <div class="col-sm-4">
-                        <div id="select_comfort_model"
-                             class='in'>
-                            <div id='modelDiv'>
-                                <a class="mainlink"
-                                   href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models"
-                                   target="_new">Select method:</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-control form-control-sm" id='model-type'>
-                            <option value='pmv'>PMV method</option>
-                            <option value='adaptiveComfort'>Adaptive method</option>
-                        </select>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="card col-md-12 col-lg-5 my-2 p-0 ">
+                <div class="card-header">
+                    Inputs
                 </div>
+                <div id="left_content" class="card-body">
 
-                {# Inputs PMV and adaptive #}
-                <div id="inputs" class='in'>
-
+                    {# Select method PMV or adaptive #}
                     <div class="row justify-content-between">
-                        <div class="col-md-4 col-lg-12">
-                            <div id='ta-lab'>
-                                <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
+                        <div class="col-sm-4">
+                            <div id="select_comfort_model"
+                                 class='in'>
+                                <div id='modelDiv'>
+                                    <a class="mainlink"
+                                       href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models"
+                                       target="_new">Select method:</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-lg-3">
-                            <div class='inputfield' id='ta-input'>
-                                <input class='inputbox' id='ta'/>
-                                <span class='tempunit'>&deg;C</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-auto col-md-5">
-                            <input type='checkbox' id='link'/>
-                            <label id='labelforlink' for='link'>Use operative temperature</label>
+                        <div class="col-lg-6 col-md-5">
+                            <select class="form-control form-control-sm" id='model-type'>
+                                <option value='pmv'>PMV method</option>
+                                <option value='adaptiveComfort'>Adaptive method</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="row justify-content-between">
-                        <div class="col-md-4 col-lg-12">
-                            <div id='tr-lab'>
-                                <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
+                    {# Inputs PMV and adaptive #}
+                    <div id="inputs" class='in'>
+
+                        <div class="row justify-content-between">
+                            <div class="col-md-4 col-lg-12">
+                                <div id='ta-lab'>
+                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-lg-3">
+                                <div class='inputfield' id='ta-input'>
+                                    <input class='inputbox' id='ta'/>
+                                    <span class='tempunit'>&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-5" data-toggle="buttons">
+                                <label class="btn btn-light p-0 border" id='labelforlink'>
+                                    <input type="checkbox" id='link'> Use operative temperature
+                                </label>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-lg-3">
-                            <div class='inputfield' id='tr-input'>
-                                <input class='inputbox' id="tr"/>
-                                <span class='tempunit'>&deg;C</span>
+
+                        <div class="row justify-content-between">
+                            <div class="col-md-4 col-lg-12">
+                                <div id='tr-lab'>
+                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
+                                </div>
                             </div>
+                            <div class="col-sm-3 col-lg-3">
+                                <div class='inputfield' id='tr-input'>
+                                    <input class='inputbox' id="tr"/>
+                                    <span class='tempunit'>&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-auto col-md-5"></div>
                         </div>
-                        <div class="col-lg-auto col-md-5"></div>
+
+                        <div id='pmv-inputs'>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-4 col-lg-12">
+                                    <div>
+                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3">
+                                    <div class='inputfield'>
+                                        <input class='inputbox' id="vel"/>
+                                        <span class='unit' id='vel-unit'> m/s</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-5 btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-light border" id='labelforlink'>
+                                        <input type="checkbox" id='local-control'> Local air speed control
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-4 col-lg-12">
+                                    <div>
+                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" id='rh-description'>Relative humidity</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3">
+                                    <div class='inputfield'>
+                                        <input class='inputbox' id="rh"/>
+                                        <span class='unit' id='rh-unit'> %</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-5" id='humidity-spec-cont'>
+                                    <select class="form-control form-control-sm" id='humidity-spec'>
+                                        <option value='rh'>Relative humidity</option>
+                                        <option value='w'>Humidity ratio (w)</option>
+                                        <option value='dewpoint'>Dew point</option>
+                                        <option value='wetbulb'>Wet bulb</option>
+                                        <option value='vappress'>Vapor pressure</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {# metabolic rate #}
+                            <div id='actInput' class="row justify-content-between in">
+                                <div class="col-md-4 col-lg-12">
+                                    <div>
+                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3">
+                                    <div class='inputfield' id="met_input">
+                                        <input class='inputbox' id="met"/>
+                                        <span class='unit'> met</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-5" id='actSelectDiv'>
+                                    <select class="form-control form-control-sm" id='actSelect'></select>
+                                </div>
+                            </div>
+
+                            {# clothing #}
+                            <div id='cloInput' class="row justify-content-between in">
+                                <div class="col-md-4 col-lg-12">
+                                    <div>
+                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3">
+                                    <div class='inputfield'>
+                                        <input class='inputbox' id="clo"/>
+                                        <span class='unit'> clo</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-5" id='cloSelectDiv'>
+                                    <select class="form-control form-control-sm" id='cloSelect'></select>
+                                </div>
+
+                            </div>
+
+                            {# custom clothing button #}
+                            <div class="row justify-content-center mt-4">
+                                <input type='checkbox' id='customClo'/>
+                                <label for='customClo'>Create custom ensemble</label>
+                            </div>
+
+                            {# custom clothing interface #}
+                            <div class="row justify-content-center m-1" id='customCloToggle' style='display:none'><br/>
+                                <select class="form-control form-control-sm" id='cloMultiSelect' class='col-sm-12 multiselect' multiple='multiple'></select>
+                                <button id='setClo' class="col-sm-12">Set clo value</button>
+                            </div>
+
+                        </div><!--end div id="pmv-inputs"-->
+
+                        <div id='adaptive-inputs'>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-4 col-lg-12">
+                                    <div>
+                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Outdoor running mean outdoor
+                                            temperature</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3">
+                                    <div class='inputfield'>
+                                        <input class='inputbox' id="trm"/>
+                                        <span class='tempunit'> &deg;C</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--end div id="adaptive-inputs"-->
+
+                    </div><!--end div id="inputs"-->
+
+                    {# set of buttons at the bottom #}
+                    <div class="row justify-content-center mt-2">
+                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
+                            <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" id="setDefaults" autocomplete="off"> Set defaults
+                            </label>
+                            <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
+                            </label>
+                            <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
+                            </label>
+                            <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help.html') }}" target="_new">? Help</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
+                            <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" id="localDisc" autocomplete="off" checked> Local discomfort
+                            </label>
+                            <label class="btn btn-light border btn-sm" id="globeTmpLabel">
+                                <input type="radio" name="options" id="globeTemp" autocomplete="off"> Globe tmp
+                            </label>
+                        </div>
                     </div>
 
-                    <div id='pmv-inputs'>
-
-                        <div class="row justify-content-between">
-                            <div class="col-md-4 col-lg-12">
-                                <div>
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-lg-3">
-                                <div class='inputfield'>
-                                    <input class='inputbox' id="vel"/>
-                                    <span class='unit' id='vel-unit'> m/s</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-auto col-md-5" id='local-control-div'>
-                                <input type='checkbox' id='local-control'/>
-                                <label for='local-control'>Local air speed control</label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-between">
-                            <div class="col-md-4 col-lg-12">
-                                <div>
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" id='rh-description'>Relative humidity</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-lg-3">
-                                <div class='inputfield'>
-                                    <input class='inputbox' id="rh"/>
-                                    <span class='unit' id='rh-unit'> %</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-auto col-md-5" id='humidity-spec-cont'>
-                                <select class="form-control form-control-sm" id='humidity-spec'>
-                                    <option value='rh'>Relative humidity</option>
-                                    <option value='w'>Humidity ratio (w)</option>
-                                    <option value='dewpoint'>Dew point</option>
-                                    <option value='wetbulb'>Wet bulb</option>
-                                    <option value='vappress'>Vapor pressure</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {# metabolic rate #}
-                        <div id='actInput' class="row justify-content-between in">
-                            <div class="col-md-4 col-lg-12">
-                                <div>
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-lg-3">
-                                <div class='inputfield' id="met_input">
-                                    <input class='inputbox' id="met"/>
-                                    <span class='unit'> met</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-auto col-md-5" id='actSelectDiv'>
-                                <select class="form-control form-control-sm" id='actSelect'></select>
-                            </div>
-                        </div>
-
-                        {# clothing #}
-                        <div id='cloInput' class="row justify-content-between in">
-                            <div class="col-md-4 col-lg-12">
-                                <div>
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-lg-3">
-                                <div class='inputfield'>
-                                    <input class='inputbox' id="clo"/>
-                                    <span class='unit'> clo</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-5" id='cloSelectDiv'>
-                                <select class="form-control form-control-sm" id='cloSelect'></select>
-                            </div>
-
-                        </div>
-
-                        {# custom clothing button #}
-                        <div class="row justify-content-center mt-4">
-                            <input type='checkbox' id='customClo'/>
-                            <label for='customClo'>Create custom ensemble</label>
-                        </div>
-
-                        {# custom clothing interface #}
-                        <div class="row justify-content-center m-1" id='customCloToggle' style='display:none'><br/>
-                            <select class="form-control form-control-sm" id='cloMultiSelect' class='col-sm-12 multiselect' multiple='multiple'></select>
-                            <button id='setClo' class="col-sm-12">Set clo value</button>
-                        </div>
-
-                    </div><!--end div id="pmv-inputs"-->
-
-                    <div id='adaptive-inputs'>
-
-                        <div class="row justify-content-between">
-                            <div class="col-md-4 col-lg-12">
-                                <div>
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Adaptive_comfort_model" target="_new">Outdoor running mean outdoor
-                                        temperature</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-lg-3">
-                                <div class='inputfield'>
-                                    <input class='inputbox' id="trm"/>
-                                    <span class='tempunit'> &deg;C</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end div id="adaptive-inputs"-->
-
-                </div><!--end div id="inputs"-->
-
-                {# set of buttons at the bottom #}
-                <div class="row justify-content-center mt-2 btn-group btn-group-sm" role="group">
-                    <button id='localDisc'>Local discomfort</button>
-                    <button id='specPressure'>Set pressure</button>
-                    <button id='globeTemp'>Globe tmp</button>
-                    <button id='setDefaults'>Set defaults</button>
-                    <button id='unitsToggle'>SI/IP</button>
-                    <button><a title="Help" href="{{ url_for('static', filename='html/help.html') }}" target="_new">? Help</a></button>
                 </div>
-
             </div>
             <div id="right_content" class="col-md-12 col-lg-7 bg-white py-2">
 
                 {# Show if the point is within the comfort region #}
                 <div class="row justify-content-center">
-                    <div class="alert alert-success py-1 text-center" role="alert" id='output-b'>
+                    <div class="alert alert-success py-1 text-center border-0 bg-white" role="alert" id='output-b'>
                         <div id='comply-msg'></div>
                         <div id='special-msg'></div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="card align-content-center text-center bg-light m-1 col-sm-12" id='output-a'>
+                    <div class="card align-content-center text-center col-sm-12 border-0" id='output-a'>
                         <div class="card-body p-2">
                             <form>
                                 <div id='pmv-outputs'>
@@ -273,7 +298,7 @@
                 </div>
 
                 {# Chart selection #}
-                <div class="row justify-content-center p-1" id='chartSelect-cont'>
+                <div class="row center p-1 col-sm-7 mt-4" id='chartSelect-cont'>
                     <select class="form-control form-control-sm" id='chartSelect'>
                         <option value='psychta'>Psychrometric chart (air temperature)</option>
                         <option value='psychtop'>Psychrometric chart (operative temperature)</option>
@@ -297,7 +322,7 @@
 
                 {# card displaying the notes #}
                 <div class="row justify-content-center">
-                    <div id="pmv-notes" class="card m-2 footer">
+                    <div id="pmv-notes" class="card m-2 footer border-0 text-justify">
                         <div class='card-body p-1 m-1' id="psychta-note">
                             <b>NOTE:</b> In this <a class="mainlink"
                                                     href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"

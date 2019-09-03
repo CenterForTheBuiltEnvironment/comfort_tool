@@ -138,9 +138,9 @@ psy.wetbulb = function(tdb, w) {
         wStar = psy.humratio(PROP.Patm, psatStar);
         newW = ((PROP.Hfg - PROP.CpWat - PROP.CpVap * t) * wStar - PROP.CpAir * (tdb - t)) / (PROP.Hfg + PROP.CpVap * tdb - PROP.CpWat * t);
         return (w - newW);
-    }
+    };
     return util.bisect(wetbulb_l, wetbulb_r, fn, eps, 0);
-}
+};
 
 psy.satpress = function(tdb) {
     var tKel = tdb + this.PROP.TKelConv,
@@ -172,7 +172,7 @@ psy.relhum = function(patm, psat, humRatio) {
     pw = patm * humRatio / (0.62198 + humRatio);
     rh = pw / psat;
     return rh;
-}
+};
 
 psy.humratio = function(patm, pw) {
     // ASHRAE Fundamentals 2009: 0.621945
@@ -229,7 +229,7 @@ psy.tairsat = function(hsat) {
         eps = 0.01;
     var fn = function(t) {
         return (hsat - psy.enthsat(t));
-    }
+    };
     return util.bisect(tsat_l, tsat_r, fn, eps, 0);
 }
 

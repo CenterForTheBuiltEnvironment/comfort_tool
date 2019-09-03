@@ -86,7 +86,6 @@ var vc = new function () {
             .attr("id", "db-axis-C-veltop")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
             .call(db_axis.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
-            .call(db_axis.tickSubdivide(0).tickPadding(5))
 
         vc.svg
             .append("g")
@@ -94,7 +93,7 @@ var vc = new function () {
             .attr("id", "db-axis-F-veltop")
             .attr("opacity", "0")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
-            .call(db_axis_F.tickSubdivide(0).tickPadding(5))
+            .call(db_axis_F.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
 
         vc.svg
             .append("g")
@@ -102,7 +101,6 @@ var vc = new function () {
             .attr("id", "vel-text-vt")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
             .call(vel_axis.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
-            .call(vel_axis.tickSubdivide(0).tickPadding(5))
 
         vc.svg
             .append("g")
@@ -110,7 +108,7 @@ var vc = new function () {
             .attr("id", "vel-text-vt-fpm")
             .attr("opacity", "0")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
-            .call(vel_axis_fpm.tickSubdivide(0).tickPadding(5))
+            .call(vel_axis_fpm.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
 
 
         // giving labels to the axes
@@ -141,7 +139,6 @@ var vc = new function () {
             .attr("transform", "rotate (-90, -45, -10) translate(-350)");
 
     }
-
 
     this.drawComfortRegion = function (data) {
 

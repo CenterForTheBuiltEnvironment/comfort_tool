@@ -60,13 +60,13 @@ def transform_view():
         if si_unit:
             r = cm.comfPMVElevatedAirspeed(row['ta'], row['tr'], row['vel'], int(row['rh']), row['met'], row['clo'])
             row['PMV'] = round(r['pmv'], 1)
-            row['PPD'] = round(r['ppd'], 2)
+            row['PPD'] = round(r['ppd'], 1)
             row['SET'] = round(r['set'], 2)
             row['CE'] = round(r['ce'], 2)
         else:
             r = cm.comfPMVElevatedAirspeed(cm.fahrenheit_to_celsius(row['ta']), cm.fahrenheit_to_celsius(row['tr']), row['vel']/196.85, int(row['rh']), row['met'], row['clo'])
             row['PMV'] = round(r['pmv'], 1)
-            row['PPD'] = round(r['ppd'], 2)
+            row['PPD'] = round(r['ppd'], 1)
             row['SET'] = round(r['set'], 2)
             row['CE'] = round(r['ce'], 2)
         results.append(row)
@@ -86,7 +86,12 @@ def ranges():
 
 @app.route('/EN')
 def EN():
-    return render_template('EN.html')
+    return render_template('EN.html')\
+
+
+@app.route('/MRT')
+def MRT():
+    return redirect("http://centerforthebuiltenvironment.github.io/mrt/")
 
 
 @app.route('/')

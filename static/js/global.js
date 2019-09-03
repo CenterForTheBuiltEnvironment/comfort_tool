@@ -340,8 +340,8 @@ metRatesTypicalTasks.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
 // Metabolic rates of typical activities ASHRAE removed reclining and sleeping
 let metRatesTypicalTasksASHRAE = metRatesTypicalTasks.filter(function (el) {
-    return el.met > 0.8 && // 0.8 is the reclining met
-        el.met <= 2.0  // as defined in page 36 ASHRAE 55
+    return el.met > 0.7 && // 0.8 is the reclining met
+        el.met <= 4.0  // as defined in page 36 ASHRAE 55
 });
 metRatesTypicalTasksASHRAE.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
@@ -351,28 +351,28 @@ const envVarLimits = {
         'si': {
             'step': 0.5,
             'default': 25,
-            'min': 10,
-            'max': 36
+            'min': 0,
+            'max': 50
         },
         'ip': {
             'step': 0.5,
             'default': 77,
-            'min': 50,
-            'max': 97
+            'min': 32,
+            'max': 122
         },
     },
     'tr': {
         'si': {
             'step': 0.5,
             'default': 25,
-            'min': 10,
-            'max': 36
+            'min': 0,
+            'max': 50
         },
         'ip': {
             'step': 0.5,
             'default': 77,
-            'min': 50,
-            'max': 97
+            'min': 32,
+            'max': 122
         },
     },
     'vel': {
@@ -380,7 +380,8 @@ const envVarLimits = {
             'step': 0.1,
             'default': 0.1,
             'min': 0,
-            'max': 4
+            'max': 4,
+            'elevated_air_speed': 0.1,
         },
         'ip': {
             'step': 0.1,
@@ -398,14 +399,14 @@ const envVarLimits = {
     'met': {
         'step': 0.1,
         'default': 1,
-        'min': 0.9,
-        'max': 2
+        'min': 0.7,
+        'max': 4
     },
     'clo': {
         'step': 0.1,
         'default': 0.6,
         'min': 0,
-        'max': 1.5  // ISO imposes 2 and ASHRAE 1.5
+        'max': 4  // ISO imposes 2 and ASHRAE 1.5
     },
     'trm': {
         'si': {
@@ -568,23 +569,6 @@ function toggleUnits() {
     bc.toggleUnits(isCelsius);
     vc.toggleUnits(isCelsius);
     ac.toggleUnits(isCelsius);
-}
-
-function updateGlobe() {
-    let ta = parseFloat($('#ta-g').val());
-    let vel = parseFloat($('#vel-g').val());
-    let tglobe = parseFloat($('#tglobe').val());
-    let diameter = parseFloat($('#diameter').val());
-    let emissivity = parseFloat($('#emissivity').val());
-    if (!isCelsius) {
-        ta = util.FtoC(ta);
-        vel /= 196.9;
-        tglobe = util.FtoC(tglobe);
-        diameter *= 0.0254
-    }
-    let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = util.CtoF(tr);
-    $('#mrt-result').val(tr.toFixed(1));
 }
 
 // check user entry

@@ -78,10 +78,12 @@ $(document).ready(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
+            $('#globeTmpLabel').removeClass('text-muted');
             $('#tr-input, #tr-lab').show();
         } else {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-            $('#globeTemp').attr('disabled', 'disabled');
+        $('#globeTmpLabel').addClass('text-muted');
+        $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab').hide();
         }
     });
@@ -94,8 +96,8 @@ $(function () {
 
     $('#globedialog').dialog({
         autoOpen: false,
-        height: 300,
-        width: 422,
+        height: 350,
+        width: 400,
         modal: true,
         resizable: false,
         buttons: {
@@ -156,95 +158,89 @@ $(function () {
         resizable: false,
     });
 
-    $('#LEEDdialog').dialog({
-        autoOpen: false,
-        height: 700,
-        width: 500,
-        modal: true,
-        resizable: true,
-    });
+    // $('#LEEDdialog').dialog({
+    //     autoOpen: false,
+    //     height: 700,
+    //     width: 500,
+    //     modal: true,
+    //     resizable: true,
+    // });
 
     $('#radio').buttonset();
-    $('.leed-buttons').buttonset();
+    // $('.leed-buttons').buttonset();
 
     $('#customClo').button({
-        icons: {
-            primary: 'ui-icon-person'
-        }
     }).click(function () {
         $('#customCloToggle').toggle('fast');
-        if ($('#leedInterface').is(':checked')) {
-            $('#leedInterfaceToggle').toggle('fast');
-            $('#leedInterface').removeAttr('checked');
-            $('#leedInterface').button('refresh');
-            $('#unitsToggle').removeAttr('disabled');
-        }
+        // if ($('#leedInterface').is(':checked')) {
+        //     $('#leedInterfaceToggle').toggle('fast');
+        //     $('#leedInterface').removeAttr('checked');
+        //     $('#leedInterface').button('refresh');
+        //     $('#unitsToggle').removeAttr('disabled');
+        // }
     });
 
     $('#dynamicClo').button({
-        icons: {
-            primary: 'ui-icon-person'
-        }
     }).click(function () {
         $('#dynamicCloToggle').toggle('fast');
     });
 
-    $('#leedInterface').button({
-        icons: {
-            primary: 'ui-icon-document'
-        }
-    }).click(function () {
-        $('#leedInterfaceToggle').toggle('fast');
-        if (isCelsius) {
-            toggleUnits();
-            update();
-        }
-        if ($('#leedInterface').is(':checked')) {
-            $('#unitsToggle').attr('disabled', 'disabled');
-        } else {
-            $('#unitsToggle').removeAttr('disabled');
-        }
-        if ($('#customClo').is(':checked')) {
-            $('#customCloToggle').toggle('fast');
-            $('#customClo').removeAttr('checked');
-            $('#customClo').button('refresh');
-        }
-    });
+    // $('#leedInterface').button({
+    //     icons: {
+    //         primary: 'ui-icon-document'
+    //     }
+    // }).click(function () {
+    //     $('#leedInterfaceToggle').toggle('fast');
+    //     if (isCelsius) {
+    //         toggleUnits();
+    //         update();
+    //     }
+    //     if ($('#leedInterface').is(':checked')) {
+    //         $('#unitsToggle').attr('disabled', 'disabled');
+    //     } else {
+    //         $('#unitsToggle').removeAttr('disabled');
+    //     }
+    //     if ($('#customClo').is(':checked')) {
+    //         $('#customCloToggle').toggle('fast');
+    //         $('#customClo').removeAttr('checked');
+    //         $('#customClo').button('refresh');
+    //     }
+    // });
 
-    $('#leed-winter').click(function () {
-        var spaceType = $('#leed-spacetype').val();
-        var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-        setDataSeason(spaceType, ctype, "winter")
-    });
-    $('#leed-spring').click(function () {
-        var spaceType = $('#leed-spacetype').val();
-        var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-        setDataSeason(spaceType, ctype, "spring")
-    });
-    $('#leed-summer').click(function () {
-        var spaceType = $('#leed-spacetype').val();
-        var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-        setDataSeason(spaceType, ctype, "summer")
-    });
-    $('#leed-fall').click(function () {
-        var spaceType = $('#leed-spacetype').val();
-        var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-        setDataSeason(spaceType, ctype, "fall")
-    });
-
-    $('#leed-submit').button().click(function () {
-        var xmlhttp = new XMLHttpRequest();
-        var url = util.STATIC_URL + "/html/leed.html";
-        xmlhttp.open("GET", url);
-        xmlhttp.send();
-        xmlhttp.onload = function () {
-            leed_html = xmlhttp.responseText;
-            doc = createDocument(leed_html);
-            openwindow = openDocument(doc);
-            generateTables(openwindow);
-            $(openwindow.document.getElementsByClassName("box-texts")).remove();
-        }
-    });
+    // $('#leed-winter').click(function () {
+    //     var spaceType = $('#leed-spacetype').val();
+    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
+    //     setDataSeason(spaceType, ctype, "winter")
+    // });
+    // $('#leed-spring').click(function () {
+    //     var spaceType = $('#leed-spacetype').val();
+    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
+    //     setDataSeason(spaceType, ctype, "spring")
+    // });
+    // $('#leed-summer').click(function () {
+    //     var spaceType = $('#leed-spacetype').val();
+    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
+    //     setDataSeason(spaceType, ctype, "summer")
+    // });
+    // $('#leed-fall').click(function () {
+    //     var spaceType = $('#leed-spacetype').val();
+    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
+    //     setDataSeason(spaceType, ctype, "fall")
+    // });
+    //
+    // $('#leed-submit').button().click(function () {
+    //     var xmlhttp = new XMLHttpRequest();
+    //     var url = util.STATIC_URL + "/html/leed.html";
+    //     xmlhttp.open("GET", url);
+    //     xmlhttp.send();
+    //     xmlhttp.onload = function () {
+    //         leed_html = xmlhttp.responseText;
+    //         doc = createDocument(leed_html);
+    //         openwindow = openDocument(doc);
+    //         generateTables(openwindow);
+    //         $(openwindow.document.getElementsByClassName("box-texts")).remove();
+    //     }
+    // });
 
     $('button').button();
     $('.buttons').buttonset();
@@ -500,17 +496,17 @@ $('#localDisc').click(function () {
     });
 });
 
-$('#LEED-help').click(function () {
-    var container = $('#LEEDdialog');
-    $.ajax({
-        url: util.STATIC_URL + 'html/leed-help.html',
-        success: function (data) {
-            $('#LEEDdialog').html(data);
-        },
-        async: false
-    });
-    container.dialog("open");
-});
+// $('#LEED-help').click(function () {
+//     var container = $('#LEEDdialog');
+//     $.ajax({
+//         url: util.STATIC_URL + 'html/leed-help.html',
+//         success: function (data) {
+//             $('#LEEDdialog').html(data);
+//         },
+//         async: false
+//     });
+//     container.dialog("open");
+// });
 
 $('#setClo').click(function () {
     setClo();
@@ -571,6 +567,7 @@ $("#chartSelect").change(function () {
             } else {
                 $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
                 $('#globeTemp').removeAttr('disabled');
+                $('#globeTmpLabel').removeClass('text-muted');
                 $('#tr-input, #tr-lab, #labelforlink').show();
             }
 
@@ -582,10 +579,9 @@ $("#chartSelect").change(function () {
             $("#db-axis-F-label").text("Operative Temperature [°F]");
 
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+            $('#globeTmpLabel').addClass('text-muted');
             $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab, #labelforlink').hide();
-
-            //$(".comfortzone").css("fill", "rgb(0,0,0)")
         }
     } else if (chart === "temphum") {
         $("#temphumchart-div, #temphum-note").show();
@@ -595,6 +591,7 @@ $("#chartSelect").change(function () {
         } else {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
+            $('#globeTmpLabel').removeClass('text-muted');
             $('#tr-input, #tr-lab, #labelforlink').show();
         }
     } else if (chart === "veltop") {
@@ -603,6 +600,7 @@ $("#chartSelect").change(function () {
         $('#link').is(':checked');
         $('#labelforlink').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+        $('#globeTmpLabel').addClass('text-muted');
         $('#globeTemp').attr('disabled', 'disabled');
         $('#tr-input, #tr-lab, #labelforlink').hide();
     } else if (chart === "heatloss") {
@@ -612,7 +610,8 @@ $("#chartSelect").change(function () {
         $('#link').is(':checked');
         $('#tr-input, #tr-lab').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-        $('#globeTemp').attr('disabled', 'disabled');
+        $('#globeTemp').removeAttr('disabled')
+        $('#globeTmpLabel').removeClass('text-muted');
         $('#labelforlink, #ta-input, #ta-lab, #output-b, #output-a').hide();
     }
     update();
@@ -729,55 +728,27 @@ function renderAdaptiveResults(r) {
     }
 }
 
-function calcPmvCompliance(d, r) {
-    var pmv_comply = Math.abs(r.pmv) <= 0.5;
-    var met_comply = d.met <= 2 && d.met >= 1;
-    var clo_comply = d.clo <= 1.5;
-//    var local_control = $('#local-control').is(':checked');
-    var local_control = $('#local-control').val();
-    var special_msg = '';
-    comply = true;
-    if (local_control === 'withairspeedcontrol') {
-        if (!met_comply) {
-            comply = false;
-            special_msg += '&#8627; Metabolic rates below 1.0 or above 2.0 are not covered by this standard<br>';
-        }
-        if (!clo_comply) {
-            comply = false;
-            special_msg += '&#8627; Clo values above 1.5 are not covered by this standard<br>';
-        }
-        if (elev_airspeed && d.clo > 0.7) {
-            comply = false;
-            special_msg += '&#8627; Elevated air speeds with clo > 0.7 are not covered by this standard<br>';
-        }
-        if (!pmv_comply) {
-            comply = false;
-        }
-    }
-    renderCompliance(comply, special_msg);
-}
-
 function calcPmvElevCompliance(d, r) {
-    var pmv_comply = (Math.abs(r.pmv) <= 0.8);
-    var met_comply = d.met <= 2 && d.met >= 1;
-    var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').val();
+    const pmv_comply = (Math.abs(r.pmv) <= 0.5);
+    const met_comply = d.met <= 2 && d.met >= 1;
+    const clo_comply = d.clo <= 1.5;
+    const local_control = $('#local-control').val();
     let special_msg = '';
     let comply = true;
 
     if (!met_comply) {
         comply = false;
-        special_msg += '&#8627; Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
+        special_msg += 'Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
     }
     if (!clo_comply) {
         comply = false;
-        special_msg += '&#8627; Clo values above 1.5 are not covered by this Standard<br>';
+        special_msg += 'Clo values above 1.5 are not covered by this Standard<br>';
     }
     if (!pmv_comply) {
         comply = false;
     }
 
-    if (d.vel > 0.2) {
+    if (d.vel > envVarLimits.vel.si.elevated_air_speed) {
         $("#pmv-out-label").html('PMV with elevated air speed');
         $("#ppd-out-label").html('PPD with elevated air speed');
         $("#pmv-elev-outputs").show();
@@ -787,7 +758,6 @@ function calcPmvElevCompliance(d, r) {
         $("#pmv-elev-outputs").hide();
     }
 
-//    if (!local_control) {
     if (local_control === 'noairspeedcontrol') {
         var max_airspeed;
         var to = (d.ta + d.tr) / 2;
@@ -838,11 +808,13 @@ function renderCompliance(comply, special_msg) {
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success");
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});
+        ;
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger");
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});
+        ;
         $('#special-msg').html(special_msg);
     }
 }
@@ -904,4 +876,21 @@ function addToEnsembles() {
         }
     }
     cloSelect.options.add(new Option(items.join(', '), ensembleClo.toFixed(2)));
+}
+
+function updateGlobe() {
+    let ta = parseFloat($('#ta-g').val());
+    let vel = parseFloat($('#vel-g').val());
+    let tglobe = parseFloat($('#tglobe').val());
+    let diameter = parseFloat($('#diameter').val());
+    let emissivity = parseFloat($('#emissivity').val());
+    if (!isCelsius) {
+        ta = util.FtoC(ta);
+        vel /= 196.9;
+        tglobe = util.FtoC(tglobe);
+        diameter *= 0.0254
+    }
+    let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
+    if (!isCelsius) tr = util.CtoF(tr);
+    $('#mrt-result').val(tr.toFixed(1));
 }

@@ -1,7 +1,7 @@
 let heatLoss_chart = new function () {
 
     // generate range of integers
-    this.range = function(start, end) {
+    this.range = function (start, end) {
         let ans = [];
         for (let i = start; i <= end; i++) {
             ans.push(i);
@@ -12,9 +12,9 @@ let heatLoss_chart = new function () {
     let ctx;
     let chartInstance;
 
-    let ta, i, heatLosses, h1, h2, h3, h4, h5, h6, xLabelF;
+    let ta, i, heatLosses, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, xLabelF;
 
-    ta = this.range(envVarLimits.ta.si.min, envVarLimits.ta.si.max);
+    ta = this.range(10, 40);
 
     // function that calculate the heat losses
     this.getData = function () {
@@ -25,6 +25,11 @@ let heatLoss_chart = new function () {
         h4 = [];
         h5 = [];
         h6 = [];
+        h7 = [];
+        h8 = [];
+        h9 = [];
+        h10 = [];
+
 
         for (i = 0; i < ta.length; i++) {
             heatLosses = comf.pmv(ta[i], d.tr, d.vel, d.rh, d.met, d.clo, d.wme);
@@ -34,6 +39,10 @@ let heatLoss_chart = new function () {
             h4.push(heatLosses.hl4.toFixed(1));
             h5.push(heatLosses.hl5.toFixed(1));
             h6.push(heatLosses.hl6.toFixed(1));
+            h7.push((heatLosses.hl1 + heatLosses.hl2 + heatLosses.hl3).toFixed(1));
+            h8.push((heatLosses.hl4 + heatLosses.hl5 + heatLosses.hl6).toFixed(1));
+            h9.push((heatLosses.hl1 + heatLosses.hl2 + heatLosses.hl3 + heatLosses.hl4 + heatLosses.hl5 + heatLosses.hl6).toFixed(1));
+            h10.push((d.met * 58.15).toFixed(1));
         }
 
     };
@@ -49,15 +58,21 @@ let heatLoss_chart = new function () {
         chartInstance.data.datasets[3].data = h4;
         chartInstance.data.datasets[4].data = h5;
         chartInstance.data.datasets[5].data = h6;
+        chartInstance.data.datasets[6].data = h7;
+        chartInstance.data.datasets[7].data = h8;
+        chartInstance.data.datasets[8].data = h9;
+        chartInstance.data.datasets[9].data = h10;
 
         if (isCelsius) {
             chartInstance.data.labels = ta;
+            chartInstance.options.scales.xAxes[0].scaleLabel.labelString = "Dry-bulb air temperature [°C]"
         } else {
             xLabelF = [];
             for (i = 0; i < ta.length; i++) {
                 xLabelF.push(util.CtoF(ta[i]));
             }
             chartInstance.data.labels = xLabelF;
+            chartInstance.options.scales.xAxes[0].scaleLabel.labelString = "Dry-bulb air temperature [°F]"
         }
 
         chartInstance.update();
@@ -74,43 +89,64 @@ let heatLoss_chart = new function () {
             type: 'line',
             data: {
                 labels: ta,
-                datasets: [{
-                    label: 'Skin',
-                    data: h1,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#999999",
-                    pointBackgroundColor:  "#999999",
-                }, {
-                    label: 'Sweating',
-                    data: h2,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#ff7f00",
-                    pointBackgroundColor: "#ff7f00",
-                }, {
-                    label: 'Respiration Lat',
-                    data: h3,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#984ea3",
-                    pointBackgroundColor: "#984ea3",
-                }, {
-                    label: 'Respiration Sens',
-                    data: h4,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#4daf4a",
-                    pointBackgroundColor: "#4daf4a",
-                }, {
-                    label: 'Radiation',
-                    data: h5,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#377eb8",
-                    pointBackgroundColor: "#377eb8",
-                }, {
-                    label: 'Convection',
-                    data: h6,
-                    backgroundColor: 'rgba(255, 159, 64, 0)',
-                    borderColor: "#e41a1c",
-                    pointBackgroundColor: "#e41a1c",
-                }],
+                datasets: [
+                    {
+                        label: 'Water vapor diffusion through the skin - Latent',
+                        data: h1,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#556B2F",
+                        hidden: true,
+                    }, {
+                        label: 'Evaporation of sweat from skin surface - Latent',
+                        data: h2,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#9ACD32",
+                        hidden: true,
+                    }, {
+                        label: 'Respiration - Latent',
+                        data: h3,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#008000",
+                        hidden: true,
+                    }, {
+                        label: 'Respiration - Sensible',
+                        data: h4,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#8B4513",
+                        hidden: true,
+                    }, {
+                        label: 'Radiation from clothing surface - Sensible',
+                        data: h5,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#D2691E",
+                        hidden: true,
+                    }, {
+                        label: 'Convection from clothing surface - Sensible',
+                        data: h6,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#F4A460",
+                        hidden: true,
+                    }, {
+                        label: 'Total latent',
+                        data: h7,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#696969",
+                    }, {
+                        label: 'Total sensible',
+                        data: h8,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#A9A9A9",
+                    }, {
+                        label: 'Total heat loss',
+                        data: h9,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#000000",
+                    }, {
+                        label: 'Metabolic rate',
+                        data: h10,
+                        backgroundColor: 'rgba(255, 159, 64, 0)',
+                        borderColor: "#800080",
+                    }],
             },
             options: {
                 title: {
@@ -124,7 +160,7 @@ let heatLoss_chart = new function () {
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Heat Loss, W",
+                            labelString: "Heat Loss [W/m²]",
                         },
                         ticks: {
                             beginAtZero: true
@@ -133,8 +169,14 @@ let heatLoss_chart = new function () {
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Dry-bulb air temperature, °C",
+                            labelString: "Dry-bulb air temperature [°C]"
                         },
+                        ticks: {
+                            autoSkip: true,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            maxTicksLimit: 20
+                        }
                     }]
                 },
                 layout: {
@@ -145,8 +187,9 @@ let heatLoss_chart = new function () {
                 elements: {
                     line: {
                         tension: 0 // disables bezier curves
-                    }
-                }
+                    },
+                    point: {radius: 0}
+                },
             }
         });
 

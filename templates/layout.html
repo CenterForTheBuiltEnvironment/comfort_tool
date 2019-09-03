@@ -4,6 +4,7 @@
     <meta name="description"
           content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favico.png') }}">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146504560-1"></script>
@@ -40,14 +41,9 @@
 
 {# Navigation bar #}
 <div class="container">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#"><img src="static/img/logo150px.jpg" width="45"> CBE comfort
-            tool</a>
-        {#                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">#}
-        {#                        <span class="navbar-toggler-icon"></span>#}
-        {#                    </button>#}
-        {#                    <div class="collapse navbar-collapse" id="navbarResponsive">#}
-        <ul class="navbar-nav ml-auto">
+    <nav class="navbar navbar-expand-md navbar-light topnav">
+        <span class="navbar-brand " href="#"><img src="static/img/CBE-logo-2018.png" width="130"> Thermal Comfort Tool</span>
+        <ul class="navbar-nav ml-auto ">
             <li class="nav-item">
                 <a class="nav-link" href="/">ASHRAE-55</a>
             </li>
@@ -63,9 +59,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="upload">Upload</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="MRT">MRT</a>
+            </li>
         </ul>
     </nav>
 </div>
+
 
 {# Body #}
 <div class="container">
@@ -74,33 +74,33 @@
 </div>
 
 {# Footer #}
-<div class="container bg-light pt-3">
-    <div class="row footer justify-content-center">
-        <div class="col-sm-12 col-md-auto">
-            <img src="static/img/logo150px.jpg">
-        </div>
-        <div class="col-sm-12 col-md-8">
-            <b>Please cite us if you use this tool. To cite this webpage:</b>
-            <br>
-            Hoyt Tyler, Schiavon Stefano, Piccioli Alberto, Cheung Toby, Tartarini Federico, Moon Dustin, and Steinfeld Kyle, 2017, CBE Thermal Comfort Tool.
-            <br>
-            Center for the Built Environment, University of California Berkeley, http://comfort.cbe.berkeley.edu/
-            <div class="license-icons">
-                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/" title="Creative Commons Attribution 4.0 International license">
-                    <i class="cc-icon-cc"></i><i class="cc-icon-cc-by"></i>
-                </a>
+<div class="container-fluid py-3 text-white" style="background-color: #124F7F">
+    <div class="container">
+        <div class="row footer justify-content-between">
+            <div class="col-sm-auto col-md-auto">
+                <img src="static/img/footer-logo.png" width="100" vspace="5">
+                <br>
+                <img src="static/img/ucb-logo.png" width="100" vspace="5">
             </div>
+            <div class="col-sm">
+                <b>To cite this webpage:</b>
+                <br>
+                Tyler Hoyt, Stefano Schiavon, Kyle Steinfeld, Toby Cheung, Federico Tartarini, Alberto Piccioli, and Dustin Moon, 2019,
+                <a href="http://comfort.cbe.berkeley.edu/" style="color:white">CBE Thermal Comfort Tool</a>. Center for the Built Environment, University of California Berkeley.
+                <br>
+                <b>Note:</b> We recommend using Chrome, Firefox, Opera or Safari.
+                <br>
+                <b>Contact Us:</b> For any enquiries contact us via email at cbecomforttool@gmail.com
 
-            <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img
-                    alt="Creative Commons License" align='right' style="border-width:0"
-                    src="http://i.creativecommons.org/l/by-nc/4.0/88x31.png"/></a><br/><span
-                xmlns:dct="http://purl.org/dc/terms/" property="dct:title">The CBE Thermal Comfort Tool</span>is
-            licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons
-            Attribution-NonCommercial 4.0 International License</a>. {# todo add creative commons to image folder #}
-            <br>
-            <b>Note:</b> We recommend using Chrome, Firefox, Opera or Safari.
-            <br>
-            <b>Contact Us:</b> For any enquiries contact us via email at cbecomforttool@gmail.com
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <div class="text-center">
+                    <a class="footerlink" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img src="static/img/creative_commons.png" width="100"></a>
+                </div>
+                <br>
+                The CBE Thermal Comfort Tool is licensed under a
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" style="color:white">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+            </div>
         </div>
     </div>
 </div>

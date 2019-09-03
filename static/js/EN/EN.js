@@ -56,8 +56,8 @@ $(function () {
 
     $('#globedialog').dialog({
         autoOpen: false,
-        height: 300,
-        width: 422,
+        height: 350,
+        width: 400,
         modal: true,
         resizable: false,
         buttons: {
@@ -97,9 +97,6 @@ $(function () {
     //$('#local-control-adapt').button();
 
     $('#customClo').button({
-        icons: {
-            primary: 'ui-icon-person'
-        }
     }).click(function () {
         $('#customCloToggle').toggle('fast');
     });
@@ -297,7 +294,7 @@ $('#specPressure').click(function () {
 $('#globeTemp').click(function () {
     var container = $('#globedialog');
     $.ajax({
-        url: util.STATIC_URL + 'html/globetemp.html',
+        url: util.STATIC_URL + '/html/globetemp.html',
         success: function (data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
@@ -536,11 +533,11 @@ function calcPmvCompliance(d, r) {
 
     if (!met_comply) {
         comply = false;
-        special_msg += '&#8627; Metabolic rates below 0.8 or above 4.0 are not covered by this standard<br>';
+        special_msg += 'Metabolic rates below 0.8 or above 4.0 are not covered by this standard<br>';
     }
     if (!clo_comply) {
         comply = false;
-        special_msg += '&#8627; Clo values above 2.0 are not covered by this standard<br>';
+        special_msg += 'Clo values above 2.0 are not covered by this standard<br>';
     }
     if (!pmv_complyIII) {
         comply = false;
@@ -570,11 +567,11 @@ function renderCompliance(comply, special_msg) {
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success");
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});;
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger");
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});;
         $('#special-msg').html(special_msg);
     }
 }
@@ -624,4 +621,21 @@ function addToEnsembles() {
         }
     }
     cloSelect.options.add(new Option(items.join(', '), ensembleClo.toFixed(2)));
+}
+
+function updateGlobe() {
+    let ta = parseFloat($('#ta-g').val());
+    let vel = parseFloat($('#vel-g').val());
+    let tglobe = parseFloat($('#tglobe').val());
+    let diameter = parseFloat($('#diameter').val());
+    let emissivity = parseFloat($('#emissivity').val());
+    if (!isCelsius) {
+        ta = util.FtoC(ta);
+        vel /= 196.9;
+        tglobe = util.FtoC(tglobe);
+        diameter *= 0.0254
+    }
+    let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
+    if (!isCelsius) tr = util.CtoF(tr);
+    $('#mrt-result').val(tr.toFixed(1));
 }

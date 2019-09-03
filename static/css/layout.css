@@ -70,64 +70,10 @@ a.footerlink:hover {
     color: #2A4583;
 }
 
-.nav {
-    float: right;
-    height: 30px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+.topnav a:hover {
+  border-bottom: 3px solid #5e5e5e;
 }
 
-.nav a {
-    background-color: #F7F7F7;
-    margin-left: -4px;
-    padding: 12px 20px;
-    outline: none;
-    border: 1px solid #CCCCCC;
-    border-right: none;
-    color: #777777;
-    vertical-align: top;
-    text-decoration: none;
-    font-size: 14px;
-    font-family: sans-serif;
-    line-height: 21px;
-    cursor: pointer;
-    -webkit-transition: all .6s ease;
-    -moz-transition: all .6s ease;
-    -ms-transition: all .6s ease;
-    -o-transition: all .6s ease;
-    transition: all .6s ease;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-}
-
-.nav a:hover {
+a.nav-link  {
     color: #000000;
-    background-color: #E8F5FF;
-}
-
-.nav a:first-child {
-    border-radius: 6px 0 0 6px;
-}
-
-.nav a:last-child {
-    border-radius: 0 6px 6px 0;
-}
-
-.nav a:active {
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset, 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.nav a.highlight {
-    background: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.0) 100%, rgba(0, 0, 0, 0.2) 100%) repeat scroll 0 0 transparent;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset, 0 1px 0 rgba(255, 255, 255, 0.0);
-    color: #000000;
-}
-
-.nav a:last-child {
-    border-right: 1px solid #CCCCCC;
 }

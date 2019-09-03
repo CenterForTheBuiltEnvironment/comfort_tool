@@ -310,7 +310,7 @@ var pc = new function () {
 
     };
 
-    // calculate the values and draws the numbers in the box 
+    // calculate the values and draws the numbers in the box
     this.mousemove = function () {
         var mouseDBT = pc.db_scale.invert(d3.mouse(this)[0]);
         var mouseHR = pc.hr_scale.invert(d3.mouse(this)[1]);
@@ -340,12 +340,12 @@ var pc = new function () {
     };
 
     this.convertBox = function () {
-        var dbt = parseFloat($('#box-dbt').text());
-        var wbt = parseFloat($('#box-wbt').text());
-        var dew = parseFloat($('#box-dew').text());
-        var ent = parseFloat($('#box-ent').text());
+        let dbt = parseFloat($('#box-dbt').text());
+        let wbt = parseFloat($('#box-wbt').text());
+        let dew = parseFloat($('#box-dew').text());
+        let ent = parseFloat($('#box-ent').text());
         if (isCelsius) {
-            dbt = util.FtoC(dbt)
+            dbt = util.FtoC(dbt);
             wbt = util.FtoC(wbt);
             dew = util.FtoC(dew);
             ent /= 0.43;
@@ -450,7 +450,7 @@ var pc = new function () {
             .attr("d", pc.pline(data) + "Z")
     };
 
-    // Background 
+    // Background
     this.drawPsyRegion = function (data) {
         d3.select("svg").append("path")
             .attr("clip-path", "url(#clip)")
@@ -477,173 +477,12 @@ var pc = new function () {
 
     };
 
-    this.getColor = function (pmv) {
-        if (pmv > 0) {
-            return pc.rColorRange(pmv)
-        } else {
-            return pc.bColorRange(pmv)
-        }
-    };
-
     this.clearChart = function () {
         d3.selectAll('circle')
             .remove();
 
         d3.selectAll('.comfortzone')
             .remove()
-    };
-
-    this.initDisplay = function () {
-
-        pc.svg.append("text")
-            .text("Air temperature")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 10) + ")");
-
-        pc.svg.append("text")
-            .text("MRT")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 30) + ")");
-
-        pc.svg.append("text")
-            .text("Air velocity")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 50) + ")");
-
-        pc.svg.append("text")
-            .text("Relative humidity")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 70) + ")");
-
-        pc.svg.append("text")
-            .text("Metabolic Rate")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 90) + ")");
-
-        pc.svg.append("text")
-            .text("Clothing level")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 110) + ")");
-
-        pc.svg.append("text")
-            .text("PMV")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + pc.margin + "," + (pc.rbmargin + 130) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "db-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 10) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "mrt-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 30) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "vel-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 50) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "rh-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 70) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "met-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 90) + ")")
-
-        pc.svg.append("text")
-            .attr("id", "clo-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 110) + ")");
-
-        pc.svg.append("text")
-            .attr("id", "pmv-value")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 120) + "," + (pc.rbmargin + 130) + ")")
-
-        pc.svg.append("text")
-            .text("°C")
-            .attr("id", "box-db-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 10) + ")")
-
-        pc.svg.append("text")
-            .text("°C")
-            .attr("id", "box-mrt-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 30) + ")")
-
-        pc.svg.append("text")
-            .text("m/s")
-            .attr("id", "box-vel-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 50) + ")")
-
-        pc.svg.append("text")
-            .text("%")
-            .attr("id", "box-rh-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 70) + ")")
-
-        pc.svg.append("text")
-            .text("met")
-            .attr("id", "box-met-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 90) + ")")
-
-        pc.svg.append("text")
-            .text("clo")
-            .attr("id", "box-clo-unit")
-            .attr("class", "hover-box-texts")
-            .attr("transform", "translate(" + (pc.margin + 160) + "," + (pc.rbmargin + 110) + ")")
-    };
-
-    this.drawPoints = function (data) {
-        data.forEach(function (d) {
-            pc.svg.append("circle")
-                .attr("clip-path", "url(#clip)")
-                .attr("r", 3)
-                .attr("fill", pc.getColor(d.pmv.pmv))
-                .attr("stroke", "gray")
-                .attr("stroke-width", "1")
-                .attr("cx", pc.db_scale(d.ta))
-                .attr("cy", pc.hr_scale(1000 * d.hr))
-                .on("mouseover", function () {
-                    d3.select('#rh-value').text(d.rh.toFixed(1))
-                    d3.select('#met-value').text(d.met.toFixed(2))
-                    d3.select('#clo-value').text(d.clo.toFixed(2))
-                    d3.select('#pmv-value').text(d.pmv.pmv.toFixed(2))
-                    if (isCelsius) {
-                        d3.select('#db-value').text(d.ta.toFixed(1))
-                        d3.select('#mrt-value').text(d.tr.toFixed(1))
-                        d3.select('#vel-value').text(d.vel.toFixed(2))
-                    } else {
-                        d3.select('#db-value').text(util.CtoF(d.ta).toFixed(1))
-                        d3.select('#mrt-value').text(util.CtoF(d.tr).toFixed(1))
-                        d3.select('#vel-value').text(util.CtoF(d.vel).toFixed(0))
-                    }
-
-                    d3.select(this)
-                        .attr("r", "6");
-
-                    var boundary = pc.findComfortBoundary(d, 0.5)
-                    pc.drawComfortRegion(boundary)
-                    d3.select('.comfortzone')
-                        .on('mouseover', function () {
-                            d3.select(this)
-                                .attr('class', 'comfortzone')
-                        })
-                        .attr('opacity', '0.4')
-                })
-                .on("mouseout", function () {
-                    d3.select(this)
-                        .attr("r", "3");
-                })
-        });
     };
 
     this.redrawPoint = function (data) {
