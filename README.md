@@ -18,13 +18,13 @@ Next, check out from the repo and create a virtualenv:
 
 ```
 $ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git
-$ cd comfort-tool
+$ cd comfort_tool
 $ virtualenv venv
 ```
 
 Activate the virtualenv:
 
-`$ . venv/bin/activate`
+`$ .\venv\Scripts\activate`
 
 The dependencies of the comfort tool are all contained in `requirements.txt`. Installing them all in one command is pretty nifty:
 
