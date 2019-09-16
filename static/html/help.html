@@ -14,8 +14,8 @@
         #myBtn {
             display: none;
             position: fixed;
-            bottom: 20px;
-            right: 30px;
+            bottom: 15px;
+            left: 20px;
             z-index: 99;
             font-size: 18px;
             border: none;
@@ -23,7 +23,7 @@
             background-color: red;
             color: white;
             cursor: pointer;
-            padding: 15px;
+            padding: 10px;
             border-radius: 4px;
         }
 
@@ -52,7 +52,7 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid mb-5">
             <h1 class="mt-4" id="Introduction">Introduction</h1>
             <p>This web-based tool for thermal comfort calculations according to ASHRAE Standard 55-2017 is developed at the University of California at Berkeley.
                 Its aim is to provide a free, cross-platform tool that allows designers and other practitioners to perform thermal comfort calculations.
@@ -67,7 +67,7 @@
                 <li class=MsoNormal><a href='http://youtu.be/IV9m5lHQq44' target="_blank">Local (individual body part) discomfort assessment</a></li>
             </ul>
             <p>
-                <img height="600" src="../img/help-interface.jpg">
+                <img src="../img/help-interface.jpg" class="img-fluid" alt="Responsive image">
             </p>
 
             <h1 class="mt-4" id="Tutorial">Getting Started</h1>
@@ -93,7 +93,7 @@
             <h2>Comfort Models</h2>
             <p>
                 At the top of the user interface you can choose between the two methods allowed by the standards, which are the PMV/PPD method and the Adaptive method.
-                For air speeds greater than 0.1 m/s (39 fpm) the PMV calculations employ the elevated airspeed method, which calculates and reports the cooling effect of the air
+                For air speeds greater than 0.1 m/s (19.6 fpm) the PMV calculations employ the elevated airspeed method, which calculates and reports the cooling effect of the air
                 movement.
                 For more information about the comfort models, you can follow the link to Wikipedia by clicking on 'select method'.
             </p>
@@ -206,7 +206,8 @@
             has been implemented in the tool.
             This model can evaluate the predicted percentage dissatisfied on draft at ankle level (PPD <sub>AD</sub>) as a function of PMV and air speed at ankle.
             Regarding the usage of ankle draft risk model, subject's metabolic rate and clothing level should be kept below 1.3 met and 0.7 clo, respectively.
-            The air speed on the upper body is fixed as 0.2 m/s for PMV calculation in the ankle draft risk model, since a condition of air speed higher than 0.2 m/s should refer to the elevated air speed model instead.
+            The air speed on the upper body is fixed as 0.2 m/s for PMV calculation in the ankle draft risk model, since a condition of air speed higher than 0.2 m/s should refer
+            to the elevated air speed model instead.
             Change the values in the input boxes according to your measurements.
             A checkmark will appear next to each section, while a general compliance message will be shown at the bottom of the dialog.
             Remember that to comply with the Standard all the sections must respect the limits.

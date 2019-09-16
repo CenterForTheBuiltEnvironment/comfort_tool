@@ -2,6 +2,10 @@ keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
 
 $(document).ready(function () {
 
+    // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_en').addClass('active');
+
     var cloSelect = document.getElementById('cloSelect');
     cloSelect.onchange = function () {
         document.getElementById('clo').value = cloSelect.value;
@@ -96,8 +100,7 @@ $(function () {
     $('#radio').buttonset();
     //$('#local-control-adapt').button();
 
-    $('#customClo').button({
-    }).click(function () {
+    $('#customClo').button({}).click(function () {
         $('#customCloToggle').toggle('fast');
     });
 
@@ -424,6 +427,8 @@ $("#chartSelect").change(function () {
 
 function update() {
 
+    let r;
+
     if ($('#link').is(':checked') || $("#chartSelect").val() === "psychtop") {
         $('#tr').val($('#ta').val());
     }
@@ -447,6 +452,12 @@ function update() {
     model = document.getElementById('model-type').value;
     if (model === 'pmv') {
         r = comf.pmv(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        if (isNaN(r.pmv)) {
+            window.alert('The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n' +
+                'Please check that the value you entered are correct.\n' +
+                'The input parameters has been set back to their default values.');
+            setDefaults();
+        }
         renderPmvResults(r);
         calcPmvCompliance(d, r);
         if ($('#chart-div').is(':visible')) {
@@ -567,11 +578,13 @@ function renderCompliance(comply, special_msg) {
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});;
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});
+        ;
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});;
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});
+        ;
         $('#special-msg').html(special_msg);
     }
 }

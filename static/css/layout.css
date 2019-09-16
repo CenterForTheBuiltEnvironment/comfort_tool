@@ -70,10 +70,10 @@ a.footerlink:hover {
     color: #2A4583;
 }
 
-.topnav a:hover {
-  border-bottom: 3px solid #5e5e5e;
+.navbar a:hover {
+  border-bottom: 3px solid #08c4ff;
 }
 
-a.nav-link  {
-    color: #000000;
+.navbar a.active{
+    border-bottom: 3px solid #124f7f;
 }

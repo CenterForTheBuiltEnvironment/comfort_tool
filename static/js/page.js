@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_ashrae').addClass('active');
+
     var cloSelect = document.getElementById('cloSelect');
     cloSelect.onchange = function () {
         document.getElementById('clo').value = cloSelect.value;
@@ -301,8 +305,8 @@ $('#humidity-spec').change(function () {
     var v = $('#humidity-spec').val();
     var ta = parseFloat($('#ta').val());
     if (!isCelsius) ta = util.FtoC(ta);
-    var maxVapPress = parseFloat(psy.satpress(ta));
-    var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
+    const maxVapPress = parseFloat(psy.satpress(ta));
+    const maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
     var rh = parseFloat($('#rh').val());
     if (!isCelsius && (window.humUnit === 'wetbulb' || window.humUnit === 'dewpoint')) rh = util.FtoC(rh);
     if (window.humUnit === 'vappress') if (!isCelsius) rh *= 2953;
@@ -524,21 +528,14 @@ $('#setDynamicClo').click(function () {
 
 $('#model-type').change(function () {
     $('#pmv-out-label').html('PMV');
-//    $('#local-control-div').hide();
-//    $('#local-control').hide();
     $('#localDisc').removeAttr('disabled');
-    model = $('#model-type').val();
+    const model = $('#model-type').val();
     if (model === 'pmvElevatedAirspeed') {
-        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes, #veltopchart-div').show();
+        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes, #veltopchart-div, #pmv-elev-outputs, #local-control, #local-control-div').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
-        if (model === 'pmvElevatedAirspeed') {
-//            $('#pmv-elev-outputs, #local-control-div').show();
-            $('#pmv-elev-outputs, #local-control-div').show();
-            $('#pmv-out-label').html('PMV Adjusted');
-        } else {
-            $('#pmv-elev-outputs').hide();
-        }
-    } else if (model === 'adaptiveComfort') {
+        $('#pmv-out-label').html('PMV Adjusted');
+    }
+    else if (model === 'adaptiveComfort') {
         $("#chartWrapper, #chart_heatLoss_div").hide();
         $('#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
@@ -617,15 +614,9 @@ $("#chartSelect").change(function () {
     update();
 });
 
-$("#local-control-div").change(function () {
-    var local_control = $('#local-control').val();
-    if (local_control === 'withairspeedcontrol' || local_control === 'noairspeedcontrol') {
-//    $("#local-control-div").show();
-    }
-    update();
-});
-
 function update() {
+
+    let r;
 
     if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop" || $("#chartSelect").val() == "veltop") {
         $('#tr').val($('#ta').val());
@@ -651,6 +642,12 @@ function update() {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
         if (!isCelsius) {
             r.set = util.CtoF(r.set)
+        }
+        if (isNaN(r.pmv)){
+            window.alert('The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n' +
+                'Please check that the value you entered are correct.\n' +
+                'The input parameters has been set back to their default values.');
+            setDefaults();
         }
         renderPmvElevResults(r);
         calcPmvElevCompliance(d, r);

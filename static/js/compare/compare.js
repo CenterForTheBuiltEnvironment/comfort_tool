@@ -1,6 +1,11 @@
 keys = ["ta", "tr", "vel", "rh", "met", "clo"];
 
 $(document).ready(function () {
+
+    // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_compare').addClass('active');
+
     $(function () {
         $(".multiselect").multiselect({
             sortable: false,

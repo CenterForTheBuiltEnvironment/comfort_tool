@@ -38,6 +38,10 @@ factor_units = {
 
 $(document).ready(function() {
 
+        // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_ranges').addClass('active');
+
     $(function() {
         $(".multiselect").multiselect({
             sortable: false,
