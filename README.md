@@ -1,44 +1,54 @@
-CBE Thermal Comfort Tool
-========================
+# CBE Thermal Comfort Tool
 
-A web interface for comfort model calculations and visualizations according to ASHRAE Standard-55. [Live deployment of the tool](http://smap.cbe.berkeley.edu/comforttool).
+A web interface for comfort model calculations and visualizations according to ASHRAE Standard-55 and EN Standard 15251. 
 
-Installation
-------------
+[Live deployment of the tool](http://comfort.cbe.berkeley.edu/).
 
-This guide is for Mac OSX or Linux. For Windows, you can follow the instructions below, substituting the appropriate windows commands found in the [Flask installation instructions](http://flask.pocoo.org/docs/0.10/installation/).
+## Getting Started
 
-The installation is easiest with [pip](http://pip.readthedocs.org/en/latest/installing.html), a tool for managing python packages.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-Once you have pip, start by installing virutalenv:
+## Prerequisites
 
-`$ sudo pip install virtualenv`
+Python 3 installed on your machine.
 
-Next, check out from the repo and create a virtualenv:
+If you’re using Python 2, see [Install virtualenv](https://flask.palletsprojects.com/en/1.1.x/installation/#install-install-virtualenv) first.
+If you do not have Python installed on your machine you can follow [this guide](https://wiki.python.org/moin/BeginnersGuide/Download)
 
+## Installation
+
+This guide is for Mac OSX, Linux or Windows, you can follow the instructions below.
+
+**Check out from the repo.**
 ```
 $ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git
 $ cd comfort_tool
-$ virtualenv venv
 ```
+**Create a vitrual environment using the following command:**
 
-Activate the virtualenv:
+On Linux and MAC ` $ python3 -m venv venv `
 
-`$ .\venv\Scripts\activate`
+On Windows ` $ py -3 -m venv venv `
 
-The dependencies of the comfort tool are all contained in `requirements.txt`. Installing them all in one command is pretty nifty:
+**Activate the virtualenv:**
 
+On Linux and MAC ` $ . venv/bin/activate `
+
+On Windows ` $ venv\Scripts\activate `
+
+**Your shell prompt will change to show the name of the activated environment.**
+
+The dependencies of the comfort tool are all contained in `requirements.txt`. 
+Installing them all in one command using:
 `$ pip install -r requirements.txt`
 
 Now you should be ready to run the tool locally.
-
 `$ python comfort.py`
 
-Visit http://localhost:5000 in your browser to check it out. Note that whenever you want to run the tool, you have to activate the virtualenv first.
+Visit http://localhost:5000 in your browser to check it out. 
+Note that whenever you want to run the tool, you have to activate the virtualenv first.
 
-Static files
-------------
-
+## Static files
 If you're serving static files from somewhere other than /static/, modify the static file paths ...
 
 Set STATIC_URL_PATH in `comfort.py`
@@ -49,10 +59,9 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 
 Features
 --------
-
-1. Models
-  * Adaptive (input: air temperature, MRT, mean outdoor temperature, air velocity)
-  * PMV with elevated air speed
+1. Models.
+    * Adaptive (input: air temperature, MRT, mean outdoor temperature, air velocity)
+    * with elevated air speed
 2. Clothing ensemble creator
 3. Clothing and metabolic activity tables
 4. Dual units (SI, IP)
