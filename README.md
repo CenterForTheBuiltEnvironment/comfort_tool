@@ -28,22 +28,22 @@ $ cd comfort_tool
 
 On Linux and MAC ` $ python3 -m venv venv `
 
-On Windows ` $ py -3 -m venv venv `
+On Windows ` py -3 -m venv venv `
 
 **Activate the virtualenv:**
 
 On Linux and MAC ` $ . venv/bin/activate `
 
-On Windows ` $ venv\Scripts\activate `
+On Windows ` venv\Scripts\activate `
 
-**Your shell prompt will change to show the name of the activated environment.**
+Your shell prompt will change to show the name of the activated environment.
 
-The dependencies of the comfort tool are all contained in `requirements.txt`. 
-Installing them all in one command using:
+The dependencies of the comfort tool are all contained in *requirements.txt*. 
+Install them all using:
 `$ pip install -r requirements.txt`
 
 Now you should be ready to run the tool locally.
-`$ python comfort.py`
+`python comfort.py`
 
 Visit http://localhost:5000 in your browser to check it out. 
 Note that whenever you want to run the tool, you have to activate the virtualenv first.
@@ -60,19 +60,19 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 Features
 --------
 1. Models.
-    * Adaptive (input: air temperature, MRT, mean outdoor temperature, air velocity)
-    * with elevated air speed
-2. Clothing ensemble creator
-3. Clothing and metabolic activity tables
-4. Dual units (SI, IP)
-5. Local air speed control
-6. Operative temperature specification or Air temperature and Mean Radiant Temperature specification
-7. 1-to-1 humidity specification conversion (Relative humidity, vapor pressure, dew point, wet bulb, humidity ratio)
-8. Globe temperature to MRT converter – input: air temperature, air speed, globe temperature, globe diameter, globe emissivity. Output: Mean Radiant Temperature
-9. Local thermal discomfort: short questionnaire that allows the user to assess risks of local thermal discomfort as defined by Standard 55
-10. Interactive charts: psychrometric chart, temperature–relative humidity chart, adaptive chart
-11. Mouse values: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart
-12. Dynamic predictive clothing calculator
-13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range
-14. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions
+    * Adaptive (inputs: air temperature, MRT, mean outdoor temperature, air velocity)
+    * PMV with and without elevated air speed
+2. Clothing ensemble creator.
+3. Clothing and metabolic activity tables.
+4. Dual units (SI, IP).
+5. Local air speed control.
+6. Operative temperature specification or Air temperature and Mean Radiant Temperature specification.
+7. 1-to-1 humidity specification conversion (Relative humidity, vapor pressure, dew point, wet bulb, humidity ratio).
+8. Globe temperature to MRT converter – input: air temperature, air speed, globe temperature, globe diameter, globe emissivity. Output: Mean Radiant Temperature.
+9. Local thermal discomfort: short questionnaire that allows the user to assess risks of local thermal discomfort as defined by Standard 55.
+10. Interactive charts: psychrometric chart, temperature–relative humidity chart, adaptive chart.
+11. Mouse values: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart.
+12. Dynamic predictive clothing calculator.
+13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range.
+14. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions.
 15. EN 15251 compliance: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.

@@ -381,7 +381,7 @@ const envVarLimits = {
             'default': 0.1,
             'min': 0,
             'max': 4,
-            'elevated_air_speed': 0.1,
+            'elevated_air_speed': 0.2,
         },
         'ip': {
             'step': 0.1,

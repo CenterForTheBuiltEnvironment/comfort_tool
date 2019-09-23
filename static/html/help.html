@@ -67,7 +67,7 @@
                 <li class=MsoNormal><a href='http://youtu.be/IV9m5lHQq44' target="_blank">Local (individual body part) discomfort assessment</a></li>
             </ul>
             <p>
-                <img src="../img/help-interface.jpg" class="img-fluid" alt="Responsive image">
+                <img src="../img/help-ASHRAE.png" class="img-fluid" alt="Responsive image">
             </p>
 
             <h1 class="mt-4" id="Tutorial">Getting Started</h1>
@@ -75,25 +75,46 @@
             The tool has three main parts:
             <ul>
                 <li>
-                    Left-hand side: This section is the user interface.
+                    <b>Left-hand side</b>: This section is the user interface.
                     It contains the input fields containing values that drive the comfort calculations and visualizations.
-                    To change these input values, you can type directly in the boxes or manipulate the up and down arrows.
-                    There are also several other buttons which will be explained below.
+                    To change these input values, you can type directly in the boxes or click on the up and down arrows.
+                    There are also several other buttons, their functionality is explained in detail below.
                 </li>
                 <li>
-                    Top-right: This section contains the results of the calculations.
+                    <b>Top-right</b>: This section contains the results of the calculations.
                     The raw output of the comfort model calculations (such as PMV, PPD, etc. for the PMV method) as well as compliance information.
                 </li>
                 <li>
-                    Bottom-right: This section contains a visualization of the thermal comfort conditions in the input.
-                    There are currently three types of charts: The psychrometric chart, the temperature-humidity chart, and the adaptive comfort chart.
+                    <b>Bottom-right</b>: This section contains a visualization of the thermal comfort conditions in the input.
+                    There are currently three types of charts visualizing the thermal comfort region, as follows:
+                    <ul>
+                        <li>
+                            Psychrometric (plotted using either the dry-bulb air temperature or the operative temperature)
+                        </li>
+                        <li>
+                            Relative humidity vs. dry-bulb air temperature.
+                        </li>
+                        <li>
+                            Air speed vs. operative air temperature.
+                        </li>
+                        <li>
+                            Thermal heat losses vs. dry-bulb air temperature.
+                            This chart shows the total heat losses per unit area as calculated by the PMV method.
+                            By default, the chart is showing only the total heat losses of the human body (latent, sensible as well as their cumulative value) and the metabolic rate.
+                            The intersection between the metabolic rate line (constant) and the total heat losses line is the neutral temperature at which the human body is in thermal balance with the surrounding environment.
+                            You can toggle on and off other lines, depicting different heat loss components, by clicking on the respective label in the legend.
+                        </li>
+                        <li>
+                            Operative indoor air temperature vs. prevailing mean outdoor temperature (Adaptive comfort region).
+                        </li>
+                    </ul>
                 </li>
             </ul>
 
             <h2>Comfort Models</h2>
             <p>
                 At the top of the user interface you can choose between the two methods allowed by the standards, which are the PMV/PPD method and the Adaptive method.
-                For air speeds greater than 0.1 m/s (19.6 fpm) the PMV calculations employ the elevated airspeed method, which calculates and reports the cooling effect of the air
+                For air speeds greater than 0.2 m/s (39.4 fpm) the PMV calculations employ the elevated airspeed method, which calculates and reports the cooling effect of the air
                 movement.
                 For more information about the comfort models, you can follow the link to Wikipedia by clicking on 'select method'.
             </p>
@@ -162,10 +183,6 @@
             <h2>Air speed</h2>
             In the Adaptive method air movement can be used under certain conditions to widen the comfort zone, allowing higher indoor operative temperatures. You can select the
             value and see how it changes the upper boundaries of the 80% and 90% acceptability zones.
-            <b>Note:</b> the Standard specifies that it is permitted to increase the upper acceptability temperatures only if the operative temperature is higher than 25°C (77°F).
-            This
-            leads to the slightly smaller comfort boundary in the region on the left part of the chart, when selecting air speeds higher than 0.3 m/s (59 fpm).
-
 
             <h1 class="mt-4" id="Additional_features">Additional Features</h1>
             At the bottom of the input section of the tool, you can find more clickable buttons to set more parameters and open some dialogs.
