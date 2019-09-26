@@ -104,10 +104,10 @@ $(function () {
 
     $('#link').button({}).click(function () {
         if ($('#tr-input').is(':hidden')) {
-            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
+            $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a></td>');
             $('#tr-input, #tr-lab').show();
         } else {
-            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+            $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a></td>');
             $('#tr-input, #tr-lab').hide();
         }
     });
@@ -115,16 +115,16 @@ $(function () {
     $('#local-control').button();
     $('#radio').buttonset();
 
-    $('#toggle-chart').button({
-        icons: {
-            primary: "ui-icon-transferthick-e-w"
-        },
-        text: false
-    });
-
-    $('#toggle-chart').click(function () {
-        $('#temphumchart-div, #temphumchart-title').toggle();
-        $('#chart-div, #chart-title-pmv').toggle();
+    $("#chartSelect").change(function () {
+        const chart = $("#chartSelect").val();
+        if (chart === "temphum") {
+            $("#chart-div, #chart-title-pmv").hide();
+            $("#temphumchart-div, #temphumchart-title").show();
+        }
+        else if (chart === "psychta"){
+            $("#temphumchart-div, #temphumchart-title").hide();
+            $("#chart-div, #chart-title-pmv").show();
+        }
         update("1");
         update("2");
         update("3");
@@ -183,14 +183,10 @@ $(function () {
         numberFormat: "n"
     });
 
-    $('select#humidity-spec').selectmenu({
-        width: 165
-    });
-
 });
 
 $('#humidity-spec').change(function () {
-    var v = $('#humidity-spec').val();
+    const v = $('#humidity-spec').val();
     var ta1 = parseFloat($('#ta1').val());
     var ta2 = parseFloat($('#ta2').val());
     var ta3 = parseFloat($('#ta3').val());
@@ -210,6 +206,7 @@ $('#humidity-spec').change(function () {
         else rh1 *= 1000, rh2 *= 1000, rh3 *= 1000;
 
     if (v === 'rh') {
+        $('#rh-description').html('Relative humidity');
         $('#rh1').val(psy.convert(rh1, ta1, window.humUnit, 'rh'));
         $('#rh2').val(psy.convert(rh2, ta2, window.humUnit, 'rh'));
         $('#rh3').val(psy.convert(rh3, ta3, window.humUnit, 'rh'));
@@ -221,6 +218,7 @@ $('#humidity-spec').change(function () {
             numberFormat: "n"
         });
     } else if (v === 'dewpoint') {
+        $('#rh-description').html('Dew point temperature');
         if (isCelsius) {
             $('#rh1').val(psy.convert(rh1, ta1, window.humUnit, 'dewpoint'));
             $('#rh2').val(psy.convert(rh2, ta2, window.humUnit, 'dewpoint'));
@@ -246,6 +244,7 @@ $('#humidity-spec').change(function () {
         }
 
     } else if (v === 'wetbulb') {
+        $('#rh-description').html('Wet bulb temperature');
         // SI units
         if (isCelsius) {
             $('#rh1').val(psy.convert(rh1, ta1, window.humUnit, 'wetbulb'));
@@ -273,6 +272,7 @@ $('#humidity-spec').change(function () {
             });
         }
     } else if (v === 'w') {
+        $('#rh-description').html('Humidity ratio');
         $('#rh1').val(psy.convert(rh1, ta1, window.humUnit, 'w'));
         $('#rh2').val(psy.convert(rh2, ta2, window.humUnit, 'w'));
         $('#rh3').val(psy.convert(rh3, ta3, window.humUnit, 'w'));
@@ -293,6 +293,7 @@ $('#humidity-spec').change(function () {
             max: maxHumRatio3
         });
     } else if (v === 'vappress') {
+        $('#rh-description').html('Vapor pressure');
         if (isCelsius) {
             $('#rh1').val(psy.convert(rh1, ta1, window.humUnit, 'vappress') / 1000);
             $('#rh2').val(psy.convert(rh2, ta2, window.humUnit, 'vappress') / 1000);
@@ -396,7 +397,7 @@ $('#specPressure').click(function () {
 
 model = 'pmvElevatedAirspeed'; //model in this page is only the PMV/PPD
 if (model === 'pmvElevatedAirspeed') {
-    $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chart-title-pmv, #toggle-chart').show();
+    $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chart-title-pmv').show();
     $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
     if (model === 'pmvElevatedAirspeed') {
         $('#pmv-elev-outputs, #local-control-div').show();
@@ -471,7 +472,7 @@ function renderPmvElevResults(r, i) {
 }
 
 function calcPmvElevCompliance(d, r, i) {
-    var pmv_comply = (Math.abs(r.pmv) <= 0.8);
+    var pmv_comply = (Math.abs(r.pmv) <= 0.5);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
     var local_control = $('#local-control').is(':checked');
@@ -522,7 +523,7 @@ function calcPmvElevCompliance(d, r, i) {
         $("#pmv-elev-outputs").hide();
     }
     renderCompliance(comply, special_msg, i);
-    $("#vel-range" + i).html(compliance_ranges.vel_min.toFixed(1) + '&mdash;' + compliance_ranges.vel_max.toFixed(1) + unit_v)
+    $("#vel-range" + i).html(compliance_ranges.vel_min.toFixed(1) + ' - ' + compliance_ranges.vel_max.toFixed(1) + unit_v)
 
 }
 

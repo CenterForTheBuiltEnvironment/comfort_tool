@@ -94,7 +94,7 @@ var bc = new function () {
             .append("g")
             .attr("class", "rh axis")
             .attr("transform", "translate(" + (bc.margin) + ",0)")
-            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0).tickPadding(5));
+            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0));
 
         // define SI x-axis label
         d3.select("#db-axis-C-temphum")

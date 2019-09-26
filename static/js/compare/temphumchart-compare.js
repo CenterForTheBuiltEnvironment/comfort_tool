@@ -1,30 +1,30 @@
 // ----- CODE to draw the comfort zone on a chart with Dry-Bulb Temp on the x-axis and Relative Humidity on the y-axis -----
 var bc = new function() {
 
-    this.margin = 60
-    this.rbmargin = 40
-    this.width = 580
-    this.height = 500
-    this.db_min = 10
-    this.db_max = 36
+    this.margin = 60;
+    this.rbmargin = 40;
+    this.width = 580;
+    this.height = 500;
+    this.db_min = 10;
+    this.db_max = 36;
 
     // --------------------------  set up scales  --------------------------------------------------
 
-    this.db_extent = [this.db_min, this.db_max]
+    this.db_extent = [this.db_min, this.db_max];
     this.db_scale = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent)
+        .domain(this.db_extent);
 
 
-    this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)]
+    this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)];
     this.db_scale_F = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent_F)
+        .domain(this.db_extent_F);
 
-    this.rh_extent = [0, 100]
+    this.rh_extent = [0, 100];
     this.rh_scale = d3.scale.linear()
         .range([this.height - this.margin, this.rbmargin])
-        .domain(this.rh_extent)
+        .domain(this.rh_extent);
 
     // defining a poliline
     this.pline = d3.svg.line()
@@ -33,7 +33,7 @@ var bc = new function() {
         })
         .y(function(d) {
             return this.rh_scale(d.rh)
-        })
+        });
 
     // ----------------------------------- Start DrawChart -----------------------------------
 
@@ -41,9 +41,9 @@ var bc = new function() {
 
         // Setting up the axes 
 
-        var db_axis = d3.svg.axis().scale(bc.db_scale)
-        var db_axis_F = d3.svg.axis().scale(bc.db_scale_F)
-        var rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left")
+        var db_axis = d3.svg.axis().scale(bc.db_scale);
+        var db_axis_F = d3.svg.axis().scale(bc.db_scale_F);
+        var rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left");
 
         var line = d3.svg.line()
             .x(function(d) {
@@ -52,7 +52,7 @@ var bc = new function() {
             .y(function(d) {
                 return bc.rh_scale(d.rh)
             })
-            .interpolate('cardinal')
+            .interpolate('cardinal');
 
         // drawing chart svg (the whole thing)
 
@@ -60,9 +60,9 @@ var bc = new function() {
             .append("svg")
             .attr("class", "svg-temphum")
             .attr("width", bc.width)
-            .attr("height", bc.height)
+            .attr("height", bc.height);
 
-        bc.svg = d3.select(".svg-temphum")
+        bc.svg = d3.select(".svg-temphum");
 
         // ClipPath hides everything that goes outside the chart area
 
@@ -74,7 +74,7 @@ var bc = new function() {
             .attr("y", "0")
             .attr("width", bc.width - bc.margin - bc.rbmargin)
             .attr("height", bc.height - bc.margin - bc.rbmargin)
-            .attr("transform", "translate(" + bc.margin + "," + bc.rbmargin + ")")
+            .attr("transform", "translate(" + bc.margin + "," + bc.rbmargin + ")");
 
         // Drawing the axes
 
@@ -83,7 +83,7 @@ var bc = new function() {
             .attr("class", "db axis")
             .attr("id", "db-axis-C-temphum")
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
-            .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+            .call(db_axis.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0));
 
         bc.svg
             .append("g")
@@ -91,13 +91,13 @@ var bc = new function() {
             .attr("id", "db-axis-F-temphum")
             .attr("opacity", "0")
             .attr("transform", "translate(0," + (bc.height - bc.margin) + ")")
-            .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0))
+            .call(db_axis_F.tickSubdivide(0).tickSize(-(bc.height - bc.margin - bc.rbmargin), 0));
 
         bc.svg
             .append("g")
             .attr("class", "rh axis")
             .attr("transform", "translate(" + (bc.margin) + ",0)")
-            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0))
+            .call(rh_axis.tickSubdivide(0).tickSize(-(bc.width - bc.margin - bc.rbmargin), 0));
 
 
         // giving labels to the axes 
@@ -107,7 +107,7 @@ var bc = new function() {
             .text("Drybulb Temperature [°C]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
-            .attr("y", bc.margin / 1.6)
+            .attr("y", bc.margin / 1.6);
 
 
         d3.select("#db-axis-F-temphum")
@@ -115,7 +115,7 @@ var bc = new function() {
             .text("Drybulb Temperature [°F]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
-            .attr("y", bc.margin / 1.6)
+            .attr("y", bc.margin / 1.6);
 
 
         d3.select(".rh.axis")
@@ -125,13 +125,13 @@ var bc = new function() {
             .attr("transform", "rotate (-90, -35, 0) translate(-350)");
 
         bc.drawThings("1");
-    }
+    };
 
     this.drawThings = function(i) {
-        var bound = bc.findComfortBoundary(d, 0.5)
+        var bound = bc.findComfortBoundary(d, 0.5);
         bc.drawComfortRegion(bound, i);
         bc.drawPoint(i);
-    }
+    };
 
     // motofront construction
     d3.selection.prototype.moveToFront = function() {
@@ -156,14 +156,14 @@ var bc = new function() {
                 d3.select(this).attr("class", "comfortzone" + i);
             });
 
-    }
+    };
 
     this.redrawComfortRegion = function(data, i) {
 
         d3.select("#temphum-comfortzone" + i)
             .transition()
             .attr("d", bc.pline(data) + "Z")
-    }
+    };
 
 
     // draw the points 
@@ -172,50 +172,50 @@ var bc = new function() {
 
         bc.svg.append("circle")
             .attr("class", "point" + i).attr('id', 'temphum-outer' + i)
-            .attr("r", 12)
+            .attr("r", 12);
 
         bc.svg.append("circle")
             .attr("class", "point" + i).attr('id', 'temphum-inner' + i)
-            .attr("r", 2)
+            .attr("r", 2);
 
         d3.select("#temphum-inner" + i).moveToFront()
             .attr("cx", bc.db_scale(d.ta))
-            .attr("cy", bc.rh_scale(d.rh))
+            .attr("cy", bc.rh_scale(d.rh));
         d3.select("#temphum-outer" + i).moveToFront()
             .attr("cx", bc.db_scale(d.ta))
             .attr("cy", bc.rh_scale(d.rh))
-    }
+    };
 
     this.redrawPoint = function(i) {
 
         d3.select("#temphum-inner" + i).moveToFront().transition()
             .attr("cx", bc.db_scale(d.ta))
-            .attr("cy", bc.rh_scale(d.rh))
+            .attr("cy", bc.rh_scale(d.rh));
         d3.select("#temphum-outer" + i).moveToFront().transition()
             .attr("cx", bc.db_scale(d.ta))
             .attr("cy", bc.rh_scale(d.rh))
 
-    }
+    };
 
     // function to calculate humidity ratio (hr) given DBT and RH
     this.getHumRatio = function(db, rh) {
         return psy.humratio(psy.PROP.Patm, rh * psy.satpress(db) / 100)
-    }
+    };
 
     // Create comfort zone boundary, by adding points to an array
 
     this.findComfortBoundary = function(d, pmvlimit) {
-        var boundary = []
+        var boundary = [];
 
         function solve(rh, target) {
-            var epsilon = 0.001
-            var a = -50
-            var b = 50
+            var epsilon = 0.001;
+            var a = -50;
+            var b = 50;
             var fn = function(db) {
                     return (comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme).pmv - target)
-                }
+                };
                 //t = util.bisect(a, b, fn, epsilon, target)
-            t = util.secant(a, b, fn, epsilon)
+            t = util.secant(a, b, fn, epsilon);
             return {
                 "db": t,
                 "rh": rh
@@ -231,20 +231,20 @@ var bc = new function() {
         }
 
         return boundary
-    }
+    };
 
     // Switch between Celsius and Farenheit changing opacity
 
     this.toggleUnits = function(isCelsius) {
 
         if (isCelsius) {
-            d3.select("#db-axis-C-temphum").attr("opacity", "100")
+            d3.select("#db-axis-C-temphum").attr("opacity", "100");
             d3.select("#db-axis-F-temphum").attr("opacity", "0")
         } else {
-            d3.select("#db-axis-C-temphum").attr("opacity", "0")
+            d3.select("#db-axis-C-temphum").attr("opacity", "0");
             d3.select("#db-axis-F-temphum").attr("opacity", "100")
         }
 
     }
 
-}
+};

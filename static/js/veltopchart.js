@@ -8,30 +8,30 @@ var vc = new function () {
     this.rbmargin = 40;
     this.width = 580;
     this.height = 500;
-    this.db_min = 10;
-    this.db_max = 36;
+    this.db_min = 20;
+    this.db_max = 34;
 
 
-    this.db_extent = [this.db_min, this.db_max]
+    this.db_extent = [this.db_min, this.db_max];
     this.db_scale = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent)
+        .domain(this.db_extent);
 
 
-    this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)]
+    this.db_extent_F = [util.CtoF(this.db_min), util.CtoF(this.db_max)];
     this.db_scale_F = d3.scale.linear()
         .range([this.margin, this.width - this.rbmargin])
-        .domain(this.db_extent_F)
+        .domain(this.db_extent_F);
 
-    this.vel_extent = [0, 1.25]
+    this.vel_extent = [0, 1.2001];
     this.vel_scale = d3.scale.linear()
         .range([this.height - this.margin, this.rbmargin])
-        .domain(this.vel_extent)
+        .domain(this.vel_extent);
 
-    this.vel_extent_fpm = [0, 241]
+    this.vel_extent_fpm = [0, 241];
     this.vel_scale_fpm = d3.scale.linear()
         .range([this.height - this.margin, this.rbmargin])
-        .domain(this.vel_extent_fpm)
+        .domain(this.vel_extent_fpm);
 
     // defining a poliline
     this.pline = d3.svg.line()
@@ -40,14 +40,14 @@ var vc = new function () {
         })
         .y(function (d) {
             return this.vel_scale(d.vel)
-        })
+        });
 
     this.drawChart = function () {
 
-        var db_axis = d3.svg.axis().scale(vc.db_scale)
-        var db_axis_F = d3.svg.axis().scale(vc.db_scale_F)
-        var vel_axis = d3.svg.axis().scale(vc.vel_scale).orient("left")
-        var vel_axis_fpm = d3.svg.axis().scale(vc.vel_scale_fpm).orient("left")
+        var db_axis = d3.svg.axis().scale(vc.db_scale);
+        var db_axis_F = d3.svg.axis().scale(vc.db_scale_F);
+        var vel_axis = d3.svg.axis().scale(vc.vel_scale).orient("left");
+        var vel_axis_fpm = d3.svg.axis().scale(vc.vel_scale_fpm).orient("left");
 
         var line = d3.svg.line()
             .x(function (d) {
@@ -56,16 +56,16 @@ var vc = new function () {
             .y(function (d) {
                 return vc.vel_scale(d.vel)
             })
-            .interpolate('cardinal')
+            .interpolate('cardinal');
 
         // drawing svg
         d3.select("#veltopchart-div")
             .append("svg")
             .attr("class", "svg-veltop").attr("id", "svg-veltop")
             .attr("width", vc.width)
-            .attr("height", vc.height)
+            .attr("height", vc.height);
 
-        vc.svg = d3.select(".svg-veltop")
+        vc.svg = d3.select(".svg-veltop");
 
         // ClipPath
         vc.svg
@@ -77,7 +77,7 @@ var vc = new function () {
             .attr("y", "0")
             .attr("width", vc.width - vc.margin - vc.rbmargin)
             .attr("height", vc.height - vc.margin - vc.rbmargin)
-            .attr("transform", "translate(" + vc.margin + "," + vc.rbmargin + ")")
+            .attr("transform", "translate(" + vc.margin + "," + vc.rbmargin + ")");
 
         // Drawing the axes
         vc.svg
@@ -85,7 +85,7 @@ var vc = new function () {
             .attr("class", "db axis")
             .attr("id", "db-axis-C-veltop")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
-            .call(db_axis.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(db_axis.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5));
 
         vc.svg
             .append("g")
@@ -93,14 +93,14 @@ var vc = new function () {
             .attr("id", "db-axis-F-veltop")
             .attr("opacity", "0")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
-            .call(db_axis_F.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(db_axis_F.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5));
 
         vc.svg
             .append("g")
             .attr("class", "vel axis")
             .attr("id", "vel-text-vt")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
-            .call(vel_axis.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(vel_axis.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5));
 
         vc.svg
             .append("g")
@@ -108,7 +108,7 @@ var vc = new function () {
             .attr("id", "vel-text-vt-fpm")
             .attr("opacity", "0")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
-            .call(vel_axis_fpm.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(vel_axis_fpm.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5));
 
 
         // giving labels to the axes
@@ -117,7 +117,7 @@ var vc = new function () {
             .text("Operative Temperature [°C]")
             .attr("class", "db-unit")
             .attr("x", (vc.width / 2) - 50)
-            .attr("y", vc.margin / 1.6)
+            .attr("y", vc.margin / 1.6);
 
 
         d3.select("#db-axis-F-veltop")
@@ -125,20 +125,20 @@ var vc = new function () {
             .text("Operative Temperature [°F]")
             .attr("class", "db-unit")
             .attr("x", (vc.width / 2) - 50)
-            .attr("y", vc.margin / 1.6)
+            .attr("y", vc.margin / 1.6);
 
 
         d3.select("#vel-text-vt")
             .append("text")
             .text("Air Speed [m/s]")
-            .attr("transform", "rotate (-90, -45, -10) translate(-350)")
+            .attr("transform", "rotate (-90, -45, -10) translate(-350)");
 
         d3.select("#vel-text-vt-fpm")
             .append("text")
             .text("Air Speed [fpm]")
             .attr("transform", "rotate (-90, -45, -10) translate(-350)");
 
-    }
+    };
 
     this.drawComfortRegion = function (data) {
 
@@ -154,32 +154,32 @@ var vc = new function () {
                 d3.select(this).attr("class", "comfortzone-veltop");
             });
 
-    }
+    };
 
     this.redrawComfortRegion = function (data) {
 
         d3.select(".comfortzone-veltop")
             .transition()
             .attr("d", vc.pline(data) + "Z")
-    }
+    };
 
     this.drawPoint = function () {
         vc.svg
             .append("circle")
             .attr("class", "outer")
             .attr("clip-path", "url(#clip_vt)")
-            .attr("r", 12)
+            .attr("r", 12);
 
         vc.svg
             .append("circle")
             .attr("clip-path", "url(#clip_vt)")
             .attr("class", "inner")
-            .attr("r", 2)
+            .attr("r", 2);
 
         d3.selectAll("circle")
             .attr("cx", vc.db_scale(d.ta))
             .attr("cy", vc.vel_scale(d.vel))
-    }
+    };
 
     this.redrawPoint = function () {
 
@@ -187,7 +187,7 @@ var vc = new function () {
             .transition()
             .attr("cx", vc.db_scale(d.ta))
             .attr("cy", vc.vel_scale(d.vel))
-    }
+    };
 
     this.findComfortBoundary = function (d, pmvlimit) {
         const local_control = $('#local-control').val();
@@ -240,17 +240,18 @@ var vc = new function () {
             }
 
             // add right side comfort region
-            for (vel = 1.401; vel >= 0.2; vel -= 0.1) {
+            for (vel = 1.4; vel >= 0.2; vel -= 0.1) {
                 boundary.push(solve(vel, pmvlimit))
             }
 
             // add bottom right point
             boundary.push(solve(0.1, pmvlimit));
             // with no occupants' air speed control
-        } else {
+        }
+        else {
 
             // remove note
-            d3.selectAll("#note").remove()
+            d3.selectAll("#note").remove();
 
             // add left side comfort region
             for (vel = 0.2; vel <= 10; vel += 0.05) {
@@ -261,106 +262,85 @@ var vc = new function () {
                     boundary.push({
                         "db": temp_var.db,
                         "vel": 0.2
-                    })
-                } else if (23 <= temp_var.db <= 25.5) {
-                    temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db
-                    if (temp_vel > 0.8) {
+                    });
+                } else if (temp_var.db >= 23 && temp_var.db <= 25.5) {
+                    temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db;
+                                        console.log("23-25");
+                    console.log(temp_var);
+                    if (temp_vel > 0.8 && temp_var.vel > temp_vel) {
+                        boundary.push({
+                            "db": temp_var.db,
+                            "vel": 0.8
+                        })
+                    } else if (temp_var.vel > temp_vel){
+                        boundary.push({
+                            "db": temp_var.db,
+                            "vel": temp_vel
+                        })
+                    } else {
+                        boundary.push({
+                            "db": temp_var.db,
+                            "vel": temp_var.vel,
+                        })
+                    }
+                } else if (temp_var.db > 25.5) {
+                    if (temp_var.vel > 0.8) {
                         boundary.push({
                             "db": temp_var.db,
                             "vel": 0.8
                         })
                     } else {
-                        boundary.push({
-                            "db": temp_var.db,
-                            "vel": temp_vel
-                        })
+                        boundary.push(temp_var)
                     }
-                } else if (temp_var.db > 25.5) {
-                    boundary.push({
-                        "db": temp_var.db,
-                        "vel": 0.8
-                    })
                 }
             }
 
-            // add top side comfort region
-            for (pmv = -pmvlimit; pmv <= 0; pmv += 0.05) {
-                temp_var = solve(vel, pmv);
+            // add right side comfort region
+            for (vel = 0.8; vel >= 0.2; vel -= 0.05) {
+                temp_var = solve(vel, pmvlimit);
+
+                // ASHRAE constraints
                 if (temp_var.db < 23) {
                     boundary.push({
                         "db": temp_var.db,
                         "vel": 0.2
                     })
-                } else if (23 <= temp_var.db <= 25.5) {
-                    temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db
+                } else if (temp_var.db >= 23 && temp_var.db <= 25.5) {
+                    temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db;
                     if (temp_vel > 0.8) {
                         boundary.push({
                             "db": temp_var.db,
                             "vel": 0.8
                         })
                     } else {
-                        boundary.push({
-                            "db": temp_var.db,
-                            "vel": temp_vel
-                        })
+                        boundary.push(temp_var)
                     }
                 } else if (temp_var.db > 25.5) {
-                    boundary.push({
-                        "db": temp_var.db,
-                        "vel": 0.8
-                    })
-                }
-            }
-
-            // add right side comfort region
-            for (vel = .8; vel >= 0.2; vel -= 0.05) {
-                temp_var = solve(vel, pmvlimit);
-
-                if (temp_var.db < 23) {
-                    boundary.push({
-                        "db": temp_var.db,
-                        "vel": 0.1
-                    })
-                } else if ((23 <= temp_var.db) && (temp_var.db) <= 25.5) {
-                    temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db;
-                    temp_vel = Math.min(temp_vel, temp_var.vel)
-                    if (temp_vel > 0.8) {
-                        boundary.push({
-                            "db": temp_var.db,
-                            "vel": 0.8
-                        })
-                    } else {
-                        boundary.push({
-                            "db": temp_var.db,
-                            "vel": temp_vel
-                        })
-                    }
-                } else {
                     boundary.push(temp_var)
                 }
             }
 
             // add bottom right point
             boundary.push(solve(0.1, pmvlimit));
-
-        }
+            // with no occupants' air speed control
+            }
         return boundary
     };
 
     this.toggleUnits = function (isCelsius) {
 
         if (isCelsius) {
-            d3.select("#db-axis-C-veltop").attr("opacity", "100")
-            d3.select("#db-axis-F-veltop").attr("opacity", "0")
-            d3.select("#vel-text-vt").attr("opacity", "100")
+            d3.select("#db-axis-C-veltop").attr("opacity", "100");
+            d3.select("#db-axis-F-veltop").attr("opacity", "0");
+            d3.select("#vel-text-vt").attr("opacity", "100");
             d3.select("#vel-text-vt-fpm").attr("opacity", "0")
         } else {
-            d3.select("#db-axis-C-veltop").attr("opacity", "0")
-            d3.select("#db-axis-F-veltop").attr("opacity", "100")
-            d3.select("#vel-text-vt").attr("opacity", "0")
+            d3.select("#db-axis-C-veltop").attr("opacity", "0");
+            d3.select("#db-axis-F-veltop").attr("opacity", "100");
+            d3.select("#vel-text-vt").attr("opacity", "0");
             d3.select("#vel-text-vt-fpm").attr("opacity", "100")
         }
 
     }
 
-}
+};
