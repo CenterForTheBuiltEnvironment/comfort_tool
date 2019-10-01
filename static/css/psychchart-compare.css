@@ -58,8 +58,8 @@ rect.w {
 }
 
 .comfortzone1 {
-    fill: rgb(0, 0, 100);
-    fill-opacity: 0.5;
+    fill: #3BBDED;
+    fill-opacity: 0.7;
 }
 
 path.comfortzone1over {
@@ -72,8 +72,8 @@ path.comfortzone1over {
     transition-property: fill;
     transition-duration: .5s;
     transition-timing-function: ease-in;
-    fill: rgb(0, 0, 250);
-    fill-opacity: 0.5;
+    fill: #04AEED;
+    fill-opacity: 0.7;
 }
 
 .comfortzone2 {

@@ -1,21 +1,4 @@
-var d = {
-    ta: '',
-    tr: '',
-    vel: '',
-    rh: '',
-    met: '',
-    clo: ''
-};
-
-var d_cache = {
-    ta: '',
-    tr: '',
-    vel: '',
-    rh: '',
-    met: '',
-    clo: ''
-};
-var keys = ["ta", "tr", "vel", "rh", "met", "clo"];
+keys = ["ta", "tr", "vel", "rh", "met", "clo"];
 
 factor_names = {
     ta: 'air temperature',
@@ -24,8 +7,7 @@ factor_names = {
     rh: 'relative humidity',
     met: 'metabolic rate',
     clo: 'clothing level'
-}
-
+};
 
 factor_units = {
     ta: '<span class="tempunit">&deg;C</span>',
@@ -34,15 +16,15 @@ factor_units = {
     rh: '%',
     met: 'met',
     clo: 'clo'
-}
+};
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-        // highlight navigation bar button
+    // highlight navigation bar button
     $('a.active').removeClass('active');
     $('#nav_a_ranges').addClass('active');
 
-    $(function() {
+    $(function () {
         $(".multiselect").multiselect({
             sortable: false,
             searchable: false,
@@ -58,15 +40,73 @@ $(document).ready(function() {
 
     setDefaults();
     update();
-    //pc.width = 620;
-    //pc.height = 500;
     pc.drawChart(d);
     bc.drawChart(d);
+
+    $('#tr1').spinner({
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.tr.si.default - envVarLimits.tr.si.step);
+
+    $('#tr2').spinner({
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.tr.si.default + envVarLimits.tr.si.step);
+
+    $('#vel1').spinner({
+        step: envVarLimits.vel.si.step,
+        min: envVarLimits.vel.si.min,
+        max: envVarLimits.vel.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.vel.si.default - envVarLimits.vel.si.step);
+
+    $('#vel2').spinner({
+        step: envVarLimits.vel.si.step,
+        min: envVarLimits.vel.si.min,
+        max: envVarLimits.vel.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.vel.si.default + envVarLimits.vel.si.step);
+
+    $('#met1').spinner({
+        step: envVarLimits.met.step,
+        min: envVarLimits.met.min,
+        max: envVarLimits.met.max,
+        numberFormat: "n"
+    }).val(envVarLimits.met.default - envVarLimits.met.step);
+
+    $('#met2').spinner({
+        step: envVarLimits.met.step,
+        min: envVarLimits.met.min,
+        max: envVarLimits.met.max,
+        numberFormat: "n"
+    }).val(envVarLimits.met.default + envVarLimits.met.step);
+
+    $('#clo1').spinner({
+        step: envVarLimits.clo.step,
+        min: envVarLimits.clo.min,
+        max: envVarLimits.clo.max,
+        numberFormat: "n"
+    }).val(envVarLimits.clo.default - envVarLimits.clo.step);
+
+    $('#clo2').spinner({
+        step: envVarLimits.clo.step,
+        min: envVarLimits.clo.min,
+        max: envVarLimits.clo.max,
+        numberFormat: "n"
+    }).val(envVarLimits.clo.default + envVarLimits.clo.step);
+
+    drawTRrange();
+
+    parameter_selection_change();
 });
 
-$(function() {
+$(function () {
 
-    $('#link').button({}).click(function() {
+    $('#link').button({}).click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#tr-input, #tr-lab').show();
@@ -76,175 +116,89 @@ $(function() {
         }
     });
 
-    $('#toggle-chart').button({
-        icons: {
-            primary: "ui-icon-transferthick-e-w"
-        },
-        text: false
-    });
-    $('#toggle-chart').click(function() {
-        $('#temphumchart-div, #temphumchart-title').toggle();
-        $('#chart-div, #chart-title-pmv').toggle();
+    $("#chartSelect").change(function () {
+        const chart = $("#chartSelect").val();
+        if (chart === "temphum") {
+            $("#chart-div, #chart-title-pmv").hide();
+            $("#temphumchart-div, #temphumchart-title").show();
+        } else if (chart === "psychta") {
+            $("#temphumchart-div, #temphumchart-title").hide();
+            $("#chart-div, #chart-title-pmv").show();
+        }
         update();
+    });
+
+    $("#parameter_select").change(function () {
+        parameter_selection_change();
     });
 
     $('button').button();
     $('.buttons').buttonset();
 
     $('#ta, #tr').spinner({
-        step: 0.1,
-        min: 0,
-        max: 120,
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
         numberFormat: "n"
     });
 
     $('#vel').spinner({
-        step: 0.01,
-        min: 0,
-        max: 4,
+        step: envVarLimits.vel.si.step,
+        min: envVarLimits.vel.si.min,
+        max: envVarLimits.vel.si.max,
         numberFormat: "n"
     });
 
     $('#clo').spinner({
-        step: 0.05,
-        min: 0.1,
-        max: 10,
+        step: envVarLimits.clo.step,
+        min: envVarLimits.clo.min,
+        max: envVarLimits.clo.max,
         numberFormat: "n"
     });
 
     $('#met').spinner({
-        step: 0.05,
-        min: 1,
-        max: 2,
+        step: envVarLimits.met.step,
+        min: envVarLimits.met.min,
+        max: envVarLimits.met.max,
         numberFormat: "n"
     });
 
     $('#rh').spinner({
-        step: 1,
-        min: 0,
-        max: 100,
+        step: envVarLimits.rh.step,
+        min: envVarLimits.rh.min,
+        max: envVarLimits.rh.max,
         numberFormat: "n"
     });
 
-    $('select#humidity-spec').selectmenu({
-        width: 150
-    });
-
-    $('select#step-select-tr, select#step-select-vel, select#step-select-met, select#step-select-clo').selectmenu({
-        width: 90
-    });
-
-    $('#slider-range-tr').click(function() {
+    $('select#step-select-tr').change(function () {
         drawTRrange();
-    })
-    $("#slider-range-vel").click(function() {
+    });
+    $('select#step-select-vel').change(function () {
         drawVELrange();
-    })
-    $("#slider-range-met").click(function() {
+    });
+    $('select#step-select-met').change(function () {
         drawMETrange();
-    })
-    $("#slider-range-clo").click(function() {
+    });
+    $('select#step-select-clo').change(function () {
         drawCLOrange();
-    })
-    $('#slider-range-tr').focusout(function() {
+    });
+
+    $('#inputfield-tr').click(function () {
         drawTRrange();
-    })
-    $("#slider-range-vel").focusout(function() {
+    });
+    $('#inputfield-vel').click(function () {
         drawVELrange();
-    })
-    $("#slider-range-met").focusout(function() {
+    });
+    $('#inputfield-met').click(function () {
         drawMETrange();
-    })
-    $("#slider-range-clo").focusout(function() {
+    });
+    $('#inputfield-clo').click(function () {
         drawCLOrange();
-    })
-
-    $('select#step-select-tr').change(function() {
-        drawTRrange();
-    })
-    $('select#step-select-vel').change(function() {
-        drawVELrange();
-    })
-    $('select#step-select-met').change(function() {
-        drawMETrange();
-    })
-    $('select#step-select-clo').change(function() {
-        drawCLOrange();
-    })
-
-    $('#tr1, #tr2').focusout(function() {
-        drawTRrange();
-    })
-    $('#vel1, #vel2').focusout(function() {
-        drawVELrange();
-    })
-    $('#met1, #met2').focusout(function() {
-        drawMETrange();
-    })
-    $('#clo1, #clo2').focusout(function() {
-        drawCLOrange();
-    })
-
-    $("#slider-range-tr").slider({
-        range: true,
-        min: 15,
-        max: 35,
-        values: [22, 28],
-        step: 0.5,
-        slide: function(event, ui) {
-            $("#tr1").val(ui.values[0]).css("color", "grey");
-            $("#tr2").val(ui.values[1]).css("color", "grey");
-        }
     });
-    $("#tr1").val($("#slider-range-tr").slider("values", 0)).css("color", "grey");
-    $("#tr2").val($("#slider-range-tr").slider("values", 1)).css("color", "grey");
-
-    $("#slider-range-vel").slider({
-        range: true,
-        min: 0.0,
-        max: 1.2,
-        values: [0.2, 0.7],
-        step: 0.05,
-        slide: function(event, ui) {
-            $("#vel1").val(ui.values[0]).css("color", "grey");
-            $("#vel2").val(ui.values[1]).css("color", "grey");
-        }
-    });
-    $("#vel1").val($("#slider-range-vel").slider("values", 0)).css("color", "grey");
-    $("#vel2").val($("#slider-range-vel").slider("values", 1)).css("color", "grey");
-
-    $("#slider-range-met").slider({
-        range: true,
-        min: 1.0,
-        max: 2.0,
-        values: [1.0, 1.3],
-        step: 0.05,
-        slide: function(event, ui) {
-            $("#met1").val(ui.values[0]).css("color", "grey");
-            $("#met2").val(ui.values[1]).css("color", "grey");
-        }
-    });
-    $("#met1").val($("#slider-range-met").slider("values", 0)).css("color", "grey");
-    $("#met2").val($("#slider-range-met").slider("values", 1)).css("color", "grey");
-
-    $("#slider-range-clo").slider({
-        range: true,
-        min: 0,
-        max: 1.5,
-        values: [0.5, 1.0],
-        step: 0.05,
-        slide: function(event, ui) {
-            $("#clo1").val(ui.values[0]).css("color", "grey");
-            $("#clo2").val(ui.values[1]).css("color", "grey");
-        }
-    });
-    $("#clo1").val($("#slider-range-clo").slider("values", 0)).css("color", "grey");
-    $("#clo2").val($("#slider-range-clo").slider("values", 1)).css("color", "grey");
 
 });
 
-
-$('#humidity-spec').change(function() {
+$('#humidity-spec').change(function () {
     var v = $('#humidity-spec').val();
     var ta = parseFloat($('#ta').val());
     if (!isCelsius) ta = util.FtoC(ta);
@@ -260,12 +214,12 @@ $('#humidity-spec').change(function() {
         $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
         $('#rh-unit').html(' %');
         $('#rh').spinner({
-            step: 1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.rh.step,
+        min: envVarLimits.rh.min,
+        max: envVarLimits.rh.max,
             numberFormat: "n"
         });
-    } else if (v == 'dewpoint') {
+    } else if (v === 'dewpoint') {
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
             $('#rh-unit').html(' &deg;C');
@@ -274,12 +228,12 @@ $('#humidity-spec').change(function() {
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
-            step: 0.1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.rh.step,
+        min: envVarLimits.rh.min,
+        max: envVarLimits.rh.max,
             numberFormat: "n"
         });
-    } else if (v == 'wetbulb') {
+    } else if (v === 'wetbulb') {
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
             $('#rh-unit').html(' &deg;C');
@@ -288,12 +242,12 @@ $('#humidity-spec').change(function() {
             $('#rh-unit').html(' &deg;F');
         }
         $('#rh').spinner({
-            step: 0.1,
-            min: 0,
-            max: 100,
+            step: envVarLimits.rh.step,
+        min: envVarLimits.rh.min,
+        max: envVarLimits.rh.max,
             numberFormat: "n"
         });
-    } else if (v == 'w') {
+    } else if (v === 'w') {
         $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
         $('#rh-unit').html('');
         $('#rh').spinner({
@@ -301,7 +255,7 @@ $('#humidity-spec').change(function() {
             min: 0,
             max: maxHumRatio
         });
-    } else if (v == 'vappress') {
+    } else if (v === 'vappress') {
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
             $('#rh-unit').html(' KPa');
@@ -318,8 +272,8 @@ $('#humidity-spec').change(function() {
     window.humUnit = v;
 });
 
-$('.inputbox').keydown(function(event) {
-    if (event.keyCode == 13) {
+$('.inputbox').keydown(function (event) {
+    if (event.keyCode === 13) {
         var inputs = $('.inputbox:visible:enabled');
         var nextBox = inputs.index(this) + 1;
         if (nextBox == inputs.length) nextBox = 0;
@@ -327,38 +281,34 @@ $('.inputbox').keydown(function(event) {
     }
 });
 
-$('.in').click(function() {
+$('.in').click(function () {
     if (!rangeYes) {
         update();
     }
 });
 
-$('.inputbox').focusout(function() {
+$('.inputbox').focusout(function () {
     if (!rangeYes) {
         update();
     }
 });
 
-$('.rangesbox').focusout(function() {
-    toggleSliders();
-});
-
-$('#rh-inputcell').click(function() {
+$('#rh-inputcell').click(function () {
     if (rangeYes) {
         pc.redrawRHcurve();
         bc.redrawRHcurve();
     }
 });
-$('#rh-inputcell').focusout(function() {
+$('#rh-inputcell').click(function () {
     if (rangeYes) {
         pc.redrawRHcurve();
         bc.redrawRHcurve();
     }
 });
 
-$('#tr').focusout(function() {
+$('#tr-inputcell').click(function () {
     if (rangeYes) {
-        if (rangefactor == "vel") {
+        if (rangefactor === "vel") {
             drawVELrange();
         } else if (rangefactor == "met") {
             drawMETrange();
@@ -367,31 +317,34 @@ $('#tr').focusout(function() {
         }
     }
 });
-$('#vel').focusout(function() {
+
+$('#vel-inputcell').click(function () {
     if (rangeYes) {
-        if (rangefactor == "tr") {
+        if (rangefactor === "tr") {
             drawTRrange();
-        } else if (rangefactor == "met") {
+        } else if (rangefactor === "met") {
             drawMETrange();
-        } else if (rangefactor == "clo") {
+        } else if (rangefactor === "clo") {
             drawCLOrange();
         }
     }
 });
-$('#met').focusout(function() {
+
+$('#met-inputcell').click(function () {
     if (rangeYes) {
-        if (rangefactor == "vel") {
+        if (rangefactor === "vel") {
             drawVELrange();
-        } else if (rangefactor == "tr") {
+        } else if (rangefactor === "tr") {
             drawTRrange();
-        } else if (rangefactor == "clo") {
+        } else if (rangefactor === "clo") {
             drawCLOrange();
         }
     }
 });
-$('#clo').focusout(function() {
+
+$('#clo-inputcell').click(function () {
     if (rangeYes) {
-        if (rangefactor == "vel") {
+        if (rangefactor === "vel") {
             drawVELrange();
         } else if (rangefactor == "met") {
             drawMETrange();
@@ -401,12 +354,12 @@ $('#clo').focusout(function() {
     }
 });
 
-$('#unitsToggle').click(function() {
+$('#unitsToggle').click(function () {
     toggleUnits();
     update();
 });
 
-$('#restart').click(function() {
+$('#restart').click(function () {
     rangeYes = false;
     d3.selectAll("path.comfortzone-range").remove();
     d3.selectAll("path.comfortzone").remove();
@@ -414,42 +367,43 @@ $('#restart').click(function() {
     d3.selectAll("path.comfortzone-temphum").remove();
     d3.selectAll("circle").remove();
     $('#output-ranges').hide();
-    $('.inputfield').css('background-color', '#DCE7F7');
+    // $('.inputfield').css('background-color', '#DCE7F7');
     $('#ta-lab, #inputfield-ta').css('visibility', 'visible');
     pc.removeRHcurve();
     bc.removeRHcurve();
 
     setDefaults();
 
-    var json1 = [{
-        "db": d.ta,
-        "hr": pc.getHumRatio(d.ta, d.rh)
-    }]
-    var b1 = pc.findComfortBoundary(d, 0.5);
-    pc.drawComfortRegion(b1);
-    pc.drawPoint(json1);
+    $('#parameter_select').val('sel_t_mrt').change();
 
-    var json2 = [{
-        "db": d.ta,
-        "rh": d.rh
-    }]
-    var b2 = bc.findComfortBoundary(d, 0.5);
-    bc.drawComfortRegion(b2);
-    bc.drawPoint(json2);
+    $('#tr1').spinner({
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.tr.si.default - envVarLimits.tr.si.step);
 
-    update();
+    $('#tr2').spinner({
+        step: envVarLimits.tr.si.step,
+        min: envVarLimits.tr.si.min,
+        max: envVarLimits.tr.si.max,
+        numberFormat: "n"
+    }).val(envVarLimits.tr.si.default + envVarLimits.tr.si.step);
+
+    drawTRrange();
+
 });
 
-$('#specPressure').click(function() {
-    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)':'inches of mercury (inHg)'));
+$('#specPressure').click(function () {
+    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa) default value 101325 Pa' : 'inches of mercury (inHg)'));
     if (customPressure != '' && customPressure != null) {
-        customPressure = parseFloat(customPressure)
+        customPressure = parseFloat(customPressure);
         if (!isCelsius) {
             customPressure *= 3386.39;
         }
         if (!isNaN(customPressure) && customPressure >= 30000 && customPressure <= 110000) {
-            psy.PROP.Patm = customPressure
-            pc.redraw_rh_lines()
+            psy.PROP.Patm = customPressure;
+            pc.redraw_rh_lines();
             update()
         } else {
             window.alert('The entered atmospheric pressure is invalid.')
@@ -462,26 +416,26 @@ function toggleUnits() {
     var hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
     if (isCelsius) {
-        $('.tempunit').each(function() {
+        $('.tempunit').each(function () {
             $(this).html(' &deg;C');
         });
-        $('#ta, #tr, #tr1, #tr2').each(function() {
+        $('#ta, #tr, #tr1, #tr2').each(function () {
             v = util.FtoC($(this).val());
             $(this).val(v.toFixed(1));
         });
-        $('#inner-range-width, #outer-range-width').each(function() {
+        $('#inner-range-width, #outer-range-width').each(function () {
             v = (parseFloat($(this).html())) / 1.8;
             $(this).html(v.toFixed(1));
         });
 
-        $('#range-output1, #range-output2').each(function() {
+        $('#range-output1, #range-output2').each(function () {
             v = util.FtoC(parseFloat($(this).html()));
             $(this).html(v.toFixed(1));
         });
 
         if (rangeYes) {
             if (rangefactor == "tr") {
-                $("#factor-output1, #factor-output2").each(function() {
+                $("#factor-output1, #factor-output2").each(function () {
                     v = util.FtoC(parseFloat($(this).html()));
                     $(this).html(v.toFixed(1));
                 });
@@ -492,14 +446,15 @@ function toggleUnits() {
                 v2 = $('#factor-output2').html();
                 $('#factor-output2').html((v2 / 196.9).toFixed(2));
             }
-        };
+        }
+        ;
 
         $('.vel-unit').html(' m/s');
         v = $('#vel').val();
         $('#vel').val(v / 196.9).spinner({
-            step: 0.01,
-            min: 0,
-            max: 3,
+            step: envVarLimits.vel.si.step,
+            min: envVarLimits.vel.si.min,
+            max: envVarLimits.vel.si.max,
             numberFormat: 'n'
         });
         v1 = $('#vel1').val();
@@ -511,18 +466,14 @@ function toggleUnits() {
             <option value='0.05'>0.05 m/s</option>\
             <option value='0.1'>0.1 m/s</option>\
             <option value='0.2'>0.2 m/s</option>\
-        ").selectmenu({
-            width: 90
-        });
+        ");
         $('#step-select-tr').html("\
             <option value='0.5'>0.5 &deg;C</option>\
             <option value='1'>1.0 &deg;C</option>\
             <option value='1.5'>1.5 &deg;C</option>\
-        ").selectmenu({
-            width: 90
-        });
+        ");
 
-        if (hs == 'dewpoint' || hs == 'wetbulb') {
+        if (hs === 'dewpoint' || hs === 'wetbulb') {
             $('#rh-unit').html(' &deg;C');
             v = (util.FtoC($('#rh').val()));
             $('#rh').val(v.toFixed(1));
@@ -532,25 +483,25 @@ function toggleUnits() {
             $('#rh').val(v.toFixed(2));
         }
     } else {
-        $('.tempunit').each(function() {
+        $('.tempunit').each(function () {
             $(this).html(' &deg;F');
         });
-        $('#ta, #tr, #tr1, #tr2').each(function() {
+        $('#ta, #tr, #tr1, #tr2').each(function () {
             v = util.CtoF($(this).val());
             $(this).val(v.toFixed(0));
         });
-        $('#inner-range-width, #outer-range-width').each(function() {
+        $('#inner-range-width, #outer-range-width').each(function () {
             v = (parseFloat($(this).html())) * 1.8;
             $(this).html(v.toFixed(1));
         });
-        $('#range-output1, #range-output2').each(function() {
+        $('#range-output1, #range-output2').each(function () {
             v = util.CtoF(parseFloat($(this).html()));
             $(this).html(v.toFixed(1));
         });
 
         if (rangeYes) {
-            if (rangefactor == "tr") {
-                $("#factor-output1, #factor-output2").each(function() {
+            if (rangefactor === "tr") {
+                $("#factor-output1, #factor-output2").each(function () {
                     v = util.CtoF(parseFloat($(this).html()));
                     $(this).html(v.toFixed(1));
                 });
@@ -561,14 +512,14 @@ function toggleUnits() {
                 v2 = $('#factor-output2').html();
                 $('#factor-output2').html((v2 * 196.9).toFixed(0));
             }
-        };
+        }
 
         $('.vel-unit').html(' fpm');
         v = $('#vel').val();
         $('#vel').val(v * 196.9).spinner({
-            step: 1,
-            min: 0,
-            max: 300,
+            step: envVarLimits.vel.ip.step,
+            min: envVarLimits.vel.ip.min,
+            max: envVarLimits.vel.ip.max,
             numberFormat: 'n'
         });
         v1 = $('#vel1').val();
@@ -579,16 +530,12 @@ function toggleUnits() {
             <option value='10'>10 fpm</option>\
             <option value='20'>20 fpm</option>\
             <option value='40'>40 fpm</option>\
-        ").selectmenu({
-            width: 90
-        });
+        ");
         $('#step-select-tr').html("\
             <option value='1.0'>1.0 &deg;F</option>\
             <option value='2.0'>2.0 &deg;F</option>\
             <option value='3.0'>3.0 &deg;F</option>\
-        ").selectmenu({
-            width: 90
-        });
+        ");
 
         if (hs == 'dewpoint' || hs == 'wetbulb') {
             $('#rh-unit').html(' &deg;F');
@@ -603,71 +550,6 @@ function toggleUnits() {
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
 
-    toggleSliders();
-}
-
-function toggleSliders() {
-    if (isCelsius) {
-        $(function() {
-            $("#slider-range-tr").slider({
-                range: true,
-                min: 15,
-                max: 35,
-                values: [(parseFloat(document.getElementById("tr1").value)), (parseFloat(document.getElementById("tr2").value))],
-                step: 0.5,
-                slide: function(event, ui) {
-                    $("#tr1").val(ui.values[0]).css("color", "grey");
-                    $("#tr2").val(ui.values[1]).css("color", "grey");
-                }
-            });
-            $("#tr1").val($("#slider-range-tr").slider("values", 0)).css("color", "grey");
-            $("#tr2").val($("#slider-range-tr").slider("values", 1)).css("color", "grey");
-
-            $("#slider-range-vel").slider({
-                range: true,
-                min: 0.0,
-                max: 1.2,
-                values: [(parseFloat(document.getElementById("vel1").value)), (parseFloat(document.getElementById("vel2").value))],
-                step: 0.05,
-                slide: function(event, ui) {
-                    $("#vel1").val(ui.values[0]).css("color", "grey");
-                    $("#vel2").val(ui.values[1]).css("color", "grey");
-                }
-            });
-            $("#vel1").val($("#slider-range-vel").slider("values", 0)).css("color", "grey");
-            $("#vel2").val($("#slider-range-vel").slider("values", 1)).css("color", "grey");
-        });
-    } else {
-        $(function() {
-            $("#slider-range-tr").slider({
-                range: true,
-                min: 59,
-                max: 95,
-                values: [(parseFloat(document.getElementById("tr1").value)), (parseFloat(document.getElementById("tr2").value))],
-                step: 1.0,
-                slide: function(event, ui) {
-                    $("#tr1").val(ui.values[0]).css("color", "grey");
-                    $("#tr2").val(ui.values[1]).css("color", "grey");
-                }
-            });
-            $("#tr1").val($("#slider-range-tr").slider("values", 0)).css("color", "grey");
-            $("#tr2").val($("#slider-range-tr").slider("values", 1)).css("color", "grey");
-
-            $("#slider-range-vel").slider({
-                range: true,
-                min: 0,
-                max: 240,
-                values: [(parseFloat(document.getElementById("vel1").value)), (parseFloat(document.getElementById("vel2").value))],
-                step: 10,
-                slide: function(event, ui) {
-                    $("#vel1").val(ui.values[0]).css("color", "grey");
-                    $("#vel2").val(ui.values[1]).css("color", "grey");
-                }
-            });
-            $("#vel1").val($("#slider-range-vel").slider("values", 0)).css("color", "grey");
-            $("#vel2").val($("#slider-range-vel").slider("values", 1)).css("color", "grey");
-        });
-    }
 }
 
 function drawRange(factor, incr) {
@@ -678,7 +560,7 @@ function drawRange(factor, incr) {
     d3.selectAll(".comfortzone-temphum").remove();
     d3.selectAll("circle").remove();
     removeRanges();
-    $('.inputfield').css('background-color', '#DCE7F7');
+    // $('.inputfield').css('background-color', '#DCE7F7');
     $('#ta-lab, #inputfield-ta').css('visibility', 'hidden');
 
     setFactors(factor);
@@ -705,7 +587,7 @@ function drawRange(factor, incr) {
         $('#output-ranges').show();
         $('.factor-name').html(factor_names[rangefactor]);
         $('#factor-name').html(factor_names[rangefactor]);
-        $("#inputfield-" + factor).css('background-color', '#CECEE3');
+        // $("#inputfield-" + factor).css('background-color', '#CECEE3');
 
     } else {
         alert("insert the min and max values of the range");
@@ -741,7 +623,7 @@ function drawCLOrange() {
 }
 
 function setInputs() {
-    keys.forEach(function(element) {
+    keys.forEach(function (element) {
         d_cache[element] = d[element];
         var e = document.getElementById(element).value
         e = e.replace(/,/g, '.')
@@ -816,26 +698,50 @@ function update() {
         var b = bc.findComfortBoundary(d, 0.5)
         bc.redrawComfortRegion(b);
         bc.redrawPoint();
-    };
+    }
 }
 
 function setDefaults() {
     if (!isCelsius) toggleUnits();
-    var hs = $('#humidity-spec').val();
-    var rh = psy.convert(50, 25, 'rh', hs)
-    if (hs == 'vappress') {
+    const hs = $('#humidity-spec').val();
+    let rh = psy.convert(50, 25, 'rh', hs);
+    if (hs === 'vappress') {
         rh /= 1000;
     }
-    var defaults = {
-        ta: 25,
-        tr: 25,
-        vel: 0.15,
+    const defaults = {
+        ta: envVarLimits.ta.si.default,
+        tr: envVarLimits.tr.si.default,
+        vel: envVarLimits.vel.si.default,
         rh: rh.toFixed(psy.PREC[hs]),
-        met: 1.2,
-        clo: 0.5
+        met: envVarLimits.met.default,
+        clo: envVarLimits.met.default
     };
 
-    keys.forEach(function(element) {
+    keys.forEach(function (element) {
         document.getElementById(element).value = defaults[element];
     });
+}
+
+function parameter_selection_change() {
+    const parameter = $("#parameter_select").val();
+    $("#inputfield-ta, #tr-lab, #inputfield-tr, #tr_vel, #inputfield-vel, #tr_hum, #inputfield-hum, #tr_met, #inputfield-met, #tr_clo, #inputfield-clo").hide();
+    $("#mrt_val_row, #vel_val_row, #clo_val_row, #met_val_row, #hum_val_row").hide();
+    if (parameter === "sel_t_mrt") {
+        $("#tr-lab, #inputfield-tr").show();
+        $("#vel_val_row, #clo_val_row, #met_val_row, #hum_val_row").show();
+        drawTRrange()
+    } else if (parameter === "sel_air_vel") {
+        $("#tr_vel, #inputfield-vel").show();
+        $("#mrt_val_row, #clo_val_row, #met_val_row, #hum_val_row").show();
+        drawVELrange()
+    } else if (parameter === "sel_met") {
+        $("#tr_met, #inputfield-met").show();
+        $("#mrt_val_row, #vel_val_row, #clo_val_row, #hum_val_row").show();
+        drawMETrange()
+    } else if (parameter === "sel_clo") {
+        $("#tr_clo, #inputfield-clo").show();
+        $("#mrt_val_row, #vel_val_row, #met_val_row, #hum_val_row").show();
+        drawCLOrange()
+    }
+    update();
 }

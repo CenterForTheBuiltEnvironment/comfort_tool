@@ -7,10 +7,6 @@
     display: none;
 }
 
-/*#leedInterfaceToggle {*/
-/*    display: none;*/
-/*}*/
-
 .local-disc-result {
     position: relative;
     clear: both;
@@ -93,11 +89,6 @@
     font-size: 12px;
 }
 
-/*.leed-notes {*/
-/*    color: #6e6e6e;*/
-/*    font-size: 12px;*/
-/*}*/
-
 .divresult {
     position: relative;
     float: left;
@@ -142,7 +133,30 @@
 }
 
 .inputbox {
-    width: 45px;
+    width: 50px;
+    height: 22px;
+    text-align: center;
+}
+.inputbox1 {
+    width: 50px;
+    height: 22px;
+    text-align: center;
+}
+.inputbox2 {
+    width: 50px;
+    height: 22px;
+    text-align: center;
+}
+.inputbox3 {
+    width: 50px;
+    height: 22px;
+    text-align: center;
+}
+
+input.rangesbox {
+    width: 50px;
+    height: 22px;
+    text-align: center;
 }
 
 #all_content {

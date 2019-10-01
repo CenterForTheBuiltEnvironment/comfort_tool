@@ -411,7 +411,7 @@ $('#setDefaults').click(function () {
 });
 
 $('#specPressure').click(function () {
-    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)' : 'inches of mercury (inHg)'));
+    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa) default value 101325 Pa' : 'inches of mercury (inHg)'));
     if (customPressure !== '' && customPressure != null) {
         customPressure = parseFloat(customPressure);
         if (!isCelsius) {
