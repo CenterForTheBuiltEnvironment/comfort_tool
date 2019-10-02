@@ -29,6 +29,9 @@ $(document).ready(function () {
     setTimeout(function () {
         $('.inputbox2, .unit2, .tempunit2, .result2, .inputbox3, .unit3, .tempunit3, .result3').hide();
     }, 10)
+
+    $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chart-title-pmv').show();
+    $('#temphumchart-div, #temphumchart-title').hide();
 });
 
 $(function () {
@@ -120,8 +123,7 @@ $(function () {
         if (chart === "temphum") {
             $("#chart-div, #chart-title-pmv").hide();
             $("#temphumchart-div, #temphumchart-title").show();
-        }
-        else if (chart === "psychta"){
+        } else if (chart === "psychta") {
             $("#temphumchart-div, #temphumchart-title").hide();
             $("#chart-div, #chart-title-pmv").show();
         }
@@ -395,18 +397,6 @@ $('#specPressure').click(function () {
     }
 });
 
-model = 'pmvElevatedAirspeed'; //model in this page is only the PMV/PPD
-if (model === 'pmvElevatedAirspeed') {
-    $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chart-title-pmv').show();
-    $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
-    if (model === 'pmvElevatedAirspeed') {
-        $('#pmv-elev-outputs, #local-control-div').show();
-        $('#pmv-out-label').html('PMV Adjusted');
-    } else {
-        $('#pmv-elev-outputs').hide();
-    }
-}
-
 function update(i) {
 
     if ($('#link').is(':checked')) {
@@ -472,18 +462,19 @@ function renderPmvElevResults(r, i) {
 }
 
 function calcPmvElevCompliance(d, r, i) {
-    var pmv_comply = (Math.abs(r.pmv) <= 0.5);
-    var met_comply = d.met <= 2 && d.met >= 1;
-    var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').is(':checked');
-    var special_msg = '';
-    var compliance_ranges, unit_t, unit_v;
-    comply = true;
+    const pmv_comply = (Math.abs(r.pmv) <= 0.5);
+    const met_comply = d.met <= 2 && d.met >= 1;
+    const clo_comply = d.clo <= 1.5;
+    const local_control = $('#local-control').is(':checked');
+    let special_msg = '';
+    let compliance_ranges, unit_t, unit_v;
+    let comply = true;
 
     if (!met_comply) {
         comply = false;
         special_msg += '#' + i + ': ' + 'Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
     }
+
     if (!clo_comply) {
         comply = false;
         special_msg += '#' + i + ': ' + 'Clo values above 1.5 are not covered by this Standard<br>';
@@ -649,4 +640,107 @@ function setDefaults3() {
     keys.forEach(function (element) {
         document.getElementById(element + '3').value = defaults[element];
     });
+}
+
+function toggleUnits() {
+    var v, v2, v3, el;
+    var hs = $('#humidity-spec').val();
+    isCelsius = !isCelsius;
+    if (isCelsius) {
+        $('.tempunit1, .tempunit2, .tempunit3').each(function () {
+            $(this).html(' &deg;C');
+        });
+        $('#ta1, #tr1, #ta2, #tr2, #ta3, #tr3').each(function () {
+            v = util.FtoC($(this).val());
+            $(this).val(v.toFixed(1));
+        });
+        $('#vel-unit1, #vel-unit2, #vel-unit3').html(' m/s');
+        v = $('#vel1').val();
+        v2 = $('#vel2').val();
+        v3 = $('#vel3').val();
+        $('#vel1').val(v / 196.9).spinner({
+            step: 0.01,
+            min: 0,
+            max: 3,
+            numberFormat: 'n'
+        });
+        $('#vel2').val(v2 / 196.9).spinner({
+            step: 0.01,
+            min: 0,
+            max: 3,
+            numberFormat: 'n'
+        });
+        $('#vel3').val(v3 / 196.9).spinner({
+            step: 0.01,
+            min: 0,
+            max: 3,
+            numberFormat: 'n'
+        });
+        if (hs == 'dewpoint' || hs == 'wetbulb') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;C');
+            v = (util.FtoC($('#rh1').val()));
+            v2 = (util.FtoC($('#rh2').val()));
+            v3 = (util.FtoC($('#rh3').val()));
+            $('#rh1').val(v.toFixed(1));
+            $('#rh2').val(v2.toFixed(1));
+            $('#rh3').val(v3.toFixed(1));
+        } else if (hs == 'vappress') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' KPa');
+            v = $('#rh1').val() * 2.953;
+            v2 = $('#rh2').val() * 2.953;
+            v3 = $('#rh3').val() * 2.953;
+            $('#rh1').val(v.toFixed(2));
+            $('#rh2').val(v2.toFixed(2));
+            $('#rh3').val(v3.toFixed(2));
+        }
+    } else {
+        $('.tempunit1, .tempunit2, .tempunit3').each(function () {
+            $(this).html(' &deg;F');
+        });
+        $('#ta1, #tr1, #ta2, #tr2, #ta3, #tr3').each(function () {
+            v = util.CtoF($(this).val());
+            $(this).val(v.toFixed(1));
+        });
+        $('#vel-unit1, #vel-unit2, #vel-unit3').html(' fpm');
+        v = $('#vel1').val();
+        v2 = $('#vel2').val();
+        v3 = $('#vel3').val();
+        $('#vel1').val(v * 196.9).spinner({
+            step: 1,
+            min: 0,
+            max: 300,
+            numberFormat: 'n'
+        });
+        $('#vel2').val(v2 * 196.9).spinner({
+            step: 1,
+            min: 0,
+            max: 300,
+            numberFormat: 'n'
+        });
+        $('#vel3').val(v3 * 196.9).spinner({
+            step: 1,
+            min: 0,
+            max: 300,
+            numberFormat: 'n'
+        });
+        if (hs == 'dewpoint' || hs == 'wetbulb') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' &deg;F');
+            v = (util.CtoF($('#rh1').val()));
+            v2 = (util.CtoF($('#rh2').val()));
+            v3 = (util.CtoF($('#rh3').val()));
+            $('#rh1').val(v.toFixed(1));
+            $('#rh2').val(v2.toFixed(1));
+            $('#rh3').val(v3.toFixed(1));
+        } else if (hs == 'vappress') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' in HG');
+            v = $('#rh1').val() / 2.953;
+            v2 = $('#rh2').val() / 2.953;
+            v3 = $('#rh3').val() / 2.953;
+            $('#rh1').val(v.toFixed(2));
+            $('#rh2').val(v2.toFixed(2));
+            $('#rh3').val(v3.toFixed(2));
+        }
+    }
+    pc.toggleUnits(isCelsius);
+    bc.toggleUnits(isCelsius);
 }

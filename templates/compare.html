@@ -183,7 +183,6 @@
                         </tbody>
                     </table>
 
-
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
                             <label class="btn btn-light border btn-sm">
@@ -211,9 +210,6 @@
                             <label class="btn btn-light border btn-sm">
                                 <input type="radio" name="options" id="link" autocomplete="off"> Operative temp
                             </label>
-                            <label class="btn btn-light border btn-sm" id="globeTmpLabel">
-                                <input type="radio" name="options" id="globeTemp" autocomplete="off"> Globe temp
-                            </label>
                         </div>
                     </div>
                 </div><!--id="left_content"-->
@@ -231,8 +227,7 @@
 
                 <div class="row center col-sm-12">
                     <table class="table table-borderless table-hover table-sm text-center">
-                    <tbody>
-                    <div class='out' id='output-a'>
+                    <tbody class='out' id='output-a'>
                         <tr>
                             <td class='labelcell' style="width: 40%"></td>
                             <td class='resultcell' style="width: 20%">
@@ -245,8 +240,9 @@
                                 <span class='result3' style='font-weight: bold; color: firebrick;'>#3</span>
                             </td>
                         </tr>
+                        </tbody>
 
-                        <div id='pmv-outputs'>
+                        <tbody id='pmv-outputs'>
                             <tr>
                                 <td id='compliance-out-label' class='labelcell'>Compliance</td>
                                 <td class='resultcell'>
@@ -313,9 +309,9 @@
                                     <span class='tempunit3'> &deg;C &nbsp;</span>
                                 </td>
                             </tr>
-                        </div><!--id="pmv-outputs"-->
+                        </tbody><!--id="pmv-outputs"-->
 
-                        <div id='pmv-elev-outputs'>
+                        <tbody id='pmv-elev-outputs'>
                             <tr>
                                 <td class='labelcell'>Dry-bulb temp at still air</td>
                                 <td class='resultcell'>
@@ -347,6 +343,7 @@
                                     <span class='tempunit3'> &deg;C</span>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class='labelcell'>Air speed range</td>
                                 <td class='resultcell'>
@@ -359,8 +356,7 @@
                                     <span class='result3' id='vel-range3'></span>
                                 </td>
                             </tr>
-                        </div><!--id="pmv-elev-outputs"-->
-                    </div><!--id="output-a"-->
+                        </tbody><!--id="pmv-elev-outputs"-->
                     </tbody>
                 </table>
                 </div>
