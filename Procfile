@@ -1,1 +1,1 @@
-web: gunicorn comfort --log-file -
+web: gunicorn app:comfort
