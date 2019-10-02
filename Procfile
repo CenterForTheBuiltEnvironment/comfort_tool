@@ -1,1 +1,1 @@
-web: gunicorn comfort
+web: gunicorn comfort:app
