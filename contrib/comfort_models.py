@@ -174,7 +174,7 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
     p2 = p1 * 3.96
     p3 = p1 * 100
     p4 = p1 * taa
-    p5 = (308.7 - 0.028 * mw) + (p2 * math.pow(tra / 100, 4))
+    p5 = (308.7 - 0.028 * mw) + (p2 * math.pow(tra / 100.0, 4))
     xn = tcla / 100
     xf = tcla / 50
     eps = 0.00015
@@ -207,7 +207,7 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
     # dry respiration heat loss
     hl4 = 0.0014 * m * (34 - ta)
     # heat loss by radiation
-    hl5 = 3.96 * fcl * (math.pow(xn, 4) - math.pow(tra / 100, 4))
+    hl5 = 3.96 * fcl * (math.pow(xn, 4) - math.pow(tra / 100.0, 4))
     # heat loss by convection
     hl6 = fcl * hc * (tcl - ta)
 
