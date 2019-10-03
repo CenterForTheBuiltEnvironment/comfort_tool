@@ -33,6 +33,7 @@ $(document).ready(function () {
     });
 
     $('#temphumchart-div, #output-ranges').hide();
+    $("#hover-output").css('color', 'transparent');
 
     window.isCelsius = true;
     window.humUnit = 'rh';

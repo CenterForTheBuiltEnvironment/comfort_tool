@@ -162,89 +162,18 @@ $(function () {
         resizable: false,
     });
 
-    // $('#LEEDdialog').dialog({
-    //     autoOpen: false,
-    //     height: 700,
-    //     width: 500,
-    //     modal: true,
-    //     resizable: true,
-    // });
-
     $('#radio').buttonset();
     // $('.leed-buttons').buttonset();
 
     $('#customClo').button({
     }).click(function () {
         $('#customCloToggle').toggle('fast');
-        // if ($('#leedInterface').is(':checked')) {
-        //     $('#leedInterfaceToggle').toggle('fast');
-        //     $('#leedInterface').removeAttr('checked');
-        //     $('#leedInterface').button('refresh');
-        //     $('#unitsToggle').removeAttr('disabled');
-        // }
     });
 
     $('#dynamicClo').button({
     }).click(function () {
         $('#dynamicCloToggle').toggle('fast');
     });
-
-    // $('#leedInterface').button({
-    //     icons: {
-    //         primary: 'ui-icon-document'
-    //     }
-    // }).click(function () {
-    //     $('#leedInterfaceToggle').toggle('fast');
-    //     if (isCelsius) {
-    //         toggleUnits();
-    //         update();
-    //     }
-    //     if ($('#leedInterface').is(':checked')) {
-    //         $('#unitsToggle').attr('disabled', 'disabled');
-    //     } else {
-    //         $('#unitsToggle').removeAttr('disabled');
-    //     }
-    //     if ($('#customClo').is(':checked')) {
-    //         $('#customCloToggle').toggle('fast');
-    //         $('#customClo').removeAttr('checked');
-    //         $('#customClo').button('refresh');
-    //     }
-    // });
-
-    // $('#leed-winter').click(function () {
-    //     var spaceType = $('#leed-spacetype').val();
-    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-    //     setDataSeason(spaceType, ctype, "winter")
-    // });
-    // $('#leed-spring').click(function () {
-    //     var spaceType = $('#leed-spacetype').val();
-    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-    //     setDataSeason(spaceType, ctype, "spring")
-    // });
-    // $('#leed-summer').click(function () {
-    //     var spaceType = $('#leed-spacetype').val();
-    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-    //     setDataSeason(spaceType, ctype, "summer")
-    // });
-    // $('#leed-fall').click(function () {
-    //     var spaceType = $('#leed-spacetype').val();
-    //     var ctype = $('#leed-cooling').is(':checked') ? "cooling" : "heating";
-    //     setDataSeason(spaceType, ctype, "fall")
-    // });
-    //
-    // $('#leed-submit').button().click(function () {
-    //     var xmlhttp = new XMLHttpRequest();
-    //     var url = util.STATIC_URL + "/html/leed.html";
-    //     xmlhttp.open("GET", url);
-    //     xmlhttp.send();
-    //     xmlhttp.onload = function () {
-    //         leed_html = xmlhttp.responseText;
-    //         doc = createDocument(leed_html);
-    //         openwindow = openDocument(doc);
-    //         generateTables(openwindow);
-    //         $(openwindow.document.getElementsByClassName("box-texts")).remove();
-    //     }
-    // });
 
     $('button').button();
     $('.buttons').buttonset();
@@ -500,18 +429,6 @@ $('#localDisc').click(function () {
     });
 });
 
-// $('#LEED-help').click(function () {
-//     var container = $('#LEEDdialog');
-//     $.ajax({
-//         url: util.STATIC_URL + 'html/leed-help.html',
-//         success: function (data) {
-//             $('#LEEDdialog').html(data);
-//         },
-//         async: false
-//     });
-//     container.dialog("open");
-// });
-
 $('#setClo').click(function () {
     setClo();
     update();
@@ -756,8 +673,8 @@ function calcPmvElevCompliance(d, r) {
     }
 
     if (local_control === 'noairspeedcontrol') {
-        var max_airspeed;
-        var to = (d.ta + d.tr) / 2;
+        let max_airspeed;
+        const to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
             max_airspeed = 0.8;
         } else if (to < 23.0) {
@@ -777,9 +694,9 @@ function calcPmvElevCompliance(d, r) {
 }
 
 function calcAdaptiveCompliance(d, r) {
-    var comply = true;
-    var special_msg = '';
-    var to = (d.ta + d.tr) / 2;
+    let comply = true;
+    let special_msg = '';
+    const to = (d.ta + d.tr) / 2;
 
     if (d.trm > 33.5 || d.trm < 10) {
         comply = false;
@@ -837,18 +754,6 @@ function setDefaults() {
     keys.forEach(function (element) {
         document.getElementById(element).value = defaults[element];
     });
-}
-
-function createDocument(html) {
-    var doc = document.implementation.createHTMLDocument('');
-    doc.body.innerHTML = html;
-    return doc
-}
-
-function openDocument(doc) {
-    var openwindow = window.open();
-    openwindow.document.write(doc.documentElement.innerHTML);
-    return openwindow
 }
 
 // Set clo value created by the custom ensemble dialog

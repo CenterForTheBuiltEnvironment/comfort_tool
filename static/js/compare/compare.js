@@ -520,10 +520,10 @@ function calcPmvElevCompliance(d, r, i) {
 
 function getComplianceRanges(d, r, local_control) {
 
-    var a = {};
-    var found_lower = false;
-    var found_upper = false;
-    var c;
+    let a = {};
+    let found_lower = false;
+    let found_upper = false;
+    let c;
     for (var v = 0; v <= 1.2; v += 0.01) {
         c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv;
         if (c < 0.5 && c > -0.5) {
@@ -542,7 +542,7 @@ function getComplianceRanges(d, r, local_control) {
     }
 
     if (!local_control) {
-        var to = (d.ta + d.tr) / 2;
+        const to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
             a.vel_max = Math.min(a.vel_max, 0.8);
         } else if (to < 23.0) {

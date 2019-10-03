@@ -51,11 +51,11 @@ pc.writeFactor = function(x) {
             $("#factor-hover").html(x / 1000);
         }
     }
-}
+};
 
 pc.hideFactor = function() {
     $("#hover-output").css('color', 'transparent');
-}
+};
 
 pc.drawRHcurve = function(data) {
     pc.svg.append("path")
