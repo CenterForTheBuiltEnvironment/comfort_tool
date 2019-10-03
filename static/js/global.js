@@ -453,7 +453,7 @@ const envVarLimits = {
 
 // Handles the toggling of the units between SI and IP
 function toggleUnits() {
-    var v;
+    let v;
     let hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
 
@@ -510,6 +510,8 @@ function toggleUnits() {
             $('#rh-unit').html(' KPa');
             v = $('#rh').val() * 2.953;
             $('#rh').val(v.toFixed(2));
+        } else if (hs === 'w') {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
         }
 
         // if instead the unit system is IP
@@ -563,6 +565,8 @@ function toggleUnits() {
             $('#rh-unit').html(' in HG');
             v = $('#rh').val() / 2.953;
             $('#rh').val(v.toFixed(2));
+        } else if (hs === 'w') {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
         }
     }
     pc.toggleUnits(isCelsius);
@@ -594,8 +598,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element][measurementSystem]['max'] || e < envVarLimits[element][measurementSystem]['min']) {
                 $('#' + element + i).val(envVarLimits[element][measurementSystem]['default']);
                 e = envVarLimits[element][measurementSystem]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits.\nPlease select a value between ' +
-                    envVarLimits[element][measurementSystem]['min'] + ' and ' + envVarLimits[element][measurementSystem]['max'] + '.');
+                window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
         } catch {
         }
@@ -603,8 +606,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element]['max'] || e < envVarLimits[element]['min']) {
                 $('#' + element + i).val(envVarLimits[element]['default']);
                 e = envVarLimits[element]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits.\nPlease select a value between ' +
-                    envVarLimits[element]['min'] + ' and ' + envVarLimits[element]['max'] + '.');
+                window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
         } catch {
         }
@@ -614,11 +616,11 @@ function validateUserEntry(i) {
     });
 
     if (d.clo > 0.7 || d.met > 1.3) {
-        const select = document.getElementById("local-control");
+        const select = document.getElementById("local-control" + i);
         select.selectedIndex = 1;
-        $('#local-control-button').hide();
+        $('#local-control' + i).hide();
     } else {
-        $('#local-control-button').show();
+        $('#local-control' + i).show();
     }
 
 }

@@ -106,6 +106,26 @@
                                         <span class='unit3' id='vel-unit3'> m/s</span>
                                     </td>
                                 </tr>
+                                <tr class='inputfield'>
+                                    <td class="inputcell1">
+                                        <select class="form-control form-control-sm" id='local-control1'>
+                                            <option value='false'>No local control</option>
+                                            <option value='true'>Local control</option>
+                                        </select>
+                                    </td>
+                                    <td class="inputcell2">
+                                        <select class="form-control form-control-sm" id='local-control2'>
+                                            <option value='false'>No local control</option>
+                                            <option value='true'>Local control</option>
+                                        </select>
+                                    </td>
+                                    <td class="inputcell3">
+                                        <select class="form-control form-control-sm" id='local-control3'>
+                                            <option value='false'>No local control</option>
+                                            <option value='true'>Local control</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
                                 <tr class='inputlabel'>
                                     <td colspan="2">
@@ -114,7 +134,7 @@
                                     <td colspan="1" id='humidity-spec-cont'>
                                         <select class="form-control form-control-sm" id='humidity-spec'>
                                             <option value='rh'>Relative humidity</option>
-                                            <option value='w'>Humidity ratio (w)</option>
+                                            <option value='w'>Humidity ratio</option>
                                             <option value='dewpoint'>Dew point</option>
                                             <option value='wetbulb'>Wet bulb</option>
                                             <option value='vappress'>Vapor pressure</option>
@@ -195,20 +215,12 @@
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
                             <label class="btn btn-light border btn-sm">
+                                <input type="radio" name="options" id="link" autocomplete="off"> Operative temp
+                            </label>
+                            <label class="btn btn-light border btn-sm">
                                 <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-compare.html') }}"
                                                                                           target="_new">?
                                 Help</a>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center mt-2">
-                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border btn-sm">
-                                <input type='checkbox' id='local-control'/><label for='local-control' style='height:43px; width:80px'>Local air control</label>
-                                {#                                <input type="radio" name="options" id="local-control" autocomplete="off"> Local air control#}
-                            </label>
-                            <label class="btn btn-light border btn-sm">
-                                <input type="radio" name="options" id="link" autocomplete="off"> Operative temp
                             </label>
                         </div>
                     </div>
@@ -218,7 +230,7 @@
             <div id="right_content" class="col-md-12 col-lg-7 bg-white py-2">
 
                 <div class="row justify-content-center">
-                    <div class="alert alert-success py-1 text-center border-0 bg-white" role="alert" id='output-b'>
+                    <div class="alert alert-danger py-1 text-center border-0 bg-white" role="alert" id='output-b' style="color: red">
                         <div class="col" id='special-msg1'></div>
                         <div class="col" id='special-msg2'></div>
                         <div class="col" id='special-msg3'></div>
@@ -227,7 +239,7 @@
 
                 <div class="row center col-sm-12">
                     <table class="table table-borderless table-hover table-sm text-center">
-                    <tbody class='out' id='output-a'>
+                        <tbody class='out' id='output-a'>
                         <tr>
                             <td class='labelcell' style="width: 40%"></td>
                             <td class='resultcell' style="width: 20%">
@@ -243,131 +255,131 @@
                         </tbody>
 
                         <tbody id='pmv-outputs'>
-                            <tr>
-                                <td id='compliance-out-label' class='labelcell'>Compliance</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='comply-msg1'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='comply-msg2'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='comply-msg3'></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td id='pmv-out-label' class='labelcell'>PMV</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='pmv-res1'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='pmv-res2'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='pmv-res3'></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td id='ppd-out-label' class='labelcell'>PPD</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='ppd-res1'></span>
-                                    <span class='unit1'> %</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='ppd-res2'></span>
-                                    <span class='unit2'> %</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='ppd-res3'></span>
-                                    <span class='unit3'> %</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='labelcell'>Sensation</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='sensation1'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='sensation2'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='sensation3'></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='labelcell'>SET</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='set1'></span>
-                                    <span class='tempunit1'> &deg;C &nbsp;</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='set2'></span>
-                                    <span class='tempunit2'> &deg;C &nbsp;</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='set3'></span>
-                                    <span class='tempunit3'> &deg;C &nbsp;</span>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td id='compliance-out-label' class='labelcell'>Compliance</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='comply-msg1'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='comply-msg2'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='comply-msg3'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id='pmv-out-label' class='labelcell'>PMV</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='pmv-res1'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='pmv-res2'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='pmv-res3'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id='ppd-out-label' class='labelcell'>PPD</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='ppd-res1'></span>
+                                <span class='unit1'> %</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='ppd-res2'></span>
+                                <span class='unit2'> %</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='ppd-res3'></span>
+                                <span class='unit3'> %</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='labelcell'>Sensation</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='sensation1'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='sensation2'></span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='sensation3'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='labelcell'>SET</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='set1'></span>
+                                <span class='tempunit1'> &deg;C &nbsp;</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='set2'></span>
+                                <span class='tempunit2'> &deg;C &nbsp;</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='set3'></span>
+                                <span class='tempunit3'> &deg;C &nbsp;</span>
+                            </td>
+                        </tr>
                         </tbody><!--id="pmv-outputs"-->
 
                         <tbody id='pmv-elev-outputs'>
-                            <tr>
-                                <td class='labelcell'>Dry-bulb temp at still air</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='ta-still1'></span>
-                                    <span class='tempunit1'> &deg;C</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='ta-still2'></span>
-                                    <span class='tempunit2'> &deg;C</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='ta-still3'></span>
-                                    <span class='tempunit3'> &deg;C</span>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class='labelcell'>Dry-bulb temp at still air</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='ta-still1'></span>
+                                <span class='tempunit1'> &deg;C</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='ta-still2'></span>
+                                <span class='tempunit2'> &deg;C</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='ta-still3'></span>
+                                <span class='tempunit3'> &deg;C</span>
+                            </td>
+                        </tr>
 
-                            <tr>
-                                <td class='labelcell'>Cooling effect</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='cooling-effect1'></span>
-                                    <span class='tempunit1'> &deg;C</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='cooling-effect2'></span>
-                                    <span class='tempunit2'> &deg;C</span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='cooling-effect3'></span>
-                                    <span class='tempunit3'> &deg;C</span>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class='labelcell'>Cooling effect</td>
+                            <td class='resultcell'>
+                                <span class='result1' id='cooling-effect1'></span>
+                                <span class='tempunit1'> &deg;C</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result2' id='cooling-effect2'></span>
+                                <span class='tempunit2'> &deg;C</span>
+                            </td>
+                            <td class='resultcell'>
+                                <span class='result3' id='cooling-effect3'></span>
+                                <span class='tempunit3'> &deg;C</span>
+                            </td>
+                        </tr>
 
-                            <tr>
-                                <td class='labelcell'>Air speed range</td>
-                                <td class='resultcell'>
-                                    <span class='result1' id='vel-range1'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result2' id='vel-range2'></span>
-                                </td>
-                                <td class='resultcell'>
-                                    <span class='result3' id='vel-range3'></span>
-                                </td>
-                            </tr>
+{#                        <tr>#}
+{#                            <td class='labelcell'>Air speed range</td>#}
+{#                            <td class='resultcell'>#}
+{#                                <span class='result1' id='vel-range1'></span>#}
+{#                            </td>#}
+{#                            <td class='resultcell'>#}
+{#                                <span class='result2' id='vel-range2'></span>#}
+{#                            </td>#}
+{#                            <td class='resultcell'>#}
+{#                                <span class='result3' id='vel-range3'></span>#}
+{#                            </td>#}
+{#                        </tr>#}
                         </tbody><!--id="pmv-elev-outputs"-->
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="row justify-content-center p-1 ">
                     <form>
                         <div class="col-sm-12 mt-4">
-                        <select class="form-control form-control-sm" id='chartSelect'>
-                            <option value='psychta'>Psychrometric (air temperature)</option>
-                            <option value='temphum'>Relative humidity vs. air temperature</option>
-                        </select>
+                            <select class="form-control form-control-sm" id='chartSelect'>
+                                <option value='psychta'>Psychrometric (air temperature)</option>
+                                <option value='temphum'>Relative humidity vs. air temperature</option>
+                            </select>
                         </div>
                     </form>
                 </div>

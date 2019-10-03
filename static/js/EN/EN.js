@@ -95,10 +95,7 @@ $(function () {
         }
     });
 
-    $('#local-control').button();
-
     $('#radio').buttonset();
-    //$('#local-control-adapt').button();
 
     $('#customClo').button({}).click(function () {
         $('#customCloToggle').toggle('fast');
@@ -220,6 +217,11 @@ $('#humidity-spec').change(function () {
             min: 0,
             max: maxHumRatio
         });
+        if (isCelsius) {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
     } else if (v === 'vappress') {
         $('#rh-description').html('Vapor pressure');
         if (isCelsius) {
@@ -356,15 +358,13 @@ $('#addToEnsembles').click(function () {
 
 $('#model-type').change(function () {
     $('#pmv-out-label').html('PMV');
-    $('#local-control-div').hide();
     $('#localDisc').removeAttr('disabled');
     model = $('#model-type').val();
     if (model === 'pmv') {
         $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
-        $('#local-control-div').show();
     } else if (model === 'adaptiveComfort') {
-        $('#pmv-inputs, #local-control-div, #pmv-outputs, #cloInput').hide();
+        $('#pmv-inputs, #pmv-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
@@ -538,7 +538,6 @@ function calcPmvCompliance(d, r) {
     var met_comply = d.met <= 4 && d.met >= 0.8;
     var clo_comply = d.clo <= 2;
 
-    // var local_control = $('#local-control').is(':checked');
     var special_msg = '';
     comply = true;
 

@@ -294,6 +294,12 @@ $('#humidity-spec').change(function () {
             min: 0,
             max: maxHumRatio3
         });
+
+        if (isCelsius) {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
     } else if (v === 'vappress') {
         $('#rh-description').html('Vapor pressure');
         if (isCelsius) {
@@ -354,6 +360,7 @@ $('.inputcell3').click(function () {
 $('.inputbox1').focusout(function () {
     update("1");
 });
+
 $('.inputbox2').focusout(function () {
     update("2");
 });
@@ -462,51 +469,62 @@ function renderPmvElevResults(r, i) {
 }
 
 function calcPmvElevCompliance(d, r, i) {
+    let special_msg = '';
+    // let compliance_ranges, unit_t, unit_v;
+    let comply = true;
+
     const pmv_comply = (Math.abs(r.pmv) <= 0.5);
     const met_comply = d.met <= 2 && d.met >= 1;
     const clo_comply = d.clo <= 1.5;
-    const local_control = $('#local-control').is(':checked');
-    let special_msg = '';
-    let compliance_ranges, unit_t, unit_v;
-    let comply = true;
+
+    let local_control = false;
+    if (i === '1') {
+        local_control = ($('#local-control1').val() === 'true');
+    } else if (i === '2') {
+        local_control = ($('#local-control2').val() === 'true');
+    } else if (i === '3') {
+        local_control = ($('#local-control3').val() === 'true');
+    }
 
     if (!met_comply) {
         comply = false;
-        special_msg += '#' + i + ': ' + 'Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>';
+        special_msg += 'Input ' + i + ' - Metabolic rates below 1.0 or above 2.0 are not covered by the ASHRAE 55 Standard<br>';
     }
 
     if (!clo_comply) {
         comply = false;
-        special_msg += '#' + i + ': ' + 'Clo values above 1.5 are not covered by this Standard<br>';
+        special_msg += 'Input ' + i + ' - Clo values above 1.5 are not covered by the ASHRAE 55 Standard<br>';
     }
 
-    compliance_ranges = getComplianceRanges(d, r, local_control);
+    // if no local control is available
+    let max_airspeed;
+    if (!local_control) {
+        const to = (d.ta + d.tr) / 2;
+        if (to > 25.5) {
+            max_airspeed = 0.8;
+        } else if (to < 23.0) {
+            max_airspeed = 0.2
+        } else {
+            max_airspeed = 50.49 - 4.4047 * to + 0.096425 * to * to;
+            if (max_airspeed < 0.2) max_airspeed = 0.2;
+            if (max_airspeed > 0.8) max_airspeed = 0.8;
+        }
+    }
+    if (d.vel > max_airspeed) {
+        comply = false;
+        // language=HTML
+        special_msg += 'Input ' + i + ' - The air speed value selected is outside the range defined by the ASHRAE 55 Standard for occupants with no local air speed control';
+    } else {
+        special_msg += '';
+    }
 
-    if (d.vel > compliance_ranges.vel_max && local_control) {
-        comply = false;
-        special_msg += '#' + i + ': ' + 'Air speed exceeds limit set by standard<br>';
-    }
-    if (d.vel > compliance_ranges.vel_max && !local_control) {
-        comply = false;
-        special_msg += '#' + i + ': ' + 'Maximum air speed has been limited due to no occupant control<br>';
-    }
     if (!pmv_comply) {
         comply = false;
     }
 
-    if (!isCelsius) {
-        unit_t = '&deg;F';
-        unit_v = ' fpm';
-        compliance_ranges.vel_min *= 196.85039;
-        compliance_ranges.vel_max *= 196.85039;
-    } else {
-        unit_t = '&deg;C';
-        unit_v = ' m/s';
-    }
-
-    if ($('#vel1').val() > 0.2 || $('#vel2').val() > 0.2 || $('#vel3').val() > 0.2) {
-        $("#pmv-out-label").html('PMV with elevated air');
-        $("#ppd-out-label").html('PPD with elevated air');
+    if (d.vel > 0.2) {
+        $("#pmv-out-label").html('PMV with elevated air speed');
+        $("#ppd-out-label").html('PPD with elevated air speed');
         $("#pmv-elev-outputs").show();
     } else {
         $("#pmv-out-label").html('PMV');
@@ -514,53 +532,7 @@ function calcPmvElevCompliance(d, r, i) {
         $("#pmv-elev-outputs").hide();
     }
     renderCompliance(comply, special_msg, i);
-    $("#vel-range" + i).html(compliance_ranges.vel_min.toFixed(1) + ' - ' + compliance_ranges.vel_max.toFixed(1) + unit_v)
 
-}
-
-function getComplianceRanges(d, r, local_control) {
-
-    let a = {};
-    let found_lower = false;
-    let found_upper = false;
-    let c;
-    for (var v = 0; v <= 1.2; v += 0.01) {
-        c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv;
-        if (c < 0.5 && c > -0.5) {
-            a.vel_min = v;
-            found_lower = true;
-            break
-        }
-    }
-    for (var v = 1.2; v >= 0; v -= 0.01) {
-        c = comf.pmvElevatedAirspeed(d.ta, d.tr, v, d.rh, d.met, d.clo, 0).pmv;
-        if (c > -0.5 && c < 0.5) {
-            a.vel_max = v;
-            found_upper = true;
-            break
-        }
-    }
-
-    if (!local_control) {
-        const to = (d.ta + d.tr) / 2;
-        if (to > 25.5) {
-            a.vel_max = Math.min(a.vel_max, 0.8);
-        } else if (to < 23.0) {
-            a.vel_max = Math.min(a.vel_max, 0.2);
-        } else {
-            a.vel_max = Math.min(a.vel_max, 50.49 - 4.4047 * to + 0.096425 * to * to);
-        }
-    }
-
-    if (!found_upper || !found_lower || a.vel_max < a.vel_min) {
-        a.vel_max = 0;
-        a.vel_min = 0;
-    }
-
-    a.vel_min = Math.min(a.vel_max, a.vel_min);
-    a.vel_max = Math.max(a.vel_max, a.vel_min);
-
-    return a
 }
 
 function renderCompliance(comply, special_msg, i) {
@@ -692,6 +664,8 @@ function toggleUnits() {
             $('#rh1').val(v.toFixed(2));
             $('#rh2').val(v2.toFixed(2));
             $('#rh3').val(v3.toFixed(2));
+        } else if (hs == 'w') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
         }
     } else {
         $('.tempunit1, .tempunit2, .tempunit3').each(function () {
@@ -739,6 +713,8 @@ function toggleUnits() {
             $('#rh1').val(v.toFixed(2));
             $('#rh2').val(v2.toFixed(2));
             $('#rh3').val(v3.toFixed(2));
+        } else if (hs == 'w') {
+            $('#rh-unit1, #rh-unit2, #rh-unit3').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
         }
     }
     pc.toggleUnits(isCelsius);

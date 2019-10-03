@@ -290,6 +290,11 @@ $('#humidity-spec').change(function () {
             min: 0,
             max: maxHumRatio
         });
+        if (isCelsius) {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
     } else if (v === 'vappress') {
         $('#rh-description').html('Vapor pressure');
         if (isCelsius) {
@@ -687,7 +692,7 @@ function calcPmvElevCompliance(d, r) {
         if (d.vel > max_airspeed) {
             comply = false;
             // language=HTML
-            special_msg += '<hr> <p class="mb-0">Maximum air speed has been limited due to no occupant control</p>';
+            special_msg += '<p class="mb-0">The air speed value selected is outside the range defined by the ASHRAE 55 standard for occupants with no local air speed control</p>';
         }
     }
     renderCompliance(comply, special_msg);
@@ -723,12 +728,10 @@ function renderCompliance(comply, special_msg) {
     if (comply) {
         $('#comply-msg').html(comply_msg);
         $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});
-        ;
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
         $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});
-        ;
         $('#special-msg').html(special_msg);
     }
 }

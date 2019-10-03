@@ -250,12 +250,16 @@ $('#humidity-spec').change(function () {
         });
     } else if (v === 'w') {
         $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
-        $('#rh-unit').html('');
         $('#rh').spinner({
             step: 0.001,
             min: 0,
             max: maxHumRatio
         });
+        if (isCelsius) {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
     } else if (v === 'vappress') {
         if (isCelsius) {
             $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);

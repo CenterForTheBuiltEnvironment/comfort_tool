@@ -103,11 +103,6 @@
                                         <span class='unit' id='vel-unit'> m/s</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-5 btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-light border" id='labelforlink'>
-                                        <input type="checkbox" id='local-control' style="font-size: .875rem"> Local air speed control
-                                    </label>
-                                </div>
                             </div>
 
                             <div class="row justify-content-between">
@@ -125,7 +120,7 @@
                                 <div class="col-lg-6 col-md-5" id='humidity-spec-cont'>
                                     <select class="form-control form-control-sm" id='humidity-spec'>
                                         <option value='rh'>Relative humidity</option>
-                                        <option value='w'>Humidity ratio (w)</option>
+                                        <option value='w'>Humidity ratio</option>
                                         <option value='dewpoint'>Dew point</option>
                                         <option value='wetbulb'>Wet bulb</option>
                                         <option value='vappress'>Vapor pressure</option>
@@ -177,8 +172,8 @@
                             </div>
 
                             {# custom clothing interface #}
-                            <div class="row justify-content-center m-1" id='customCloToggle' style='display:none'><br/>
-                                <select class="form-control form-control-sm" id='cloMultiSelect' class='col-sm-12 multiselect' multiple='multiple'></select>
+                            <div class="row justify-content-center mt-2" id='customCloToggle' style='display:none'><br/>
+                                <select id='cloMultiSelect' class='col-sm-12 multiselect' multiple='multiple'></select>
                                 <button id='setClo' class="col-sm-12">Set clo value</button>
                             </div>
 
