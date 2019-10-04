@@ -135,22 +135,22 @@
 .inputbox {
     width: 50px;
     height: 22px;
-    text-align: center;
+    text-align: left;
 }
 .inputbox1 {
     width: 50px;
     height: 22px;
-    text-align: center;
+    text-align: left;
 }
 .inputbox2 {
     width: 50px;
     height: 22px;
-    text-align: center;
+    text-align: left;
 }
 .inputbox3 {
     width: 50px;
     height: 22px;
-    text-align: center;
+    text-align: left;
 }
 
 input.rangesbox {
@@ -170,10 +170,6 @@ input.rangesbox {
 
 #switcher {
     margin-top: 20px;
-}
-
-#link {
-    font-size: 10px;
 }
 
 #vel-range {

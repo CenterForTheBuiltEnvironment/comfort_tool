@@ -67,9 +67,9 @@
                                     <span class='tempunit'>&deg;C</span>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-5" data-toggle="buttons">
-                                <label class="btn btn-light p-0 border" id='labelforlink'>
-                                    <input type="checkbox" id='link' style="font-size: .875rem"> Use operative temperature
+                            <div class="col-lg-6 col-md-5 checkbox">
+                                <label id='labelforlink'>
+                                    <input type="checkbox" id='link' style="width: 20px"> Use operative temp
                                 </label>
                             </div>
                         </div>
@@ -166,9 +166,10 @@
                             </div>
 
                             {# custom clothing button #}
-                            <div class="row justify-content-center mt-4">
-                                <input type='checkbox' id='customClo'/>
-                                <label for='customClo'>Create custom ensemble</label>
+                            <div class="row justify-content-center mt-4 btn-group-toggle" data-toggle="buttons">
+                                <label for='customClo' class="btn btn-light border btn-sm">
+                                    <input type='checkbox' id='customClo'/>Create custom ensemble
+                                </label>
                             </div>
 
                             {# custom clothing interface #}
@@ -212,7 +213,8 @@
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
                             <label class="btn btn-light border btn-sm">
-                                <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-EN.html') }}" target="_new">? Help</a>
+                                <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-EN.html') }}" target="_new">?
+                                Help</a>
                             </label>
                         </div>
                     </div>

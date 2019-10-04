@@ -83,7 +83,7 @@ $(function () {
         resizable: false,
     });
 
-    $('#link').button({}).click(function () {
+    $('#link').click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
@@ -97,7 +97,7 @@ $(function () {
 
     $('#radio').buttonset();
 
-    $('#customClo').button({}).click(function () {
+    $('#customClo').click(function () {
         $('#customCloToggle').toggle('fast');
     });
 

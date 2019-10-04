@@ -105,13 +105,15 @@ $(function () {
         }
     });
 
-    $('#link').button({}).click(function () {
+    $('#link').click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a></td>');
             $('#tr-input, #tr-lab').show();
+            $('#labelforlink').html('&#9744; Use operative temp');
         } else {
             $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a></td>');
             $('#tr-input, #tr-lab').hide();
+            $('#labelforlink').html('&#9746; Use operative temp');
         }
     });
 

@@ -28,8 +28,8 @@
 
                 <div id="left_content">
 
-                    <table class="table table-borderless table-sm text-center">
-                        <tbody>
+                    <table class="table table-borderless table-sm text-left">
+                        <tbody style="margin-left: 10px">
                         <tr>
                             <td class="inputcell">
                                 <input type='checkbox' id='inputs1' checked/>
@@ -53,7 +53,7 @@
                                 </td>
                             </tr>
                             <tr class='inputfield'>
-                                <td class="inputcell1" style="width: 33.33%">
+                                <td class="inputcell1" >
                                     <input class='inputbox1' id='ta1'/>
                                     <span class='tempunit1'>&deg;C</span>
                                 </td>
@@ -215,7 +215,7 @@
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
                             <label class="btn btn-light border btn-sm">
-                                <input type="radio" name="options" id="link" autocomplete="off"> Operative temp
+                                <input type="radio" name="options" id="link" autocomplete="off"><span id='labelforlink'>&#9744; Use operative temp</span>
                             </label>
                             <label class="btn btn-light border btn-sm">
                                 <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-compare.html') }}"

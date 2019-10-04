@@ -78,7 +78,7 @@ $(document).ready(function () {
     ac.drawChart();
     ac.drawPoint([d]);
 
-    $('#link').button({}).click(function () {
+    $('#link').click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
@@ -86,8 +86,8 @@ $(document).ready(function () {
             $('#tr-input, #tr-lab').show();
         } else {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-        $('#globeTmpLabel').addClass('text-muted');
-        $('#globeTemp').attr('disabled', 'disabled');
+            $('#globeTmpLabel').addClass('text-muted');
+            $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab').hide();
         }
     });
@@ -165,13 +165,11 @@ $(function () {
     $('#radio').buttonset();
     // $('.leed-buttons').buttonset();
 
-    $('#customClo').button({
-    }).click(function () {
+    $('#customClo').click(function () {
         $('#customCloToggle').toggle('fast');
     });
 
-    $('#dynamicClo').button({
-    }).click(function () {
+    $('#dynamicClo').click(function () {
         $('#dynamicCloToggle').toggle('fast');
     });
 
@@ -456,8 +454,7 @@ $('#model-type').change(function () {
         $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes, #veltopchart-div, #pmv-elev-outputs, #local-control, #local-control-div').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
         $('#pmv-out-label').html('PMV Adjusted');
-    }
-    else if (model === 'adaptiveComfort') {
+    } else if (model === 'adaptiveComfort') {
         $("#chartWrapper, #chart_heatLoss_div").hide();
         $('#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
@@ -565,7 +562,7 @@ function update() {
         if (!isCelsius) {
             r.set = util.CtoF(r.set)
         }
-        if (isNaN(r.pmv)){
+        if (isNaN(r.pmv)) {
             window.alert('The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n' +
                 'Please check that the value you entered are correct.\n' +
                 'The input parameters has been set back to their default values.');
