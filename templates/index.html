@@ -202,6 +202,13 @@
                                 </div>
                             </div>
 
+                            {# custom clothing button #}
+                            <div class="row justify-content-center mt-2 btn-group-toggle" data-toggle="buttons">
+                                <label for='ERF' class="btn btn-light border btn-sm">
+                                    <input type='checkbox' id='ERF'/>Solar gain on occupants
+                                </label>
+                            </div>
+
                         </div><!--end div id="pmv-inputs"-->
 
                         <div id='adaptive-inputs'>
@@ -262,9 +269,6 @@
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
                             <label class="btn btn-light border btn-sm">
                                 <input type="radio" name="options" id="localDisc" autocomplete="off" checked> Local discomfort
-                            </label>
-                            <label class="btn btn-light border btn-sm">
-                                <input type="radio" name="options" id="ERF" autocomplete="off"> Solar Cal
                             </label>
                             <label class="btn btn-light border btn-sm" id="globeTmpLabel">
                                 <input type="radio" name="options" id="globeTemp" autocomplete="off"> Globe temp

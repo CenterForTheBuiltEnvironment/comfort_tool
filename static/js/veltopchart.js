@@ -265,8 +265,6 @@ var vc = new function () {
                     });
                 } else if (temp_var.db >= 23 && temp_var.db <= 25.5) {
                     temp_vel = 50.49 - 4.4047 * temp_var.db + 0.096425 * temp_var.db * temp_var.db;
-                                        console.log("23-25");
-                    console.log(temp_var);
                     if (temp_vel > 0.8 && temp_var.vel > temp_vel) {
                         boundary.push({
                             "db": temp_var.db,

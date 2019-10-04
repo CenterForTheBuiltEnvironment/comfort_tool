@@ -1,3 +1,14 @@
+let erf_inputs = {
+    'posture': 'seated',
+    'alt': 45,
+    'az': 0,
+    'Idir': 700,
+    'tsol': 0.8,
+    'fsvv': 0.2,
+    'fbes': 0.5,
+    'asa': 0.7,
+};
+
 $(document).ready(function () {
 
     // highlight navigation bar button
@@ -92,8 +103,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#chartSelect').val('psychtop');
-    $('#chartSelect').change();
+    $('#chartSelect').val('psychtop').change();
 });
 
 $(function () {
@@ -116,31 +126,42 @@ $(function () {
 
     $('#ERFdialog').dialog({
         autoOpen: false,
-        height: 480,
+        height: 530,
         width: 600,
         modal: true,
         resizable: true,
         buttons: {
             "Calculate": function () {
-                var alt = parseFloat($('#alt').val());
-                var az = parseFloat($('#az').val());
-                var posture = $('#posture').val();
-                var Idir = parseFloat($('#Idir').val());
-                var tsol = parseFloat($('#tsol').val());
-                var fsvv = parseFloat($('#fsvv').val());
-                var fbes = parseFloat($('#fbes').val());
-                var asa = parseFloat($('#asa').val());
-
-                var r = ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa);
+                for (let key in erf_inputs) {
+                    erf_inputs[key] = ($('#' + key).val());
+                }
+                const r = ERF(erf_inputs.alt, erf_inputs.az, erf_inputs.posture, erf_inputs.Idir, erf_inputs.tsol, erf_inputs.fsvv, erf_inputs.fbes, erf_inputs.asa);
                 $('#erf-result').val(r.ERF.toFixed(1));
                 if (!isCelsius) r.dMRT = util.CtoF(r.dMRT) - 32;
                 $('#dmrt-result').val(r.dMRT.toFixed(1))
             },
             "Adjust MRT": function () {
-                var dmrt = parseFloat($('#dmrt-result').val());
+                const dmrt = parseFloat($('#dmrt-result').val());
                 if (!isNaN(dmrt)) {
-                    var mrt = parseFloat($('#tr').val());
-                    $('#tr').val((mrt + dmrt).toFixed(1));
+                    const mrt = parseFloat($('#tr').val());
+                    const chart = $("#chartSelect").val();
+
+                    // if the operative temperature is selected then I need to update its value else update only mrt temperature
+                    if (chart === "psychtop" || $('#link').is(':checked')) {
+                        const t_mrt = (mrt + dmrt).toFixed(1);
+                        const t_a = d.ta;
+                        let a;
+                        if (d.vel < 0.2) {
+                            a = 0.5
+                        } else if (d.vel < 0.6) {
+                            a = 0.6
+                        } else {
+                            a = 0.7
+                        }
+                        $('#ta').val((a * t_a + (1 - a) * t_mrt).toFixed(1))
+                    } else {
+                        $('#tr').val((mrt + dmrt).toFixed(1));
+                    }
                     $(this).dialog("close");
                     update();
                 }
@@ -229,86 +250,7 @@ $(function () {
 });
 
 $('#humidity-spec').change(function () {
-    var v = $('#humidity-spec').val();
-    var ta = parseFloat($('#ta').val());
-    if (!isCelsius) ta = util.FtoC(ta);
-    const maxVapPress = parseFloat(psy.satpress(ta));
-    const maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
-    var rh = parseFloat($('#rh').val());
-    if (!isCelsius && (window.humUnit === 'wetbulb' || window.humUnit === 'dewpoint')) rh = util.FtoC(rh);
-    if (window.humUnit === 'vappress') if (!isCelsius) rh *= 2953;
-    else rh *= 1000;
-
-    if (v === 'rh') {
-        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
-        $('#rh-unit').html(' %');
-        $('#rh-description').html('Relative humidity');
-        $('#rh').spinner({
-            step: envVarLimits.rh.step,
-            min: envVarLimits.rh.min,
-            max: envVarLimits.rh.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'dewpoint') {
-        $('#rh-description').html('Dew point temperature');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
-            $('#rh-unit').html(' &deg;C');
-        } else {
-            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
-            $('#rh-unit').html(' &deg;F');
-        }
-        $('#rh').spinner({
-            step: envVarLimits.tdp.si.step,
-            min: envVarLimits.tdp.si.min,
-            max: envVarLimits.tdp.si.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'wetbulb') {
-        $('#rh-description').html('Wet bulb temperature');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
-            $('#rh-unit').html(' &deg;C');
-        } else {
-            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
-            $('#rh-unit').html(' &deg;F');
-        }
-        $('#rh').spinner({
-            step: envVarLimits.twb.si.step,
-            min: envVarLimits.twb.si.min,
-            max: envVarLimits.twb.si.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'w') {
-        $('#rh-description').html('Humidity ratio');
-        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
-        $('#rh-unit').html('');
-        $('#rh').spinner({
-            step: 0.001,
-            min: 0,
-            max: maxHumRatio
-        });
-        if (isCelsius) {
-            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
-        } else {
-            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
-        }
-    } else if (v === 'vappress') {
-        $('#rh-description').html('Vapor pressure');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
-            $('#rh-unit').html(' KPa');
-        } else {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 2953);
-            $('#rh-unit').html(' in HG');
-        }
-        $('#rh').spinner({
-            step: 0.01,
-            min: 0,
-            max: maxVapPress / 1000.0
-        });
-    }
-    window.humUnit = v;
+    change_humidity_selection();
 });
 
 $('#link').click(function () {
@@ -387,11 +329,14 @@ $('#globeTemp').click(function () {
 });
 
 $('#ERF').click(function () {
-    var container = $('#ERFdialog');
+    const container = $('#ERFdialog');
     $.ajax({
         url: util.STATIC_URL + '/html/erf.html',
         success: function (data) {
             $('#ERFdialog').html(data);
+            for (let key in erf_inputs) {
+                $('#' + key).val(erf_inputs[key]);
+            }
             $('#posture').selectmenu({
                 width: 90
             });
@@ -465,12 +410,12 @@ $('#model-type').change(function () {
 });
 
 $("#chartSelect").change(function () {
-    chart = $("#chartSelect").val();
+    const chart = $("#chartSelect").val();
     $('#output-b, #output-a, #ta-input, #ta-lab').show();
     $('#pmv-notes').show();
     if (chart === "psychta" || chart === "psychtop") {
         $("#chart-div").show();
-        $("#temphumchart-div, veltopchart-div").hide();
+        $("#temphumchart-div, #veltopchart-div").hide();
         if (chart === "psychta") {
             $("#psychta-note").show();
             $("#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div").hide();
@@ -526,7 +471,7 @@ $("#chartSelect").change(function () {
         $('#link').is(':checked');
         $('#tr-input, #tr-lab').show();
         $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
-        $('#globeTemp').removeAttr('disabled')
+        $('#globeTemp').removeAttr('disabled');
         $('#globeTmpLabel').removeClass('text-muted');
         $('#labelforlink, #ta-input, #ta-lab, #output-b, #output-a').hide();
     }
@@ -537,7 +482,9 @@ function update() {
 
     let r;
 
-    if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop" || $("#chartSelect").val() == "veltop") {
+    const selected_chart = $("#chartSelect").val();
+
+    if ($('#link').is(':checked') || selected_chart === "psychtop" || selected_chart === "veltop") {
         $('#tr').val($('#ta').val());
     }
 
@@ -632,13 +579,11 @@ function renderAdaptiveResults(r) {
         $('#sensation80').html('Comfortable');
         if (to < r.tComf90Lower) {
             $('#sensation90').html('<span style="color:blue;">Too cool</span>');
-            ;
         } else {
             $('#sensation90').html('<span style="color:red;">Too warm</span>');
         }
     } else if (to < r.tComf80Lower) {
         $('#sensation80, #sensation90').html('<span style="color:blue;">Too cool</span>');
-        ;
     } else {
         $('#sensation80, #sensation90').html('<span style="color:red;">Too warm</span>');
     }

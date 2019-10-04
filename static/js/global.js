@@ -624,3 +624,87 @@ function validateUserEntry(i) {
     }
 
 }
+
+// changed humidity dropdown selection
+function change_humidity_selection() {
+    const v = $('#humidity-spec').val();
+    let ta = parseFloat($('#ta').val());
+    if (!isCelsius) ta = util.FtoC(ta);
+    const maxVapPress = parseFloat(psy.satpress(ta));
+    const maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
+    let rh = parseFloat($('#rh').val());
+    if (!isCelsius && (window.humUnit === 'wetbulb' || window.humUnit === 'dewpoint')) rh = util.FtoC(rh);
+    if (window.humUnit === 'vappress') if (!isCelsius) rh *= 2953;
+    else rh *= 1000;
+
+    if (v === 'rh') {
+        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
+        $('#rh-unit').html(' %');
+        $('#rh-description').html('Relative humidity');
+        $('#rh').spinner({
+            step: envVarLimits.rh.step,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'dewpoint') {
+        $('#rh-description').html('Dew point temperature');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
+            $('#rh-unit').html(' &deg;C');
+        } else {
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
+            $('#rh-unit').html(' &deg;F');
+        }
+        $('#rh').spinner({
+            step: envVarLimits.tdp.si.step,
+            min: envVarLimits.tdp.si.min,
+            max: envVarLimits.tdp.si.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'wetbulb') {
+        $('#rh-description').html('Wet bulb temperature');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
+            $('#rh-unit').html(' &deg;C');
+        } else {
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
+            $('#rh-unit').html(' &deg;F');
+        }
+        $('#rh').spinner({
+            step: envVarLimits.twb.si.step,
+            min: envVarLimits.twb.si.min,
+            max: envVarLimits.twb.si.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'w') {
+        $('#rh-description').html('Humidity ratio');
+        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
+        $('#rh-unit').html('');
+        $('#rh').spinner({
+            step: 0.001,
+            min: 0,
+            max: maxHumRatio
+        });
+        if (isCelsius) {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
+    } else if (v === 'vappress') {
+        $('#rh-description').html('Vapor pressure');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
+            $('#rh-unit').html(' KPa');
+        } else {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 2953);
+            $('#rh-unit').html(' in HG');
+        }
+        $('#rh').spinner({
+            step: 0.01,
+            min: 0,
+            max: maxVapPress / 1000.0
+        });
+    }
+    window.humUnit = v;
+};
