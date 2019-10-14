@@ -32,6 +32,10 @@ $(document).ready(function () {
 
     $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chart-title-pmv').show();
     $('#temphumchart-div, #temphumchart-title').hide();
+
+    $("#db-axis-C-label").text("Operative Temperature [°C]");
+    $("#db-axis-F-label").text("Operative Temperature [°F]");
+
 });
 
 $(function () {

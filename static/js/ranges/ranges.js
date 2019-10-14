@@ -103,6 +103,9 @@ $(document).ready(function () {
     drawTRrange();
 
     parameter_selection_change();
+
+    $("#db-axis-C-label").text("Operative Temperature [°C]");
+    $("#db-axis-F-label").text("Operative Temperature [°F]");
 });
 
 $(function () {
@@ -133,7 +136,7 @@ $(function () {
             $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
             $("#parameter_select").append("<option value='sel_t_mrt'>Mean radiant temperature</option>");
 
-            if (!(mrtValRow.is(':visible')) && !(parameter === "sel_t_mrt")){
+            if (!(mrtValRow.is(':visible')) && !(parameter === "sel_t_mrt")) {
                 mrtValRow.show();
             }
 
@@ -238,8 +241,8 @@ $('#humidity-spec').change(function () {
         $('#rh-unit').html(' %');
         $('#rh').spinner({
             step: envVarLimits.rh.step,
-        min: envVarLimits.rh.min,
-        max: envVarLimits.rh.max,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
             numberFormat: "n"
         });
     } else if (v === 'dewpoint') {
@@ -252,8 +255,8 @@ $('#humidity-spec').change(function () {
         }
         $('#rh').spinner({
             step: envVarLimits.rh.step,
-        min: envVarLimits.rh.min,
-        max: envVarLimits.rh.max,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
             numberFormat: "n"
         });
     } else if (v === 'wetbulb') {
@@ -266,8 +269,8 @@ $('#humidity-spec').change(function () {
         }
         $('#rh').spinner({
             step: envVarLimits.rh.step,
-        min: envVarLimits.rh.min,
-        max: envVarLimits.rh.max,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
             numberFormat: "n"
         });
     } else if (v === 'w') {
@@ -771,7 +774,7 @@ function parameter_selection_change() {
         $("#mrt_val_row, #vel_val_row, #met_val_row, #hum_val_row").show();
         drawCLOrange()
     }
-    if (chart ==='psychtop'){
+    if (chart === 'psychtop') {
         $("#mrt_val_row").hide()
     }
     update();
