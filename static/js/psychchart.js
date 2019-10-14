@@ -312,13 +312,13 @@ var pc = new function () {
 
     // calculate the values and draws the numbers in the box
     this.mousemove = function () {
-        var mouseDBT = pc.db_scale.invert(d3.mouse(this)[0]);
-        var mouseHR = pc.hr_scale.invert(d3.mouse(this)[1]);
-        var mouseVP = (psy.PROP.Patm * mouseHR / 1000) / (0.62198 + mouseHR / 1000);
-        var mouseEnt = (1.006 * mouseDBT + (mouseHR / 1000) * (2501 + 1.86 * mouseDBT));
-        var mouseRH = mouseVP / psy.satpress(mouseDBT) * 100;
-        var mouseWBT = psy.wetbulb(mouseDBT, mouseHR / 1000);
-        var mouseDew = -35.957 - 1.8726 * Math.log(mouseVP) + 1.1689 * Math.pow(Math.log(mouseVP), 2);
+        let mouseDBT = pc.db_scale.invert(d3.mouse(this)[0]);
+        let mouseHR = pc.hr_scale.invert(d3.mouse(this)[1]);
+        let mouseVP = (psy.PROP.Patm * mouseHR / 1000) / (0.62198 + mouseHR / 1000);
+        let mouseEnt = (1.006 * mouseDBT + (mouseHR / 1000) * (2501 + 1.86 * mouseDBT));
+        let mouseRH = mouseVP / psy.satpress(mouseDBT) * 100;
+        let mouseWBT = psy.wetbulb(mouseDBT, mouseHR / 1000);
+        let mouseDew = -35.957 - 1.8726 * Math.log(mouseVP) + 1.1689 * Math.pow(Math.log(mouseVP), 2);
         if (mouseVP <= 0.01) {
             mouseDew = -35.0
         }
@@ -498,7 +498,7 @@ var pc = new function () {
     };
 
     this.findComfortBoundary = function (d, pmvlimit) {
-        var boundary = [];
+        let boundary = [];
 
         function rhclos(rhx, target) {
             return function (db) {

@@ -128,6 +128,21 @@ $(function () {
         } else if (chart === "psychta") {
             $("#temphumchart-div, #temphumchart-title").hide();
             $("#chart-div, #chart-title-pmv").show();
+            $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
+            $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
+
+            $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a></td>');
+            $('#tr-input, #tr-lab, #labelforlink').show();
+            $('#labelforlink').html('&#9744; Use operative temp');
+        } else if (chart === "psychtop") {
+            $("#temphumchart-div, #temphumchart-title").hide();
+            $("#chart-div, #chart-title-pmv").show();
+
+            $('#ta-lab').html('<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a></td>');
+            $('#tr-input, #tr-lab, #labelforlink').hide();
+            $("#db-axis-C-label").text("Operative Temperature [°C]");
+            $("#db-axis-F-label").text("Operative Temperature [°F]");
+
         }
         update("1");
         update("2");
@@ -334,14 +349,10 @@ $('#humidity-spec').change(function () {
     window.humUnit = v;
 });
 
-$('#link').click(function () {
-    $('#tr').val($('#ta').val());
-});
-
 $('.inputbox').keydown(function (event) {
     if (event.keyCode === 13) {
-        var inputs = $('.inputbox:visible:enabled');
-        var nextBox = inputs.index(this) + 1;
+        let inputs = $('.inputbox:visible:enabled');
+        let nextBox = inputs.index(this) + 1;
         if (nextBox === inputs.length) nextBox = 0;
         inputs[nextBox].focus();
     }
@@ -408,7 +419,7 @@ $('#specPressure').click(function () {
 
 function update(i) {
 
-    if ($('#link').is(':checked')) {
+    if ($('#tr-input').is(':hidden')) {
         $('#tr' + i).val($('#ta' + i).val());
     }
 
@@ -561,12 +572,12 @@ function setDefaults1() {
         rh /= 1000;
     }
     const defaults = {
-        ta: envVarLimits.ta.si.default,
+        ta: envVarLimits.ta.si.default + 1,
         tr: envVarLimits.tr.si.default,
         vel: envVarLimits.vel.si.default,
         rh: rh.toFixed(psy.PREC[hs]),
         met: envVarLimits.met.default,
-        clo: envVarLimits.clo.default,
+        clo: envVarLimits.clo.default - 0.1,
     };
 
     keys.forEach(function (element) {
@@ -582,11 +593,11 @@ function setDefaults2() {
         rh /= 1000;
     }
     const defaults = {
-        ta: envVarLimits.ta.si.default + 3,
-        tr: envVarLimits.tr.si.default - 3,
+        ta: envVarLimits.ta.si.default,
+        tr: envVarLimits.tr.si.default,
         vel: envVarLimits.vel.si.default,
         rh: rh.toFixed(psy.PREC[hs]),
-        met: envVarLimits.met.default,
+        met: envVarLimits.met.default + 0.1,
         clo: envVarLimits.clo.default,
     };
 
@@ -603,12 +614,12 @@ function setDefaults3() {
         rh /= 1000;
     }
     const defaults = {
-        ta: envVarLimits.ta.si.default - 3,
-        tr: envVarLimits.tr.si.default + 3,
+        ta: envVarLimits.ta.si.default - 2,
+        tr: envVarLimits.tr.si.default - 2,
         vel: envVarLimits.vel.si.default,
         rh: rh.toFixed(psy.PREC[hs]),
-        met: envVarLimits.met.default,
-        clo: envVarLimits.clo.default,
+        met: envVarLimits.met.default + 0.2,
+        clo: envVarLimits.clo.default + 0.1,
     };
 
     keys.forEach(function (element) {

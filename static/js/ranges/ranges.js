@@ -119,14 +119,36 @@ $(function () {
 
     $("#chartSelect").change(function () {
         const chart = $("#chartSelect").val();
+        const parameter = $("#parameter_select").val();
+        const mrtValRow = $("#mrt_val_row")
+
         if (chart === "temphum") {
             $("#chart-div, #chart-title-pmv").hide();
             $("#temphumchart-div, #temphumchart-title").show();
         } else if (chart === "psychta") {
             $("#temphumchart-div, #temphumchart-title").hide();
             $("#chart-div, #chart-title-pmv").show();
+
+            $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
+            $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
+            $("#parameter_select").append("<option value='sel_t_mrt'>Mean radiant temperature</option>");
+
+            if (!(mrtValRow.is(':visible')) && !(parameter === "sel_t_mrt")){
+                mrtValRow.show();
+            }
+
+        } else if (chart === "psychtop") {
+            $("#temphumchart-div, #temphumchart-title").hide();
+            $("#chart-div, #chart-title-pmv").show();
+
+            if (mrtValRow.is(':visible')) {
+                mrtValRow.hide();
+            }
+            $("#db-axis-C-label").text("Operative Temperature [°C]");
+            $("#db-axis-F-label").text("Operative Temperature [°F]");
+            $("#parameter_select option[value='sel_t_mrt']").remove();
         }
-        update();
+        parameter_selection_change();
     });
 
     $("#parameter_select").change(function () {
@@ -729,6 +751,7 @@ function setDefaults() {
 
 function parameter_selection_change() {
     const parameter = $("#parameter_select").val();
+    const chart = $("#chartSelect").val();
     $("#inputfield-ta, #tr-lab, #inputfield-tr, #tr_vel, #inputfield-vel, #tr_hum, #inputfield-hum, #tr_met, #inputfield-met, #tr_clo, #inputfield-clo").hide();
     $("#mrt_val_row, #vel_val_row, #clo_val_row, #met_val_row, #hum_val_row").hide();
     if (parameter === "sel_t_mrt") {
@@ -747,6 +770,9 @@ function parameter_selection_change() {
         $("#tr_clo, #inputfield-clo").show();
         $("#mrt_val_row, #vel_val_row, #met_val_row, #hum_val_row").show();
         drawCLOrange()
+    }
+    if (chart ==='psychtop'){
+        $("#mrt_val_row").hide()
     }
     update();
 }

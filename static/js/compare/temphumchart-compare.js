@@ -104,7 +104,7 @@ var bc = new function() {
 
         d3.select("#db-axis-C-temphum")
             .append("text")
-            .text("Drybulb Temperature [°C]")
+            .text("Dry-bulb Temperature [°C]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
             .attr("y", bc.margin / 1.6);
@@ -112,7 +112,7 @@ var bc = new function() {
 
         d3.select("#db-axis-F-temphum")
             .append("text")
-            .text("Drybulb Temperature [°F]")
+            .text("Dry-bulb Temperature [°F]")
             .attr("class", "db-unit")
             .attr("x", (bc.width / 2) - 50)
             .attr("y", bc.margin / 1.6);

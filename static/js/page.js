@@ -420,8 +420,8 @@ $("#chartSelect").change(function () {
             $("#psychta-note").show();
             $("#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div").hide();
 
-            $("#db-axis-C-label").text("Drybulb Temperature [°C]");
-            $("#db-axis-F-label").text("Drybulb Temperature [°F]");
+            $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
+            $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
             if ($('#link').is(':checked')) {
                 $('#labelforlink').show();
@@ -705,7 +705,7 @@ function setDefaults() {
 function setClo() {
     let clo = 0;
     var opt = document.getElementById('cloMultiSelect').options;
-    for (var i = 0; i < opt.length; i++) {
+    for (let i = 0; i < opt.length; i++) {
         if (opt[i].selected) clo += parseFloat(opt[i].value);
     }
     document.getElementById('clo').value = clo.toFixed(2);

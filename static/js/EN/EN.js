@@ -307,8 +307,8 @@ $("#chartSelect").change(function () {
             $("#psychta-note").show();
             $("#psychtop-note, #temphum-note").hide();
 
-            $("#db-axis-C-label").text("Drybulb Temperature [°C]");
-            $("#db-axis-F-label").text("Drybulb Temperature [°F]");
+            $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
+            $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
             if ($('#link').is(':checked')) {
                 $('#labelforlink').show();
