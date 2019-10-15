@@ -12,7 +12,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 Python 3 installed on your machine.
 
-If you’re using Python 2, see [Install virtualenv](https://flask.palletsprojects.com/en/1.1.x/installation/#install-install-virtualenv) first.
 If you do not have Python installed on your machine you can follow [this guide](https://wiki.python.org/moin/BeginnersGuide/Download)
 
 ## Installation

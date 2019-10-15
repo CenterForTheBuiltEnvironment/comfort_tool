@@ -1,7 +1,7 @@
 import os
 import csv
-from io import TextIOWrapper, StringIO
-from flask import Flask, request, make_response, render_template, json, send_from_directory, abort, redirect
+from io import TextIOWrapper
+from flask import Flask, request, render_template, send_from_directory, abort, redirect
 import contrib.comfort_models as cm
 from flask_csv import send_csv
 
@@ -47,9 +47,7 @@ def transform_view():
     csv_file = TextIOWrapper(request_file, encoding='utf-8')
     csv_reader = csv.DictReader(csv_file, delimiter=',')
     fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level': 'clo'}
-    si_unit = True
-    if any([True for x in csv_reader.fieldnames if x.split(' [')[1] == 'F]']):
-        si_unit = False
+    si_unit = all([x.split(' [')[1] == 'F' for x in csv_reader.fieldnames])
     csv_reader.fieldnames = [fields[x.split(' [')[0]] for x in csv_reader.fieldnames]
     results = []
 

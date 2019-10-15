@@ -19,3 +19,6 @@ contib/.pytest_cache
 
 # IntelliJ
 /out/
+
+runtime.txt
+Procfile
