@@ -31,7 +31,7 @@ let keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
 let cloInsulationTypicalEnsambles = [
     {
-        clothing: 'Walking shorts, short-sleeve shirt:0.36 clo',
+        clothing: 'Walking shorts, short-sleeve shirt: 0.36 clo',
         clo: 0.36
     }, {
         clothing: 'Typical summer indoor clothing: 0.5 clo',
@@ -340,8 +340,8 @@ metRatesTypicalTasks.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
 // Metabolic rates of typical activities ASHRAE removed reclining and sleeping
 let metRatesTypicalTasksASHRAE = metRatesTypicalTasks.filter(function (el) {
-    return el.met > 0.8 && // 0.8 is the reclining met
-        el.met <= 2.0  // as defined in page 36 ASHRAE 55
+    return el.met > 0.7 && // 0.8 is the reclining met
+        el.met <= 4.0  // as defined in page 36 ASHRAE 55
 });
 metRatesTypicalTasksASHRAE.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
@@ -351,28 +351,28 @@ const envVarLimits = {
         'si': {
             'step': 0.5,
             'default': 25,
-            'min': 10,
-            'max': 36
+            'min': 0,
+            'max': 50
         },
         'ip': {
             'step': 0.5,
             'default': 77,
-            'min': 50,
-            'max': 97
+            'min': 32,
+            'max': 122
         },
     },
     'tr': {
         'si': {
             'step': 0.5,
             'default': 25,
-            'min': 10,
-            'max': 36
+            'min': 0,
+            'max': 50
         },
         'ip': {
             'step': 0.5,
             'default': 77,
-            'min': 50,
-            'max': 97
+            'min': 32,
+            'max': 122
         },
     },
     'vel': {
@@ -380,7 +380,8 @@ const envVarLimits = {
             'step': 0.1,
             'default': 0.1,
             'min': 0,
-            'max': 4
+            'max': 4,
+            'elevated_air_speed': 0.2,
         },
         'ip': {
             'step': 0.1,
@@ -398,14 +399,14 @@ const envVarLimits = {
     'met': {
         'step': 0.1,
         'default': 1,
-        'min': 0.9,
-        'max': 2
+        'min': 0.7,
+        'max': 4
     },
     'clo': {
         'step': 0.1,
-        'default': 0.75,
+        'default': 0.6,
         'min': 0,
-        'max': 1.5  // ISO imposes 2 and ASHRAE 1.5
+        'max': 4  // ISO imposes 2 and ASHRAE 1.5
     },
     'trm': {
         'si': {
@@ -451,8 +452,8 @@ const envVarLimits = {
 };
 
 // Handles the toggling of the units between SI and IP
-function toggleUnits(vc) {
-    var v;
+function toggleUnits() {
+    let v;
     let hs = $('#humidity-spec').val();
     isCelsius = !isCelsius;
 
@@ -509,6 +510,8 @@ function toggleUnits(vc) {
             $('#rh-unit').html(' KPa');
             v = $('#rh').val() * 2.953;
             $('#rh').val(v.toFixed(2));
+        } else if (hs === 'w') {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
         }
 
         // if instead the unit system is IP
@@ -562,29 +565,14 @@ function toggleUnits(vc) {
             $('#rh-unit').html(' in HG');
             v = $('#rh').val() / 2.953;
             $('#rh').val(v.toFixed(2));
+        } else if (hs === 'w') {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
         }
     }
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
     vc.toggleUnits(isCelsius);
     ac.toggleUnits(isCelsius);
-}
-
-function updateGlobe() {
-    let ta = parseFloat($('#ta-g').val());
-    let vel = parseFloat($('#vel-g').val());
-    let tglobe = parseFloat($('#tglobe').val());
-    let diameter = parseFloat($('#diameter').val());
-    let emissivity = parseFloat($('#emissivity').val());
-    if (!isCelsius) {
-        ta = util.FtoC(ta);
-        vel /= 196.9;
-        tglobe = util.FtoC(tglobe);
-        diameter *= 0.0254
-    }
-    let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-    if (!isCelsius) tr = util.CtoF(tr);
-    $('#mrt-result').val(tr.toFixed(1));
 }
 
 // check user entry
@@ -601,9 +589,8 @@ function validateUserEntry(i) {
         let measurementSystem;
         if (isCelsius) {
             measurementSystem = 'si'
-        }
-        else {
-            measurementSystem ='ip'
+        } else {
+            measurementSystem = 'ip'
         }
 
         // check user entry. if value is beyond the acceptability limit replace it with the default value
@@ -611,8 +598,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element][measurementSystem]['max'] || e < envVarLimits[element][measurementSystem]['min']) {
                 $('#' + element + i).val(envVarLimits[element][measurementSystem]['default']);
                 e = envVarLimits[element][measurementSystem]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
-                    envVarLimits[element][measurementSystem]['min'] + ' and ' + envVarLimits[element][measurementSystem]['max'] +'.');
+                window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
         } catch {
         }
@@ -620,8 +606,7 @@ function validateUserEntry(i) {
             if (e > envVarLimits[element]['max'] || e < envVarLimits[element]['min']) {
                 $('#' + element + i).val(envVarLimits[element]['default']);
                 e = envVarLimits[element]['default'];
-                window.alert('The value you entered is outside the stardard\'s applicability limits \n Please select a value between ' +
-                    envVarLimits[element]['min'] + ' and ' + envVarLimits[element]['max'] +'.');
+                window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
         } catch {
         }
@@ -630,4 +615,96 @@ function validateUserEntry(i) {
         d[element] = parseFloat(e);
     });
 
+    if (d.clo > 0.7 || d.met > 1.3) {
+        const select = document.getElementById("local-control" + i);
+        select.selectedIndex = 1;
+        $('#local-control' + i).hide();
+    } else {
+        $('#local-control' + i).show();
+    }
+
 }
+
+// changed humidity dropdown selection
+function change_humidity_selection() {
+    const v = $('#humidity-spec').val();
+    let ta = parseFloat($('#ta').val());
+    if (!isCelsius) ta = util.FtoC(ta);
+    const maxVapPress = parseFloat(psy.satpress(ta));
+    const maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
+    let rh = parseFloat($('#rh').val());
+    if (!isCelsius && (window.humUnit === 'wetbulb' || window.humUnit === 'dewpoint')) rh = util.FtoC(rh);
+    if (window.humUnit === 'vappress') if (!isCelsius) rh *= 2953;
+    else rh *= 1000;
+
+    if (v === 'rh') {
+        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
+        $('#rh-unit').html(' %');
+        $('#rh-description').html('Relative humidity');
+        $('#rh').spinner({
+            step: envVarLimits.rh.step,
+            min: envVarLimits.rh.min,
+            max: envVarLimits.rh.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'dewpoint') {
+        $('#rh-description').html('Dew point temperature');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
+            $('#rh-unit').html(' &deg;C');
+        } else {
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
+            $('#rh-unit').html(' &deg;F');
+        }
+        $('#rh').spinner({
+            step: envVarLimits.tdp.si.step,
+            min: envVarLimits.tdp.si.min,
+            max: envVarLimits.tdp.si.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'wetbulb') {
+        $('#rh-description').html('Wet bulb temperature');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
+            $('#rh-unit').html(' &deg;C');
+        } else {
+            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
+            $('#rh-unit').html(' &deg;F');
+        }
+        $('#rh').spinner({
+            step: envVarLimits.twb.si.step,
+            min: envVarLimits.twb.si.min,
+            max: envVarLimits.twb.si.max,
+            numberFormat: "n"
+        });
+    } else if (v === 'w') {
+        $('#rh-description').html('Humidity ratio');
+        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
+        $('#rh-unit').html('');
+        $('#rh').spinner({
+            step: 0.001,
+            min: 0,
+            max: maxHumRatio
+        });
+        if (isCelsius) {
+            $('#rh-unit').html(' <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>');
+        } else {
+            $('#rh-unit').html(' <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>');
+        }
+    } else if (v === 'vappress') {
+        $('#rh-description').html('Vapor pressure');
+        if (isCelsius) {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
+            $('#rh-unit').html(' KPa');
+        } else {
+            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 2953);
+            $('#rh-unit').html(' in HG');
+        }
+        $('#rh').spinner({
+            step: 0.01,
+            min: 0,
+            max: maxVapPress / 1000.0
+        });
+    }
+    window.humUnit = v;
+};

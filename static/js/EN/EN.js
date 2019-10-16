@@ -1,4 +1,10 @@
+keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
+
 $(document).ready(function () {
+
+    // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_en').addClass('active');
 
     var cloSelect = document.getElementById('cloSelect');
     cloSelect.onchange = function () {
@@ -54,8 +60,8 @@ $(function () {
 
     $('#globedialog').dialog({
         autoOpen: false,
-        height: 300,
-        width: 422,
+        height: 350,
+        width: 400,
         modal: true,
         resizable: false,
         buttons: {
@@ -77,7 +83,7 @@ $(function () {
         resizable: false,
     });
 
-    $('#link').button({}).click(function () {
+    $('#link').click(function () {
         if ($('#tr-input').is(':hidden')) {
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
             $('#globeTemp').removeAttr('disabled');
@@ -89,16 +95,9 @@ $(function () {
         }
     });
 
-    $('#local-control').button();
-
     $('#radio').buttonset();
-    //$('#local-control-adapt').button();
 
-    $('#customClo').button({
-        icons: {
-            primary: 'ui-icon-person'
-        }
-    }).click(function () {
+    $('#customClo').click(function () {
         $('#customCloToggle').toggle('fast');
     });
 
@@ -156,105 +155,10 @@ $(function () {
         numberFormat: "n"
     });
 
-    // define select menu width
-    $('select#humidity-spec').selectmenu({
-        width: 200
-    });
-
-    $('select#model-type').selectmenu({
-        width: 200
-    });
-
-    $('select#cloSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#actSelect').selectmenu({
-        width: 200
-    });
-
-    $('select#chartSelect').selectmenu({
-        width: 350
-    });
-
 });
 
 $('#humidity-spec').change(function () {
-    var v = $('#humidity-spec').val();
-    var ta = parseFloat($('#ta').val());
-    if (!isCelsius) ta = util.FtoC(ta);
-    var maxVapPress = parseFloat(psy.satpress(ta));
-    var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
-    var rh = parseFloat($('#rh').val());
-    if (!isCelsius && (window.humUnit === 'wetbulb' || window.humUnit === 'dewpoint')) rh = util.FtoC(rh);
-    if (window.humUnit === 'vappress') if (!isCelsius) rh *= 2953;
-    else rh *= 1000;
-
-    if (v === 'rh') {
-        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'rh'));
-        $('#rh-unit').html(' %');
-        $('#rh-description').html('Relative humidity');
-        $('#rh').spinner({
-            step: envVarLimits.rh.step,
-            min: envVarLimits.rh.min,
-            max: envVarLimits.rh.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'dewpoint') {
-        $('#rh-description').html('Dew point temperature');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'dewpoint'));
-            $('#rh-unit').html(' &deg;C');
-        } else {
-            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'dewpoint')));
-            $('#rh-unit').html(' &deg;F');
-        }
-        $('#rh').spinner({
-            step: envVarLimits.tdp.si.step,
-            min: envVarLimits.tdp.si.min,
-            max: envVarLimits.tdp.si.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'wetbulb') {
-        $('#rh-description').html('Wet bulb temperature');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'wetbulb'));
-            $('#rh-unit').html(' &deg;C');
-        } else {
-            $('#rh').val(util.CtoF(psy.convert(rh, ta, window.humUnit, 'wetbulb')));
-            $('#rh-unit').html(' &deg;F');
-        }
-        $('#rh').spinner({
-            step: envVarLimits.twb.si.step,
-            min: envVarLimits.twb.si.min,
-            max: envVarLimits.twb.si.max,
-            numberFormat: "n"
-        });
-    } else if (v === 'w') {
-        $('#rh-description').html('Humidity ratio');
-        $('#rh').val(psy.convert(rh, ta, window.humUnit, 'w'));
-        $('#rh-unit').html('');
-        $('#rh').spinner({
-            step: 0.001,
-            min: 0,
-            max: maxHumRatio
-        });
-    } else if (v === 'vappress') {
-        $('#rh-description').html('Vapor pressure');
-        if (isCelsius) {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 1000);
-            $('#rh-unit').html(' KPa');
-        } else {
-            $('#rh').val(psy.convert(rh, ta, window.humUnit, 'vappress') / 2953);
-            $('#rh-unit').html(' in HG');
-        }
-        $('#rh').spinner({
-            step: 0.01,
-            min: 0,
-            max: maxVapPress / 1000.0
-        });
-    }
-    window.humUnit = v;
+    change_humidity_selection();
 });
 
 $('#link').click(function () {
@@ -297,7 +201,7 @@ $('#setDefaults').click(function () {
 });
 
 $('#specPressure').click(function () {
-    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa)' : 'inches of mercury (inHg)'));
+    var customPressure = prompt('Enter atmospheric pressure in '.concat(isCelsius ? 'Pascals (Pa) default value 101325 Pa' : 'inches of mercury (inHg)'));
     if (customPressure !== '' && customPressure !== null) {
         customPressure = parseFloat(customPressure);
         if (!isCelsius) {
@@ -316,7 +220,7 @@ $('#specPressure').click(function () {
 $('#globeTemp').click(function () {
     var container = $('#globedialog');
     $.ajax({
-        url: util.STATIC_URL + 'html/globetemp.html',
+        url: util.STATIC_URL + '/html/globetemp.html',
         success: function (data) {
             $('#globedialog').html(data);
             if (!isCelsius) {
@@ -375,15 +279,13 @@ $('#addToEnsembles').click(function () {
 
 $('#model-type').change(function () {
     $('#pmv-out-label').html('PMV');
-    $('#local-control-div').hide();
     $('#localDisc').removeAttr('disabled');
     model = $('#model-type').val();
     if (model === 'pmv') {
         $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
-        $('#local-control-div').show();
     } else if (model === 'adaptiveComfort') {
-        $('#pmv-inputs, #local-control-div, #pmv-outputs, #cloInput').hide();
+        $('#pmv-inputs, #pmv-outputs, #cloInput').hide();
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
@@ -405,8 +307,8 @@ $("#chartSelect").change(function () {
             $("#psychta-note").show();
             $("#psychtop-note, #temphum-note").hide();
 
-            $("#db-axis-C-label").text("Drybulb Temperature [°C]");
-            $("#db-axis-F-label").text("Drybulb Temperature [°F]");
+            $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
+            $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
             if ($('#link').is(':checked')) {
                 $('#labelforlink').show();
@@ -446,6 +348,8 @@ $("#chartSelect").change(function () {
 
 function update() {
 
+    let r;
+
     if ($('#link').is(':checked') || $("#chartSelect").val() === "psychtop") {
         $('#tr').val($('#ta').val());
     }
@@ -469,6 +373,12 @@ function update() {
     model = document.getElementById('model-type').value;
     if (model === 'pmv') {
         r = comf.pmv(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        if (isNaN(r.pmv)) {
+            window.alert('The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n' +
+                'Please check that the value you entered are correct.\n' +
+                'The input parameters has been set back to their default values.');
+            setDefaults();
+        }
         renderPmvResults(r);
         calcPmvCompliance(d, r);
         if ($('#chart-div').is(':visible')) {
@@ -549,17 +459,16 @@ function calcPmvCompliance(d, r) {
     var met_comply = d.met <= 4 && d.met >= 0.8;
     var clo_comply = d.clo <= 2;
 
-    // var local_control = $('#local-control').is(':checked');
     var special_msg = '';
     comply = true;
 
     if (!met_comply) {
         comply = false;
-        special_msg += '&#8627; Metabolic rates below 0.8 or above 4.0 are not covered by this standard<br>';
+        special_msg += 'Metabolic rates below 0.8 or above 4.0 are not covered by this standard<br>';
     }
     if (!clo_comply) {
         comply = false;
-        special_msg += '&#8627; Clo values above 2.0 are not covered by this standard<br>';
+        special_msg += 'Clo values above 2.0 are not covered by this standard<br>';
     }
     if (!pmv_complyIII) {
         comply = false;
@@ -583,17 +492,19 @@ function calcAdaptiveCompliance(d, r) {
 }
 
 function renderCompliance(comply, special_msg) {
-    var comply_msg = '&#10004; &nbsp;Complies with EN-15251';
-    var no_comply_msg = '&#10008 &nbsp; Does not comply with EN-15251';
+    const comply_msg = '&#10004; &nbsp;Complies with EN-15251';
+    const no_comply_msg = '&#10008 &nbsp; Does not comply with EN-15251';
 
     $('#vel-range').html('');
     if (comply) {
         $('#comply-msg').html(comply_msg);
-        $('#comply-msg').css('color', 'green');
+        $('#output-b').removeClass("alert alert-danger").addClass("alert alert-success").css({'color': 'green'});
+        ;
         $('#special-msg').html(special_msg);
     } else {
         $('#comply-msg').html(no_comply_msg);
-        $('#comply-msg').css('color', 'red');
+        $('#output-b').removeClass("alert alert-success").addClass("alert alert-danger").css({'color': 'red'});
+        ;
         $('#special-msg').html(special_msg);
     }
 }
@@ -643,4 +554,21 @@ function addToEnsembles() {
         }
     }
     cloSelect.options.add(new Option(items.join(', '), ensembleClo.toFixed(2)));
+}
+
+function updateGlobe() {
+    let ta = parseFloat($('#ta-g').val());
+    let vel = parseFloat($('#vel-g').val());
+    let tglobe = parseFloat($('#tglobe').val());
+    let diameter = parseFloat($('#diameter').val());
+    let emissivity = parseFloat($('#emissivity').val());
+    if (!isCelsius) {
+        ta = util.FtoC(ta);
+        vel /= 196.9;
+        tglobe = util.FtoC(tglobe);
+        diameter *= 0.0254
+    }
+    let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
+    if (!isCelsius) tr = util.CtoF(tr);
+    $('#mrt-result').val(tr.toFixed(1));
 }

@@ -22,33 +22,33 @@ util.bisect = function(a, b, fn, epsilon, target) {
 
 util.secant = function(a, b, fn, epsilon) {
   // root-finding only
-  var f1 = fn(a)
-  if (Math.abs(f1) <= epsilon) return a
-  var f2 = fn(b)
-  if (Math.abs(f2) <= epsilon) return b
-  var slope, c, f3
+  var f1 = fn(a);
+  if (Math.abs(f1) <= epsilon) return a;
+  var f2 = fn(b);
+  if (Math.abs(f2) <= epsilon) return b;
+  var slope, c, f3;
   for (var i = 0; i < 100; i++){
-    slope = (f2 - f1) / (b - a)
-    c = b - f2/slope
-    f3 = fn(c)
-    if (Math.abs(f3) < epsilon) return c
-    a = b
-    b = c
-    f1 = f2
+    slope = (f2 - f1) / (b - a);
+    c = b - f2/slope;
+    f3 = fn(c);
+    if (Math.abs(f3) < epsilon) return c;
+    a = b;
+    b = c;
+    f1 = f2;
     f2 = f3
   }
   return NaN
-}
+};
 
 util.getSensation = function(pmv) {
-    if (pmv < -2.5) return 'Cold';
-    else if (pmv < -1.5) return 'Cool';
-    else if (pmv < -0.5) return 'Slightly Cool';
-    else if (pmv < 0.5) return 'Neutral';
-    else if (pmv < 1.5) return 'Slightly Warm';
-    else if (pmv < 2.5) return 'Warm';
-    else return 'Hot';
-}
+    if (pmv < -2.5) return '<span>Cold</span>';
+    else if (pmv < -1.5) return '<span">Cool</span>';
+    else if (pmv < -0.5) return '<span>Slightly Cool</span>';
+    else if (pmv < 0.5) return '<span>Neutral</span>';
+    else if (pmv < 1.5) return '<span>Slightly Warm</span>';
+    else if (pmv < 2.5) return '<span">Warm</span>';
+    else return '<span">Hot</span>';
+};
 
 util.CtoF = function(x){
     return x * 9 / 5 + 32;

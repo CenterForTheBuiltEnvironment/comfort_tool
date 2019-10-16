@@ -276,6 +276,12 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     var r = {};
     r.pmv = pmv;
     r.ppd = ppd;
+    r.hl1 = hl1;
+    r.hl2 = hl2;
+    r.hl3 = hl3;
+    r.hl4 = hl4;
+    r.hl5 = hl5;
+    r.hl6 = hl6;
 
     return r
 };

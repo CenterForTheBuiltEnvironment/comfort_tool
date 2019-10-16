@@ -5,22 +5,7 @@
 
 #dynamicCloToggle {
     display: none;
-    float: left;
-    background-color: #c7d9f2;
-    width: 96.5%;
-    margin: 5px 5px 10px 0px;
-    border-radius: 5px;
 }
-
-#leedInterfaceToggle {
-    display: none;
-    float: left;
-    background-color: #c7d9f2;
-    width: 94%;
-    margin: 5px 5px 10px 10px;
-    border-radius: 5px;
-}
-
 
 .local-disc-result {
     position: relative;
@@ -85,12 +70,6 @@
     clear: both;
 }
 
-.in {
-    font-size: 16px;
-    margin-bottom: 0px;
-    margin-left: 5px;
-}
-
 .out {
     margin-bottom: 10px;
     margin-top: 5px;
@@ -110,19 +89,6 @@
     font-size: 12px;
 }
 
-.tempunit {
-    color: #000000;
-}
-
-.unit {
-    color: #000000;
-}
-
-.leed-notes {
-    color: #6e6e6e;
-    font-size: 12px;
-}
-
 .divresult {
     position: relative;
     float: left;
@@ -138,11 +104,11 @@
     color: #000000;
 }
 
-.leftlabel {
+.leftLabelResults {
     position: relative;
     float: left;
     clear: both;
-    width: 230px;
+    width: 120px;
     font-size: 14px;
     color: #3B3B3B;
     margin-top: 5px;
@@ -156,14 +122,7 @@
 }
 
 .inputfield {
-    position: relative;
-    float: left;
-    width: 180px;
-}
-
-.right {
-    float: right;
-    width: 215px;
+    width: 200px;
 }
 
 .center {
@@ -174,7 +133,30 @@
 }
 
 .inputbox {
-    width: 60px;
+    width: 50px;
+    height: 22px;
+    text-align: left;
+}
+.inputbox1 {
+    width: 50px;
+    height: 22px;
+    text-align: left;
+}
+.inputbox2 {
+    width: 50px;
+    height: 22px;
+    text-align: left;
+}
+.inputbox3 {
+    width: 50px;
+    height: 22px;
+    text-align: left;
+}
+
+input.rangesbox {
+    width: 50px;
+    height: 22px;
+    text-align: center;
 }
 
 #all_content {
@@ -186,78 +168,8 @@
     clear: both;
 }
 
-#left_content {
-    width: 405px;
-    height: 902px;
-    top: 0;
-    left: 0px;
-    float: left;
-    border-radius: 5px;
-}
-
-#right_content {
-    width: 578px;
-    height: 900px;
-    top: 0;
-    left: 605px;
-    float: right;
-    padding-left: 2px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-}
-
-#comply-msg {
-    padding-left: 5px;
-    font-family: sans-serif;
-}
-
-#special-msg {
-    padding-top: 5px;
-    padding-left: 20px;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #3B3B3B;
-    line-height: 1.6;
-}
-
-#modelDiv {
-    color: #3B3B3B;
-    font-weight: bold;
-    font-size: 14px;
-    font-family: sans-serif;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    margin-top: 10px;
-    text-align: left;
-}
-
-#actSelectDiv {
-    padding-bottom: 2px;
-}
-
-#cloSelectDiv {
-    padding-bottom: 2px;
-}
-
 #switcher {
     margin-top: 20px;
-}
-
-#link {
-    font-size: 10px;
-}
-
-#customClo {
-    font-size: 10px;
-}
-
-#actInput {
-    height: 57px;
-    margin-top: -20px;
-}
-
-#cloInput {
-    margin-top: -5px;
 }
 
 #vel-range {
@@ -273,15 +185,8 @@
 }
 
 .note {
-    float: left;
-    text-align: left;
-    padding: 10px;
-    margin-top: 10px;
-    margin-left: 66px;
-    margin-bottom: 10px;
     font-size: 12px;
     font-family: sans-serif;
-    width: 425px;
     border: 1px solid #cccccc;
     border-radius: 5px;
 }
@@ -318,7 +223,6 @@ h1.local {
 
 h2 {
     font-size: 15px;
-    text-decoration: bold;
     padding-left: 5px;
     margin: 0px;
     margin-bottom: 5px;
