@@ -47,7 +47,7 @@ def transform_view():
     csv_file = TextIOWrapper(request_file, encoding='utf-8')
     csv_reader = csv.DictReader(csv_file, delimiter=',')
     fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level': 'clo'}
-    si_unit = all([x.split(' [')[1] == 'F' for x in csv_reader.fieldnames])
+    si_unit = all([x.split(' [')[1] != 'F' for x in csv_reader.fieldnames])
     csv_reader.fieldnames = [fields[x.split(' [')[0]] for x in csv_reader.fieldnames]
     results = []
 
