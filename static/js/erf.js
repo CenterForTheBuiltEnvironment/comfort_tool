@@ -164,7 +164,7 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, tsol_factor) {
 
     var DEG_TO_RAD = 0.0174532925;
     var hr = 6;
-    var Idiff = 0.175 * Idir * Math.sin(alt * DEG_TO_RAD);
+    var Idiff = 0.2 * Idir;
 
     // Floor reflectance
     var Rfloor = 0.6;
