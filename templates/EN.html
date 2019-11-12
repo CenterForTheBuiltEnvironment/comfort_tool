@@ -8,12 +8,12 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart-EN.css') }}"/>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/EN/psychchart-EN.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/EN/adaptchart-EN.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/EN/temphumchart-EN.js') }}"></script>
@@ -319,7 +319,7 @@
 
                 {# card displaying the notes #}
                 <div class="row justify-content-center">
-                    <div id="pmv-notes" class="card m-2 footer border-0 text-justify">
+                    <div id="pmv-notes" class="card align-content-center m-1 col-sm-12 border-0 footer">
                         <div class='card-body p-1 m-1' id="psychta-note">
                             <b>NOTE:</b> In this <a class="mainlink"
                                                     href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
@@ -352,7 +352,7 @@
                     </div>
                 </div><!--end of div "pmv-notes"-->
 
-                <div id="adaptive-note" class="row justify-content-center card m-2 footer">
+                <div id="adaptive-note" class="card align-content-center m-1 col-sm-12 border-0 footer">
                     <div class='card-boby p-1 m-1'>
                         <b>NOTE:</b> Method is applicable only for buildings without mechanical cooling systems and
                         where there

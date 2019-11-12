@@ -10,6 +10,12 @@ function find_span(arr, x) {
 }
 
 function get_fp(alt, az, posture) {
+    //  This function calculates the projected sunlit fraction (fp)
+    //  given a seated or standing posture, a solar altitude, and a
+    //  solar horizontal angle relative to the person (SHARP). fp
+    //  values are taken from Thermal Comfort, Fanger 1970, Danish
+    //  Technical Press.
+
     //  alt : altitude of sun in degrees [0, 90] Integer
     //  az : azimuth of sun in degrees [0, 180] Integer
 
@@ -176,7 +182,7 @@ function ERF(alt, az, posture, Idir, tsol, fsvv, fbes, asa, tsol_factor) {
     } else if (posture === 'seated') {
         var feff = 0.696;
     } else {
-        console.log("Invalid posture (choose seated or seated)");
+        // console.log("Invalid posture (choose seated or seated)");
         return;
     }
 
@@ -265,18 +271,18 @@ function ERF_test() {
         var delta_erf = my_erf[0] - res[0];
         var delta_dMRT = my_erf[1] - res[1];
         if (delta_erf > eps) {
-            console.log("case " + i + " failed - erf_error: " + delta_erf)
+            // console.log("case " + i + " failed - erf_error: " + delta_erf)
             pass = false;
         }
         if (delta_dMRT > eps) {
-            console.log("case " + i + " failed - dMRT_error: " + delta_dMRT)
+            // console.log("case " + i + " failed - dMRT_error: " + delta_dMRT)
             pass = false;
         }
     }
     if (pass) {
-        console.log("Passed validation.");
+        // console.log("Passed validation.");
     } else {
-        console.log("Failed validation");
+        // console.log("Failed validation");
     }
 
 }

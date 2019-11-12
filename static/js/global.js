@@ -16,6 +16,7 @@ let d = {
     trm: '',
     vel_a: ''
 };
+
 let d_cache = {
     ta: '',
     tr: '',
@@ -26,6 +27,7 @@ let d_cache = {
     trm: '',
     vel_a: ''
 };
+
 let keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
@@ -59,7 +61,7 @@ let cloInsulationTypicalEnsambles = [
         clo: 1.0
     }];
 // Sorting the json array as function of clo value
-cloInsulationTypicalEnsambles.sort((a, b) => parseFloat(a.clo) - parseFloat(b.clo));
+// cloInsulationTypicalEnsambles.sort((a, b) => parseFloat(a.clo) - parseFloat(b.clo));
 
 // Clothing insulation of individual
 let cloInsulationGarments = [
@@ -238,7 +240,7 @@ let cloInsulationGarments = [
         article: 'Executive chair',
         clo: 0.15
     }];
-cloInsulationGarments.sort((a, b) => parseFloat(a.clo) - parseFloat(b.clo));
+// cloInsulationGarments.sort((a, b) => parseFloat(a.clo) - parseFloat(b.clo));
 
 // Metabolic rates of typical activities
 let metRatesTypicalTasks = [
@@ -336,17 +338,17 @@ let metRatesTypicalTasks = [
         activity: 'Wrestling: 7.8',
         met: 7.8
     }];
-metRatesTypicalTasks.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
+// metRatesTypicalTasks.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
 // Metabolic rates of typical activities ASHRAE removed reclining and sleeping
 let metRatesTypicalTasksASHRAE = metRatesTypicalTasks.filter(function (el) {
     return el.met > 0.7 && // 0.8 is the reclining met
         el.met <= 4.0  // as defined in page 36 ASHRAE 55
 });
-metRatesTypicalTasksASHRAE.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
+// metRatesTypicalTasksASHRAE.sort((a, b) => parseFloat(a.met) - parseFloat(b.met));
 
 // defined below the upper and lower limits for environmental variables as specified in ISO 7730 and ASHRAE
-const envVarLimits = {
+let envVarLimits = {
     'ta': {
         'si': {
             'step': 0.5,
@@ -600,7 +602,7 @@ function validateUserEntry(i) {
                 e = envVarLimits[element][measurementSystem]['default'];
                 window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
-        } catch {
+        } catch (err) {
         }
         try {
             if (e > envVarLimits[element]['max'] || e < envVarLimits[element]['min']) {
@@ -608,7 +610,7 @@ function validateUserEntry(i) {
                 e = envVarLimits[element]['default'];
                 window.alert('The value you entered is outside the stardard\'s applicability limits.');
             }
-        } catch {
+        } catch (err) {
         }
 
         // store the value into json
@@ -707,4 +709,4 @@ function change_humidity_selection() {
         });
     }
     window.humUnit = v;
-};
+}
