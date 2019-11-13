@@ -40,7 +40,6 @@ comf.validation_table = function(){
   for (var i = 0; i < cases.length; i++){
     var c = cases[i];
     var s = comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
-    // console.log(s.set, util.CtoF(s.set))
   }
 };
 
@@ -61,7 +60,6 @@ comf.calc_set_contours = function(still_air_threshold, clo) {
     var eps = 0.01;
     var t_op_L = util.bisect(15, 40, fn, eps, -0.5);
     var t_op_R = util.bisect(15, 40, fn, eps, 0.5);
-    // console.log(t_op_L, t_op_R);
 
     var rh_L = psy.convert(hr, t_op_L, 'w', 'rh');
     var set0_L = comf.pierceSET(t_op_L, t_op_L, 0.1, rh_L, met, clo, 0);
@@ -103,10 +101,8 @@ comf.test = function() {
     // reproduces the bug related to sweat saturation and heat loss from skin
     met_values = [1.7, 1.71, 1.72, 1.73, 1.74, 1.75, 1.76, 1.77, 1.78, 1.79, 1.8, 1.81, 1.82, 1.83, 1.84, 1.85, 1.86, 1.87, 1.88, 1.89, 1.9];
     for (var i = 0; i < met_values.length; i++){
-        // console.log("MET:", met_values[i]);
         var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0); // not normal
         //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0) // normal
-        // console.log(x)
     }
 };
 

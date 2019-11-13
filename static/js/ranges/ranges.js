@@ -601,7 +601,6 @@ function drawRange(factor, incr) {
     if (fakeFactor_1 < fakeFactor_2) {
         for (var x = fakeFactor_1; x <= fakeFactor_2; x += incr) {
             d[factor] = x / 1000;
-            //console.log(x);
             var bound = pc.findComfortBoundary(d, 0.5);
             var bcBound = bc.convertBoundary(bound);
             pc.drawNewZone(d, bound, factor, x);
