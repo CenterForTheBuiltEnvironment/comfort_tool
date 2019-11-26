@@ -1,292 +1,55 @@
 {% extends "layout.html" %}
-{% block head %}
-{{ super() }}
-  <style>
-    .default-input {
-      width: 50px;
-    }
-
-    #upload-container {
-      clear: both;
-      margin: 0 auto;
-      margin-bottom: 20px;
-      width: 95%;
-      border:1px solid #cccccc;
-      border-radius:5px;
-      font-family: sans-serif;
-    }
-
-    #chart-div {
-      float: right;
-      margin-right: 25px;
-    }
-
-    #upload-options {
-      font-size: 14px;
-      float: left;
-      margin-left: 25px;
-      margin-top: 15px;
-    }
-
-    .metric-result {
-      border:1px solid #cccccc;
-      border-radius:5px;
-      width: 200px;
-      padding: 7px;
-      margin-bottom: 10px;
-      margin-top: 10px;
-    }
-
-    #help-dialog {
-      font-family: sans-serif;
-      font-size: 16px;
-      display: none;
-    }
-
-    #default-table {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-  </style>
-  <title>Comfort tool file upload</title>
-{% endblock %}
 
 {% block content %}
 
-  <div id="upload-container">
-    <div id="upload-options">
-      <!--span class="fileinput-button">
-        <button id='select-file'>Select file</button>
-        <span id="select-file">Select file</span>
-        <input id="fileupload" type="file" name="files[]" data-url="upload" multiple>
-      </span-->
+    <script>
+        // highlight navigation bar button
+    $('a.active').removeClass('active');
+    $('#nav_a_upload').addClass('active');
+    </script>
 
-      <span class="btn btn-default fileinput-button">
-        <span id="select-file">Select file</span>
-        <input id="fileupload" type="file" name="files[]" data-url="upload" multiple>
-      </span>
+    <div class="container-fluid my-4 px-0">
 
-      <span class="btn btn-default" id='units-toggle'>SI / IP</span>
-      <span class="btn btn-default" id='help-button'>?</span>
-     
-      <table class="table table-condensed" id="default-table">
-        <thead>
-          <tr><th style="color: #696969">Default fields</th><th></th><th></th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Air temperature</td><td><input class='default-input' id='default-ta' value='25' /></td><td id='ta-unit'>&deg;C</td></tr>
-          <tr><td>MRT</td><td><input class='default-input' id='default-tr' value='25' /></td><td id='tr-unit'>&deg;C</td></tr>
-          <tr><td>Air velocity</td><td><input class='default-input' id='default-vel' value='0.15' /></td><td id='vel-unit'>m/s</td></tr>
-          <tr><td>Relative humidity</td><td><input class='default-input' id='default-rh' value='50' /></td><td>%</td></tr>
-          <tr><td>Metabolic rate</td><td><input class='default-input' id='default-met' value='1' /></td><td></td></tr>
-          <tr><td>Clothing level</td><td><input class='default-input' id='default-clo' value='1' /></td><td></td></tr>
-	</tbody>
-      </table>
-      
-      <div class="metric-result" id="metrics-pmv-avg" style="display:none"></div>
-      <div class="metric-result" id="metrics-exceedance" style="display:none"></div>
-      <div class="metric-result" id="metrics-weighted-exceedance" style="display:none"></div>
-      
+        {# explanation of what the page does #}
+        <div class="jumbotron">
+            <h1>Calculate comfort indexes!</h1>
+            <p class="lead">With this application you can upload a large set of comfort parameters and this tool will automatically calculate the thermal comfort indexes.
+            </p>
+            <hr class="my-4">
+            <h2>Instructions</h2>
+            <p>
+                <b>Step 1 - </b> Please download either the SI or IP unit template using the following links:
+                [<a href="download/template-IP.csv">IP-unit template</a>,
+                <a href="download/template-SI.csv">SI-unit template</a>].
+            </p>
+            <p>
+                <b>Step 2 - </b> Open the downloaded .csv file.
+                Each column represents an unique input parameter. It's important that the name of each column remains unchanged.
+                For your reference each template contains some example data, please replace them with your data.
+                If you do not have data for a certain parameter, simply fill all the rows with a representative constant value.
+                For example, if you conducted the study in a office and did not log the metabolic rate, you may enter a constant value of 1.2 in the "Metabolic rate [met]" column.
+                Every row must contain a value for each parameter.
+            </p>
+            <p>
+                <b>Step 3 - </b> Select the file to upload by clicking on the "Choose File" button below.
+                Then press the "Upload File" button.
+                The algorithm will automatically calculated the following indexes:
+            <ul style="columns:2">
+                <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort#PMV/PPD_method">Predicted Mean Vote (PMV)</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort#PMV/PPD_method">Predicted Percentage Dissatisfied (PPD)</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort#Standard_effective_temperature">Standard Effective Temperature (SET)</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort#Cooling_Effect">Cooling Effect (CE)</a></li>
+            </ul>
+            A file named "results.csv" will be automatically downloaded by your browser which contains all the results.
+{#            </p>#}
+            <hr class="my-4">
+            <h2>File Upload</h2>
+            <form action="/transform" method="post" enctype="multipart/form-data" class="form-inline">
+                <div class="input-group-text">
+                    <input type="file" name="data_file" id="fileToUpload">
+                    <input type="submit" value="Upload File" name="submit">
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div id='chart-div'></div>
-    <div id='help-dialog'>
-      <p>With this application you can upload a large set of comfort model input parameters, visualize all 
-      of them simultaneously, and obtain useful aggregates. </p>
-      
-      <p>The first step is to download the SI or IP unit template: 
-      [<a href="download/template-IP.csv">IP-unit template</a>, 
-      <a href="download/template-SI.csv">SI-unit template</a>]  and open 
-      it with your favorite spreadsheet software. This file contains the header representing the column 
-      names of the input parameters. It's important that the name of each column remain unchanged, but the 
-      order of the columns does not matter. The subsequent rows contain the input parameters. Be careful 
-      that the values supplied match the units that the headers specify. </p>
-      
-      <p>If you wish to omit a certain parameter and simply hold it constant, delete the entire column 
-      for that parameter from the input file. The default for the omitted parameters are set by the 
-      "default fields" inputs.</p> 
-      
-      <p>For example, if I have a set of air temperature, air velocity, and relative humidity measurements, 
-      and wish to plot these values with this application, I must make assumptions about the clothing level 
-      and metabolic rate. Supposing that the measurements were taken during the winter season, I might 
-      assume that the clothing level is 1.0. Similarly, we might assume a typical metabolic rate for office 
-      work of 1.2. As far as the mean radiant temperature, I might construct my input file such that it 
-      equals the air temperature. Thus my input file will have four columns, and the final two parameters 
-      will be held fixed according to the input boxes on the left. </p>
-    </div>
-
-    <br class="clear">
-
-  </div>
-
-
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
-  <script src="{{ url_for('static', filename='js/lib/jquery.ui.widget.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/lib/jquery.iframe-transport.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/lib/jquery.fileupload.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-<script>
-
- $(document).ready(function(){
-
-    function appendPMV(conds){  
-      var pmv_average = 0;
-      var exceedance = 0;
-      var weighted_exceedance = 0;
-      var N = 0;
-      var pmv;
-      if (!isCelsius) {
-        _.each(conds, function(e){
-          e.ta = util.FtoC(e.ta)
-          e.tr = util.FtoC(e.tr)
-          e.vel = e.vel / 196.9
-        });
-      }
-      _.each(conds, function(e){
-        e.pmv = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
-        r = comf.pmvElevatedAirspeed(e.ta, e.tr, e.vel, e.rh, e.met, e.clo, 0)
-        e.pmv = r;
-        e.hr = pc.getHumRatio(e.ta, e.rh) 
-        pmv_average += r.pmv;
-        if (Math.abs(r.pmv) > 0.5) {
-          exceedance += 1;
-          weighted_exceedance += Math.abs(r.pmv) - 0.5;
-        }   
-        N += 1
-       }); 
-       pmv_average /= N;
-       weighted_exceedance /= N;
-       $('#metrics-pmv-avg').html("Average PMV: " + pmv_average.toFixed(2));
-       $('#metrics-exceedance').html("# of measurements outside comfort zone: " + exceedance);
-       $('#metrics-weighted-exceedance')
-         .html("Weighted average exceedance intervals: " + weighted_exceedance.toFixed(2));
-       $('#metrics-pmv-avg, #metrics-exceedance, #metrics-weighted-exceedance').show()
-       pc.clearChart()
-       pc.drawPoints(conds)
-    }
-
-    $('#fileupload').fileupload({
-        dataType: 'json',
-        done: function(e, r) {
-          var fields = ['ta', 'tr', 'rh', 'vel', 'met', 'clo'];
-          var defaults = {};
-          _.each(fields, function(f){
-            defaults[f] = parseFloat($('#default-'+f).val())
-          });
-          _.each(r.result, function(el){
-            for (var key in el){
-              el[key] = parseFloat(el[key])
-            }
-            for (var i in fields){
-              var f = fields[i]
-              if (!el[f]){
-                el[f] = defaults[f]
-              }
-            }
-          });
-          appendPMV(r.result);
-          pc.initDisplay()
-        }
-    });
-
-    window.isCelsius = true
-    pc.width = $(window).width() - 370;
-    pc.height = $(window).height() - 100;
-    pc.init();
-    pc.drawChart();
-
-    $('.box-texts').hide();
-
-    $('#help-dialog').dialog({
-      autoOpen: false,
-      height: 600,
-      width: 800,
-      modal: true,
-      resizable: false
-    });
-
-    $('#help-button').click(function(){
-      $('#help-dialog').dialog("open");
-    });
-
-    $('#units-toggle').click(function(){
-      window.isCelsius = !window.isCelsius
-      $('#metrics-pmv-avg, #metrics-exceedance, #metrics-weighted-exceedance').hide()
-      pc.clearChart() 
-      pc.toggleUnits(window.isCelsius)
-      var ta = $('#default-ta').val()
-      var tr = $('#default-tr').val()
-      var vel = $('#default-vel').val()
-      if (isCelsius) {
-        $('#ta-unit').html('&deg;C')
-        $('#tr-unit').html('&deg;C')
-        $('#vel-unit').html('m/s')
-        $('#default-ta').val(util.FtoC(ta))
-        $('#default-tr').val(util.FtoC(tr))
-        $('#default-vel').val(vel / 196.9)
-        $('#default-vel').spinner({
-            step: 0.01,
-            min: 0,
-            max: 4,
-            numberFormat: "n"
-        });
-      } else {
-        $('#ta-unit').html('&deg;F')
-        $('#tr-unit').html('&deg;F')
-        $('#vel-unit').html('fpm')
-        $('#default-ta').val(util.CtoF(ta))
-        $('#default-tr').val(util.CtoF(tr))
-        $('#default-vel').val(vel * 196.9)
-        $('#default-vel').spinner({
-            step: 1,
-            min: 0,
-            max: 1000,
-            numberFormat: "n"
-        });
-      }
-    });
-
-    $('#upload-link').addClass('highlight')
-    $('#metrics-pmv-avg, #metrics-exceedance, #metrics-weighted-exceedance').hide()
-
-    $('#default-ta, #default-tr').spinner({
-        step: 0.1,
-        min: 0,
-        max: 120,
-        numberFormat: "n"
-    });
-    $('#default-vel').spinner({
-        step: 0.01,
-        min: 0,
-        max: 4,
-        numberFormat: "n"
-    });
-    $('#default-clo').spinner({
-        step: 0.05,
-        min: 0.1,
-        max: 10,
-        numberFormat: "n"
-    });
-    $('#default-met').spinner({
-        step: 0.05,
-        min: 1,
-        max: 2,
-        numberFormat: "n"
-    });
-    $('#default-rh').spinner({
-        step: 1,
-        min: 0,
-        max: 100,
-        numberFormat: "n"
-    });
-
-  });
-</script>
-
 {% endblock %}

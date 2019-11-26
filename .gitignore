@@ -12,7 +12,13 @@ contib/.pytest_cache
 ## File-based project format:
 *.iws
 
+## File-based project format:
+*.pptx
+
 ## Plugin-specific files:
 
 # IntelliJ
 /out/
+
+runtime.txt
+Procfile
