@@ -612,13 +612,19 @@ function validateUserEntry(i) {
         d[element] = parseFloat(e);
     });
 
-    if (d.clo > 0.7 || d.met > 1.3) {
-        const select = document.getElementById("local-control" + i);
-        select.selectedIndex = 1;
-        $('#local-control' + i).hide();
-    } else {
-        $('#local-control' + i).show();
+    // fixme the EN page has no air vel local control tab, hence the following code throws an error. I have wrapped around a try{} catch{} but we should look for a more elegant way to do this
+    try {
+        if (d.clo > 0.7 || d.met > 1.3) {
+            const select = document.getElementById("local-control" + i);
+            select.selectedIndex = 1;
+            $('#local-control' + i).hide();
+        } else {
+            $('#local-control' + i).show();
+        }
+    } catch (e) {
+
     }
+
 
 }
 
