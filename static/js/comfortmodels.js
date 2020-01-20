@@ -510,7 +510,7 @@ comf.schiavonClo = function(ta6) {
     return clo_r
 };
 
-comf.adaptiveComfortEN15251 = function(ta, tr, runningMean, vel) {
+comf.adaptiveComfortEN = function(ta, tr, runningMean, vel) {
     var to = (ta + tr) / 2;
     var tComf = 0.33 * runningMean + 18.8;
     if(runningMean > 15){

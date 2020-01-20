@@ -624,8 +624,6 @@ function validateUserEntry(i) {
     } catch (e) {
 
     }
-
-
 }
 
 // changed humidity dropdown selection
