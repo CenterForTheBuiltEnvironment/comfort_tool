@@ -73,9 +73,9 @@ The ASHRAE Standard-55 adaptive comfort model.
 * acceptability80 : True if the input conditions lie within the 80% acceptability limits, false otherwise
 * acceptability90 : True if the input conditions lie within the 90% acceptability limits, false otherwise
 
-### comf.adaptiveComfortEN15251(ta, tr, runningMean)
+### comf.adaptiveComfortEN(ta, tr, runningMean)
 
-The EN-15251 adaptive comfort model.
+The EN-16798 adaptive comfort model.
 
 *Input parameters:*
 

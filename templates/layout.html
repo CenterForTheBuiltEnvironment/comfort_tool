@@ -1,10 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta name="description"
-          content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, ASHRAE standard 55 thermal comfort tool, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
+          content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favico.png') }}">
+
+    <!-- Open Graph protocol tags -->
+    <meta property="og:title" content="CBE Thermal Comfort Tool" />
+    <meta property="og:description" content="CBE Thermal Comfort Tool to calculate thermal comfort indexes (e.g. PMV, PPD, SET, Adaptive) in compliance with AHSRAE and EN Standards" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://comfort.cbe.berkeley.edu" />
+    <meta property="og:image" content="https://comfort.cbe.berkeley.edu/static/img/og_ashrae.png" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146504560-1"></script>
@@ -49,7 +56,7 @@
                 <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav_a_en" href="EN">EN-15251</a>
+                <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>

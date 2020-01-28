@@ -568,7 +568,7 @@ def comfAdaptiveComfortASH55(ta, tr, runningMean, vel, accept_limit_eighty=True,
     return r
 
 
-def comfAdaptiveComfortEN15251(ta, tr, runningMean, vel, comfort_category, levelOfConditioning=0):
+def comfAdaptiveComfortEN(ta, tr, runningMean, vel, comfort_category, levelOfConditioning=0):
     """ Determine the adaptive thermal comfort based on EN 15251
 
         The function returns a list containing the following values listed in order as they appear below:

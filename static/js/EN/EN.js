@@ -394,7 +394,7 @@ function update() {
         }
 
     } else if (model === 'adaptiveComfort') {
-        r = comf.adaptiveComfortEN15251(d.ta, d.tr, d.trm, d.vel_a);
+        r = comf.adaptiveComfortEN(d.ta, d.tr, d.trm, d.vel_a);
         renderAdaptiveResults(r);
         calcAdaptiveCompliance(d, r);
         ac.redrawPoint([d])
@@ -492,8 +492,8 @@ function calcAdaptiveCompliance(d, r) {
 }
 
 function renderCompliance(comply, special_msg) {
-    const comply_msg = '&#10004; &nbsp;Complies with EN-15251';
-    const no_comply_msg = '&#10008 &nbsp; Does not comply with EN-15251';
+    const comply_msg = '&#10004; &nbsp;Complies with EN-16798';
+    const no_comply_msg = '&#10008 &nbsp; Does not comply with EN-16798';
 
     $('#vel-range').html('');
     if (comply) {
