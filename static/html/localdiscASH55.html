@@ -35,7 +35,7 @@
   <hr class='local-rule'>
 
     <h1 style="font-size: 14px; text-align: center;" class="local">
-    <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Draft</a>
+    <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Draft" target="_new">Draft</a>
   </h1>
 
   <div class='leftlabel-loc-dialog'>Operative temperature</div>
@@ -135,6 +135,34 @@
   <br class="clear">
 
   <hr class="local-rule">
+
+    <h1 style="font-size: 14px; text-align: center;" class="local">
+        <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">CBE vertical temperature gradient</a>
+    </h1>
+
+    <div class='leftlabel-loc-dialog'>PMV</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='TSV' value='0'/>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Vertical temperature gradient</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='vertical_temp_gradient' value='3'/>
+        <span class='tempunit'> &deg;C/m</span>
+    </div><br/>
+
+    <div class='leftlabel-loc-dialog'>PPD<sub>&#x2207T</sub></div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog' readonly="readonly" id='vertical_temp_gradient_ppd'/>
+        <span class='unit'> %</span>
+    </div>
+    <br/>
+    <div class='ppd-right' id='vertical_temp_gradient_compliance'></div>
+
+    <br class="clear">
+
+    <hr class="local-rule">
 
   <h1 style="font-size: 14px; text-align: center" class="local">
     <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Floor surface temperature</a>

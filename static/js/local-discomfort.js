@@ -26,6 +26,20 @@ function asymRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
 };
 
 
+
+// -------------------------- PPD with vertical temperature gradient -------------------------------------------------
+
+// the vertical_temp_gradient must be defined by the user
+
+function verticalGradientPPD(TSV, vertical_temp_gradient) {
+
+    const numerator = Math.exp(0.13*Math.pow(TSV - 1.91, 2) + 0.15 * vertical_temp_gradient - 1.6);
+    const firt_term = numerator / (1 + numerator) - 0.345;
+
+
+    return Math.max(firt_term, 0)
+}
+
 // -------------------------- vertical air temperature difference -------------------------------------------------
 
 // var T_head and T_ankle must be defined by the user
@@ -92,6 +106,8 @@ function updateLocalDisc() {
     dlocal.local_clo = parseFloat($('#local_clo').val());
     dlocal.local_vel = parseFloat($('#local_vel').val());
     dlocal.local_ank_vel = parseFloat($('#local_ank_vel').val());
+    dlocal.local_vert_temp_gradient = parseFloat($('#vertical_temp_gradient').val());
+    dlocal.local_tsv = parseFloat($('#TSV').val());
 
  $(function () {
     var limitInput = function () {
@@ -120,6 +136,7 @@ function updateLocalDisc() {
         dlocal.local_clo = parseFloat($('#local_clo').val());
         dlocal.local_vel /= 196.9;
         dlocal.local_ank_vel /= 196.9;
+        dlocal.local_vert_temp_gradient = util.FtoC(dlocal.local_vert_temp_gradient);
 
          $(function () {
             var limitInput = function () {
@@ -135,12 +152,13 @@ function updateLocalDisc() {
 
     var asym_res = asymRisk(dlocal.rad_DT_warmC, dlocal.rad_DT_coolC, dlocal.rad_DT_warmW, dlocal.rad_DT_coolW);
     var vert_res = verticalRisk(dlocal.T_head, dlocal.T_ankle);
+    const vert_grad_ppd = 100 * verticalGradientPPD(dlocal.local_tsv, dlocal.local_vert_temp_gradient);
     var floor_res = floorRisk(dlocal.T_floor);
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
     var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, 0.2, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
-    var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100
-    var clo_check = dlocal.local_clo
-    var met_check = dlocal.local_met
+    var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100;
+    var clo_check = dlocal.local_clo;
+    var met_check = dlocal.local_met;
 
     //if (asym_res[1] > 5){
     if (asym_res[1]) {
@@ -190,6 +208,16 @@ function updateLocalDisc() {
         $("#vert-disc").css('color', 'green')
     }
     $("#vert-disc").html(msg)
+
+    $("#vertical_temp_gradient_ppd").attr('value', (vert_grad_ppd).toFixed(0));
+    if (vert_grad_ppd > 10) {
+        msg = "&#10008; &nbsp; &nbsp; ";
+        $("#vertical_temp_gradient_compliance").css('color', 'red')
+    } else {
+        msg = "&#10004; &nbsp; &nbsp; ";
+        $("#vertical_temp_gradient_compliance").css('color', 'green')
+    }
+    $("#vertical_temp_gradient_compliance").html(msg);
 
     if (floor_res[0]) {
         msg = "&#10008; &nbsp; &nbsp; " /* + floor_res[1].toFixed(0) + "%" */
