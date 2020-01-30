@@ -224,6 +224,7 @@ comf.pmv = function(ta, tr, vel, rh, met, clo, wme) {
     hcf = 12.1 * sqrt(vel);
     taa = ta + 273;
     tra = tr + 273;
+    // we have verified that using the equation below or this tcla = taa + (35.5 - ta) / (3.5 * (6.45 * icl + .1)) does not affect the PMV value
     tcla = taa + (35.5 - ta) / (3.5 * icl + 0.1);
 
     p1 = icl * fcl;
