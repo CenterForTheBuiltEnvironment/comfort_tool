@@ -218,7 +218,7 @@ function updateLocalDisc() {
     $("#vert-disc").html(msg)
 
     $("#vertical_temp_gradient_ppd").attr('value', (vert_grad_ppd).toFixed(0));
-    if (vert_grad_ppd > 10) {
+    if (vert_grad_ppd > 5) {
         msg = "&#10008";
         $("#vertical_temp_gradient_compliance").css('color', 'red')
     } else {
