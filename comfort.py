@@ -112,9 +112,9 @@ def ranges():
 
 @app.route('/EN')
 def EN():
-    return render_template('EN.html') \
- \
- \
+    return render_template('EN.html')
+
+
 @app.route('/MRT')
 def MRT():
     return redirect("http://centerforthebuiltenvironment.github.io/mrt/")

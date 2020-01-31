@@ -31,11 +31,12 @@ function asymRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
 
 // the vertical_temp_gradient must be defined by the user
 
-function verticalGradientPPD(TSV, vertical_temp_gradient) {
+function verticalGradientPPD(parameters) {
 
-    const numerator = Math.exp(0.13*Math.pow(TSV - 1.91, 2) + 0.15 * vertical_temp_gradient - 1.6);
+    const TSV = comf.pmvElevatedAirspeed(parameters.tmp_grad_ta, parameters.tmp_grad_tr, parameters.tmp_grad_v, parameters.tmp_grad_rh, parameters.tmp_grad_met, parameters.tmp_grad_clo, 0).pmv;
+
+    const numerator = Math.exp(0.13*Math.pow(TSV - 1.91, 2) + 0.15 * parameters.vert_temp_gradient - 1.6);
     const firt_term = numerator / (1 + numerator) - 0.345;
-
 
     return Math.max(firt_term, 0)
 }
@@ -106,8 +107,14 @@ function updateLocalDisc() {
     dlocal.local_clo = parseFloat($('#local_clo').val());
     dlocal.local_vel = parseFloat($('#local_vel').val());
     dlocal.local_ank_vel = parseFloat($('#local_ank_vel').val());
-    dlocal.local_vert_temp_gradient = parseFloat($('#vertical_temp_gradient').val());
-    dlocal.local_tsv = parseFloat($('#TSV').val());
+    // vertical temperature gradient inputs
+    dlocal.vert_temp_gradient = parseFloat($('#vertical_temp_gradient').val());
+    dlocal.tmp_grad_ta = parseFloat($('#tmp_grad_ta').val());
+    dlocal.tmp_grad_tr = parseFloat($('#tmp_grad_tr').val());
+    dlocal.tmp_grad_v = parseFloat($('#tmp_grad_v').val());
+    dlocal.tmp_grad_rh = parseFloat($('#tmp_grad_rh').val());
+    dlocal.tmp_grad_clo = parseFloat($('#tmp_grad_clo').val());
+    dlocal.tmp_grad_met = parseFloat($('#tmp_grad_met').val());
 
  $(function () {
     var limitInput = function () {
@@ -131,12 +138,13 @@ function updateLocalDisc() {
         dlocal.T_op = util.FtoC(dlocal.T_op);
         dlocal.local_Ta = util.FtoC(dlocal.local_Ta);
         dlocal.local_Tr = util.FtoC(dlocal.local_Tr);
-        dlocal.local_rh = parseFloat($('#local_rh').val());
-        dlocal.local_met = parseFloat($('#local_met').val());
-        dlocal.local_clo = parseFloat($('#local_clo').val());
         dlocal.local_vel /= 196.9;
         dlocal.local_ank_vel /= 196.9;
-        dlocal.local_vert_temp_gradient = util.FtoC(dlocal.local_vert_temp_gradient);
+        // vertical temperature gradient inputs
+        dlocal.vert_temp_gradient = util.FtoC(dlocal.vert_temp_gradient);
+        dlocal.tmp_grad_ta = util.FtoC(dlocal.tmp_grad_ta);
+        dlocal.tmp_grad_tr = util.FtoC(dlocal.tmp_grad_tr);
+        dlocal.tmp_grad_v /= 196.9;
 
          $(function () {
             var limitInput = function () {
@@ -152,7 +160,7 @@ function updateLocalDisc() {
 
     var asym_res = asymRisk(dlocal.rad_DT_warmC, dlocal.rad_DT_coolC, dlocal.rad_DT_warmW, dlocal.rad_DT_coolW);
     var vert_res = verticalRisk(dlocal.T_head, dlocal.T_ankle);
-    const vert_grad_ppd = 100 * verticalGradientPPD(dlocal.local_tsv, dlocal.local_vert_temp_gradient);
+    const vert_grad_ppd = 100 * verticalGradientPPD(dlocal);
     var floor_res = floorRisk(dlocal.T_floor);
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
     var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, 0.2, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
@@ -211,10 +219,10 @@ function updateLocalDisc() {
 
     $("#vertical_temp_gradient_ppd").attr('value', (vert_grad_ppd).toFixed(0));
     if (vert_grad_ppd > 10) {
-        msg = "&#10008; &nbsp; &nbsp; ";
+        msg = "&#10008";
         $("#vertical_temp_gradient_compliance").css('color', 'red')
     } else {
-        msg = "&#10004; &nbsp; &nbsp; ";
+        msg = "&#10004";
         $("#vertical_temp_gradient_compliance").css('color', 'green')
     }
     $("#vertical_temp_gradient_compliance").html(msg);
