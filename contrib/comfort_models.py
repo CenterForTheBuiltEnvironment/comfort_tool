@@ -168,6 +168,7 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
     hcf = 12.1 * math.sqrt(vel)
     taa = ta + 273
     tra = tr + 273
+    # we have verified that using the equation below or this tcla = taa + (35.5 - ta) / (3.5 * (6.45 * icl + .1)) does not affect the PMV value
     tcla = taa + (35.5 - ta) / (3.5 * icl + 0.1)
 
     p1 = icl * fcl
@@ -191,7 +192,7 @@ def comfPMV(ta, tr, vel, rh, met, clo, wme=0):
         n += 1
         if n > 150:
             print('Max iterations exceeded')
-            return 1
+            return 1  # fixme should not return 1 but instead PMV=999 as per ashrae standard
 
     tcl = 100 * xn - 273
 

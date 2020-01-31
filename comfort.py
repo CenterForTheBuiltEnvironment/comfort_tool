@@ -1,7 +1,7 @@
 import os
 import csv
 from io import TextIOWrapper
-from flask import Flask, request, render_template, send_from_directory, abort, redirect
+from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify
 import contrib.comfort_models as cm
 from flask_csv import send_csv
 
@@ -23,6 +23,32 @@ def download_file(filename):
     if '..' in filename:
         abort(404)
     return send_from_directory('./media/', filename, mimetype="application/octet-stream")
+
+
+@app.route('/api/v1/comfort/pmv', methods=['GET'])
+def api_id():
+    # Check if an ID was provided as part of the URL.
+    # If ID is provided, assign it to a variable.
+    # If no ID is provided, display an error in the browser.
+    try:
+        clo = float(request.args['clo'])
+        ta = float(request.args['ta'])
+        tr = float(request.args['tr'])
+        v = float(request.args['v'])
+        met = float(request.args['met'])
+        rh = float(request.args['rh'])
+    except:
+        return "Error: You did not provided all the input parameters"
+
+    # Create an empty list for our results
+    results = []
+
+    value = cm.comfPMV(ta, tr, v, rh, met, clo, wme=0)
+    results.append({'PMV': value[0], 'PPD': value[1]})
+
+    # Use the jsonify function from Flask to convert our list of
+    # Python dictionaries to the JSON format.
+    return jsonify(results)
 
 
 # Upload page - The user can upload a csv with input environmental parameters and retruns a csv with indexes calculated
@@ -64,7 +90,7 @@ def transform_view():
             row['SET'] = round(r['set'], 2)
             row['CE'] = round(r['ce'], 2)
         else:
-            r = cm.comfPMVElevatedAirspeed(cm.fahrenheit_to_celsius(row['ta']), cm.fahrenheit_to_celsius(row['tr']), row['vel']/196.85, int(row['rh']), row['met'], row['clo'])
+            r = cm.comfPMVElevatedAirspeed(cm.fahrenheit_to_celsius(row['ta']), cm.fahrenheit_to_celsius(row['tr']), row['vel'] / 196.85, int(row['rh']), row['met'], row['clo'])
             row['PMV'] = round(r['pmv'], 1)
             row['PPD'] = round(r['ppd'], 1)
             row['SET'] = round(r['set'], 2)
@@ -86,7 +112,7 @@ def ranges():
 
 @app.route('/EN')
 def EN():
-    return render_template('EN.html')\
+    return render_template('EN.html')
 
 
 @app.route('/MRT')
