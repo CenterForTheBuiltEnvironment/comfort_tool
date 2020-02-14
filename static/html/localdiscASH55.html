@@ -140,13 +140,49 @@
         <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">CBE vertical temperature gradient</a>
     </h1>
 
-    <div class='leftlabel-loc-dialog'>PMV</div>
+    <div class='leftlabel-loc-dialog'>Air temperature *</div>
     <div class='inputfield-dialog'>
-        <input class='input-dialog-local' id='TSV' value='0'/>
+        <input class='input-dialog-local' id='tmp_grad_ta' value='25'/>
+        <span class='tempunit'> &deg;C</span>
     </div>
     <br/>
 
-    <div class='leftlabel-loc-dialog'>Vertical temperature gradient</div>
+    <div class='leftlabel-loc-dialog'>Mean radiant temperature</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='tmp_grad_tr' value='25'/>
+        <span class='tempunit'> &deg;C</span>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Relative humidity</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='tmp_grad_rh' value='50'/>
+        <span class='tempunit'> %</span>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Air velocity (0 - 0.2m/s)</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='tmp_grad_v' value='0.1'/>
+        <span class='tempunit'> m/s</span>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Clothing</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='tmp_grad_clo' value='0.5'/>
+        <span class='tempunit'> clo</span>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Metabolic Rate</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='tmp_grad_met' value='1.2'/>
+        <span class='tempunit'> met</span>
+    </div>
+    <br/>
+
+    <div class='leftlabel-loc-dialog'>Vertical temp gradient</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='vertical_temp_gradient' value='3'/>
         <span class='tempunit'> &deg;C/m</span>
@@ -155,10 +191,9 @@
     <div class='leftlabel-loc-dialog'>PPD<sub>&#x2207T</sub></div>
     <div class='inputfield-dialog'>
         <input class='input-dialog' readonly="readonly" id='vertical_temp_gradient_ppd'/>
-        <span class='unit'> %</span>
+        <span class='tempunit'> %</span>
+        <span id='vertical_temp_gradient_compliance'></span>
     </div>
-    <br/>
-    <div class='ppd-right' id='vertical_temp_gradient_compliance'></div>
 
     <br class="clear">
 
