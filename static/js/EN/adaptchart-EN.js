@@ -47,9 +47,9 @@ var ac = new function () {
         const upperII = [{"trm": 10, "ta": 25.1, "tr": 25.1}, {"trm": 30, "ta": 31.7, "tr": 31.7}];
         const upperI = [{"trm": 10, "ta": 24.1, "tr": 24.1}, {"trm": 30, "ta": 30.7, "tr": 30.7}];
 
-        const lowerIII = [{"trm": 30, "ta": 24.7, "tr": 24.7}, {"trm": 15, "ta": 19.75, "tr": 19.75}, {"trm": 10, "ta": 19.75, "tr": 19.75}];
-        const lowerII = [{"trm": 30, "ta": 25.7, "tr": 25.7}, {"trm": 15, "ta": 20.75, "tr": 20.75}, {"trm": 10, "ta": 20.75, "tr": 20.75}];
-        const lowerI = [{"trm": 30, "ta": 26.7, "tr": 26.7}, {"trm": 15, "ta": 21.75, "tr": 21.75}, {"trm": 10, "ta": 21.75, "tr": 21.75}];
+        const lowerIII = [{"trm": 30, "ta": 24.7, "tr": 24.7}, {"trm": 10, "ta": 18.1, "tr": 18.1}];
+        const lowerII = [{"trm": 30, "ta": 25.7, "tr": 25.7}, {"trm": 10, "ta": 19.1, "tr": 19.1}];
+        const lowerI = [{"trm": 30, "ta": 26.7, "tr": 26.7}, {"trm": 10, "ta": 20.1, "tr": 20.1}];
 
         d3.select("#chart-div-adaptive")
             .append("svg")
