@@ -75,14 +75,13 @@ function floorRisk(T_floor) {
 function draftRisk(T_op, local_vel) {
 //    return (T_op < 23.0 || local_vel > 0.2)
        return (T_op < 23.0 & local_vel > 0.2)
-
-};
+}
 
 // -------------------------------- Ankle Draft ----------------------------------------------------------------------
 
 function ankledraft(ankle_vel, overall_pmv) {
     return (exp(-2.58 + 3.05*ankle_vel - 1.06*overall_pmv)/(1+ exp(-2.58 + 3.05*ankle_vel - 1.06*overall_pmv )));
-};
+}
 
 //------------------------------- For the dialog --------------------------------------
 // NOTE: due to how the code is structured, "true" means that there is local discomfort, so the space does NOT comply.
