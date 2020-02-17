@@ -1,4 +1,4 @@
-keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm"];
+keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
 $(document).ready(function () {
 
@@ -34,6 +34,24 @@ $(document).ready(function () {
             dividerLocation: 0.5
         });
     });
+
+    var velaSelect = document.getElementById('vel_a');
+
+    velaSelect.onchange = function () {
+        update();
+        var coolingEffect;
+        if (d.vel_a === 0.3) {
+            coolingEffect = 0
+        } else if (d.vel_a === 0.6) {
+            coolingEffect = 1.2
+        } else if (d.vel_a === 0.9) {
+            coolingEffect = 1.8
+        } else if (d.vel_a === 1.2) {
+            coolingEffect = 2.2
+        }
+        ac.redrawBounds(coolingEffect)
+    };
+
     $('#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div').hide();
     window.isCelsius = true;
     window.humUnit = 'rh';
@@ -127,7 +145,7 @@ $(function () {
         numberFormat: "n"
     });
 
-    $('#vel, #vel_a').spinner({
+    $('#vel').spinner({
         step: envVarLimits.vel.si.step,
         min: envVarLimits.vel.si.min,
         max: envVarLimits.vel.si.max,
@@ -182,9 +200,9 @@ $('.inputbox').focusout(function () {
     update();
 });
 
-$('#vel_a').focusout(function () {
-    update();
-});
+// $('#vel_a').focusout(function () {
+//     update();
+// });
 
 $('#vel-a-box').click(function () {
     update();
