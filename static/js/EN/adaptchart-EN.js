@@ -47,9 +47,9 @@ var ac = new function () {
         const upperII = [{"trm": 10, "ta": 25.1, "tr": 25.1}, {"trm": 30, "ta": 31.7, "tr": 31.7}];
         const upperI = [{"trm": 10, "ta": 24.1, "tr": 24.1}, {"trm": 30, "ta": 30.7, "tr": 30.7}];
 
-        const lowerIII = [{"trm": 30, "ta": 24.7, "tr": 24.7}, {"trm": 10, "ta": 18.1, "tr": 18.1}];
-        const lowerII = [{"trm": 30, "ta": 25.7, "tr": 25.7}, {"trm": 10, "ta": 19.1, "tr": 19.1}];
-        const lowerI = [{"trm": 30, "ta": 26.7, "tr": 26.7}, {"trm": 10, "ta": 20.1, "tr": 20.1}];
+        const lowerIII = [{"trm": 30, "ta": 23.7, "tr": 23.7}, {"trm": 10, "ta": 17.1, "tr": 17.1}];
+        const lowerII = [{"trm": 30, "ta": 24.7, "tr": 24.7}, {"trm": 10, "ta": 18.1, "tr": 18.1}];
+        const lowerI = [{"trm": 30, "ta": 25.7, "tr": 25.7}, {"trm": 10, "ta": 19.1, "tr": 19.1}];
 
         d3.select("#chart-div-adaptive")
             .append("svg")
@@ -204,6 +204,70 @@ var ac = new function () {
             .attr("cx", ac.trm_scale(data[0].trm))
             .attr("cy", ac.top_scale((data[0].ta + data[0].tr) / 2))
             .attr("clip-path", "url(#clipad-adaptive)")
+
+    };
+
+    this.redrawBounds = function (coolingEffect) {
+
+        let upperIII = [{"trm": 10, "ta": 26.1, "tr": 26.1}, {"trm": 30, "ta": 32.7, "tr": 32.7}];
+        let upperII = [{"trm": 10, "ta": 25.1, "tr": 25.1}, {"trm": 30, "ta": 31.7, "tr": 31.7}];
+        let upperI = [{"trm": 10, "ta": 24.1, "tr": 24.1}, {"trm": 30, "ta": 30.7, "tr": 30.7}];
+
+        if (coolingEffect > 0) {
+            upperI = [{"trm": 10, "ta": 24.1, "tr": 24.1},
+                {"trm": 12.72, "ta": 25, "tr": 25},
+                {"trm": 12.73, "ta": 25 + coolingEffect, "tr": 25 + coolingEffect},
+                {"trm": 30, "ta": 30.7 + coolingEffect, "tr": 30.7 + coolingEffect}];
+            upperII = [{"trm": 10, "ta": 25.1, "tr": 25.1},
+                {"trm": 12.72, "ta": 26, "tr": 26},
+                {"trm": 12.73, "ta": 26 + coolingEffect, "tr": 26 + coolingEffect},
+                {"trm": 30, "ta": 31.7 + coolingEffect, "tr": 31.7 + coolingEffect}];
+            upperIII = [{"trm": 10, "ta": 26.1, "tr": 26.1},
+                {"trm": 12.72, "ta": 27, "tr": 27},
+                {"trm": 12.73, "ta": 27 + coolingEffect, "tr": 27 + coolingEffect},
+                {"trm": 30, "ta": 32.7 + coolingEffect, "tr": 32.7 + coolingEffect}];
+        }
+
+        const lowerIII = [{"trm": 30, "ta": 23.7, "tr": 23.7}, {"trm": 10, "ta": 17.1, "tr": 17.1}];
+        const lowerII = [{"trm": 30, "ta": 24.7, "tr": 24.7}, {"trm": 10, "ta": 18.1, "tr": 18.1}];
+        const lowerI = [{"trm": 30, "ta": 25.7, "tr": 25.7}, {"trm": 10, "ta": 19.1, "tr": 19.1}];
+
+        d3.select("#comfortzoneIII")
+            .attr("d", line(upperIII.concat(lowerIII)) + "Z")
+            .attr("clip-path", "url(#clipad-adaptive)")
+            .on("mouseover", function () {
+                d3.select(this).attr("class", "comfortzoneover");
+            })
+            .on("mouseout", function () {
+                d3.select(this).attr("class", "comfortzoneIII");
+            });
+
+        d3.select("#comfortzoneII")
+            .attr("d", line(upperII.concat(lowerII)) + "Z")
+            .attr("clip-path", "url(#clipad-adaptive)")
+            .on("mouseover", function () {
+                d3.select(this).attr("class", "comfortzoneover");
+            })
+            .on("mouseout", function () {
+                d3.select(this).attr("class", "comfortzoneII");
+            });
+
+        d3.select("#comfortzoneI")
+            .attr("d", line(upperI.concat(lowerI)) + "Z")
+            .attr("clip-path", "url(#clipad-adaptive)")
+            .on("mouseover", function () {
+                d3.select(this).attr("class", "comfortzoneover");
+            })
+            .on("mouseout", function () {
+                d3.select(this).attr("class", "comfortzoneI");
+            });
+
+        d3.select("#comfboundIIIupper").attr("d", line(upperIII));
+
+        d3.select("#comfboundIIupper").attr("d", line(upperII));
+
+        d3.select("#comfboundIupper").attr("d", line(upperI))
+
 
     };
 

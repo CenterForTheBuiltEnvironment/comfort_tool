@@ -512,14 +512,29 @@ comf.schiavonClo = function(ta6) {
 };
 
 comf.adaptiveComfortEN = function(ta, tr, runningMean, vel) {
+
+    let coolingEffect = 0;
+
     const to = (ta + tr) / 2;
+
+    // we decided to add a criterion on the running mean even if not specified in the standard
+	if (vel >= 1.2 && to > 25 && runningMean>12.73) {
+	    // calculate cooling effect of elevated air speed
+	    // when top > 25 degC.
+        coolingEffect = 2.2;
+	} else if (vel >= 0.9 && to > 25 && runningMean>12.73){
+	    coolingEffect = 1.8;
+    } else if (vel >= 0.6 && to > 25 && runningMean>12.73){
+	    coolingEffect = 1.2;
+    }
+
     const tComf = 0.33 * runningMean + 18.8;
-    const tComfILower = tComf - 2;
-    const tComfIUpper = tComf + 2;
-    const tComfIILower = tComf - 3;
-    const tComfIIUpper = tComf + 3;
-    const tComfIIILower = tComf - 4;
-    const tComfIIIUpper = tComf + 4;
+    const tComfILower = tComf - 3;
+    const tComfIUpper = tComf + 2 + coolingEffect;
+    const tComfIILower = tComf - 4;
+    const tComfIIUpper = tComf + 3 + coolingEffect;
+    const tComfIIILower = tComf - 5;
+    const tComfIIIUpper = tComf + 4 + coolingEffect;
     let acceptabilityI, acceptabilityII, acceptabilityIII;
 
     if (comf.between(to, tComfILower, tComfIUpper)) {
@@ -537,7 +552,8 @@ comf.adaptiveComfortEN = function(ta, tr, runningMean, vel) {
         // neither
         acceptabilityI = acceptabilityII = acceptabilityIII = false;
     }
-    r = {};
+
+    let r = {};
     r.acceptabilityI = acceptabilityI;
     r.acceptabilityII = acceptabilityII;
     r.acceptabilityIII = acceptabilityIII;
