@@ -73,6 +73,13 @@
     </div>
     <br/>
 
+    <div class='leftlabel-loc-dialog'>Air speed</div>
+    <div class='inputfield-dialog'>
+        <input class='input-dialog-local' id='local_V' value='0.1'/>
+        <span class='velunit'> m/s</span>
+    </div>
+    <br/>
+
     <div class='leftlabel-loc-dialog'>Ankle level air speed</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='local_ank_vel' min='0.06' value='0.1'/>
@@ -163,42 +170,42 @@
     <div class='leftlabel-loc-dialog'>Relative humidity</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='tmp_grad_rh' value='50'/>
-        <span class='tempunit'> %</span>
+        <span class='rhunit'> %</span>
     </div>
     <br/>
 
-    <div class='leftlabel-loc-dialog'>Air velocity (0 - 0.2m/s)</div>
+    <div class='leftlabel-loc-dialog'>Air speed (0 - 0.2m/s) *</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='tmp_grad_v' value='0.1'/>
-        <span class='tempunit'> m/s</span>
+        <span class='velunit'> m/s</span>
     </div>
     <br/>
 
     <div class='leftlabel-loc-dialog'>Clothing</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='tmp_grad_clo' value='0.5'/>
-        <span class='tempunit'> clo</span>
+        <span class='clounit'> clo</span>
     </div>
     <br/>
 
     <div class='leftlabel-loc-dialog'>Metabolic Rate</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='tmp_grad_met' value='1.2'/>
-        <span class='tempunit'> met</span>
+        <span class='metunit'> met</span>
     </div>
     <br/>
 
     <div class='leftlabel-loc-dialog'>Vertical temp gradient</div>
     <div class='inputfield-dialog'>
         <input class='input-dialog-local' id='vertical_temp_gradient' value='3'/>
-        <span class='tempunit'> &deg;C/m</span>
+        <span class='gradient_unit'> &deg;C/m</span>
     </div>
     <br/>
 
     <div class='leftlabel-loc-dialog'>PPD<sub>&#x2207T</sub></div>
     <div class='inputfield-dialog'>
         <input class='input-dialog' readonly="readonly" id='vertical_temp_gradient_ppd'/>
-        <span class='tempunit'> %</span>
+        <span class='unit'> %</span>
         <span id='vertical_temp_gradient_compliance'></span>
     </div>
 
@@ -222,7 +229,8 @@
 
     <hr class="local-rule">
 
-    <div class='leftlabel-loc-dialog-1'> * The air temperature is average of the air temperatures at 0.6 and 1.1 m above the floor level</div>
+    <div class='leftlabel-loc-dialog-1'> * The air temperature and speed averaged are the average value over two heights, and not three as in the rest of the standard.
+        The two heights are 0.6 m (24 in.) and 1.1 m (43 in.) for seated occupants and 1.1 m (43 in.) and 1.7 m (67 in.) for standing occupants.</div>
     <div class='leftlabel-loc-dialog-1'> # Air speed on the upper body is fixed as 0.2 m/s for PMV calculation in the ankle draft risk model</div>
 
     <div style="margin-top: 5px;" class='local-disc-result' id='all-disc'></div>
