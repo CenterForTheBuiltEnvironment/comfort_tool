@@ -101,6 +101,7 @@ function updateLocalDisc() {
     dlocal.T_op = parseFloat($('#T_op').val());
     dlocal.local_Ta = parseFloat($('#local_Ta').val());
     dlocal.local_Tr = parseFloat($('#local_Tr').val());
+    dlocal.local_V = parseFloat($('#local_V').val());
     dlocal.local_rh = parseFloat($('#local_rh').val());
     dlocal.local_met = parseFloat($('#local_met').val());
     dlocal.local_clo = parseFloat($('#local_clo').val());
@@ -137,10 +138,11 @@ function updateLocalDisc() {
         dlocal.T_op = util.FtoC(dlocal.T_op);
         dlocal.local_Ta = util.FtoC(dlocal.local_Ta);
         dlocal.local_Tr = util.FtoC(dlocal.local_Tr);
+        dlocal.local_V = util.FtoC(dlocal.local_V);
         dlocal.local_vel /= 196.9;
         dlocal.local_ank_vel /= 196.9;
         // vertical temperature gradient inputs
-        dlocal.vert_temp_gradient = util.FtoC(dlocal.vert_temp_gradient);
+        dlocal.vert_temp_gradient = dlocal.vert_temp_gradient/1.8*3.28;
         dlocal.tmp_grad_ta = util.FtoC(dlocal.tmp_grad_ta);
         dlocal.tmp_grad_tr = util.FtoC(dlocal.tmp_grad_tr);
         dlocal.tmp_grad_v /= 196.9;
@@ -162,7 +164,7 @@ function updateLocalDisc() {
     const vert_grad_ppd = 100 * verticalGradientPPD(dlocal);
     var floor_res = floorRisk(dlocal.T_floor);
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
-    var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, 0.2, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
+    var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, dlocal.local_V, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
     var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100;
     var clo_check = dlocal.local_clo;
     var met_check = dlocal.local_met;

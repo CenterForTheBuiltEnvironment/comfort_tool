@@ -358,15 +358,21 @@ $('#localDisc').click(function () {
             if (!isCelsius) {
                 $('.tempunit').html(' &deg;F');
                 $('.velunit').html(' fpm');
+                $('.gradient_unit').html(' &deg;F/ft');
                 $('#T_head').val('77');
                 $('#T_ankle').val('77');
                 $('#T_floor').val('77');
                 $('#T_op').val('77');
                 $('#local_Ta').val('77');
                 $('#local_Tr').val('77');
+                $('#local_V').val('20');
                 $('#local_ank_vel').val('20');
                 $('#local_vel_1').val('20');
-                $('#local_vel').val('20')
+                $('#local_vel').val('20');
+                $('#vertical_temp_gradient').val(2);
+                $('#tmp_grad_ta').val(77);
+                $('#tmp_grad_tr').val(77);
+                $('#tmp_grad_v').val(20);
             }
         },
         async: false
@@ -548,7 +554,7 @@ function update() {
 function renderPmvResults(r) {
     $('#pmv-res').html(r.pmv.toFixed(2));
     $('#ppd-res').html(r.ppd.toFixed(0));
-    var sensation = util.getSensation(r.pmv);
+    const sensation = util.getSensation(r.pmv);
     $('#sensation').html(sensation);
     $('#SET').html(r.set.toFixed(1));
 }
