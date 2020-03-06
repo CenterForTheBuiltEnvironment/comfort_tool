@@ -2,7 +2,7 @@ import os
 import csv
 from io import TextIOWrapper
 from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify
-import contrib.comfort_models as cm
+from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
 from flask_csv import send_csv
 
 ALLOWED_EXTENSIONS = {'csv'}
@@ -41,10 +41,12 @@ def api_id():
         return "Error: You did not provided all the input parameters"
 
     # Create an empty list for our results
-    results = []
+    results = dict()
 
-    value = cm.comfPMV(ta, tr, v, rh, met, clo, wme=0)
-    results.append({'PMV': value[0], 'PPD': value[1]})
+    value = pmv_ppd(ta, tr, v, rh, met, clo, wme=0, standard="ASHRAE")
+    results['data'] = []
+    results['data'].append(value)
+    results['message'] = "success"
 
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
@@ -84,17 +86,16 @@ def transform_view():
         for element in row.keys():
             row[element] = float(row[element])
         if si_unit:
-            r = cm.comfPMVElevatedAirspeed(row['ta'], row['tr'], row['vel'], int(row['rh']), row['met'], row['clo'])
-            row['PMV'] = round(r['pmv'], 1)
-            row['PPD'] = round(r['ppd'], 1)
-            row['SET'] = round(r['set'], 2)
-            row['CE'] = round(r['ce'], 2)
+            r = pmv_ppd(ta=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae")
+            row['SET'] = set_tmp(ta=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
+            row['CE'] = cooling_effect(ta=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
         else:
-            r = cm.comfPMVElevatedAirspeed(cm.fahrenheit_to_celsius(row['ta']), cm.fahrenheit_to_celsius(row['tr']), row['vel'] / 196.85, int(row['rh']), row['met'], row['clo'])
-            row['PMV'] = round(r['pmv'], 1)
-            row['PPD'] = round(r['ppd'], 1)
-            row['SET'] = round(r['set'], 2)
-            row['CE'] = round(r['ce'], 2)
+            v = row['vel'] / 60
+            r = pmv_ppd(ta=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae")
+            row['SET'] = set_tmp(ta=row['ta'], tr=row['tr'], v=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
+            row['CE'] = cooling_effect(ta=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
+        row['PMV'] = r['pmv']
+        row['PPD'] = r['ppd']
         results.append(row)
 
     return send_csv(results, "results.csv", list(row.keys()))

@@ -563,7 +563,7 @@ function renderPmvElevResults(r) {
     renderPmvResults(r);
     if (!isCelsius) {
         r.ta_adj = util.CtoF(r.ta_adj);
-        r.cooling_effect = util.CtoF(r.cooling_effect) - 32;
+        r.cooling_effect = r.cooling_effect * 9 / 5;
     }
     $('#ta-still').html(r.ta_adj.toFixed(1));
     $('#cooling-effect').html(r.cooling_effect.toFixed(1));
