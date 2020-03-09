@@ -171,7 +171,7 @@ comf.pmvElevatedAirspeed = function(ta, tr, vel, rh, met, clo, wme) {
     // returns pmv at elevated airspeed (> comf.still_air_threshold)
     var r = {};
     var set = comf.pierceSET(ta, tr, vel, rh, met , clo, wme);
-    if (vel <= comf.still_air_threshold) {
+    if (vel <= 0.2) {
         var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
         // var ta_adj = ta
         var ce = 0
