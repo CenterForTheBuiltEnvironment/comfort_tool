@@ -16,7 +16,7 @@ If you do not have Python installed on your machine you can follow [this guide](
 
 ## Installation
 
-This guide is for Mac OSX, Linux or Windows, you can follow the instructions below.
+This guide is for Mac OSX, Linux or Windows.
 
 **Check out from the repo.**
 ```
@@ -42,7 +42,7 @@ Install them all using:
 `$ pip install -r requirements.txt`
 
 Now you should be ready to run the tool locally.
-`python comfort.py`
+`python3 comfort.py`
 
 Visit http://localhost:5000 in your browser to check it out. 
 Note that whenever you want to run the tool, you have to activate the virtualenv first.
