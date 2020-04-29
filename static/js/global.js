@@ -568,8 +568,11 @@ function toggleUnits() {
     }
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
-    vc.toggleUnits(isCelsius);
     ac.toggleUnits(isCelsius);
+    try{ // only in the ASHRAE page has the velocity chart
+        vc.toggleUnits(isCelsius);
+    } catch {}
+
 }
 
 // check user entry

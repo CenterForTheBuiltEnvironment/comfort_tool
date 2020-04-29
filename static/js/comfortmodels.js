@@ -107,7 +107,7 @@ comf.test = function() {
 };
 
 comf.between = function (x, l, r) {
-    return (x > l && x < r);
+    return (x >= l && x <= r);
 };
 
 comf.globeTemperature = function(tw, tr, ta) {
