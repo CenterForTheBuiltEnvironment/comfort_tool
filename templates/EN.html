@@ -34,7 +34,7 @@
 
                     {# Select method PMV or adaptive #}
                     <div class="row justify-content-between">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div id="select_comfort_model"
                                  class='in'>
                                 <div id='modelDiv'>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-5">
-                            <select class="form-control form-control-sm" id='model-type'>
+                            <select class="form-control" id='model-type'>
                                 <option value='pmv'>PMV method</option>
                                 <option value='adaptiveComfort'>Adaptive method</option>
                             </select>
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-5" id='humidity-spec-cont'>
-                                    <select class="form-control form-control-sm" id='humidity-spec'>
+                                    <select class="form-control" id='humidity-spec'>
                                         <option value='rh'>Relative humidity</option>
                                         <option value='w'>Humidity ratio</option>
                                         <option value='dewpoint'>Dew point</option>
@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-5" id='actSelectDiv'>
-                                    <select class="form-control form-control-sm" id='actSelect'></select>
+                                    <select class="form-control" id='actSelect'></select>
                                 </div>
                             </div>
 
@@ -160,14 +160,14 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-5" id='cloSelectDiv'>
-                                    <select class="form-control form-control-sm" id='cloSelect'></select>
+                                    <select class="form-control" id='cloSelect'></select>
                                 </div>
 
                             </div>
 
                             {# custom clothing button #}
                             <div class="row justify-content-center mt-4 btn-group-toggle" data-toggle="buttons">
-                                <label for='customClo' class="btn btn-light border btn-sm">
+                                <label for='customClo' class="btn btn-light border">
                                     <input type='checkbox' id='customClo'/>Create custom ensemble
                                 </label>
                             </div>
@@ -204,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-12" style="width: 200px;">
-                                    <select class="form-control form-control-sm" id='vel_a'>
+                                    <select class="form-control" id='vel_a'>
                                         <option value="0.5" selected="selected">lower than 0.6 m/s (118 fpm)</option>
                                         <option value="0.6">0.6 m/s (118 fpm)</option>
                                         <option value="0.9">0.9 m/s (177 fpm)</option>
@@ -220,16 +220,16 @@
                     {# set of buttons at the bottom #}
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="setDefaults" autocomplete="off"> Reset
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-EN.html') }}" target="_new">?
                                 Help</a>
                             </label>
@@ -237,10 +237,10 @@
                     </div>
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="localDisc" autocomplete="off" checked> Local discomfort
                             </label>
-                            <label class="btn btn-light border btn-sm" id="globeTmpLabel">
+                            <label class="btn btn-light border" id="globeTmpLabel">
                                 <input type="radio" name="options" id="globeTemp" autocomplete="off"> Globe temp
                             </label>
                         </div>
@@ -313,7 +313,7 @@
 
                 {# Chart selection #}
                 <div class="row center p-1 col-sm-6 mt-4" id='chartSelect-cont'>
-                    <select class="form-control form-control-sm" id='chartSelect'>
+                    <select class="form-control" id='chartSelect'>
                         <option value='psychta'>Psychrometric (air temperature)</option>
                         <option value='psychtop'>Psychrometric (operative temperature)</option>
                         <option value='temphum'>Relative humidity vs. air temperature</option>

@@ -1,20 +1,14 @@
-#header {
-    width: 988px;
-    align: center;
-    margin: auto;
-}
-
-a.mainlink:link {
-    color: black;
+a {
+    color: #000;
     text-decoration: none;
 }
 
 a.mainlink:visited {
-    color: #636363;
+    color: #2A4583;
 }
 
 a.mainlink:hover {
-    color: #2A4583;
+    color: rgba(99, 99, 99, 0.56);
 }
 
 .ui-button-text {
@@ -35,16 +29,14 @@ a.mainlink:hover {
     font-size: 12px;
 }
 
-a.footerlink:link {
-    color: black;
+
+.footer a {
+    color: #ffffff
 }
 
-a.footerlink:visited {
-    color: #636363;
-}
 
-a.footerlink:hover {
-    color: #2A4583;
+.footer a:hover {
+    color: rgb(255, 24, 10);
 }
 
 .clear {
@@ -71,9 +63,21 @@ a.footerlink:hover {
 }
 
 .navbar a:hover {
-  border-bottom: 3px solid #08c4ff;
+    border-bottom: 3px solid #08c4ff;
 }
 
-.navbar a.active{
+.navbar a.active {
     border-bottom: 3px solid #124f7f;
 }
+
+@media (max-width: 992px) {
+    .container {
+        width: 100%;
+        max-width: none;
+    }
+
+    body {
+        font-size: 1.5rem;
+    }
+}
+
