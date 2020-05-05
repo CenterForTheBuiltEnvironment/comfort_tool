@@ -134,28 +134,29 @@
 
 .inputbox {
     width: 50px;
-    height: 22px;
+    height: 24px;
     text-align: left;
 }
+
 .inputbox1 {
     width: 50px;
-    height: 22px;
+    height: 24px;
     text-align: left;
 }
 .inputbox2 {
     width: 50px;
-    height: 22px;
+    height: 24px;
     text-align: left;
 }
 .inputbox3 {
     width: 50px;
-    height: 22px;
+    height: 24px;
     text-align: left;
 }
 
 input.rangesbox {
     width: 50px;
-    height: 22px;
+    height: 24px;
     text-align: center;
 }
 

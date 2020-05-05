@@ -53,7 +53,7 @@
                                 </td>
                             </tr>
                             <tr class='inputfield'>
-                                <td class="inputcell1" >
+                                <td class="inputcell1">
                                     <input class='inputbox1' id='ta1'/>
                                     <span class='tempunit1'>&deg;C</span>
                                 </td>
@@ -108,19 +108,19 @@
                                 </tr>
                                 <tr class='inputfield'>
                                     <td class="inputcell1">
-                                        <select class="form-control form-control-sm" id='local-control1'>
+                                        <select class="form-control" id='local-control1'>
                                             <option value='false'>No local control</option>
                                             <option value='true'>Local control</option>
                                         </select>
                                     </td>
                                     <td class="inputcell2">
-                                        <select class="form-control form-control-sm" id='local-control2'>
+                                        <select class="form-control" id='local-control2'>
                                             <option value='false'>No local control</option>
                                             <option value='true'>Local control</option>
                                         </select>
                                     </td>
                                     <td class="inputcell3">
-                                        <select class="form-control form-control-sm" id='local-control3'>
+                                        <select class="form-control" id='local-control3'>
                                             <option value='false'>No local control</option>
                                             <option value='true'>Local control</option>
                                         </select>
@@ -132,7 +132,7 @@
                                         <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" target="_new" id='rh-description'>Relative humidity</a>
                                     </td>
                                     <td colspan="1" id='humidity-spec-cont'>
-                                        <select class="form-control form-control-sm" id='humidity-spec'>
+                                        <select class="form-control" id='humidity-spec'>
                                             <option value='rh'>Relative humidity</option>
                                             <option value='w'>Humidity ratio</option>
                                             <option value='dewpoint'>Dew point</option>
@@ -205,19 +205,23 @@
 
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="restart" autocomplete="off"> Reset
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="link" autocomplete="off"><span id='labelforlink'>&#9744; Use operative temp</span>
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-compare.html') }}"
                                                                                           target="_new">?
                                 Help</a>
@@ -356,18 +360,18 @@
                             </td>
                         </tr>
 
-{#                        <tr>#}
-{#                            <td class='labelcell'>Air speed range</td>#}
-{#                            <td class='resultcell'>#}
-{#                                <span class='result1' id='vel-range1'></span>#}
-{#                            </td>#}
-{#                            <td class='resultcell'>#}
-{#                                <span class='result2' id='vel-range2'></span>#}
-{#                            </td>#}
-{#                            <td class='resultcell'>#}
-{#                                <span class='result3' id='vel-range3'></span>#}
-{#                            </td>#}
-{#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class='labelcell'>Air speed range</td>#}
+                        {#                            <td class='resultcell'>#}
+                        {#                                <span class='result1' id='vel-range1'></span>#}
+                        {#                            </td>#}
+                        {#                            <td class='resultcell'>#}
+                        {#                                <span class='result2' id='vel-range2'></span>#}
+                        {#                            </td>#}
+                        {#                            <td class='resultcell'>#}
+                        {#                                <span class='result3' id='vel-range3'></span>#}
+                        {#                            </td>#}
+                        {#                        </tr>#}
                         </tbody><!--id="pmv-elev-outputs"-->
                         </tbody>
                     </table>
@@ -376,7 +380,7 @@
                 <div class="row justify-content-center p-1 ">
                     <form>
                         <div class="col-sm-12 mt-4">
-                            <select class="form-control form-control-sm" id='chartSelect'>
+                            <select class="form-control" id='chartSelect'>
                                 <option value='psychta'>Psychrometric (air temperature)</option>
                                 <option value='psychtop' selected="selected">Psychrometric (operative temperature)</option>
                                 <option value='temphum'>Relative humidity vs. air temperature</option>

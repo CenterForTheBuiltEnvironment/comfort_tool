@@ -540,7 +540,7 @@ function update() {
             b = vc.findComfortBoundary(d, 0.5);
             vc.redrawComfortRegion(b);
             vc.redrawPoint();
-        } else if ($('#chart_heatLoss_div').is(':visible')) {
+        } else if (selected_chart === "heatloss") {
             heatLoss_chart.update();
         }
     } else if (model === 'adaptiveComfort') {
