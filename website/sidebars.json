@@ -6,6 +6,9 @@
       "compare",
       "ranges",
       "upload"
-    ]
+    ],
+    "Changelog": [
+      "changelog"
+      ]
   }
 }
