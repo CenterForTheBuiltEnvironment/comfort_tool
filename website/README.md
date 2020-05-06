@@ -48,7 +48,7 @@ comfort_tool/
     siteConfig.js
 ```
 
-Once you have customized the documentation to your liking, more info below or on the Docusaurus webpag, you can create a static build of your website by running the following script from the website directory:
+Once you have customized the documentation to your liking, more info below or on the Docusaurus webpage, you can create a static build of your website by running the following script from the website directory:
 
 ```
 yarn run build # or `npm run build`
@@ -65,6 +65,8 @@ This will generate a `build` directory inside the `website` directory containing
 cd website
 cmd /C "set GIT_USER=CenterForTheBuiltEnvironment&& set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
+
+The fact that there is no space between the words `Environment` and `&&` is okay, do not add a space since that will cause an error.
 
 # Editing Content
 
