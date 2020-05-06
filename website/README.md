@@ -1,10 +1,31 @@
 This website was created with [Docusaurus](https://docusaurus.io/).
 
-# What's In This Document
+# Update documentation
+
+In order for this to work you need to have writing permission to the main `CenterForTheBuiltEnvironment/comfort_tool/` repository.
+
+## Clone the repository
+
+Clone the repository to your machine.
+
+## Run the website locally
+
+Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well. However you do not need Yarn and in the commands below you can replace the `yarm` command with `npm`
+
+    > You have to be on Node >= 8.x and Yarn >= 1.5.
+
+Change directory to `comfort_tool\website` then install the packages and run the local webserver using:
+```
+npm install
+npm start
+```
+
+The website should load automatically. If it does not click on this URL http://localhost:3000
+There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
 
 ## Documentation Structure
 
-Your project file structure should look something like this
+The documentation website structure should look like this. Feel free to add pages and imgages to the `docs` folder.
 
 ```
 comfort_tool/
@@ -27,21 +48,7 @@ comfort_tool/
     siteConfig.js
 ```
 
-## Run the website locally
-
-Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well. However you do not need Yarn and in the commands below you can replace the `yarm` command with `npm`
-
-    > You have to be on Node >= 8.x and Yarn >= 1.5.
-
-Change directory to `comfort_tool\website` and run the local webserver using:
-```
-npm start
-```
-
-The website should load automatically. If it does not click on this URL http://localhost:3000
-There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
-
-Once you have customized the documentation to your liking, more info below or on the Docusaurus webpage. To create a static build of your website, run the following script from the website directory:
+Once you have customized the documentation to your liking, more info below or on the Docusaurus webpag, you can create a static build of your website by running the following script from the website directory:
 
 ```
 yarn run build # or `npm run build`
@@ -49,7 +56,15 @@ yarn run build # or `npm run build`
 
 This will generate a `build` directory inside the `website` directory containing the `.html` files from all of your docs and other pages included in `pages`.
 
-To run the publish the changes to Github pages where the current documentation is hosted, run the following commands:
+
+## Push the changes to gh-pages
+
+`gh-pages` is the branch that is hosting the documentation website. To push your changes to this branch, run the following commands:
+
+```
+cd website
+cmd /C "set GIT_USER=CenterForTheBuiltEnvironment&& set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
+```
 
 # Editing Content
 
