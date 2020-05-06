@@ -23,12 +23,11 @@ const users = [
 const siteConfig = {
   title: 'CBE Thermal Comfort Tool docs', // Title for your website.
   tagline: 'Official documentation',
-  url: 'https://comfort.cbe.berkeley.edu', // Your website URL
-  baseUrl: '/', // Base URL for your project */
+
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
-  url: 'https://FedericoTartarini.github.io', // Your website URL
+  url: 'FedericoTartarini.github.io', // Your website URL
   baseUrl: '/comfort_tool/',
   projectName: 'comfort_tool',
   organizationName: 'FedericoTartarini',

@@ -2,34 +2,12 @@ This website was created with [Docusaurus](https://docusaurus.io/).
 
 # What's In This Document
 
-- [Get Started in 5 Minutes](#get-started-in-5-minutes)
-- [Directory Structure](#directory-structure)
-- [Editing Content](#editing-content)
-- [Adding Content](#adding-content)
-- [Full Documentation](#full-documentation)
-
-# Get Started in 5 Minutes
-
-1. Make sure all the dependencies for the website are installed:
-
-```sh
-# Install dependencies
-$ yarn
-```
-
-2. Run your dev server:
-
-```sh
-# Start the site
-$ yarn start
-```
-
-## Directory Structure
+## Documentation Structure
 
 Your project file structure should look something like this
 
 ```
-my-docusaurus/
+comfort_tool/
   docs/
     doc-1.md
     doc-2.md
@@ -49,6 +27,30 @@ my-docusaurus/
     siteConfig.js
 ```
 
+## Run the website locally
+
+Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well. However you do not need Yarn and in the commands below you can replace the `yarm` command with `npm`
+
+    > You have to be on Node >= 8.x and Yarn >= 1.5.
+
+Change directory to `comfort_tool\website` and run the local webserver using:
+```
+npm start
+```
+
+The website should load automatically. If it does not click on this URL http://localhost:3000
+There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
+
+Once you have customized the documentation to your liking, more info below or on the Docusaurus webpage. To create a static build of your website, run the following script from the website directory:
+
+```
+yarn run build # or `npm run build`
+```
+
+This will generate a `build` directory inside the `website` directory containing the `.html` files from all of your docs and other pages included in `pages`.
+
+To run the publish the changes to Github pages where the current documentation is hosted, run the following commands:
+
 # Editing Content
 
 ## Editing an existing docs page
@@ -67,23 +69,6 @@ Edit me...
 ```
 
 For more information about docs, click [here](https://docusaurus.io/docs/en/navigation)
-
-## Editing an existing blog post
-
-Edit blog posts by navigating to `website/blog` and editing the corresponding post:
-
-`website/blog/post-to-be-edited.md`
-
-```markdown
----
-id: post-needs-edit
-title: This Blog Post Needs To Be Edited
----
-
-Edit me...
-```
-
-For more information about blog posts, click [here](https://docusaurus.io/docs/en/adding-blog)
 
 # Adding Content
 
@@ -117,37 +102,6 @@ My new content here..
 ```
 
 For more information about adding new docs, click [here](https://docusaurus.io/docs/en/navigation)
-
-## Adding a new blog post
-
-1. Make sure there is a header link to your blog in `website/siteConfig.js`:
-
-`website/siteConfig.js`
-
-```javascript
-headerLinks: [
-    ...
-    { blog: true, label: 'Blog' },
-    ...
-]
-```
-
-2. Create the blog post with the format `YYYY-MM-DD-My-Blog-Post-Title.md` in `website/blog`:
-
-`website/blog/2018-05-21-New-Blog-Post.md`
-
-```markdown
----
-author: Frank Li
-authorURL: https://twitter.com/foobarbaz
-authorFBID: 503283835
-title: New Blog Post
----
-
-Lorem Ipsum...
-```
-
-For more information about blog posts, click [here](https://docusaurus.io/docs/en/adding-blog)
 
 ## Adding items to your site's top navigation bar
 
