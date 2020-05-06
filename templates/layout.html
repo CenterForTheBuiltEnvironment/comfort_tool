@@ -5,6 +5,8 @@
           content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favico.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Open Graph protocol tags -->
     <meta property="og:title" content="CBE Thermal Comfort Tool"/>
@@ -49,30 +51,22 @@
 <body>
 
 {# Navigation bar #}
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <span class="navbar-brand " href="#"><img src="static/img/CBE-logo-2018.png" width="130"> Thermal Comfort Tool</span>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="MRT" target="_new">MRT</a>
-            </li>
-        </ul>
-    </nav>
+<div class="container-flex bg-light border-bottom">
+    <div class="container bg-light">
+        <span style="font-size: 2rem"><img src="static/img/CBE-logo-2018.png" width="150"> Thermal Comfort Tool</span>
+
+        <div class="topnav" id="mytopnav">
+            <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
+            <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
+            <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
+            <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
+            <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
+            <a class="nav-link" href="MRT" target="_new">MRT</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </div>
 </div>
 
 {# Body #}
@@ -82,13 +76,8 @@
 {# Footer #}
 <div class="container-fluid py-3 text-white" style="background-color: #124F7F">
     <div class="container">
-        <div class="row footer justify-content-between">
-            <div class="col-sm-auto col-md-auto">
-                <img src="static/img/footer-logo.png" width="100" vspace="5">
-                <br>
-                <img src="static/img/ucb-logo.png" width="100" vspace="5">
-            </div>
-            <div class="col-sm">
+        <div class="row footer justify-content-between justify-content-md-center">
+            <div class="col-md-8 col-lg-6">
                 Latest version: v2.0.0
                 <br>
                 <br>
@@ -100,7 +89,7 @@
                 <br>
 
             </div>
-            <div class="col-sm-12 col-md-3 text-center">
+            <div class="col-md-4 col-lg-3 text-center">
                 <b>Contact us:</b><br>
                 <a href="mailto:cbecomforttool@gmail.com">cbecomforttool@gmail.com</a><br><br>
                 <div class="row footer justify-content-center">
@@ -125,9 +114,27 @@
                 </div>
 
             </div>
+            <div class="col-xs-4 col-md-4 col-lg-2 mt-md-3">
+                <img src="static/img/footer-logo.png" width="100%" vspace="5">
+                <br>
+                <img src="static/img/ucb-logo.png" width="100%" vspace="5">
+            </div>
         </div>
     </div>
 </div>
 
 </body>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("mytopnav");
+        // Get all buttons with class="btn" inside the container
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+
 </html>

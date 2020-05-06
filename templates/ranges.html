@@ -36,7 +36,7 @@
                             <td colspan="4">
                                 <form>
                                     <div class="col-sm-12">
-                                        <select class="form-control form-control-sm" id='parameter_select'>
+                                        <select class="form-control" id='parameter_select'>
                                             <option value='sel_air_vel'>Air speed</option>
                                             <option value='sel_clo' selected="selected">Clothing level</option>
                                             <option value='sel_met'>Metabolic rate</option>
@@ -63,7 +63,7 @@
                                     <span> step: </span>
                                 </td>
                                 <td>
-                                    <select class="form-control form-control-sm" id='step-select-tr'>
+                                    <select class="form-control" id='step-select-tr'>
                                         <option value='0.5'>0.5 &deg;C</option>
                                         <option value='1'>1.0 &deg;C</option>
                                         <option value='1.5'>1.5 &deg;C</option>
@@ -84,7 +84,7 @@
                                     <span> step: </span>
                                 </td>
                                 <td>
-                                    <select class="form-control form-control-sm" id='step-select-vel'>
+                                    <select class="form-control" id='step-select-vel'>
                                         <option value='0.05'>0.05 m/s</option>
                                         <option value='0.1'>0.1 m/s</option>
                                         <option value='0.2'>0.2 m/s</option>
@@ -103,7 +103,7 @@
                                 <span> step:</span>
                             </td>
                             <td>
-                                <select class="form-control form-control-sm" id='step-select-met'>
+                                <select class="form-control" id='step-select-met'>
                                     <option value='0.05'>0.05 met</option>
                                     <option value='0.1'>0.1 met</option>
                                     <option value='0.2'>0.2 met</option>
@@ -122,7 +122,7 @@
                             </td>
 
                             <td>
-                                <select class="form-control form-control-sm" id='step-select-clo'>
+                                <select class="form-control" id='step-select-clo'>
                                     <option value='0.05'>0.05 clo</option>
                                     <option value='0.1'>0.1 clo</option>
                                     <option value='0.2'>0.2 clo</option>
@@ -169,7 +169,7 @@
 
                             <td id='humidity-spec-cont'>
                                 <form class="form-row align-items-center">
-                                    <select class="form-control form-control-sm" id='humidity-spec'>
+                                    <select class="form-control" id='humidity-spec'>
                                         <option value='rh'>Relative humidity</option>
                                         <option value='w'>Humidity ratio</option>
                                         <option value='dewpoint'>Dew point</option>
@@ -190,16 +190,16 @@
                     {# set of buttons at the bottom #}
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="restart" autocomplete="off"> Reset
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
-                            <label class="btn btn-light border btn-sm">
+                            <label class="btn btn-light border">
                                 <input type="radio" name="options" autocomplete="off"> <a title="Help" href="{{ url_for('static', filename='html/help-ranges.html') }}"
                                                                                           target="_new">? Help</a>
                             </label>
@@ -214,7 +214,7 @@
                 <div class="row justify-content-center p-1 ">
                     <form>
                         <div class="col-sm-12">
-                            <select class="form-control form-control-sm" id='chartSelect'>
+                            <select class="form-control" id='chartSelect'>
                                 <option value='psychta'>Psychrometric (air temperature)</option>
                                 <option value='psychtop' selected="selected">Psychrometric (operative temperature)</option>
                                 <option value='temphum'>Relative humidity vs. air temperature</option>

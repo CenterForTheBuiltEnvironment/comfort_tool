@@ -56,8 +56,8 @@ Set util.STATIC_URL_PATH in `static/js/util.js`
 
 Finally, manually change the path as needed in `static/html/leed.html` for the `/static/css/psychchart.css` stylesheet.
 
-Features
---------
+## Features
+
 1. Models.
     * Adaptive (inputs: air temperature, MRT, mean outdoor temperature, air velocity)
     * PMV with and without elevated air speed
@@ -75,3 +75,7 @@ Features
 13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range.
 14. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions.
 15. EN 15251 compliance: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.
+
+
+## Documentation
+To edit or generate new documentation please refer to the README.md file which is located in the website folder.

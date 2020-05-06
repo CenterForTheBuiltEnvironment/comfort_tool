@@ -1,0 +1,14 @@
+{
+  "docs": {
+    "Documentation": [
+      "ashrae55",
+      "en",
+      "compare",
+      "ranges",
+      "upload"
+    ],
+    "Changelog": [
+      "changelog"
+      ]
+  }
+}
