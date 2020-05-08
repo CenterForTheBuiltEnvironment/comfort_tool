@@ -5,7 +5,8 @@
       "en",
       "compare",
       "ranges",
-      "upload"
+      "upload",
+      "ashrae55-references"
     ],
     "Changelog": [
       "changelog"

@@ -1,5 +1,7 @@
 This website was created with [Docusaurus](https://docusaurus.io/).
 
+The official documentation webpage is hosted [here](https://CenterForTheBuiltEnvironment.github.io/comfort_tool/docs/ashrae55.html).
+
 # Update documentation
 
 In order for this to work you need to have writing permission to the main `CenterForTheBuiltEnvironment/comfort_tool/` repository.
