@@ -13,14 +13,14 @@
         {# explanation of what the page does #}
         <div class="jumbotron">
             <h1>Calculate comfort indexes!</h1>
-            <p class="lead">With this application you can upload a large set of comfort parameters and this tool will automatically calculate the thermal comfort indexes.
+            <p class="lead">With this application you can upload a large set of comfort parameters and this tool will automatically calculate the thermal comfort indexes. <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/upload" target="_new"><i class="far fa-question-circle"></i></a>
             </p>
             <hr class="my-4">
             <h2>Instructions</h2>
             <p>
                 <b>Step 1 - </b> Please download either the SI or IP unit template using the following links:
-                [<a href="download/template-IP.csv">IP-unit template</a>,
-                <a href="download/template-SI.csv">SI-unit template</a>].
+                <a href="download/template-IP.csv"><i class="fas fa-file-download"></i> IP-unit template</a>,
+                <a href="download/template-SI.csv"><i class="fas fa-file-download"></i> SI-unit template</a>.
             </p>
             <p>
                 <b>Step 2 - </b> Open the downloaded .csv file.
@@ -43,7 +43,7 @@
             A file named "results.csv" will be automatically downloaded by your browser which contains all the results.
 {#            </p>#}
             <hr class="my-4">
-            <h2>File Upload</h2>
+            <h2><i class="fas fa-file-upload"></i> File Upload</h2>
             <form action="/transform" method="post" enctype="multipart/form-data" class="form-inline">
                 <div class="input-group-text">
                     <input type="file" name="data_file" id="fileToUpload">
