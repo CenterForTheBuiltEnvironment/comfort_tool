@@ -715,6 +715,11 @@ function update() {
     }
     d.rh = psy.convert(d.rh, d.ta, window.humUnit, 'rh');
 
+    // calculate relative air velocity
+    if (d.met > 1) {
+        d.vel = d.vel + 0.3 * (d.met - 1)
+    }
+
     if ($('#chart-div').is(':visible')) {
         var b = pc.findComfortBoundary(d, 0.5)
         pc.redrawComfortRegion(b);

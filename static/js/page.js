@@ -535,7 +535,13 @@ function update() {
         if (window.humUnit === 'vappress') d.rh *= 1000;
     }
     d.rh = psy.convert(d.rh, d.ta, window.humUnit, 'rh');
-    model = document.getElementById('model-type').value;
+
+    // calculate relative air velocity
+    if (d.met > 1) {
+        d.vel = d.vel + 0.3 * (d.met - 1)
+    }
+
+    const model = document.getElementById('model-type').value;
     if (model === 'pmvElevatedAirspeed') {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
         if (!isCelsius) {

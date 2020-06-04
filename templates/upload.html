@@ -29,6 +29,8 @@
                 If you do not have data for a certain parameter, simply fill all the rows with a representative constant value.
                 For example, if you conducted the study in a office and did not log the metabolic rate, you may enter a constant value of 1.2 in the "Metabolic rate [met]" column.
                 Every row must contain a value for each parameter.
+                <br>
+                <i> Please enter the measured air speed as input not the relative air velocity. The tool automatically calculates the relative air velocity for you. </i>
             </p>
             <p>
                 <b>Step 3 - </b> Select the file to upload by clicking on the "Choose File" button below.
@@ -41,7 +43,7 @@
                 <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort#Cooling_Effect">Cooling Effect (CE)</a></li>
             </ul>
             A file named "results.csv" will be automatically downloaded by your browser which contains all the results.
-{#            </p>#}
+            The results are calculated using the <a href="https://pypi.org/project/pythermalcomfort/">pythermalcomfort</a> Python package.
             <hr class="my-4">
             <h2><i class="fas fa-file-upload"></i> File Upload</h2>
             <form action="/transform" method="post" enctype="multipart/form-data" class="form-inline">

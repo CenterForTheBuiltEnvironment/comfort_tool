@@ -3,6 +3,7 @@ import csv
 from io import TextIOWrapper
 from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
+from pythermalcomfort.psychrometrics import v_relative
 from flask_csv import send_csv
 
 ALLOWED_EXTENSIONS = {'csv'}
@@ -92,14 +93,23 @@ def transform_view():
         for element in row.keys():
             row[element] = float(row[element])
         if si_unit:
-            r = pmv_ppd(ta=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae")
-            row['SET'] = set_tmp(ta=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
-            row['CE'] = cooling_effect(ta=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
+            vr = v_relative(v=row['vel'], met=row['met'])
+            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae")
+            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
+            try:
+                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
+            except:
+                row['CE'] = ''
         else:
             v = row['vel'] / 60
-            r = pmv_ppd(ta=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae")
-            row['SET'] = set_tmp(ta=row['ta'], tr=row['tr'], v=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
-            row['CE'] = cooling_effect(ta=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
+            vr = v_relative(v=v * 0.3048, met=row['met']) * 3.28084
+            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae")
+            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
+            try:
+                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
+            except:
+                row['CE'] = ''
+
         row['PMV'] = r['pmv']
         row['PPD'] = r['ppd']
         results.append(row)

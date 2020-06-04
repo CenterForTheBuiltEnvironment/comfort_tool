@@ -443,7 +443,12 @@ function update(i) {
     }
     d.rh = psy.convert(d.rh, d.ta, window.humUnit, 'rh');
 
-    r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+    // calculate relative air velocity
+    if (d.met > 1) {
+        d.vel = d.vel + 0.3 * (d.met - 1)
+    }
+
+    const r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
     renderPmvElevResults(r, i);
     calcPmvElevCompliance(d, r, i);
 
