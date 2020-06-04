@@ -247,6 +247,41 @@ $(function () {
         numberFormat: "n"
     });
 
+    $('#save_state').click(function () {
+        d['unit'] = isCelsius
+        localStorage.setItem('input_data', JSON.stringify(d))
+    });
+
+    $('#reload_state').click(function () {
+        // reload the value that have been saved in the memory
+        const stored_values = JSON.parse(localStorage.getItem('input_data'))
+
+        // check if user has toggled the units between saved session and reload
+        if (isCelsius !== stored_values.unit) {
+            // if so toggle the unit back to what was saved
+            toggleUnits();
+            // save the new state
+            isCelsius = stored_values.unit
+        }
+
+        // delete the stored information about the units since no longer needed
+        delete stored_values.unit
+
+        // loop through the stored parameters
+        for (let [key, value] of Object.entries(stored_values)) {
+            // if used saved values in IP units convert C to F
+            if (!isCelsius && (key === 'ta' ||key === 'tr' ||key === 'trm' )) {
+                value = util.CtoF(value)
+            } else if (!isCelsius && (key === 'vel_a' ||key === 'vel')){
+                value = value * 196.9
+            }
+            // load the saved variables in the DOM
+            $('#' + key).val(value)
+        }
+        // save the new values and update d which contains users inputs
+        update()
+    });
+
 });
 
 $('#humidity-spec').change(function () {
