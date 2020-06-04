@@ -575,6 +575,32 @@ function toggleUnits() {
 
 }
 
+function LoadData(_data) {
+    // check if user has toggled the units between saved session and reload
+    if (isCelsius !== _data.unit) {
+        // if so toggle the unit back to what was saved
+        toggleUnits();
+        // save the new state
+        isCelsius = _data.unit
+    }
+
+    // delete the stored information about the units since no longer needed
+    delete _data.unit
+
+    // loop through the stored parameters
+    for (let [key, value] of Object.entries(_data)) {
+        // if used saved values in IP units convert C to F
+        if (!isCelsius && (key === 'ta' || key === 'tr' || key === 'trm')) {
+            value = util.CtoF(value)
+        } else if (!isCelsius && (key === 'vel_a' || key === 'vel')) {
+            value = value * 196.9
+        }
+        // load the saved variables in the DOM
+        $('#' + key).val(value)
+    }
+    update()
+}
+
 // check user entry
 function validateUserEntry(i) {
 

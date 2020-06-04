@@ -252,35 +252,26 @@ $(function () {
         localStorage.setItem('input_data', JSON.stringify(d))
     });
 
+    $('#share_state').click(function () {
+        d['unit'] = isCelsius
+        const b64p = btoa(JSON.stringify(d));
+        const new_url = document.URL.split("?")[0] + "?" + b64p
+        window.prompt("Copy to clipboard: Ctrl+C (or Cmd+C on Apple/Mac)", new_url);
+    });
+
     $('#reload_state').click(function () {
         // reload the value that have been saved in the memory
         const stored_values = JSON.parse(localStorage.getItem('input_data'))
 
-        // check if user has toggled the units between saved session and reload
-        if (isCelsius !== stored_values.unit) {
-            // if so toggle the unit back to what was saved
-            toggleUnits();
-            // save the new state
-            isCelsius = stored_values.unit
-        }
-
-        // delete the stored information about the units since no longer needed
-        delete stored_values.unit
-
-        // loop through the stored parameters
-        for (let [key, value] of Object.entries(stored_values)) {
-            // if used saved values in IP units convert C to F
-            if (!isCelsius && (key === 'ta' ||key === 'tr' ||key === 'trm' )) {
-                value = util.CtoF(value)
-            } else if (!isCelsius && (key === 'vel_a' ||key === 'vel')){
-                value = value * 196.9
-            }
-            // load the saved variables in the DOM
-            $('#' + key).val(value)
-        }
-        // save the new values and update d which contains users inputs
-        update()
+        LoadData(stored_values);
     });
+
+    const url_components = document.URL.split("?")
+    if (url_components.length > 1) {
+        const stored_values = JSON.parse(atob(url_components[1]));
+
+        LoadData(stored_values);
+    }
 
 });
 

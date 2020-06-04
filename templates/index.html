@@ -41,12 +41,15 @@
                                  class='in'>
                                 <div id='modelDiv'>
                                     <a class="mainlink"
+                                       data-toggle="tooltip"
+                                       title="Use the dropdown on the right to choose between the PMV and Adaptive methods"
                                        href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models"
                                        target="_new">Select method:</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-5">
+                        <div class="col-lg-6 col-md-5" data-toggle="tooltip"
+                             title="Dropdown to choose between the PMV and Adaptive methods">
                             <select class="form-control input-medium" id='model-type'>
                                 <option value='pmvElevatedAirspeed'>PMV method</option>
                                 <option value='adaptiveComfort'>Adaptive method</option>
@@ -104,7 +107,8 @@
                                         <span class='unit' id='vel-unit'> m/s</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-5" id='local-control-div'>
+                                <div class="col-lg-6 col-md-5" id='local-control-div' data-toggle="tooltip"
+                                       title="Define if building's occupants have control or not on air speed">
                                     <select class="form-control" id='local-control'>
                                         <option value='noairspeedcontrol'>No local control</option>
                                         <option value='withairspeedcontrol'>With local control</option>
@@ -172,7 +176,8 @@
                             </div>
 
                             {# custom clothing button #}
-                            <div class="row justify-content-center mt-4 btn-group-toggle" data-toggle="buttons">
+                            <div class="row justify-content-center mt-4 btn-group-toggle" data-toggle="buttons" data-toggle="tooltip"
+                                       title="Calculate clothing level by specifying all garments occupants were wearing">
                                 <label for='customClo' class="btn btn-light border">
                                     <input type='checkbox' id='customClo'/>Create custom ensemble
                                 </label>
@@ -185,7 +190,8 @@
                             </div>
 
                             {# dynamic prediction of clothing #}
-                            <div class="row justify-content-center mt-2 btn-group-toggle" data-toggle="buttons">
+                            <div class="row justify-content-center mt-2 btn-group-toggle" data-toggle="buttons" data-toggle="tooltip"
+                                       title="Estimate clothing level based on outdoor temperature at 6 am">
                                 <label for='dynamicClo' class="btn btn-light border">
                                     <input type='checkbox' id='dynamicClo'/>Dynamic predictive clothing
                                 </label>
@@ -252,11 +258,13 @@
                             <label class="btn btn-light border">
                                 <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
                             </label>
-                            <label class="btn btn-light border">
+                            <label class="btn btn-light border" data-toggle="tooltip"
+                                       title="Change units">
                                 <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
                             </label>
                             <label class="btn btn-light border">
-                                <input type="radio" name="options" autocomplete="off"> <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55.html" target="_new">?
+                                <input type="radio" name="options" autocomplete="off"> <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55.html"
+                                                                                          target="_new">?
                                 Help</a>
                             </label>
                         </div>
@@ -273,14 +281,21 @@
                     </div>
                     <div class="row justify-content-center mt-2">
                         <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="setDefaults" autocomplete="off"> Reset
+                            <label class="btn btn-light border" data-toggle="tooltip"
+                             title="Reset inputs to default value">
+                                <input type="radio" name="options" id="setDefaults" autocomplete="off">Reset
                             </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="save_state" autocomplete="off" checked> Save
+                            <label class="btn btn-light border" data-toggle="tooltip"
+                             title="Save the current inputs">
+                                <input type="radio" name="options" id="save_state" autocomplete="off" checked>Save
                             </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="reload_state" autocomplete="off" checked> Reload
+                            <label class="btn btn-light border" data-toggle="tooltip"
+                             title="Reload the saved inputs">
+                                <input type="radio" name="options" id="reload_state" autocomplete="off" checked>Reload
+                            </label>
+                            <label class="btn btn-light border" data-toggle="tooltip"
+                             title="Share this page">
+                                <input type="radio" name="options" id="share_state" autocomplete="off" checked>Share
                             </label>
                         </div>
                     </div>
