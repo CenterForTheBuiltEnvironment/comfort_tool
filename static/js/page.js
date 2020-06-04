@@ -144,12 +144,12 @@ $(function () {
                 const dmrt = parseFloat($('#dmrt-result').val());
                 if (!isNaN(dmrt)) {
                     const mrt = parseFloat($('#tr').val());
+                    const t_a = parseFloat($('#ta').val());
                     const chart = $("#chartSelect").val();
 
                     // if the operative temperature is selected then I need to update its value else update only mrt temperature
                     if (chart === "psychtop" || $('#link').is(':checked')) {
                         const t_mrt = (mrt + dmrt).toFixed(1);
-                        const t_a = d.ta;
                         let a;
                         if (d.vel < 0.2) {
                             a = 0.5
