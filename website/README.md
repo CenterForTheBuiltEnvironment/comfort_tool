@@ -65,6 +65,7 @@ This will generate a `build` directory inside the `website` directory containing
 
 ```
 cd website
+yarn run build # or `npm run build`
 cmd /C "set GIT_USER=CenterForTheBuiltEnvironment&& set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
 

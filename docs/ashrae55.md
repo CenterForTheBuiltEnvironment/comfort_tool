@@ -17,7 +17,7 @@ This guide aims to explain the main features of the tool, and demonstrate how be
 ### Main interface
 
 The tool has three main parts:
-* **Left-hand side**: This section is the user interface. It contains the input fields containing values that drive the comfort calculations and visualizations. To change these input values, you can type directly in the boxes or click on the up and down arrows. There are also several other buttons, their functionality is explained in detail below.
+* **Left-hand side**: The input section allows you to change all the parameters used to calculated the thermal comfort indices. You can either change the value of each parameter by typing a new value in the respective box or by using the up and down arrows. You can click on the Save button to save the current inputs, Reload to reload the inputs that you have previously saved, Share to share the page (as it appears on the screen) via link, Reset to reset the input values to the default value. The functionalities of the other buttons in the input section is explained in detail below.
 * **Top-right**: This section contains the results of the calculations. The raw output of the comfort model calculations (such as PMV, PPD, etc. for the PMV method) as well as compliance information.
 * **Bottom-right**: This section contains a visualization of the thermal comfort conditions in the input. There are currently three types of charts visualizing the thermal comfort region, as follows:
     * Psychrometric (plotted using either the dry-bulb air temperature or the operative temperature)
