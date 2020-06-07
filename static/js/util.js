@@ -46,8 +46,8 @@ util.getSensation = function(pmv) {
     else if (pmv < -0.5) return '<span>Slightly Cool</span>';
     else if (pmv < 0.5) return '<span>Neutral</span>';
     else if (pmv < 1.5) return '<span>Slightly Warm</span>';
-    else if (pmv < 2.5) return '<span">Warm</span>';
-    else return '<span">Hot</span>';
+    else if (pmv < 2.5) return '<span>Warm</span>';
+    else return '<span>Hot</span>';
 };
 
 util.CtoF = function(x){
