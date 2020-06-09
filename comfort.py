@@ -1,10 +1,9 @@
 import os
-import csv
 from io import TextIOWrapper
-from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify
+from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify, make_response
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
 from pythermalcomfort.psychrometrics import v_relative
-from flask_csv import send_csv
+import pandas as pd
 
 ALLOWED_EXTENSIONS = {'csv'}
 
@@ -13,7 +12,7 @@ STATIC_URL_PATH = '/static'
 app = Flask(__name__, static_url_path=STATIC_URL_PATH)
 
 
-# define the extension files that can be uploded by users
+# define the extension files that can be uploaded by users
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -54,7 +53,7 @@ def api_id():
     return jsonify(results)
 
 
-# Upload page - The user can upload a csv with input environmental parameters and retruns a csv with indexes calculated
+# Upload page - The user can upload a csv with input environmental parameters and returns a csv with indexes calculated
 @app.route('/upload')  # tutorial https://stackoverflow.com/questions/27628053/uploading-and-downloading-files-with-flask
 def upload():
     return render_template('upload.html')
@@ -69,7 +68,7 @@ def other_tools():
 # this function process the uploaded file and automatically downloads the file with the results
 @app.route('/transform', methods=["POST"])
 def transform_view():
-    # get the uploeded file
+    # get the uploaded file
     request_file = request.files['data_file']
 
     # check file
@@ -80,41 +79,31 @@ def transform_view():
 
     # read file
     csv_file = TextIOWrapper(request_file, encoding='utf-8')
-    csv_reader = csv.DictReader(csv_file, delimiter=',')
+    df = pd.read_csv(csv_file)
     fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level': 'clo'}
     si_unit = True
-    if any([True for x in csv_reader.fieldnames if x.split(' [')[1] == 'F]']):
+    if any([True for x in df.columns if x.split(' [')[1] == 'F]']):
         si_unit = False
-    csv_reader.fieldnames = [fields[x.split(' [')[0]] for x in csv_reader.fieldnames]
-    results = []
+    df.columns = [fields[x.split(' [')[0]] for x in df.columns]
 
-    # calculated indexes and return file
-    for row in csv_reader:
-        for element in row.keys():
-            row[element] = float(row[element])
-        if si_unit:
-            vr = v_relative(v=row['vel'], met=row['met'])
-            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae")
-            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
-            try:
-                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
-            except:
-                row['CE'] = ''
-        else:
-            v = row['vel'] / 60
-            vr = v_relative(v=v * 0.3048, met=row['met']) * 3.28084
-            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae")
-            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
-            try:
-                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
-            except:
-                row['CE'] = ''
+    if si_unit:
+        df['vr'] = df.apply(lambda row: v_relative(v=row['vel'], met=row['met']), axis=1)
+        df['PMV'] = df.apply(lambda row: pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=row['vr'], rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae"), axis=1)
+        df['SET'] = df.apply(lambda row: set_tmp(tdb=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo']), axis=1)
+        df['CE'] = df.apply(lambda row: '' if row['vel'] < 0.2 else cooling_effect(tdb=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo']), axis=1)
+    else:
+        df['vr'] = df.apply(lambda row: v_relative(v=row['vel'] / 60 * 0.3048, met=row['met']) * 3.28084, axis=1)
+        df['PMV'] = df.apply(lambda row: pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=row['vr'], rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae"), axis=1)
+        df['SET'] = df.apply(lambda row: set_tmp(tdb=row['ta'], tr=row['tr'], v=row['vel'] / 60, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP"), axis=1)
+        df['CE'] = df.apply(lambda row: '' if row['vel'] / 60 * 0.3048 < 0.2 else cooling_effect(tdb=row['ta'], tr=row['tr'], vr=row['vel'] / 60, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP"), axis=1)
 
-        row['PMV'] = r['pmv']
-        row['PPD'] = r['ppd']
-        results.append(row)
+    # split the pmv column in two since currently contains both pmv and ppd values
+    df = pd.concat([df.drop(['PMV', 'vr'], axis=1), df['PMV'].apply(pd.Series)], axis=1)
 
-    return send_csv(results, "results.csv", list(row.keys()))
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
 
 
 @app.route('/compare')
@@ -138,4 +127,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
