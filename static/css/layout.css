@@ -96,9 +96,17 @@ a.mainlink:hover {
     text-decoration: none;
 }
 
-.topnav .icon {
+.topnav .nav_icon {
     display: none;
 }
+
+.btn-line {
+      display:block;
+      width: 24px;
+      height: 3px;
+      margin: 0 0 5px 5px;
+      background: black;
+    }
 
 @media screen and (max-width: 800px) {
     .topnav a:not(:first-child) {
@@ -110,18 +118,16 @@ a.mainlink:hover {
         display: block;
     }
 
-    .topnav a.icon {
+    .topnav a.nav_icon {
         float: right;
         display: block;
     }
-}
 
-@media screen and (max-width: 800px) {
     .topnav.responsive {
         position: relative;
     }
 
-    .topnav.responsive .icon {
+    .topnav.responsive .nav_icon {
         position: absolute;
         right: 0;
         top: 0;

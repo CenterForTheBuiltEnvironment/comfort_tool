@@ -63,8 +63,10 @@
             <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
             <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
             <a class="nav-link" id="nav_a_other_tools" href="other_tools">Other CBE tools</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
+            <a class="nav_icon" onclick="myFunction()">
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
             </a>
         </div>
     </div>
@@ -124,8 +126,8 @@
 
 <script>
     function myFunction() {
-        var x = document.getElementById("mytopnav");
-        // Get all buttons with class="btn" inside the container
+        const x = document.getElementById("mytopnav");
+
         if (x.className === "topnav") {
             x.className += " responsive";
         } else {
