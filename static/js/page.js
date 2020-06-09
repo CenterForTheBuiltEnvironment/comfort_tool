@@ -541,6 +541,13 @@ function update() {
         d.vel = d.vel + 0.3 * (d.met - 1)
     }
 
+    // calculate adjusted clothing insulation
+    if (d.met > 1.2 && d.met < 2) {
+        d.clo = d.clo * (0.6 + 0.4 / d.met)
+        console.log(d.clo)
+    }
+
+
     const model = document.getElementById('model-type').value;
     if (model === 'pmvElevatedAirspeed') {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);

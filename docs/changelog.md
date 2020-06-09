@@ -4,6 +4,17 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.0.2 (2020-06-09)
+
+Features:
+
+- The relative clothing insulation is automatically calculated by the tool.
+  
+Fix:
+
+- Upload was throwing error for files with more than 1000 inputs.
+- Improved calculation speed for Upload tool.
+
 ## Version 2.0.1 (2020-06-05)
 
 Features:
