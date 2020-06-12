@@ -115,94 +115,43 @@ def transform_view():
         lambda row: clo_dynamic(clo=row["clo"], met=row["met"]), axis=1
         )
 
-    if si_unit:
-        df["vr"] = df.apply(
-            lambda row: v_relative(v=row["vel"], met=row["met"]), axis=1
-            )
-        df["PMV"] = df.apply(
-            lambda row: pmv_ppd(
-                tdb=row["ta"],
-                tr=row["tr"],
-                vr=row["vr"],
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                standard="ashrae",
-                ),
-            axis=1,
-            )
-        df["SET"] = df.apply(
-            lambda row: set_tmp(
-                tdb=row["ta"],
-                tr=row["tr"],
-                v=row["vel"],
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                ),
-            axis=1,
-            )
-        df["CE"] = df.apply(
-            lambda row: ""
-            if row["vel"] < 0.2
-            else cooling_effect(
-                tdb=row["ta"],
-                tr=row["tr"],
-                vr=row["vel"],
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                ),
-            axis=1,
-            )
-    else:
-        df["vr"] = df.apply(
-            lambda row: v_relative(v=row["vel"] / 60 * 0.3048, met=row["met"])
-                        * 3.28084,
-            axis=1,
-            )
-        df["PMV"] = df.apply(
-            lambda row: pmv_ppd(
-                tdb=row["ta"],
-                tr=row["tr"],
-                vr=row["vr"],
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                units="IP",
-                standard="ashrae",
-                ),
-            axis=1,
-            )
-        df["SET"] = df.apply(
-            lambda row: set_tmp(
-                tdb=row["ta"],
-                tr=row["tr"],
-                v=row["vel"] / 60,
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                units="IP",
-                ),
-            axis=1,
-            )
-        df["CE"] = df.apply(
-            lambda row: ""
-            if row["vel"] / 60 * 0.3048 < 0.2
-            else cooling_effect(
-                tdb=row["ta"],
-                tr=row["tr"],
-                vr=row["vel"] / 60,
-                rh=row["rh"],
-                met=row["met"],
-                clo=row["clo"],
-                units="IP",
-                ),
-            axis=1,
-            )
+    results = []
+    ta = df['ta'].values
+    tr = df['tr'].values
+    vel = df['vel'].values
+    rh = df['rh'].values
+    met = df['met'].values
+    clo = df['clo'].values
+
+    for ix in range(df.shape[0]):
+        if si_unit:
+            units = "SI"
+            _vr = v_relative(vel[ix], met[ix])
+        else:
+            units = "IP"
+            _vr = v_relative(vel[ix] / 60 * 0.3048, met[ix]) * 3.28084
+
+        try:
+            _set = set_tmp(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix], units=units)
+        except:
+            _set = ""
+        try:
+            _ce = cooling_effect(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
+                units=units)
+        except:
+            _ce = ""
+        try:
+            _pmv_ppd = pmv_ppd(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
+                standard="ashrae", units=units)
+            _pmv = _pmv_ppd['pmv']
+            _ppd = _pmv_ppd['ppd']
+        except:
+            _pmv, _ppd = ["", ""]
+        results.append({"pmv": _pmv, "ppd": _ppd, "ce": _ce, "vr": _vr, "set": _set})
 
     # split the pmv column in two since currently contains both pmv and ppd values
-    df = pd.concat([df.drop(["PMV", "vr"], axis=1), df["PMV"].apply(pd.Series)], axis=1)
+    df_ = pd.DataFrame(results)
+    df = pd.concat([df, df_], axis=1, sort=False)
 
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
@@ -231,4 +180,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
