@@ -1,10 +1,11 @@
-#dynamicCloToggle { display: none;
-               float: left;
-		       background-color: #C7F2D0;
-		       width: 96.5%;
-		       margin: 5px 5px 10px 0px;
-		       border-radius: 5px;
-		       }
+#dynamicCloToggle {
+  display: none;
+  float: left;
+  background-color: #c7f2d0;
+  width: 96.5%;
+  margin: 5px 5px 10px 0px;
+  border-radius: 5px;
+}
 /*#leedInterfaceToggle { display: none;*/
 /*                       float: left;*/
 /*		       background-color: #C7F2D0;*/
@@ -13,86 +14,86 @@
 /*		       border-radius: 5px;*/
 /*		       }*/
 
-.comfortzoneI{
-  fill: Green;
-  fill-opacity: 0.4;
-}   
-.comfortzone-temphumI{
+.comfortzoneI {
   fill: Green;
   fill-opacity: 0.4;
 }
-path.comfortzoneoverI{
-	-webkit-transition-property: fill;
-	-webkit-transition-duration: .5s;
-	-webkit-transition-timing-function: ease-in;
-	-moz-transition-property: fill;
-	-moz-transition-duration: .5s;
-	-moz-transition-timing-function: ease-in;
-	transition-property: fill;
-	transition-duration: .5s;
-	transition-timing-function: ease-in;
-	fill: Darkgreen;
-	fill-opacity: 0.4;
+.comfortzone-temphumI {
+  fill: Green;
+  fill-opacity: 0.4;
+}
+path.comfortzoneoverI {
+  -webkit-transition-property: fill;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-property: fill;
+  -moz-transition-duration: 0.5s;
+  -moz-transition-timing-function: ease-in;
+  transition-property: fill;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+  fill: Darkgreen;
+  fill-opacity: 0.4;
 }
 
-.comfortzoneII{
+.comfortzoneII {
   fill: Green;
   fill-opacity: 0.4;
 }
-.comfortzone-temphumII{
+.comfortzone-temphumII {
   fill: Green;
   fill-opacity: 0.4;
-}   
-path.comfortzoneoverII{
-	-webkit-transition-property: fill;
-	-webkit-transition-duration: .5s;
-	-webkit-transition-timing-function: ease-in;
-	-moz-transition-property: fill;
-	-moz-transition-duration: .5s;
-	-moz-transition-timing-function: ease-in;
-	transition-property: fill;
-	transition-duration: .5s;
-	transition-timing-function: ease-in;
-	fill: Darkgreen;
-	fill-opacity: 0.4;
+}
+path.comfortzoneoverII {
+  -webkit-transition-property: fill;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-property: fill;
+  -moz-transition-duration: 0.5s;
+  -moz-transition-timing-function: ease-in;
+  transition-property: fill;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+  fill: Darkgreen;
+  fill-opacity: 0.4;
 }
 
-.comfortzoneIII{
+.comfortzoneIII {
   fill: Green;
   fill-opacity: 0.4;
-}  
-.comfortzone-temphumIII{
+}
+.comfortzone-temphumIII {
   fill: Green;
   fill-opacity: 0.4;
-} 
-path.comfortzoneoverIII{
-	-webkit-transition-property: fill;
-	-webkit-transition-duration: .5s;
-	-webkit-transition-timing-function: ease-in;
-	-moz-transition-property: fill;
-	-moz-transition-duration: .5s;
-	-moz-transition-timing-function: ease-in;
-	transition-property: fill;
-	transition-duration: .5s;
-	transition-timing-function: ease-in;
-	fill: Darkgreen;
-	fill-opacity: 0.4;
+}
+path.comfortzoneoverIII {
+  -webkit-transition-property: fill;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-property: fill;
+  -moz-transition-duration: 0.5s;
+  -moz-transition-timing-function: ease-in;
+  transition-property: fill;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+  fill: Darkgreen;
+  fill-opacity: 0.4;
 }
 
-path.comfbound{
-    stroke: Grey;
+path.comfbound {
+  stroke: Grey;
 }
 
-path.comfortzoneover{
-	-webkit-transition-property: fill;
-	-webkit-transition-duration: .5s;
-	-webkit-transition-timing-function: ease-in;
-	-moz-transition-property: fill;
-	-moz-transition-duration: .5s;
-	-moz-transition-timing-function: ease-in;
-	transition-property: fill;
-	transition-duration: .5s;
-	transition-timing-function: ease-in;
-	fill: Darkgreen;
-	fill-opacity: 0.4;
+path.comfortzoneover {
+  -webkit-transition-property: fill;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-property: fill;
+  -moz-transition-duration: 0.5s;
+  -moz-transition-timing-function: ease-in;
+  transition-property: fill;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+  fill: Darkgreen;
+  fill-opacity: 0.4;
 }
