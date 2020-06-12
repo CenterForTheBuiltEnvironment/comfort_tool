@@ -10,7 +10,7 @@ from flask import (
     make_response,
     )
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
-from pythermalcomfort.psychrometrics import v_relative
+from pythermalcomfort.psychrometrics import v_relative, clo_dynamic
 import pandas as pd
 
 ALLOWED_EXTENSIONS = {"csv"}
@@ -111,7 +111,9 @@ def transform_view():
         si_unit = False
     df.columns = [fields[x.split(" [")[0]] for x in df.columns]
 
-    # fixme I also need to calculate the adjusted clothing
+    df["clo_dynamic"] = df.apply(
+        lambda row: clo_dynamic(clo=row["clo"], met=row["met"]), axis=1
+        )
 
     if si_unit:
         df["vr"] = df.apply(
