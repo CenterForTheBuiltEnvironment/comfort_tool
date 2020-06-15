@@ -8,7 +8,7 @@ sidebar_label: CHANGELOG
 
 Features:
 
-- The relative clothing insulation is automatically calculated by the tool.
+- The [dynamic clothing insulation](http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#dynamic-clothing-insulation) is automatically calculated by the tool.
   
 Fix:
 
@@ -19,7 +19,7 @@ Fix:
 
 Features:
 
-- The relative air velocity is automatically calculated by the tool.
+- The [relative air speed](http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed) is automatically calculated by the tool.
 - Added Save, Restore and Share button.
 - Added tooltips to provide additional information to the user.
   
