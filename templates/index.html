@@ -152,7 +152,7 @@
               <div class="col-md-4 col-lg-12">
                 <div
                   data-toggle="tooltip"
-                  title="This is the measured air speed. The tool automatically calculates the relative air speed."
+                  title="This is the average air speed. The tool automatically calculates the relative air speed."
                 >
                   <a
                     class="mainlink"
@@ -635,68 +635,134 @@
       </div>
 
       {# card displaying the notes #}
-      <div class="row justify-content-center footer">
+      <div class="row justify-content-center note-chart">
         <div
           id="pmv-notes"
           class="card align-content-center m-1 col-sm-12 border-0"
         >
           <div class="card-body p-1 m-1" id="psychta-note">
-            <b>NOTE:</b> In this
-            <a
-              class="mainlink"
-              href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
-              target="_new"
-              >psychrometric chart</a
-            >
-            the abscissa is the dry-bulb temperature, and the mean radiant
-            temperature (MRT) is fixed, controlled by the inputbox. Each point
-            on the chart has the same MRT, which defines the comfort zone
-            boundary. In this way you can see how changes in MRT affect thermal
-            comfort. You can also still use the operative temperature button,
-            yet each point will have the same MRT. <br />
-            <b>Limits of Applicability:</b> This standard is only applicable to
-            healthy men and women. This standard does not apply to occupant: a)
-            whose clothing insulation exceed 1.5 clo; b) whose clothing is
-            highly impermeable; or c) who are sleeping, reclining in contact
-            with bedding, or able to adjust blankets or bedding.
+            <p>
+              <b>NOTE:</b> In this
+              <a
+                class="mainlink"
+                href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
+                target="_new"
+                >psychrometric chart</a
+              >
+              the abscissa is the dry-bulb temperature, and the mean radiant
+              temperature (MRT) is fixed, controlled by the inputbox. Each point
+              on the chart has the same MRT, which defines the comfort zone
+              boundary. In this way you can see how changes in MRT affect
+              thermal comfort. You can also still use the operative temperature
+              button, yet each point will have the same MRT.
+            </p>
+            <p>
+              <b>Limits of Applicability:</b> This standard is only applicable
+              to healthy men and women. This standard does not apply to
+              occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
+              clothing is highly impermeable; or c) who are sleeping, reclining
+              in contact with bedding, or able to adjust blankets or bedding.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              and the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#dynamic-clothing-insulation"
+                >dynamic clothing insulation</a
+              >
+              .
+            </p>
           </div>
           <div class="card-body p-1 m-1" id="psychtop-note">
-            <b>NOTE:</b> In this
-            <a
-              class="mainlink"
-              href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
-              target="_new"
-              >psychrometric chart</a
-            >
-            the abscissa is the operative temperature and for each point
-            dry-bulb temperature equals mean radiant temperature (DBT = MRT).
-            The comfort zone represents the combination of conditions with the
-            same DBT and MRT for which the PMV is between -0.5 and +0.5,
-            according to the standard. <br />
-            <b>Limits of Applicability:</b> This standard is only applicable to
-            healthy men and women. This standard does not apply to occupant: a)
-            whose clothing insulation exceed 1.5 clo; b) whose clothing is
-            highly impermeable; or c) who are sleeping, reclining in contact
-            with bedding, or able to adjust blankets or bedding.
+            <p>
+              <b>NOTE:</b> In this
+              <a
+                class="mainlink"
+                href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
+                target="_new"
+                >psychrometric chart</a
+              >
+              the abscissa is the operative temperature and for each point
+              dry-bulb temperature equals mean radiant temperature (DBT = MRT).
+              The comfort zone represents the combination of conditions with the
+              same DBT and MRT for which the PMV is between -0.5 and +0.5,
+              according to the standard.
+            </p>
+            <p>
+              <b>Limits of Applicability:</b> This standard is only applicable
+              to healthy men and women. This standard does not apply to
+              occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
+              clothing is highly impermeable; or c) who are sleeping, reclining
+              in contact with bedding, or able to adjust blankets or bedding.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              and the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#dynamic-clothing-insulation"
+                >dynamic clothing insulation</a
+              >
+              .
+            </p>
           </div>
           <div class="card-body p-1 m-1" id="temphum-note">
-            <b>NOTE:</b> This chart represents only two variables, dry-bulb
-            temperature and relative humidity. The PMV calculations are still
-            based on all the psychrometric variables, but the visualization
-            becomes easier to understand.
+            <p>
+              <b>NOTE:</b> This chart represents only two variables, dry-bulb
+              temperature and relative humidity. The PMV calculations are still
+              based on all the psychrometric variables, but the visualization
+              becomes easier to understand.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              and the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#dynamic-clothing-insulation"
+                >dynamic clothing insulation</a
+              >
+              .
+            </p>
           </div>
           <div class="card-body p-1 m-1" id="veltop-note">
-            <b>NOTE:</b> This chart represents only two variables, air speed
-            against operative temperature. The operative temperature for each
-            point is determined by dry-bulb temperature equals mean radiant
-            temperature (DBT = MRT). The calculation of PMV comfort zone is
-            based on all the psychrometric variables, with PMV values between
-            -0.5 and +0.5 according to the standard. <br />
-            <b>Limits of Applicability:</b> The elevated air speed comfort zone
-            method is to all spaces where the occupants have activity levels
-            between 1.0 and 2.0 met and clothing insulation between 0.0 and 1.5
-            clo. There is no upper limit to air speed if occupant's total
-            clothing > 0.7 clo and metabolic rate > 1.3 met.
+            <p>
+              <b>NOTE:</b> This chart represents only two variables, air speed
+              against operative temperature. The operative temperature for each
+              point is determined by dry-bulb temperature equals mean radiant
+              temperature (DBT = MRT). The calculation of PMV comfort zone is
+              based on all the psychrometric variables, with PMV values between
+              -0.5 and +0.5 according to the standard.
+            </p>
+            <p>
+              <b>Limits of Applicability:</b> The elevated air speed comfort
+              zone method is to all spaces where the occupants have activity
+              levels between 1.0 and 2.0 met and clothing insulation between 0.0
+              and 1.5 clo. There is no upper limit to air speed if occupant's
+              total clothing > 0.7 clo and metabolic rate > 1.3 met.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              and the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#dynamic-clothing-insulation"
+                >dynamic clothing insulation</a
+              >
+              .
+            </p>
           </div>
         </div>
         <!--end of div "pmv-notes"-->

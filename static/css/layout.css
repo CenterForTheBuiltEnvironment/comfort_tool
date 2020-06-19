@@ -33,7 +33,7 @@ a.mainlink:hover {
   color: rgba(99, 99, 99, 0.56);
 }
 
-.footer {
+.footer, .note-chart {
   font-family: sans-serif;
   font-color: #000000;
   font-size: 0.8rem;

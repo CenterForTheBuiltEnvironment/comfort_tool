@@ -146,7 +146,7 @@
               <div class="col-md-4 col-lg-12">
                 <div
                   data-toggle="tooltip"
-                  title="This is the measured air speed. The tool automatically calculates the relative air speed."
+                  title="This is the average air speed. The tool automatically calculates the relative air speed."
                 >
                   <a
                     class="mainlink"
@@ -218,7 +218,10 @@
             {# clothing #}
             <div id="cloInput" class="row justify-content-between in">
               <div class="col-md-4 col-lg-12">
-                <div>
+                <div
+                  data-toggle="tooltip"
+                  title="Enter here the dynamic insulation characteristics of clothing."
+                >
                   <a
                     class="mainlink"
                     href="http://en.wikipedia.org/wiki/Clothing_insulation"
@@ -496,42 +499,81 @@
       <div class="row justify-content-center">
         <div
           id="pmv-notes"
-          class="card align-content-center m-1 col-sm-12 border-0 footer"
+          class="card align-content-center m-1 col-sm-12 border-0 note-chart"
         >
           <div class="card-body p-1 m-1" id="psychta-note">
-            <b>NOTE:</b> In this
-            <a
-              class="mainlink"
-              href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
-              target="_new"
-              >psychrometric chart</a
-            >
-            the abscissa is the dry-bulb temperature, and the mean radiant
-            temperature (MRT) is fixed, controlled by the inputbox. Each point
-            on the chart has the same MRT, which defines the comfort zone
-            boundary. In this way you can see how changes in MRT affect thermal
-            comfort. You can also still use the operative temperature button,
-            yet each point will have the same MRT.
+            <p>
+              <b>NOTE:</b> In this
+              <a
+                class="mainlink"
+                href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
+                target="_new"
+                >psychrometric chart</a
+              >
+              the abscissa is the dry-bulb temperature, and the mean radiant
+              temperature (MRT) is fixed, controlled by the inputbox. Each point
+              on the chart has the same MRT, which defines the comfort zone
+              boundary. In this way you can see how changes in MRT affect
+              thermal comfort. You can also still use the operative temperature
+              button, yet each point will have the same MRT.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              but does not calculates the dynamic insulation characteristics of
+              clothing as specified in the ISO 7730 Section C.2., hence this
+              value should be calculated by the user and entered as input in the
+              CBE comfort tool.
+            </p>
           </div>
           <div class="card-body p-1 m-1" id="psychtop-note">
-            <b>NOTE:</b> In this
-            <a
-              class="mainlink"
-              href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
-              target="_new"
-              >psychrometric chart</a
-            >
-            the abscissa is the operative temperature and for each point
-            dry-bulb temperature equals mean radiant temperature (DBT = MRT).
-            The comfort zone represents the combination of conditions with the
-            same DBT and MRT for which the PMV is between -0.5 and +0.5,
-            according to the standard.
+            <p>
+              <b>NOTE:</b> In this
+              <a
+                class="mainlink"
+                href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
+                target="_new"
+                >psychrometric chart</a
+              >
+              the abscissa is the operative temperature and for each point
+              dry-bulb temperature equals mean radiant temperature (DBT = MRT).
+              The comfort zone represents the combination of conditions with the
+              same DBT and MRT for which the PMV is between -0.5 and +0.5,
+              according to the standard.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              but does not calculates the dynamic insulation characteristics of
+              clothing as specified in the ISO 7730 Section C.2., hence this
+              value should be calculated by the user and entered as input in the
+              CBE comfort tool.
+            </p>
           </div>
           <div class="card-body p-1 m-1" id="temphum-note">
-            <b>NOTE:</b> This chart represents only two variables, dry-bulb
-            temperature and relative humidity. The PMV calculations are still
-            based on all the psychrometric variables, but the visualization
-            becomes easier to understand.
+            <p>
+              <b>NOTE:</b> This chart represents only two variables, dry-bulb
+              temperature and relative humidity. The PMV calculations are still
+              based on all the psychrometric variables, but the visualization
+              becomes easier to understand.
+            </p>
+            <p>
+              The CBE comfort tools automatically calculates the
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv#relative-air-speed"
+                >relative air velocity</a
+              >
+              but does not calculates the dynamic insulation characteristics of
+              clothing as specified in the ISO 7730 Section C.2., hence this
+              value should be calculated by the user and entered as input in the
+              CBE comfort tool.
+            </p>
           </div>
         </div>
       </div>
