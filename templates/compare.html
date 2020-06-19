@@ -1,413 +1,523 @@
-{% extends "layout.html" %}
-{% block head %}
-    {{ super() }}
-    <title>CBE Thermal Comfort Tool for ASHRAE-55</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart-compare.css') }}"/>
+{% extends "layout.html" %} {% block head %} {{ super() }}
+<title>CBE Thermal Comfort Tool for ASHRAE-55</title>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/common.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/ui.multiselect.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/psychchart-compare.css') }}"
+/>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/compare/psychchart-compare.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/compare/temphumchart-compare.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}"></script>
-{% endblock %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/d3.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/compare/psychchart-compare.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/compare/temphumchart-compare.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/global.js') }}"
+></script>
+{% endblock %} {% block content %}
 
-{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card col-md-12 col-lg-5 my-2 p-0">
+      <div class="card-header">
+        Compare comfort conditions
+      </div>
 
-    <div class="container">
+      <div id="left_content">
+        <table class="table table-borderless table-sm text-left">
+          <tbody style="margin-left: 10px;">
+            <tr>
+              <td class="inputcell">
+                <input type="checkbox" id="inputs1" checked />
+                <label for="inputs1">Inputs #1</label>
+              </td>
+              <td class="inputcell">
+                <input type="checkbox" id="inputs2" />
+                <label
+                  for="inputs2"
+                  style="
+                    font-weight: bold;
+                    color: rgb(30, 70, 100);
+                    opacity: 0.5;
+                  "
+                  >Inputs #2</label
+                >
+              </td>
+              <td class="inputcell">
+                <input type="checkbox" id="inputs3" />
+                <label
+                  for="inputs3"
+                  style="
+                    font-weight: bold;
+                    color: rgb(70, 30, 100);
+                    opacity: 0.5;
+                  "
+                  >Inputs #3</label
+                >
+              </td>
+            </tr>
 
-        <div class="row justify-content-center">
+            <div id="inputs" class="in">
+              <tr class="inputlabel" id="ta-lab">
+                <td colspan="3">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Dry-bulb_temperature"
+                    target="_new"
+                    >Air temperature</a
+                  >
+                </td>
+              </tr>
+              <tr class="inputfield">
+                <td class="inputcell1">
+                  <input class="inputbox1" id="ta1" />
+                  <span class="tempunit1">&deg;C</span>
+                </td>
+                <td class="inputcell2" style="width: 33.33%;">
+                  <input class="inputbox2" id="ta2" />
+                  <span class="tempunit2">&deg;C</span>
+                </td>
+                <td class="inputcell3" style="width: 33.33%;">
+                  <input class="inputbox3" id="ta3" />
+                  <span class="tempunit3">&deg;C</span>
+                </td>
+              </tr>
+              <tr class="inputlabel" id="tr-lab">
+                <td colspan="3">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Mean_radiant_temperature"
+                    target="_new"
+                    >Mean radiant temperature</a
+                  >
+                </td>
+              </tr>
+              <tr class="inputfield" id="tr-input">
+                <td class="inputcell1">
+                  <input class="inputbox1" id="tr1" />
+                  <span class="tempunit1"> &deg;C &nbsp;</span>
+                </td>
+                <td class="inputcell2">
+                  <input class="inputbox2" id="tr2" />
+                  <span class="tempunit2"> &deg;C &nbsp;</span>
+                </td>
+                <td class="inputcell3">
+                  <input class="inputbox3" id="tr3" />
+                  <span class="tempunit3"> &deg;C &nbsp;</span>
+                </td>
+              </tr>
 
-            <div class="card col-md-12 col-lg-5 my-2 p-0 ">
-                <div class="card-header">
-                    Compare comfort conditions
-                </div>
+              <div id="pmv-inputs">
+                <tr class="inputlabel">
+                  <td colspan="3">
+                    <a
+                      class="mainlink"
+                      href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed"
+                      target="_new"
+                      >Air speed</a
+                    >
+                  </td>
+                </tr>
+                <tr class="inputfield">
+                  <td
+                    class="inputcell1"
+                    data-toggle="tooltip"
+                    title="This is the measured air speed. The tool automatically calculates the relative air speed."
+                  >
+                    <input class="inputbox1" id="vel1" />
+                    <span class="unit1" id="vel-unit1"> m/s</span>
+                  </td>
+                  <td class="inputcell2">
+                    <input class="inputbox2" id="vel2" />
+                    <span class="unit2" id="vel-unit2"> m/s</span>
+                  </td>
+                  <td class="inputcell3">
+                    <input class="inputbox3" id="vel3" />
+                    <span class="unit3" id="vel-unit3"> m/s</span>
+                  </td>
+                </tr>
+                <tr class="inputfield">
+                  <td class="inputcell1">
+                    <select class="form-control" id="local-control1">
+                      <option value="false">No local control</option>
+                      <option value="true">Local control</option>
+                    </select>
+                  </td>
+                  <td class="inputcell2">
+                    <select class="form-control" id="local-control2">
+                      <option value="false">No local control</option>
+                      <option value="true">Local control</option>
+                    </select>
+                  </td>
+                  <td class="inputcell3">
+                    <select class="form-control" id="local-control3">
+                      <option value="false">No local control</option>
+                      <option value="true">Local control</option>
+                    </select>
+                  </td>
+                </tr>
 
-                <div id="left_content">
+                <tr class="inputlabel">
+                  <td colspan="2">
+                    <a
+                      class="mainlink"
+                      href="http://en.wikipedia.org/wiki/Humidity"
+                      target="_new"
+                      id="rh-description"
+                      >Relative humidity</a
+                    >
+                  </td>
+                  <td colspan="1" id="humidity-spec-cont">
+                    <select class="form-control" id="humidity-spec">
+                      <option value="rh">Relative humidity</option>
+                      <option value="w">Humidity ratio</option>
+                      <option value="dewpoint">Dew point</option>
+                      <option value="wetbulb">Wet bulb</option>
+                      <option value="vappress">Vapor pressure</option>
+                    </select>
+                  </td>
+                </tr>
 
-                    <table class="table table-borderless table-sm text-left">
-                        <tbody style="margin-left: 10px">
-                        <tr>
-                            <td class="inputcell">
-                                <input type='checkbox' id='inputs1' checked/>
-                                <label for='inputs1'>Inputs #1</label>
-                            </td>
-                            <td class="inputcell">
-                                <input type='checkbox' id='inputs2'/>
-                                <label for='inputs2' style="font-weight:bold; color: rgb(30,70,100); opacity: 0.5;">Inputs #2</label>
-                            </td>
-                            <td class="inputcell">
-                                <input type='checkbox' id='inputs3'/>
-                                <label for='inputs3' style="font-weight:bold; color: rgb(70,30,100); opacity: 0.5;">Inputs #3</label>
-                            </td>
-                        </tr>
+                <tr class="inputfield">
+                  <td class="inputcell1">
+                    <input class="inputbox1" id="rh1" />
+                    <span class="unit1" id="rh-unit1"> %</span>
+                  </td>
+                  <td class="inputcell2">
+                    <input class="inputbox2" id="rh2" />
+                    <span class="unit2" id="rh-unit2"> %</span>
+                  </td>
+                  <td class="inputcell3">
+                    <input class="inputbox3" id="rh3" />
+                    <span class="unit3" id="rh-unit3"> %</span>
+                  </td>
+                </tr>
+              </div>
+              <!--end div id="pmv-inputs"-->
 
-                        <div id="inputs" class='in'>
+              <tr class="inputlabel">
+                <td colspan="3">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate"
+                    target="_new"
+                    >Metabolic rate</a
+                  >
+                </td>
+              </tr>
 
-                            <tr class='inputlabel' id='ta-lab'>
-                                <td colspan="3">
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>
-                                </td>
-                            </tr>
-                            <tr class='inputfield'>
-                                <td class="inputcell1">
-                                    <input class='inputbox1' id='ta1'/>
-                                    <span class='tempunit1'>&deg;C</span>
-                                </td>
-                                <td class="inputcell2" style="width: 33.33%">
-                                    <input class='inputbox2' id='ta2'/>
-                                    <span class='tempunit2'>&deg;C</span>
-                                </td>
-                                <td class="inputcell3" style="width: 33.33%">
-                                    <input class='inputbox3' id='ta3'/>
-                                    <span class='tempunit3'>&deg;C</span>
-                                </td>
-                            </tr>
-                            <tr class='inputlabel' id='tr-lab'>
-                                <td colspan="3">
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Mean_radiant_temperature" target="_new">Mean radiant temperature</a>
-                                </td>
-                            </tr>
-                            <tr class='inputfield' id='tr-input'>
-                                <td class="inputcell1">
-                                    <input class='inputbox1' id="tr1"/>
-                                    <span class='tempunit1'> &deg;C &nbsp;</span>
-                                </td>
-                                <td class="inputcell2">
-                                    <input class='inputbox2' id="tr2"/>
-                                    <span class='tempunit2'> &deg;C &nbsp;</span>
-                                </td>
-                                <td class="inputcell3">
-                                    <input class='inputbox3' id="tr3"/>
-                                    <span class='tempunit3'> &deg;C &nbsp;</span>
-                                </td>
-                            </tr>
+              <tr class="inputfield">
+                <td class="inputcell1">
+                  <input class="inputbox1" id="met1" />
+                  <span class="unit1"> met</span>
+                </td>
+                <td class="inputcell2">
+                  <input class="inputbox2" id="met2" />
+                  <span class="unit2"> met</span>
+                </td>
+                <td class="inputcell3">
+                  <input class="inputbox3" id="met3" />
+                  <span class="unit3"> met</span>
+                </td>
+              </tr>
 
-                            <div id='pmv-inputs'>
-                                <tr class='inputlabel'>
-                                    <td colspan="3">
-                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed" target="_new">Air speed</a>
-                                    </td>
-                                </tr>
-                                <tr class='inputfield'>
-                                    <td class="inputcell1" data-toggle="tooltip"
-                                       title="This is the measured air speed. The tool automatically calculates the relative air speed.">
-                                        <input class='inputbox1' id="vel1"/>
-                                        <span class='unit1' id='vel-unit1'> m/s</span>
-                                    </td>
-                                    <td class="inputcell2">
-                                        <input class='inputbox2' id="vel2"/>
-                                        <span class='unit2' id='vel-unit2'> m/s</span>
-                                    </td>
-                                    <td class="inputcell3">
-                                        <input class='inputbox3' id="vel3"/>
-                                        <span class='unit3' id='vel-unit3'> m/s</span>
-                                    </td>
-                                </tr>
-                                <tr class='inputfield'>
-                                    <td class="inputcell1">
-                                        <select class="form-control" id='local-control1'>
-                                            <option value='false'>No local control</option>
-                                            <option value='true'>Local control</option>
-                                        </select>
-                                    </td>
-                                    <td class="inputcell2">
-                                        <select class="form-control" id='local-control2'>
-                                            <option value='false'>No local control</option>
-                                            <option value='true'>Local control</option>
-                                        </select>
-                                    </td>
-                                    <td class="inputcell3">
-                                        <select class="form-control" id='local-control3'>
-                                            <option value='false'>No local control</option>
-                                            <option value='true'>Local control</option>
-                                        </select>
-                                    </td>
-                                </tr>
+              <tr class="inputlabel">
+                <td colspan="3">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Clothing_insulation"
+                    target="_new"
+                    >Clothing level</a
+                  >
+                </td>
+              </tr>
 
-                                <tr class='inputlabel'>
-                                    <td colspan="2">
-                                        <a class="mainlink" href="http://en.wikipedia.org/wiki/Humidity" target="_new" id='rh-description'>Relative humidity</a>
-                                    </td>
-                                    <td colspan="1" id='humidity-spec-cont'>
-                                        <select class="form-control" id='humidity-spec'>
-                                            <option value='rh'>Relative humidity</option>
-                                            <option value='w'>Humidity ratio</option>
-                                            <option value='dewpoint'>Dew point</option>
-                                            <option value='wetbulb'>Wet bulb</option>
-                                            <option value='vappress'>Vapor pressure</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr class='inputfield'>
-                                    <td class="inputcell1">
-                                        <input class='inputbox1' id="rh1"/>
-                                        <span class='unit1' id='rh-unit1'> %</span>
-                                    </td>
-                                    <td class="inputcell2">
-                                        <input class='inputbox2' id="rh2"/>
-                                        <span class='unit2' id='rh-unit2'> %</span>
-                                    </td>
-                                    <td class="inputcell3">
-                                        <input class='inputbox3' id="rh3"/>
-                                        <span class='unit3' id='rh-unit3'> %</span>
-                                    </td>
-                                </tr>
-                            </div><!--end div id="pmv-inputs"-->
-
-                            <tr class='inputlabel'>
-                                <td colspan="3">
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate" target="_new">Metabolic rate</a>
-                                </td>
-                            </tr>
-
-                            <tr class='inputfield'>
-                                <td class="inputcell1">
-                                    <input class='inputbox1' id="met1"/>
-                                    <span class='unit1'> met</span>
-                                </td>
-                                <td class="inputcell2">
-                                    <input class='inputbox2' id="met2"/>
-                                    <span class='unit2'> met</span>
-                                </td>
-                                <td class="inputcell3">
-                                    <input class='inputbox3' id="met3"/>
-                                    <span class='unit3'> met</span>
-                                </td>
-                            </tr>
-
-                            <tr class='inputlabel'>
-                                <td colspan="3">
-                                    <a class="mainlink" href="http://en.wikipedia.org/wiki/Clothing_insulation" target="_new">Clothing level</a>
-                                </td>
-                            </tr>
-
-                            <tr class='inputfield'>
-                                <td class="inputcell1">
-                                    <input class='inputbox1' id="clo1"/>
-                                    <span class='unit1'> clo</span>
-                                </td>
-                                <td class="inputcell2">
-                                    <input class='inputbox2' id="clo2"/>
-                                    <span class='unit2'> clo</span>
-                                </td>
-                                <td class="inputcell3">
-                                    <input class='inputbox3' id="clo3"/>
-                                    <span class='unit3'> clo</span>
-                                </td>
-                            </tr>
-                        </div><!--end div id="inputs"-->
-                        </tbody>
-                    </table>
-
-                    <div class="row justify-content-center mt-2">
-                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="restart" autocomplete="off"> Reset
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center my-2">
-                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="link" autocomplete="off"><span id='labelforlink'>&#9744; Use operative temp</span>
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" autocomplete="off"> <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/compare"
-                                                                                          target="_new">?
-                                Help</a>
-                            </label>
-                        </div>
-                    </div>
-                </div><!--id="left_content"-->
+              <tr class="inputfield">
+                <td class="inputcell1">
+                  <input class="inputbox1" id="clo1" />
+                  <span class="unit1"> clo</span>
+                </td>
+                <td class="inputcell2">
+                  <input class="inputbox2" id="clo2" />
+                  <span class="unit2"> clo</span>
+                </td>
+                <td class="inputcell3">
+                  <input class="inputbox3" id="clo3" />
+                  <span class="unit3"> clo</span>
+                </td>
+              </tr>
             </div>
+            <!--end div id="inputs"-->
+          </tbody>
+        </table>
 
-            <div id="right_content" class="col-md-12 col-lg-7 bg-white py-2">
-
-                <div class="row justify-content-center">
-                    <div class="alert alert-danger py-1 text-center border-0 bg-white" role="alert" id='output-b' style="color: red">
-                        <div class="col" id='special-msg1'></div>
-                        <div class="col" id='special-msg2'></div>
-                        <div class="col" id='special-msg3'></div>
-                    </div>
-                </div>
-
-                <div class="row center col-sm-12">
-                    <table class="table table-borderless table-hover table-sm text-center">
-                        <tbody class='out' id='output-a'>
-                        <tr>
-                            <td class='labelcell' style="width: 40%"></td>
-                            <td class='resultcell' style="width: 20%">
-                                <span class='result1' style='font-weight: bold; color: red;'>#1</span>
-                            </td>
-                            <td class='resultcell' style="width: 20%">
-                                <span class='result2' style='font-weight: bold; color: darkred;'>#2</span>
-                            </td>
-                            <td class='resultcell' style="width: 20%">
-                                <span class='result3' style='font-weight: bold; color: firebrick;'>#3</span>
-                            </td>
-                        </tr>
-                        </tbody>
-
-                        <tbody id='pmv-outputs'>
-                        <tr>
-                            <td id='compliance-out-label' class='labelcell'>Compliance</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='comply-msg1'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='comply-msg2'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='comply-msg3'></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id='pmv-out-label' class='labelcell'>PMV</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='pmv-res1'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='pmv-res2'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='pmv-res3'></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id='ppd-out-label' class='labelcell'>PPD</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='ppd-res1'></span>
-                                <span class='unit1'> %</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='ppd-res2'></span>
-                                <span class='unit2'> %</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='ppd-res3'></span>
-                                <span class='unit3'> %</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class='labelcell'>Sensation</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='sensation1'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='sensation2'></span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='sensation3'></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class='labelcell'>SET</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='set1'></span>
-                                <span class='tempunit1'> &deg;C &nbsp;</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='set2'></span>
-                                <span class='tempunit2'> &deg;C &nbsp;</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='set3'></span>
-                                <span class='tempunit3'> &deg;C &nbsp;</span>
-                            </td>
-                        </tr>
-                        </tbody><!--id="pmv-outputs"-->
-
-                        <tbody id='pmv-elev-outputs'>
-                        <tr>
-                            <td class='labelcell'>Dry-bulb temp at still air</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='ta-still1'></span>
-                                <span class='tempunit1'> &deg;C</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='ta-still2'></span>
-                                <span class='tempunit2'> &deg;C</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='ta-still3'></span>
-                                <span class='tempunit3'> &deg;C</span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class='labelcell'>Cooling effect</td>
-                            <td class='resultcell'>
-                                <span class='result1' id='cooling-effect1'></span>
-                                <span class='tempunit1'> &deg;C</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result2' id='cooling-effect2'></span>
-                                <span class='tempunit2'> &deg;C</span>
-                            </td>
-                            <td class='resultcell'>
-                                <span class='result3' id='cooling-effect3'></span>
-                                <span class='tempunit3'> &deg;C</span>
-                            </td>
-                        </tr>
-
-                        {#                        <tr>#}
-                        {#                            <td class='labelcell'>Air speed range</td>#}
-                        {#                            <td class='resultcell'>#}
-                        {#                                <span class='result1' id='vel-range1'></span>#}
-                        {#                            </td>#}
-                        {#                            <td class='resultcell'>#}
-                        {#                                <span class='result2' id='vel-range2'></span>#}
-                        {#                            </td>#}
-                        {#                            <td class='resultcell'>#}
-                        {#                                <span class='result3' id='vel-range3'></span>#}
-                        {#                            </td>#}
-                        {#                        </tr>#}
-                        </tbody><!--id="pmv-elev-outputs"-->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="row justify-content-center p-1 ">
-                    <form>
-                        <div class="col-sm-12 mt-4">
-                            <select class="form-control" id='chartSelect'>
-                                <option value='psychta'>Psychrometric (air temperature)</option>
-                                <option value='psychtop' selected="selected">Psychrometric (operative temperature)</option>
-                                <option value='temphum'>Relative humidity vs. air temperature</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-
-                <div id='globedialog' title='Globe to MRT converter'></div>
-
-                <div class="row justify-content-center">
-                    <div style="margin-left:-15px;" id="chart-div"></div>
-                    <div style="margin-left:10px;" id="temphumchart-div"></div>
-                </div>
-
-
-            </div><!--id="right_content"-->
-
-            <br class="clear">
-            <br/>
-            <script language="javascript" src="{{ url_for('static', filename='js/compare/compare.js') }}" type="text/javascript"></script>
-            <script>
-                $(document).ready(function () {
-                    $('#compare-link').addClass('highlight')
-                });
-            </script>
+        <div class="row justify-content-center mt-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="restart"
+                autocomplete="off"
+              />
+              Reset
+            </label>
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="specPressure"
+                autocomplete="off"
+              />
+              Set pressure
+            </label>
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="unitsToggle"
+                autocomplete="off"
+              />
+              SI/IP
+            </label>
+          </div>
         </div>
+        <div class="row justify-content-center my-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="link"
+                autocomplete="off"
+              /><span id="labelforlink">&#9744; Use operative temp</span>
+            </label>
+            <label class="btn btn-light border">
+              <input type="radio" name="options" autocomplete="off" />
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/compare"
+                target="_new"
+                >? Help</a
+              >
+            </label>
+          </div>
+        </div>
+      </div>
+      <!--id="left_content"-->
     </div>
+
+    <div id="right_content" class="col-md-12 col-lg-7 bg-white py-2">
+      <div class="row justify-content-center">
+        <div
+          class="alert alert-danger py-1 text-center border-0 bg-white"
+          role="alert"
+          id="output-b"
+          style="color: red;"
+        >
+          <div class="col" id="special-msg1"></div>
+          <div class="col" id="special-msg2"></div>
+          <div class="col" id="special-msg3"></div>
+        </div>
+      </div>
+
+      <div class="row center col-sm-12">
+        <table class="table table-borderless table-hover table-sm text-center">
+          <tbody class="out" id="output-a">
+            <tr>
+              <td class="labelcell" style="width: 40%;"></td>
+              <td class="resultcell" style="width: 20%;">
+                <span class="result1" style="font-weight: bold; color: red;"
+                  >#1</span
+                >
+              </td>
+              <td class="resultcell" style="width: 20%;">
+                <span class="result2" style="font-weight: bold; color: darkred;"
+                  >#2</span
+                >
+              </td>
+              <td class="resultcell" style="width: 20%;">
+                <span
+                  class="result3"
+                  style="font-weight: bold; color: firebrick;"
+                  >#3</span
+                >
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody id="pmv-outputs">
+            <tr>
+              <td id="compliance-out-label" class="labelcell">Compliance</td>
+              <td class="resultcell">
+                <span class="result1" id="comply-msg1"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="comply-msg2"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="comply-msg3"></span>
+              </td>
+            </tr>
+            <tr>
+              <td id="pmv-out-label" class="labelcell">PMV</td>
+              <td class="resultcell">
+                <span class="result1" id="pmv-res1"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="pmv-res2"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="pmv-res3"></span>
+              </td>
+            </tr>
+            <tr>
+              <td id="ppd-out-label" class="labelcell">PPD</td>
+              <td class="resultcell">
+                <span class="result1" id="ppd-res1"></span>
+                <span class="unit1"> %</span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="ppd-res2"></span>
+                <span class="unit2"> %</span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="ppd-res3"></span>
+                <span class="unit3"> %</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelcell">Sensation</td>
+              <td class="resultcell">
+                <span class="result1" id="sensation1"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="sensation2"></span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="sensation3"></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelcell">SET</td>
+              <td class="resultcell">
+                <span class="result1" id="set1"></span>
+                <span class="tempunit1"> &deg;C &nbsp;</span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="set2"></span>
+                <span class="tempunit2"> &deg;C &nbsp;</span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="set3"></span>
+                <span class="tempunit3"> &deg;C &nbsp;</span>
+              </td>
+            </tr>
+          </tbody>
+          <!--id="pmv-outputs"-->
+
+          <tbody id="pmv-elev-outputs">
+            <tr>
+              <td class="labelcell">Dry-bulb temp at still air</td>
+              <td class="resultcell">
+                <span class="result1" id="ta-still1"></span>
+                <span class="tempunit1"> &deg;C</span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="ta-still2"></span>
+                <span class="tempunit2"> &deg;C</span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="ta-still3"></span>
+                <span class="tempunit3"> &deg;C</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="labelcell">Cooling effect</td>
+              <td class="resultcell">
+                <span class="result1" id="cooling-effect1"></span>
+                <span class="tempunit1"> &deg;C</span>
+              </td>
+              <td class="resultcell">
+                <span class="result2" id="cooling-effect2"></span>
+                <span class="tempunit2"> &deg;C</span>
+              </td>
+              <td class="resultcell">
+                <span class="result3" id="cooling-effect3"></span>
+                <span class="tempunit3"> &deg;C</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row justify-content-center p-1">
+        <form>
+          <div class="col-sm-12 mt-4">
+            <select class="form-control" id="chartSelect">
+              <option value="psychta">Psychrometric (air temperature)</option>
+              <option value="psychtop" selected="selected"
+                >Psychrometric (operative temperature)</option
+              >
+              <option value="temphum"
+                >Relative humidity vs. air temperature</option
+              >
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <div id="globedialog" title="Globe to MRT converter"></div>
+
+      <div class="row justify-content-center">
+        <div style="margin-left: -15px;" id="chart-div"></div>
+        <div style="margin-left: 10px;" id="temphumchart-div"></div>
+      </div>
+    </div>
+    <!--id="right_content"-->
+
+    <br class="clear" />
+    <br />
+    <script
+      language="javascript"
+      src="{{ url_for('static', filename='js/compare/compare.js') }}"
+      type="text/javascript"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("#compare-link").addClass("highlight");
+      });
+    </script>
+  </div>
+</div>
 {% endblock %}

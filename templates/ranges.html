@@ -1,271 +1,353 @@
-{% extends 'layout.html' %}
-{% block head %}
-    {{ super() }}
-    <title>CBE Thermal Comfort Tool for ASHRAE-55</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ui.multiselect.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/psychchart-ranges.css') }}"/>
+{% extends 'layout.html' %} {% block head %} {{ super() }}
+<title>CBE Thermal Comfort Tool for ASHRAE-55</title>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/common.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/ui.multiselect.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/psychchart.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/psychchart-ranges.css') }}"
+/>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/global.js') }}" language="javascript" ></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/ranges/psychchart-ranges.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/ranges/temphumchart-ranges.js') }}"></script>
-{% endblock %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/global.js') }}"
+  language="javascript"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/psychchart.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/temphumchart.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/ranges/psychchart-ranges.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/ranges/temphumchart-ranges.js') }}"
+></script>
+{% endblock %} {% block content %}
 
-{% block content %}
+<div class="container" id="all_content_ranges">
+  <div class="row justify-content-center">
+    <div class="card col-md-12 col-lg-5 my-2 p-0">
+      <div class="card-header">
+        Choose which input parameter you would like to vary:
+      </div>
 
-    <div class="container" id="all_content_ranges">
+      <div id="left_content">
+        <table class="table table-borderless table-sm text-center">
+          <tbody>
+            <tr>
+              <td colspan="4">
+                <form>
+                  <div class="col-sm-12">
+                    <select class="form-control" id="parameter_select">
+                      <option value="sel_air_vel">Air speed</option>
+                      <option value="sel_clo" selected="selected"
+                        >Clothing level</option
+                      >
+                      <option value="sel_met">Metabolic rate</option>
+                    </select>
+                  </div>
+                </form>
+              </td>
+            </tr>
 
-        <div class="row justify-content-center">
-            <div class="card col-md-12 col-lg-5 my-2 p-0 ">
-                <div class="card-header">
-                    Choose which input parameter you would like to vary:
-                </div>
+            <div id="inputs">
+              <tr id="inputfield-ta">
+                <td style="visibility: hidden;">
+                  <input class="inputbox" id="ta" />
+                  <span class="tempunit">&deg;C</span>
+                </td>
+              </tr>
 
-                <div id="left_content">
-
-                    <table class="table table-borderless table-sm text-center">
-                        <tbody>
-
-                        <tr>
-                            <td colspan="4">
-                                <form>
-                                    <div class="col-sm-12">
-                                        <select class="form-control" id='parameter_select'>
-                                            <option value='sel_air_vel'>Air speed</option>
-                                            <option value='sel_clo' selected="selected">Clothing level</option>
-                                            <option value='sel_met'>Metabolic rate</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-
-                        <div id="inputs">
-
-                            <tr id="inputfield-ta">
-                                <td style="visibility:hidden;">
-                                    <input class='inputbox' id='ta'/>
-                                    <span class='tempunit'>&deg;C</span>
-                                </td>
-                            </tr>
-
-                            <tr id="inputfield-tr">
-                                <td class="inputranges">
-                                    <input class='rangesbox' id="tr1"/> – <input class='rangesbox' id="tr2"/><span class='tempunit'> &deg;C</span>
-                                </td>
-                                <td class="stepcell">
-                                    <span> step: </span>
-                                </td>
-                                <td>
-                                    <select class="form-control" id='step-select-tr'>
-                                        <option value='0.5'>0.5 &deg;C</option>
-                                        <option value='1'>1.0 &deg;C</option>
-                                        <option value='1.5'>1.5 &deg;C</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                        </div>
-
-                        <div id='pmv-inputs'>
-
-                            <tr id="inputfield-vel">
-
-                                <td class="inputranges">
-                                    <input class='rangesbox' id="vel1"/> – <input class='rangesbox' id="vel2"/><span class='vel-unit'>m/s</span>
-                                </td>
-                                <td class="stepcell">
-                                    <span> step: </span>
-                                </td>
-                                <td>
-                                    <select class="form-control" id='step-select-vel'>
-                                        <option value='0.05'>0.05 m/s</option>
-                                        <option value='0.1'>0.1 m/s</option>
-                                        <option value='0.2'>0.2 m/s</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                        </div><!--end div id="pmv-inputs"-->
-
-                        <tr id="inputfield-met">
-
-                            <td class="inputranges">
-                                <input class='rangesbox' id="met1"/> – <input class='rangesbox' id="met2"/><span class='unit'> met &nbsp;</span>
-                            </td>
-                            <td class="stepcell">
-                                <span> step:</span>
-                            </td>
-                            <td>
-                                <select class="form-control" id='step-select-met'>
-                                    <option value='0.05'>0.05 met</option>
-                                    <option value='0.1'>0.1 met</option>
-                                    <option value='0.2'>0.2 met</option>
-                                </select>
-                            </td>
-
-                        </tr>
-
-                        <tr id="inputfield-clo">
-
-                            <td class="inputranges">
-                                <input class='rangesbox' id="clo1"/> – <input class='rangesbox' id="clo2"/><span class='unit'> clo &nbsp;</span>
-                            </td>
-                            <td class="stepcell">
-                                <span> step: </span>
-                            </td>
-
-                            <td>
-                                <select class="form-control" id='step-select-clo'>
-                                    <option value='0.05'>0.05 clo</option>
-                                    <option value='0.1'>0.1 clo</option>
-                                    <option value='0.2'>0.2 clo</option>
-                                </select>
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-                    <div class="row justify-content-sm-center">
-                    <table class="table table-sm table-borderless col-sm-10">
-                        <tbody>
-                        <tr id="mrt_val_row">
-                            <td scope="row">Mean radiant temperature</td>
-                            <td class="inputcell" id="tr-inputcell">
-                                <input class='inputbox' id="tr"/>
-                                <span class='tempunit'> &deg;C</span>
-                            </td>
-                        </tr>
-                        <tr id="vel_val_row" data-toggle="tooltip"
-                                       title="This is the measured air speed. The tool automatically calculates the relative air speed.">
-                            <td scope="row">Air speed</td>
-                            <td class="inputcell" id="vel-inputcell">
-                                <input class='inputbox' id="vel"/>
-                                <span class='vel-unit'> m/s</span>
-                            </td>
-                        </tr>
-                        <tr id="clo_val_row">
-                            <td scope="row">Clothing level</td>
-                            <td class="inputcell" id="clo-inputcell">
-                                <input class='inputbox' id="clo"/>
-                                <span class='unit'> clo</span>
-                            </td>
-                        </tr>
-                        <tr id="met_val_row">
-                            <td scope="row">Metabolic rate</td>
-                            <td class="inputcell" id="met-inputcell">
-                                <input class='inputbox' id="met"/>
-                                <span class='unit'> met</span>
-                            </td>
-                        </tr>
-
-                        <tr id="inputfield-hum hum_val_row">
-
-                            <td id='humidity-spec-cont'>
-                                <form class="form-row align-items-center">
-                                    <select class="form-control" id='humidity-spec'>
-                                        <option value='rh'>Relative humidity</option>
-                                        <option value='w'>Humidity ratio</option>
-                                        <option value='dewpoint'>Dew point</option>
-                                        <option value='wetbulb'>Wet bulb</option>
-                                        <option value='vappress'>Vapor pressure</option>
-                                    </select>
-                                </form>
-                            </td>
-                            <td class="inputcell" id="rh-inputcell">
-                                <input class='inputbox' id="rh"/>
-                                <span class='unit' id='rh-unit'> %</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-
-                    {# set of buttons at the bottom #}
-                    <div class="row justify-content-center my-2">
-                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="restart" autocomplete="off"> Reset
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="specPressure" autocomplete="off"> Set pressure
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" id="unitsToggle" autocomplete="off"> SI/IP
-                            </label>
-                            <label class="btn btn-light border">
-                                <input type="radio" name="options" autocomplete="off"> <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ranges"
-                                                                                          target="_new">? Help</a>
-                            </label>
-                        </div>
-                    </div>
-
-                </div>
+              <tr id="inputfield-tr">
+                <td class="inputranges">
+                  <input class="rangesbox" id="tr1" /> –
+                  <input class="rangesbox" id="tr2" /><span class="tempunit">
+                    &deg;C</span
+                  >
+                </td>
+                <td class="stepcell">
+                  <span> step: </span>
+                </td>
+                <td>
+                  <select class="form-control" id="step-select-tr">
+                    <option value="0.5">0.5 &deg;C</option>
+                    <option value="1">1.0 &deg;C</option>
+                    <option value="1.5">1.5 &deg;C</option>
+                  </select>
+                </td>
+              </tr>
             </div>
 
-            <div id="right_content_ranges" class="col-md-12 col-lg-7 bg-white py-2">
+            <div id="pmv-inputs">
+              <tr id="inputfield-vel">
+                <td class="inputranges">
+                  <input class="rangesbox" id="vel1" /> –
+                  <input class="rangesbox" id="vel2" /><span class="vel-unit"
+                    >m/s</span
+                  >
+                </td>
+                <td class="stepcell">
+                  <span> step: </span>
+                </td>
+                <td>
+                  <select class="form-control" id="step-select-vel">
+                    <option value="0.05">0.05 m/s</option>
+                    <option value="0.1">0.1 m/s</option>
+                    <option value="0.2">0.2 m/s</option>
+                  </select>
+                </td>
+              </tr>
+            </div>
+            <!--end div id="pmv-inputs"-->
 
-                <div class="row justify-content-center p-1 ">
-                    <form>
-                        <div class="col-sm-12">
-                            <select class="form-control" id='chartSelect'>
-                                <option value='psychta'>Psychrometric (air temperature)</option>
-                                <option value='psychtop' selected="selected">Psychrometric (operative temperature)</option>
-                                <option value='temphum'>Relative humidity vs. air temperature</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
+            <tr id="inputfield-met">
+              <td class="inputranges">
+                <input class="rangesbox" id="met1" /> –
+                <input class="rangesbox" id="met2" /><span class="unit">
+                  met &nbsp;</span
+                >
+              </td>
+              <td class="stepcell">
+                <span> step:</span>
+              </td>
+              <td>
+                <select class="form-control" id="step-select-met">
+                  <option value="0.05">0.05 met</option>
+                  <option value="0.1">0.1 met</option>
+                  <option value="0.2">0.2 met</option>
+                </select>
+              </td>
+            </tr>
 
-                <div class="row justify-content-center">
-                    <div style="margin-left:-15px;" id="chart-div"></div>
-                    <div style="margin-left:10px;" id="temphumchart-div"></div>
-                </div>
+            <tr id="inputfield-clo">
+              <td class="inputranges">
+                <input class="rangesbox" id="clo1" /> –
+                <input class="rangesbox" id="clo2" /><span class="unit">
+                  clo &nbsp;</span
+                >
+              </td>
+              <td class="stepcell">
+                <span> step: </span>
+              </td>
 
-                <div class='row justify-content-center' id='hover-output'>
-                    <span id="factor-label">The selected comfort zone is for a value of <span id="factor-name"></span> of <span id="factor-hover"></span> </span>
-                </div>
+              <td>
+                <select class="form-control" id="step-select-clo">
+                  <option value="0.05">0.05 clo</option>
+                  <option value="0.1">0.1 clo</option>
+                  <option value="0.2">0.2 clo</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-                <div class="row justify-content-center" id='output-ranges'>
-                    <div class="card align-content-center m-1 col-sm-12 border-0 footer">
-                        <div class='card-body p-1 m-1'>
-                            <p>
-                                <b> Outer range of air temperatures:</b> <span id="outer-range-width" style="font-weight:bold;"></span>&nbsp;<b>&deg;C</b>
-                                <br>
-                                Given the other four parameters, occupants will find thermal comfort in the wider range of temperatures (<span id="range-output1"></span> to <span
-                                    id="range-output2"></span> &deg;C) if <span class="factor-name"></span> can change within the given range.
-                            </p>
+        <div class="row justify-content-sm-center">
+          <table class="table table-sm table-borderless col-sm-10">
+            <tbody>
+              <tr id="mrt_val_row">
+                <td scope="row">Mean radiant temperature</td>
+                <td class="inputcell" id="tr-inputcell">
+                  <input class="inputbox" id="tr" />
+                  <span class="tempunit"> &deg;C</span>
+                </td>
+              </tr>
+              <tr
+                id="vel_val_row"
+                data-toggle="tooltip"
+                title="This is the measured air speed. The tool automatically calculates the relative air speed."
+              >
+                <td scope="row">Air speed</td>
+                <td class="inputcell" id="vel-inputcell">
+                  <input class="inputbox" id="vel" />
+                  <span class="vel-unit"> m/s</span>
+                </td>
+              </tr>
+              <tr id="clo_val_row">
+                <td scope="row">Clothing level</td>
+                <td class="inputcell" id="clo-inputcell">
+                  <input class="inputbox" id="clo" />
+                  <span class="unit"> clo</span>
+                </td>
+              </tr>
+              <tr id="met_val_row">
+                <td scope="row">Metabolic rate</td>
+                <td class="inputcell" id="met-inputcell">
+                  <input class="inputbox" id="met" />
+                  <span class="unit"> met</span>
+                </td>
+              </tr>
 
-                            <p>
-                                <b> Inner range of air temperatures:</b> <span id="inner-range-width" style="font-weight:bold;"></span></span>&nbsp;<b>&deg;C</b>
-                                <br>
-                                Given the other four parameters, this is the range of temperatures in which all the occupants will find thermal comfort, as long as the <span
-                                    class="factor-name"></span> is within the given range.
-
-                                The inner range is zero if the comfort zones corresponding to the first and last conditions do not intersect.
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div><!--id="right_content"-->
-
-            <br class="clear">
-            <br/>
-                <script language="javascript" src="{{ url_for('static', filename='js/ranges/ranges.js') }}" type="text/javascript"></script>
-            <script>
-                $(document).ready(function () {
-                    $('#ranges-link').addClass('highlight')
-                });
-            </script>
+              <tr id="inputfield-hum hum_val_row">
+                <td id="humidity-spec-cont">
+                  <form class="form-row align-items-center">
+                    <select class="form-control" id="humidity-spec">
+                      <option value="rh">Relative humidity</option>
+                      <option value="w">Humidity ratio</option>
+                      <option value="dewpoint">Dew point</option>
+                      <option value="wetbulb">Wet bulb</option>
+                      <option value="vappress">Vapor pressure</option>
+                    </select>
+                  </form>
+                </td>
+                <td class="inputcell" id="rh-inputcell">
+                  <input class="inputbox" id="rh" />
+                  <span class="unit" id="rh-unit"> %</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        {# set of buttons at the bottom #}
+        <div class="row justify-content-center my-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="restart"
+                autocomplete="off"
+              />
+              Reset
+            </label>
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="specPressure"
+                autocomplete="off"
+              />
+              Set pressure
+            </label>
+            <label class="btn btn-light border">
+              <input
+                type="radio"
+                name="options"
+                id="unitsToggle"
+                autocomplete="off"
+              />
+              SI/IP
+            </label>
+            <label class="btn btn-light border">
+              <input type="radio" name="options" autocomplete="off" />
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ranges"
+                target="_new"
+                >? Help</a
+              >
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div id="right_content_ranges" class="col-md-12 col-lg-7 bg-white py-2">
+      <div class="row justify-content-center p-1">
+        <form>
+          <div class="col-sm-12">
+            <select class="form-control" id="chartSelect">
+              <option value="psychta">Psychrometric (air temperature)</option>
+              <option value="psychtop" selected="selected"
+                >Psychrometric (operative temperature)</option
+              >
+              <option value="temphum"
+                >Relative humidity vs. air temperature</option
+              >
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <div class="row justify-content-center">
+        <div style="margin-left: -15px;" id="chart-div"></div>
+        <div style="margin-left: 10px;" id="temphumchart-div"></div>
+      </div>
+
+      <div class="row justify-content-center" id="hover-output">
+        <span id="factor-label"
+          >The selected comfort zone is for a value of
+          <span id="factor-name"></span> of <span id="factor-hover"></span>
+        </span>
+      </div>
+
+      <div class="row justify-content-center" id="output-ranges">
+        <div class="card align-content-center m-1 col-sm-12 border-0 footer">
+          <div class="card-body p-1 m-1">
+            <p>
+              <b> Outer range of air temperatures:</b>
+              <span id="outer-range-width" style="font-weight: bold;"></span
+              >&nbsp;<b>&deg;C</b>
+              <br />
+              Given the other four parameters, occupants will find thermal
+              comfort in the wider range of temperatures (<span
+                id="range-output1"
+              ></span>
+              to <span id="range-output2"></span> &deg;C) if
+              <span class="factor-name"></span> can change within the given
+              range.
+            </p>
+
+            <p>
+              <b> Inner range of air temperatures:</b>
+              <span id="inner-range-width" style="font-weight: bold;"></span
+              >&nbsp;<b>&deg;C</b>
+              <br />
+              Given the other four parameters, this is the range of temperatures
+              in which all the occupants will find thermal comfort, as long as
+              the <span class="factor-name"></span> is within the given range.
+              The inner range is zero if the comfort zones corresponding to the
+              first and last conditions do not intersect.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--id="right_content"-->
+
+    <br class="clear" />
+    <br />
+    <script
+      language="javascript"
+      src="{{ url_for('static', filename='js/ranges/ranges.js') }}"
+      type="text/javascript"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("#ranges-link").addClass("highlight");
+      });
+    </script>
+  </div>
+</div>
 {% endblock %}
