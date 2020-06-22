@@ -150,12 +150,12 @@ var vc = new (function () {
 
     d3.select("#vel-text-vt")
       .append("text")
-      .text("Air Speed [m/s]")
+      .text("Relative Air Speed [m/s]")
       .attr("transform", "rotate (-90, -45, -10) translate(-350)");
 
     d3.select("#vel-text-vt-fpm")
       .append("text")
-      .text("Air Speed [fpm]")
+      .text("Relative Air Speed [fpm]")
       .attr("transform", "rotate (-90, -45, -10) translate(-350)");
   };
 
