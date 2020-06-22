@@ -691,8 +691,11 @@ function LoadData(_data) {
     isCelsius = _data.unit;
   }
 
+  const chartSelection = _data.chartSelection;
+
   // delete the stored information about the units since no longer needed
   delete _data.unit;
+  delete _data.chartSelection;
 
   // loop through the stored parameters
   for (let [key, value] of Object.entries(_data)) {
@@ -706,6 +709,8 @@ function LoadData(_data) {
     $("#" + key).val(value);
   }
   update();
+
+  $("#chartSelect").val(chartSelection).change();
 }
 
 // check user entry

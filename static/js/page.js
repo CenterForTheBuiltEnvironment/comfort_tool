@@ -269,6 +269,21 @@ $(function () {
 
   $("#share_state").click(function () {
     d["unit"] = isCelsius;
+    const dataExport = d;
+
+    // calculate relative air velocity
+    if (dataExport.met > 1) {
+      dataExport.vel = dataExport.vel - 0.3 * (dataExport.met - 1);
+    }
+
+    // calculate adjusted clothing insulation
+    if (dataExport.met > 1.2 && dataExport.met < 2) {
+      dataExport.clo = dataExport.clo / (0.6 + 0.4 / dataExport.met);
+      console.log(d.clo);
+    }
+
+    dataExport.chartSelection = $("#chartSelect").val();
+
     const b64p = btoa(JSON.stringify(d));
     const new_url = document.URL.split("?")[0] + "?" + b64p;
     window.prompt("Copy to clipboard: Ctrl+C (or Cmd+C on Apple/Mac)", new_url);
