@@ -106,10 +106,9 @@ def transform_view():
         "Metabolic rate": "met",
         "Clothing level": "clo",
         }
-    si_unit = True
-    if any([True for x in df.columns if x.split(" [")[1] == "F]"]):
-        si_unit = False
-    df.columns = [fields[x.split(" [")[0]] for x in df.columns]
+
+    si_unit = any([True if ("Air temperature" in x) and (x.split(" [")[1] == "C]") else False for x in df.columns])
+    df.columns = [fields[x.split(" [")[0]] if " [" in x else x for x in df.columns]
 
     df["clo_dynamic"] = df.apply(
         lambda row: clo_dynamic(clo=row["clo"], met=row["met"]), axis=1
@@ -152,6 +151,7 @@ def transform_view():
     # split the pmv column in two since currently contains both pmv and ppd values
     df_ = pd.DataFrame(results)
     df = pd.concat([df, df_], axis=1, sort=False)
+    df["LEED compliance"] = [True if x < 10 else False for x in df.ppd]
 
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
