@@ -1,4 +1,5 @@
 let erf_inputs = {
+  erf_tmrt: "",
   posture: "seated",
   alt: 45,
   az: 0,
@@ -132,7 +133,6 @@ $(function () {
 
   $("#ERFdialog").dialog({
     autoOpen: false,
-    height: 530,
     width: 600,
     modal: true,
     resizable: true,
@@ -158,7 +158,7 @@ $(function () {
       "Adjust MRT": function () {
         const dmrt = parseFloat($("#dmrt-result").val());
         if (!isNaN(dmrt)) {
-          const mrt = parseFloat($("#tr").val());
+          let mrt = parseFloat(erf_inputs.erf_tmrt);
           const t_a = parseFloat($("#ta").val());
           const chart = $("#chartSelect").val();
 
@@ -412,6 +412,7 @@ $("#ERF").click(function () {
   });
   if (!isCelsius) {
     $("#dmrt-unit").html("&deg;F");
+    $("#erf-mrt-unit").html("&deg;F");
   }
   container.dialog("open");
 });

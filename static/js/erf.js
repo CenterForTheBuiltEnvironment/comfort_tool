@@ -1,7 +1,7 @@
 function find_span(arr, x) {
   // for ordered array arr and value x, find the left index
   // of the closed interval that the value falls in.
-  for (var i = 0; i < arr.length - 1; i++) {
+  for (let i = 0; i < arr.length - 1; i++) {
     if (x <= arr[i + 1] && x >= arr[i]) {
       return i;
     }
