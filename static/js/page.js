@@ -1,5 +1,6 @@
 let erf_inputs = {
   erf_tmrt: "",
+  erf_ta: "",
   posture: "seated",
   alt: 45,
   az: 0,
@@ -159,7 +160,7 @@ $(function () {
         const dmrt = parseFloat($("#dmrt-result").val());
         if (!isNaN(dmrt)) {
           let mrt = parseFloat(erf_inputs.erf_tmrt);
-          const t_a = parseFloat($("#ta").val());
+          const t_a = parseFloat(erf_inputs.erf_ta);
           const chart = $("#chartSelect").val();
 
           // if the operative temperature is selected then I need to update its value else update only mrt temperature
@@ -176,6 +177,7 @@ $(function () {
             $("#ta").val((a * t_a + (1 - a) * t_mrt).toFixed(1));
           } else {
             $("#tr").val((mrt + dmrt).toFixed(1));
+            $("#ta").val(t_a.toFixed(1));
           }
           $(this).dialog("close");
           update();
@@ -413,6 +415,7 @@ $("#ERF").click(function () {
   if (!isCelsius) {
     $("#dmrt-unit").html("&deg;F");
     $("#erf-mrt-unit").html("&deg;F");
+    $("#erf-ta-unit").html("&deg;F");
   }
   container.dialog("open");
 });
