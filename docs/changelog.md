@@ -4,6 +4,20 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.0.3 (2020-06-24)
+
+Features:
+
+- The Upload tool can be used to calculate LEED compliance.
+- The Share button now also shares the chart type.
+- Added notes about relative air speed and dynamic clothing calculation below charts.
+  
+Fix:
+
+- Added mean radiant temperature as input in the SolarCal tool.
+- Share fixed the issue with air speed and clothing.
+- Changes y-label in chart air speed vs operative temperature.
+
 ## Version 2.0.2 (2020-06-09)
 
 Features:
