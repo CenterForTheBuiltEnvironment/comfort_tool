@@ -53,8 +53,8 @@ function Help(props) {
             <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog">
               CHANGELOG
             </a>{" "}
-            where we have described all the latest changes we have implemented
-            and the{" "}
+            page where we have described all the latest changes we have
+            implemented, and visit the{" "}
             <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55">
               official documentation
             </a>{" "}
@@ -62,11 +62,10 @@ function Help(props) {
           </p>
           <h2>Get help from the community</h2>
           <p>
-            Share suggestions, ask questions, and connect with other users and
-            top contributors on{" "}
+            Ask questions, and connect with other users and top contributors on{" "}
             <a href="https://stackoverflow.com">stackoverflow</a>. If your
-            question has not yet been answered please feel free to create a new
-            question send us an email with the link at{" "}
+            question has not yet been answered please feel free to ask a new
+            question send us an email with the link to your question at{" "}
             <a href="mailto:cbecomforttool@gmail.com">
               cbecomforttool@gmail.com
             </a>
