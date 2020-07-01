@@ -37,3 +37,5 @@ website/build/
 website/yarn.lock
 website/node_modules
 website/i18n/*
+
+deploy_comfort_tool.ps1

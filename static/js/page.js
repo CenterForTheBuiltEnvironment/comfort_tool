@@ -404,7 +404,13 @@ $("#ERF").click(function () {
     success: function (data) {
       $("#ERFdialog").html(data);
       for (let key in erf_inputs) {
-        $("#" + key).val(erf_inputs[key]);
+        if (key === "erf_tmrt" && erf_inputs[key] == "") {
+          $("#" + key).val($("#tr").val());
+        } else if (key === "erf_ta" && erf_inputs[key] == "") {
+          $("#" + key).val($("#ta").val());
+        } else {
+          $("#" + key).val(erf_inputs[key]);
+        }
       }
       $("#posture").selectmenu({
         width: 90,
