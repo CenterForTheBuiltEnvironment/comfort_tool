@@ -1,4 +1,3 @@
-import os
 from io import TextIOWrapper
 from flask import (
     Flask,
@@ -170,13 +169,13 @@ def ranges():
 
 
 @app.route("/EN")
-def EN():
-    return render_template("EN.html")
+def en():
+    return render_template("en.html")
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("ashrae.html")
 
 
 if __name__ == "__main__":
