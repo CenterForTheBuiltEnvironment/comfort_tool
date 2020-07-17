@@ -1,5 +1,8 @@
 keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
+const vRelativeValue = $("#relative-air-speed-value");
+const vRelativeDiv = $("#relative-air-speed-div");
+
 $(document).ready(function () {
   // highlight navigation bar button
   $("a.active").removeClass("active");
@@ -420,6 +423,14 @@ function update() {
   // calculate relative air velocity
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
+    vRelativeDiv.show();
+    if (isCelsius) {
+      vRelativeValue.html(d.vel.toFixed(2));
+    } else {
+      vRelativeValue.html((d.vel * 196).toFixed(2));
+    }
+  } else {
+    vRelativeDiv.hide();
   }
 
   // fixme implement the dynamic clothing insulation

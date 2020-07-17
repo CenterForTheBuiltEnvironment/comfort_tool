@@ -707,7 +707,7 @@ function toggleUnits() {
       v = util.FtoC($(this).val());
       $(this).val(v.toFixed(1));
     });
-    $("#vel-unit1, #vel-unit2, #vel-unit3").html(" m/s");
+    $(".vel-unit").html(" m/s");
     v = $("#vel1").val();
     v2 = $("#vel2").val();
     v3 = $("#vel3").val();
@@ -764,7 +764,7 @@ function toggleUnits() {
       v = util.CtoF($(this).val());
       $(this).val(v.toFixed(1));
     });
-    $("#vel-unit1, #vel-unit2, #vel-unit3").html(" fpm");
+    $(".vel-unit").html(" fpm");
     v = $("#vel1").val();
     v2 = $("#vel2").val();
     v3 = $("#vel3").val();

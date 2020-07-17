@@ -572,7 +572,7 @@ function toggleUnits() {
     });
 
     // change the air velocity unit
-    $("#vel-unit").html(" m/s");
+    $(".vel-unit").html(" m/s");
 
     // Convert the air velocity to m/s and revert the spinner limits
     v = $("#vel").val();
@@ -632,7 +632,7 @@ function toggleUnits() {
     });
 
     // change the air velocity unit
-    $("#vel-unit, #vel-a-unit").html(" fpm");
+    $(".vel-unit, #vel-a-unit").html(" fpm");
 
     // Convert the air velocity to fpm and change spinner limit
     v = $("#vel").val();

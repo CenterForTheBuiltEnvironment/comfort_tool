@@ -11,6 +11,11 @@ let erf_inputs = {
   asa: 0.7,
 };
 
+const vRelativeValue = $("#relative-air-speed-value");
+const vRelativeDiv = $("#relative-air-speed-div");
+const dynamicCloValue = $("#dynamic-clo-value");
+const dynamicCloDiv = $("#dynamic-clo-div");
+
 $(document).ready(function () {
   // highlight navigation bar button
   $("a.active").removeClass("active");
@@ -201,7 +206,6 @@ $(function () {
   });
 
   $("#radio").buttonset();
-  // $('.leed-buttons').buttonset();
 
   $("#customClo").click(function () {
     $("#customCloToggle").toggle("fast");
@@ -623,12 +627,23 @@ function update() {
   // calculate relative air velocity
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
+    vRelativeDiv.show();
+    if (isCelsius) {
+      vRelativeValue.html(d.vel.toFixed(2));
+    } else {
+      vRelativeValue.html((d.vel * 196).toFixed(2));
+    }
+  } else {
+    vRelativeDiv.hide();
   }
 
   // calculate adjusted clothing insulation
   if (d.met > 1.2 && d.met < 2) {
     d.clo = d.clo * (0.6 + 0.4 / d.met);
-    console.log(d.clo);
+    dynamicCloDiv.show();
+    dynamicCloValue.html(d.clo.toFixed(2));
+  } else {
+    dynamicCloDiv.hide();
   }
 
   const model = document.getElementById("model-type").value;
@@ -677,22 +692,19 @@ function update() {
   }
 }
 
-function renderPmvResults(r) {
-  $("#pmv-res").html(r.pmv.toFixed(2));
-  $("#ppd-res").html(r.ppd.toFixed(0));
-  const sensation = util.getSensation(r.pmv);
+function renderPmvElevResults(results) {
+  $("#pmv-res").html(results.pmv.toFixed(2));
+  $("#ppd-res").html(results.ppd.toFixed(0));
+  const sensation = util.getSensation(results.pmv);
   $("#sensation").html(sensation);
-  $("#SET").html(r.set.toFixed(1));
-}
+  $("#SET").html(results.set.toFixed(1));
 
-function renderPmvElevResults(r) {
-  renderPmvResults(r);
   if (!isCelsius) {
-    r.ta_adj = util.CtoF(r.ta_adj);
-    r.cooling_effect = (r.cooling_effect * 9) / 5;
+    results.ta_adj = util.CtoF(results.ta_adj);
+    results.cooling_effect = (results.cooling_effect * 9) / 5;
   }
-  $("#ta-still").html(r.ta_adj.toFixed(1));
-  $("#cooling-effect").html(r.cooling_effect.toFixed(1));
+  $("#ta-still").html(results.ta_adj.toFixed(1));
+  $("#cooling-effect").html(results.cooling_effect.toFixed(1));
 }
 
 function renderAdaptiveResults(r) {

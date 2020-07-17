@@ -165,7 +165,7 @@
               <div class="col-sm-3">
                 <div class="inputfield">
                   <input class="inputbox" id="vel" />
-                  <span class="unit" id="vel-unit"> m/s</span>
+                  <span class="unit vel-unit"> m/s</span>
                 </div>
               </div>
               <div
@@ -539,13 +539,31 @@
                     <span class="tempunit"> &deg;C</span>
                   </div>
                 </div>
+                <div class="form-row">
+                  <div class="col-sm-6">
+                    <div id="relative-air-speed-div">
+                      <span>Relative air speed</span>
+                      <span> = </span>
+                      <span id="relative-air-speed-value"></span>
+                      <span class="unit vel-unit"> m/s</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div id="dynamic-clo-div">
+                      <span>Dynamic clothing</span>
+                      <span> = </span>
+                      <span id="dynamic-clo-value"></span>
+                      <span> clo</span>
+                    </div>
+                  </div>
+                </div>
               </div>
               <!--id="pmv-outputs"-->
 
               <div id="pmv-elev-outputs">
                 <div class="form-row">
                   <div class="col-sm-6">
-                    <span>Dry-bulb temperature at still air</span>
+                    <span>Dry-bulb Tmp at still air</span>
                     <span> = </span>
                     <span id="ta-still"></span>
                     <span class="tempunit"> °C</span>
