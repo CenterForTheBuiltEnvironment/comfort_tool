@@ -486,7 +486,7 @@ function update(i) {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air velocity
+  // calculate relative air speed
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
   }

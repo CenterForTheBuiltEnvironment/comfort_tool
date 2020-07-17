@@ -277,7 +277,7 @@ $(function () {
     d["unit"] = isCelsius;
     const dataExport = d;
 
-    // calculate relative air velocity
+    // calculate relative air speed
     if (dataExport.met > 1) {
       dataExport.vel = dataExport.vel - 0.3 * (dataExport.met - 1);
     }
@@ -624,7 +624,7 @@ function update() {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air velocity
+  // calculate relative air speed
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
     vRelativeDiv.show();

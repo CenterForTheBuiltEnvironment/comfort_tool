@@ -187,7 +187,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
    * Returns comfort values for elevated air speeds
    * @param  {Number} ta      air temperature, [C]
    * @param  {Number} tr      mean radiant temperature, [C]
-   * @param  {Number} vel     air velocity, [m/s]
+   * @param  {Number} vel     air speed, [m/s]
    * @param  {Number} rh      relative humidity, [%]
    * @param  {Number} met     metabolic rate, [met]
    * @param  {Number} clo     clothing level, [clo]
@@ -246,7 +246,7 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme) {
   // returns [pmv, ppd]
   // ta, air temperature (°C)
   // tr, mean radiant temperature (°C)
-  // vel, relative air velocity (m/s)
+  // vel, relative air speed (m/s)
   // rh, relative humidity (%) Used only this way to input humidity level
   // met, metabolic rate (met)
   // clo, clothing (clo)
@@ -366,7 +366,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
    * SET calculation using code provided in ASHRAE 55
    * @param  {Number} ta      dry bulb air temperature, [C]
    * @param  {Number} tr      mean radiant temperature, [C]
-   * @param  {Number} vel     air velocity, [m/s]
+   * @param  {Number} vel     air speed, [m/s]
    * @param  {Number} rh      relative humidity, [%]
    * @param  {Number} met     metabolic rate, [met]
    * @param  {Number} clo     clothing level, [clo]

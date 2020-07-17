@@ -420,7 +420,7 @@ function update() {
     if (window.humUnit === "vappress") d.rh *= 1000;
   }
 
-  // calculate relative air velocity
+  // calculate relative air speed
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
     vRelativeDiv.show();

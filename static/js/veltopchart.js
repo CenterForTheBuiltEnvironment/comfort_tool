@@ -1,5 +1,5 @@
 // ----- CODE to draw the comfort zone on a chart with operative Temp on the x-axis and Air speed on the y-axis -----
-// ----- time out section for testing the change from rh to velocity
+// ----- time out section for testing the change from rh to speed
 
 var vc = new (function () {
   // set up viewport
@@ -237,7 +237,7 @@ var vc = new (function () {
     let pmv;
     // if the occupant has control on the air speed then there are no limits
     if (local_control === "withairspeedcontrol") {
-      // add description saying that there is no upper limit for the air velocity
+      // add description saying that there is no upper limit for the air speed
       try {
         d3.selectAll("#note").remove();
       } catch (e) {}

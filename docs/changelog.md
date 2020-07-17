@@ -4,6 +4,16 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.0.4 (2020-07-17)
+
+Features:
+
+- Displaying the relative air speed and dynamic clothing among the outputs.
+  
+Fix:
+
+- Fixed calculation comfort zone in Ranges
+
 ## Version 2.0.3 (2020-06-24)
 
 Features:
@@ -11,10 +21,10 @@ Features:
 - The Upload tool can be used to calculate LEED compliance.
 - The Share button now also shares the chart type.
 - Added notes about relative air speed and dynamic clothing calculation below charts.
+- Added mean radiant temperature as input in the SolarCal tool.
   
 Fix:
 
-- Added mean radiant temperature as input in the SolarCal tool.
 - Share fixed the issue with air speed and clothing.
 - Changes y-label in chart air speed vs operative temperature.
 

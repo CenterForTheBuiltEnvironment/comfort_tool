@@ -571,10 +571,10 @@ function toggleUnits() {
       });
     });
 
-    // change the air velocity unit
+    // change the air speed unit
     $(".vel-unit").html(" m/s");
 
-    // Convert the air velocity to m/s and revert the spinner limits
+    // Convert the air speed to m/s and revert the spinner limits
     v = $("#vel").val();
     $("#vel")
       .val(v / 196.9)
@@ -631,10 +631,10 @@ function toggleUnits() {
       });
     });
 
-    // change the air velocity unit
+    // change the air speed unit
     $(".vel-unit, #vel-a-unit").html(" fpm");
 
-    // Convert the air velocity to fpm and change spinner limit
+    // Convert the air speed to fpm and change spinner limit
     v = $("#vel").val();
     $("#vel")
       .val(v * 196.9)
@@ -677,7 +677,7 @@ function toggleUnits() {
   bc.toggleUnits(isCelsius);
   ac.toggleUnits(isCelsius);
   try {
-    // only in the ASHRAE page has the velocity chart
+    // only in the ASHRAE page has the speed chart
     vc.toggleUnits(isCelsius);
   } catch {}
 }

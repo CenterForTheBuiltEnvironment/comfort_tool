@@ -59,7 +59,7 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 ## Features
 
 1. Models.
-    * Adaptive (inputs: air temperature, MRT, mean outdoor temperature, air velocity)
+    * Adaptive (inputs: air temperature, MRT, mean outdoor temperature, air speed)
     * PMV with and without elevated air speed
 2. Clothing ensemble creator.
 3. Clothing and metabolic activity tables.
@@ -72,7 +72,7 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 10. Interactive charts: psychrometric chart, temperature–relative humidity chart, adaptive chart.
 11. Mouse values: psychrometric variables displayed for each position of the cursor when the mouse moves on the chart.
 12. Dynamic predictive clothing calculator.
-13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air velocity, and mean radiant temperature variables are changed within a given range.
+13. Comfort Ranges: the ability to plot how the PMV and PPD ranges change in the psychrometric chart when clothing, metabolic activity, air speed, and mean radiant temperature variables are changed within a given range.
 14. Comparison of comfort conditions: possibility of visually comparing two or more thermal comfort simulations. Instead of manually transcribing the output of thermal comfort simulations with the tool, it would be practical to enable a simple visualization to compare several conditions.
 15. EN 15251 compliance: this section of the tool can be used to assess the compliance of indoor conditions to the European standard.
 

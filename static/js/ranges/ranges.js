@@ -774,7 +774,7 @@ function update() {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air velocity
+  // calculate relative air speed
   if (d.met > 1) {
     d.vel = d.vel + 0.3 * (d.met - 1);
   }
@@ -858,7 +858,7 @@ function parameter_selection_change() {
 
 function calculateRelativeAirSpeedAndClothing(factor) {
   if (factor === "vel") {
-    // calculate relative air velocity
+    // calculate relative air speed
     if (d.met > 1) {
       d.vel = d.vel + 0.3 * (d.met - 1);
     }
@@ -873,7 +873,7 @@ function calculateRelativeAirSpeedAndClothing(factor) {
     if (d.met > 1.2 && d.met < 2) {
       d.clo = d.clo * (0.6 + 0.4 / d.met);
     }
-    // calculate relative air velocity
+    // calculate relative air speed
     if (d.met > 1) {
       d.vel = $("#vel").val() + 0.3 * (d.met - 1);
     }
