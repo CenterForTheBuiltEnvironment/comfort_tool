@@ -252,7 +252,7 @@ pc.findRHcurve = function (d, pmvlimit, factor) {
     let a = -50;
     let b = 50;
     let fn = rhclos(rhx, target);
-    t = util.secant(a, b, fn, epsilon);
+    let t = util.secant(a, b, fn, epsilon);
     return {
       db: t,
       hr: pc.getHumRatio(t, rhx),
@@ -260,9 +260,15 @@ pc.findRHcurve = function (d, pmvlimit, factor) {
   }
 
   d[factor] = factor_1;
+
+  calculateRelativeAirSpeedAndClothing(factor);
+
   const left_1 = solve(d.rh, -pmvlimit);
   const right_1 = solve(d.rh, pmvlimit);
   d[factor] = last_value;
+
+  calculateRelativeAirSpeedAndClothing(factor);
+
   const left_2 = solve(d.rh, -pmvlimit);
   const right_2 = solve(d.rh, pmvlimit);
 

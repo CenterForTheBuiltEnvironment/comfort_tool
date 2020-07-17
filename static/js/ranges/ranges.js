@@ -345,18 +345,10 @@ $(".in").click(function () {
   }
 });
 
-$(".inputbox").focusout(function () {
-  if (!rangeYes) {
-    update();
-  }
+$(".inputbox").click(function () {
+  update();
 });
 
-$("#rh-inputcell").click(function () {
-  if (rangeYes) {
-    pc.redrawRHcurve();
-    bc.redrawRHcurve();
-  }
-});
 $("#rh-inputcell").click(function () {
   if (rangeYes) {
     pc.redrawRHcurve();
@@ -650,11 +642,15 @@ function drawRange(factor, incr) {
   if (fakeFactor_1 < fakeFactor_2) {
     for (var x = fakeFactor_1; x <= fakeFactor_2; x += incr) {
       d[factor] = x / 1000;
+
+      calculateRelativeAirSpeedAndClothing(factor);
+
       var bound = pc.findComfortBoundary(d, 0.5);
       var bcBound = bc.convertBoundary(bound);
       pc.drawNewZone(d, bound, factor, x);
       bc.drawNewZone(d, bcBound, factor, x);
     }
+
     last_value = (x - incr) / 1000;
 
     var curve = pc.findRHcurve(d, 0.5, factor);
@@ -828,6 +824,7 @@ function setDefaults() {
 }
 
 function parameter_selection_change() {
+  setDefaults();
   const parameter = $("#parameter_select").val();
   const chart = $("#chartSelect").val();
   $(
@@ -857,4 +854,28 @@ function parameter_selection_change() {
     $("#mrt_val_row").hide();
   }
   update();
+}
+
+function calculateRelativeAirSpeedAndClothing(factor) {
+  if (factor === "vel") {
+    // calculate relative air velocity
+    if (d.met > 1) {
+      d.vel = d.vel + 0.3 * (d.met - 1);
+    }
+    // calculate adjusted clothing insulation
+    if (d.met > 1.2 && d.met < 2) {
+      d.clo = $("#clo").val() * (0.6 + 0.4 / d.met);
+    }
+  }
+
+  if (factor === "clo") {
+    // calculate adjusted clothing insulation
+    if (d.met > 1.2 && d.met < 2) {
+      d.clo = d.clo * (0.6 + 0.4 / d.met);
+    }
+    // calculate relative air velocity
+    if (d.met > 1) {
+      d.vel = $("#vel").val() + 0.3 * (d.met - 1);
+    }
+  }
 }
