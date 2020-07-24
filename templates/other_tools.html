@@ -1,66 +1,106 @@
-{% extends "layout.html" %}
+{% extends "index.html" %} {% block content %}
 
-{% block content %}
+<script>
+  // highlight navigation bar button
+  $("a.active").removeClass("active");
+  $("#nav_a_other_tools").addClass("active");
+</script>
 
-    <script>
-        // highlight navigation bar button
-        $('a.active').removeClass('active');
-        $('#nav_a_other_tools').addClass('active');
-    </script>
+<div class="container my-4 px-0">
+  {# explanation of what the page does #}
+  <div class="jumbotron">
+    <h1>CBE tools and packages</h1>
+    <p class="lead">
+      This page contains a list of tools and packages developed by the Center
+      for the Built Environment (CBE), University of California Berkeley.
+    </p>
+  </div>
 
-    <div class="container my-4 px-0">
-
-        {# explanation of what the page does #}
-        <div class="jumbotron">
-            <h1>CBE tools and packages</h1>
-            <p class="lead"> This page contains a list of tools and packages developed by the Center for the Built Environment (CBE), University of California Berkeley.
-            </p>
-        </div>
-
-        <div class="card-columns">
-
-            <div class="card">
-                <img src="../static/img/radiant-tool.png" class="card-img" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="http://radiant.cbe.berkeley.edu">CBE Radiant Tool</a></h5>
-                    <p class="card-text">The CBE Rad Tool is an interactive web-based design tool for the early of high thermal mass radiant systems. The primary aim of this
-                        design tool is to provide an interface for estimating the performance of high thermal mass radiant system under steady-state and transient
-                        conditions.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="../static/img/mrt-tool.jpg" class="card-img" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="http://centerforthebuiltenvironment.github.io/mrt/">CBE Spatial Thermal Comfort Tool</a></h5>
-                    <p class="card-text">Graphical visualization for spatial resolution of mean radiant temperature (MRT) within a space, based on room surface temperatures,
-                        solar gain through windows and skylights. Enable input of thermal comfort variables such as clothing levels and metabolic rates.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="../static/img/fan-tool-2020.jpg" class="card-img" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="https://centerforthebuiltenvironment.github.io/fan-tool/">CBE Fan Tol</a></h5>
-                    <p class="card-text">A tool that allows designers to quickly select and layout ceiling fans in a room to meet their desired airspeed requirements, and to facilitate incorporation of fans into designs.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="../static/img/pythermalcomfort.png" class="card-img" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="https://pythermalcomfort.readthedocs.io/en/latest/">pythermalcomfort</a></h5>
-                    <p class="card-text">Python package to calculate several thermal comfort indices.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="../static/img/ufad-cooling-tool.png" class="card-img" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="https://cbe.berkeley.edu/ufad-designtool/online.htm">UFAD Cooling Load Design Tool</a></h5>
-                    <p class="card-text">A simplified, practical design tool to determine cooling load requirements, airflow rates and temperature stratification for Underfloor
-                        Air Distribution (UFAD) systems in interior and perimeter zones.</p>
-                </div>
-            </div>
-
-        </div>
+  <div class="card-columns">
+    <div class="card">
+      <img src="../static/img/radiant-tool.png" class="card-img" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="http://radiant.cbe.berkeley.edu">CBE Radiant Tool</a>
+        </h5>
+        <p class="card-text">
+          The CBE Rad Tool is an interactive web-based design tool for the early
+          of high thermal mass radiant systems. The primary aim of this design
+          tool is to provide an interface for estimating the performance of high
+          thermal mass radiant system under steady-state and transient
+          conditions.
+        </p>
+      </div>
     </div>
-
+    <div class="card">
+      <img src="../static/img/mrt-tool.jpg" class="card-img" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="http://centerforthebuiltenvironment.github.io/mrt/"
+            >CBE Spatial Thermal Comfort Tool</a
+          >
+        </h5>
+        <p class="card-text">
+          Graphical visualization for spatial resolution of mean radiant
+          temperature (MRT) within a space, based on room surface temperatures,
+          solar gain through windows and skylights. Enable input of thermal
+          comfort variables such as clothing levels and metabolic rates.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="../static/img/fan-tool-2020.jpg" class="card-img" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="https://centerforthebuiltenvironment.github.io/fan-tool/"
+            >CBE Fan Tol</a
+          >
+        </h5>
+        <p class="card-text">
+          A tool that allows designers to quickly select and layout ceiling fans
+          in a room to meet their desired airspeed requirements, and to
+          facilitate incorporation of fans into designs.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <img
+        src="../static/img/pythermalcomfort.png"
+        class="card-img"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="https://pythermalcomfort.readthedocs.io/en/latest/"
+            >pythermalcomfort</a
+          >
+        </h5>
+        <p class="card-text">
+          Python package to calculate several thermal comfort indices.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <img
+        src="../static/img/ufad-cooling-tool.png"
+        class="card-img"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="https://cbe.berkeley.edu/ufad-designtool/online.htm"
+            >UFAD Cooling Load Design Tool</a
+          >
+        </h5>
+        <p class="card-text">
+          A simplified, practical design tool to determine cooling load
+          requirements, airflow rates and temperature stratification for
+          Underfloor Air Distribution (UFAD) systems in interior and perimeter
+          zones.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

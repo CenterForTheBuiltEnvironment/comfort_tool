@@ -1,71 +1,111 @@
 <style>
-
   div .leftlabel-dialog {
     width: 420px;
   }
 </style>
 
-<form style="font-size:80%">
-  <div class='leftlabel-dialog' style='padding-bottom:15px;'>Posture</div>
-  <div class='inputfield-dialog'> 
+<form style="font-size: 80%;">
+  <div class="leftlabel-dialog" style="padding-bottom: 15px;">Posture</div>
+  <div class="inputfield-dialog">
     <select id="posture">
       <option value="seated">Seated</option>
       <option value="standing">Standing</option>
       <option value="supine">Supine</option>
     </select>
-  </div><br />
-  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar altitude (0 - 90&deg;) [β]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='alt'/>
-    <span class='unit'> &deg;</span>
-  </div><br />
-  	
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Solar horizontal angle relative to front of person [SHARP]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='az'/>
-    <span class='unit'> &deg;</span>
-  </div><br />
+  </div>
+  <br />
 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Direct beam (normal) solar radiation [I<sub>dir</sub>]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='Idir'/>
-    <span class='unit'> W/m<sup>2</sup></span>
-  </div><br />
-  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Total solar transmittance [T<sub>sol</sub>]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='tsol'/>
-  </div><br />
-  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Sky vault view fraction [f<sub>svv</sub>]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='fsvv'/>
-  </div><br />
- 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Fraction of body exposed to sun [f<sub>bes</sub>]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='fbes'/>
-  </div><br />
-  
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Average shortwave absorptivity [α]</div>
-  <div class='inputfield-dialog'>
-    <input class='input-dialog' id='asa'/>
-  </div><br />
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Air temperature
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="erf_ta" />
+    <span class="tempunit" id="erf-ta-unit"> &deg;C</span>
+  </div>
+  <br />
 
-  <br class="clear"/>
-  <hr class="clear: both">
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Mean radiant temperature
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="erf_tmrt" />
+    <span class="tempunit" id="erf-mrt-unit"> &deg;C</span>
+  </div>
+  <br />
 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>ERF :</div>
-  <div class='intputfield-dialog'>
-    <input class='input-dialog' readonly="readonly" id='erf-result' />
-    <span class='unit'> W/m<sup>2</sup></span>
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Solar altitude (0 - 90&deg;) [β]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="alt" />
+    <span class="unit"> &deg;</span>
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Solar horizontal angle relative to front of person [SHARP]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="az" />
+    <span class="unit"> &deg;</span>
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Direct beam (normal) solar radiation [I<sub>dir</sub>]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="Idir" />
+    <span class="unit"> W/m<sup>2</sup></span>
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Total solar transmittance [T<sub>sol</sub>]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="tsol" />
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Sky vault view fraction [f<sub>svv</sub>]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="fsvv" />
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Fraction of body exposed to sun [f<sub>bes</sub>]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="fbes" />
+  </div>
+  <br />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Average shortwave absorptivity [α]
+  </div>
+  <div class="inputfield-dialog">
+    <input class="input-dialog" id="asa" />
+  </div>
+  <br />
+
+  <br class="clear" />
+  <hr class="clear: both" />
+
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">ERF :</div>
+  <div class="intputfield-dialog">
+    <input class="input-dialog" readonly="readonly" id="erf-result" />
+    <span class="unit"> W/m<sup>2</sup></span>
   </div>
 
-  <div class='leftlabel-dialog' style='padding-bottom:7px;'>Mean radiant temperature delta :</div>
-  <div class='intputfield-dialog' style='margin-top:5px;'>
-    <input class='input-dialog' readonly="readonly" id='dmrt-result' />
-    <span class='tempunit' id='dmrt-unit'> &deg;C</span>
+  <div class="leftlabel-dialog" style="padding-bottom: 7px;">
+    Mean radiant temperature delta :
+  </div>
+  <div class="intputfield-dialog" style="margin-top: 5px;">
+    <input class="input-dialog" readonly="readonly" id="dmrt-result" />
+    <span class="tempunit" id="dmrt-unit"> &deg;C</span>
   </div>
 </form>
-

@@ -1,228 +1,228 @@
 .ppd-right {
-    color: red;
-    margin-top: 5px;
+  color: red;
+  margin-top: 5px;
 }
 
 #dynamicCloToggle {
-    display: none;
+  display: none;
 }
 
 .local-disc-result {
-    position: relative;
-    clear: both;
-    height: 17px;
-    text-align: center;
+  position: relative;
+  clear: both;
+  height: 17px;
+  text-align: center;
 }
 
 .leftlabel-loc-dialog {
-    position: relative;
-    float: left;
-    clear: both;
-    width: 200px;
-    color: #636363;
-    margin-top: 5px;
-    margin-left: 5px;
+  position: relative;
+  float: left;
+  clear: both;
+  width: 200px;
+  color: #636363;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .leftlabel-loc-dialog-1 {
-    position: relative;
-    float: left;
-    clear: both;
-    width: 450px;
-    color: #636363;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+  position: relative;
+  float: left;
+  clear: both;
+  width: 450px;
+  color: #636363;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 
 .leftlabel-dialog {
-    position: relative;
-    float: left;
-    clear: both;
-    width: 250px;
-    color: #636363;
-    margin-top: 5px;
-    margin-left: 5px;
+  position: relative;
+  float: left;
+  clear: both;
+  width: 250px;
+  color: #636363;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .inputfield-dialog {
-    position: relative;
-    float: left;
-    width: 100px;
+  position: relative;
+  float: left;
+  width: 100px;
 }
 
 .input-dialog {
-    padding: 0px 0px 0px 5px;
-    width: 50px;
+  padding: 0px 0px 0px 5px;
+  width: 50px;
 }
 
 .input-dialog-local {
-    padding: 0px 0px 0px 5px;
-    width: 50px;
+  padding: 0px 0px 0px 5px;
+  width: 50px;
 }
 
 .multiselect {
-    width: 385px;
-    height: 200px;
+  width: 385px;
+  height: 200px;
 }
 
 .clear {
-    clear: both;
+  clear: both;
 }
 
 .out {
-    margin-bottom: 10px;
-    margin-top: 5px;
-    margin-left: 30px;
-    clear: both;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-left: 30px;
+  clear: both;
 }
 
 .ui-button-text {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .ui-selectmenu-status {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .ui-selectmenu-menu {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .divresult {
-    position: relative;
-    float: left;
-    margin-top: 5px;
-    margin-left: 5px;
+  position: relative;
+  float: left;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .resultunit {
-    position: relative;
-    float: left;
-    width: 50px;
-    margin-top: 5px;
-    color: #000000;
+  position: relative;
+  float: left;
+  width: 50px;
+  margin-top: 5px;
+  color: #000000;
 }
 
 .leftLabelResults {
-    position: relative;
-    float: left;
-    clear: both;
-    width: 120px;
-    font-size: 14px;
-    color: #3B3B3B;
-    margin-top: 5px;
-    margin-left: 5px;
+  position: relative;
+  float: left;
+  clear: both;
+  width: 120px;
+  font-size: 14px;
+  color: #3b3b3b;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .sublabel {
-    width: 209px;
-    padding-left: 20px;
-    font-size: 14px;
+  width: 209px;
+  padding-left: 20px;
+  font-size: 14px;
 }
 
 .inputfield {
-    width: 200px;
+  width: 200px;
 }
 
 .center {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 20px;
-    padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 .inputbox {
-    width: 50px;
-    height: 24px;
-    text-align: left;
+  width: 50px;
+  height: 24px;
+  text-align: left;
 }
 
 .inputbox1 {
-    width: 50px;
-    height: 24px;
-    text-align: left;
+  width: 50px;
+  height: 24px;
+  text-align: left;
 }
 .inputbox2 {
-    width: 50px;
-    height: 24px;
-    text-align: left;
+  width: 50px;
+  height: 24px;
+  text-align: left;
 }
 .inputbox3 {
-    width: 50px;
-    height: 24px;
-    text-align: left;
+  width: 50px;
+  height: 24px;
+  text-align: left;
 }
 
 input.rangesbox {
-    width: 50px;
-    height: 24px;
-    text-align: center;
+  width: 50px;
+  height: 24px;
+  text-align: center;
 }
 
 #all_content {
-    margin: 0 auto;
-    width: 988px;
-    font-family: sans-serif;
-    font-color: #000000;
-    font-size: 14px;
-    clear: both;
+  margin: 0 auto;
+  width: 988px;
+  font-family: sans-serif;
+  font-color: #000000;
+  font-size: 14px;
+  clear: both;
 }
 
 #switcher {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #vel-range {
-    color: #000000;
+  color: #000000;
 }
 
 #to-range {
-    color: #000000;
+  color: #000000;
 }
 
 #met_input {
-    width: 175px;
+  width: 175px;
 }
 
 .note {
-    font-size: 12px;
-    font-family: sans-serif;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
+  font-size: 12px;
+  font-family: sans-serif;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
 }
 
 #adaptive-outputs {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 hr {
-    width: 100%;
-    color: #000000;
-    clear: both;
+  width: 100%;
+  color: #000000;
+  clear: both;
 }
 
 input {
-    width: 60px;
-    padding: 10px 10px 10px 10px;
+  width: 60px;
+  padding: 10px 10px 10px 10px;
 }
 
 h1 {
-    color: #2A4583;
-    font-family: sans-serif;
-    text-align: center;
-    margin-bottom: 5px;
-    padding-top: 10px;
+  color: #2a4583;
+  font-family: sans-serif;
+  text-align: center;
+  margin-bottom: 5px;
+  padding-top: 10px;
 }
 
 h1.local {
-    font-size: 15px;
-    padding-top: 0px;
-    margin-bottom: 8px;
+  font-size: 15px;
+  padding-top: 0px;
+  margin-bottom: 8px;
 }
 
 h2 {
-    padding-left: 5px;
-    margin: 0px;
-    margin-bottom: 5px;
+  padding-left: 5px;
+  margin: 0px;
+  margin-bottom: 5px;
 }

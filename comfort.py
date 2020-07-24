@@ -1,43 +1,50 @@
-import os
-import csv
 from io import TextIOWrapper
-from flask import Flask, request, render_template, send_from_directory, abort, redirect, jsonify
+from flask import (
+    Flask,
+    request,
+    render_template,
+    send_from_directory,
+    abort,
+    jsonify,
+    make_response,
+    )
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
-from pythermalcomfort.psychrometrics import v_relative
-from flask_csv import send_csv
+from pythermalcomfort.psychrometrics import v_relative, clo_dynamic
+import pandas as pd
 
-ALLOWED_EXTENSIONS = {'csv'}
+ALLOWED_EXTENSIONS = {"csv"}
 
-STATIC_URL_PATH = '/static'
+STATIC_URL_PATH = "/static"
 
 app = Flask(__name__, static_url_path=STATIC_URL_PATH)
 
 
-# define the extension files that can be uploded by users
+# define the extension files that can be uploaded by users
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1] in ALLOWED_EXTENSIONS
 
 
-@app.route('/download/<path:filename>')
+@app.route("/download/<path:filename>")
 def download_file(filename):
-    if '..' in filename:
+    if ".." in filename:
         abort(404)
-    return send_from_directory('./media/', filename, mimetype="application/octet-stream")
+    return send_from_directory(
+        "./media/", filename, mimetype="application/octet-stream"
+        )
 
 
-@app.route('/api/v1/comfort/pmv', methods=['GET'])
+@app.route("/api/v1/comfort/pmv", methods=["GET"])
 def api_id():
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.
     # If no ID is provided, display an error in the browser.
     try:
-        clo = float(request.args['clo'])
-        ta = float(request.args['ta'])
-        tr = float(request.args['tr'])
-        v = float(request.args['v'])
-        met = float(request.args['met'])
-        rh = float(request.args['rh'])
+        clo = float(request.args["clo"])
+        ta = float(request.args["ta"])
+        tr = float(request.args["tr"])
+        v = float(request.args["v"])
+        met = float(request.args["met"])
+        rh = float(request.args["rh"])
     except:
         return "Error: You did not provided all the input parameters"
 
@@ -45,32 +52,41 @@ def api_id():
     results = dict()
 
     value = pmv_ppd(ta, tr, v, rh, met, clo, wme=0, standard="ASHRAE")
-    results['data'] = []
-    results['data'].append(value)
-    results['message'] = "success"
+    results["data"] = []
+    results["data"].append(value)
+    results["message"] = "success"
 
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     return jsonify(results)
 
 
-# Upload page - The user can upload a csv with input environmental parameters and retruns a csv with indexes calculated
-@app.route('/upload')  # tutorial https://stackoverflow.com/questions/27628053/uploading-and-downloading-files-with-flask
+# Upload page - The user can upload a csv with input environmental parameters and
+# returns a csv with indexes calculated
+@app.route(
+    "/upload"
+    )  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
+# -downloading-files-with-flask
 def upload():
-    return render_template('upload.html')
+    return render_template("upload.html")
 
 
-# Upload page - The user can upload a csv with input environmental parameters and retruns a csv with indexes calculated
-@app.route('/other_tools')  # tutorial https://stackoverflow.com/questions/27628053/uploading-and-downloading-files-with-flask
+# Upload page - The user can upload a csv with input environmental parameters and
+# returns a csv with indexes calculated
+@app.route(
+    "/other_tools"
+    )  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
+# -downloading-files-with-flask
 def other_tools():
-    return render_template('other_tools.html')
+    return render_template("other_tools.html")
 
 
-# this function process the uploaded file and automatically downloads the file with the results
-@app.route('/transform', methods=["POST"])
+# this function process the uploaded file and automatically downloads the file with the
+# results
+@app.route("/transform", methods=["POST"])
 def transform_view():
-    # get the uploeded file
-    request_file = request.files['data_file']
+    # get the uploaded file
+    request_file = request.files["data_file"]
 
     # check file
     if not request_file:
@@ -79,63 +95,88 @@ def transform_view():
         return "The file format is not allowed. Please upload a csv"
 
     # read file
-    csv_file = TextIOWrapper(request_file, encoding='utf-8')
-    csv_reader = csv.DictReader(csv_file, delimiter=',')
-    fields = {'Air temperature': 'ta', 'MRT': 'tr', 'Air velocity': 'vel', 'Relative humidity': 'rh', 'Metabolic rate': 'met', 'Clothing level': 'clo'}
-    si_unit = True
-    if any([True for x in csv_reader.fieldnames if x.split(' [')[1] == 'F]']):
-        si_unit = False
-    csv_reader.fieldnames = [fields[x.split(' [')[0]] for x in csv_reader.fieldnames]
+    csv_file = TextIOWrapper(request_file, encoding="utf-8")
+    df = pd.read_csv(csv_file)
+    fields = {
+        "Air temperature": "ta",
+        "MRT": "tr",
+        "Air velocity": "vel",
+        "Relative humidity": "rh",
+        "Metabolic rate": "met",
+        "Clothing level": "clo",
+        }
+
+    si_unit = any([True if ("Air temperature" in x) and (x.split(" [")[1] == "C]") else False for x in df.columns])
+    df.columns = [fields[x.split(" [")[0]] if " [" in x else x for x in df.columns]
+
+    df["clo_dynamic"] = df.apply(
+        lambda row: clo_dynamic(clo=row["clo"], met=row["met"]), axis=1
+        )
+
     results = []
+    ta = df['ta'].values
+    tr = df['tr'].values
+    vel = df['vel'].values
+    rh = df['rh'].values
+    met = df['met'].values
+    clo = df['clo'].values
 
-    # calculated indexes and return file
-    for row in csv_reader:
-        for element in row.keys():
-            row[element] = float(row[element])
+    for ix in range(df.shape[0]):
         if si_unit:
-            vr = v_relative(v=row['vel'], met=row['met'])
-            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], standard="ashrae")
-            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
-            try:
-                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=row['vel'], rh=row['rh'], met=row['met'], clo=row['clo'])
-            except:
-                row['CE'] = ''
+            units = "SI"
+            _vr = v_relative(vel[ix], met[ix])
         else:
-            v = row['vel'] / 60
-            vr = v_relative(v=v * 0.3048, met=row['met']) * 3.28084
-            r = pmv_ppd(tdb=row['ta'], tr=row['tr'], vr=vr, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP", standard="ashrae")
-            row['SET'] = set_tmp(tdb=row['ta'], tr=row['tr'], v=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
-            try:
-                row['CE'] = cooling_effect(tdb=row['ta'], tr=row['tr'], vr=v, rh=row['rh'], met=row['met'], clo=row['clo'], units="IP")
-            except:
-                row['CE'] = ''
+            units = "IP"
+            _vr = v_relative(vel[ix] / 60 * 0.3048, met[ix]) * 3.28084
 
-        row['PMV'] = r['pmv']
-        row['PPD'] = r['ppd']
-        results.append(row)
+        try:
+            _set = set_tmp(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix], units=units)
+        except:
+            _set = ""
+        try:
+            _ce = cooling_effect(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
+                units=units)
+        except:
+            _ce = ""
+        try:
+            _pmv_ppd = pmv_ppd(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
+                standard="ashrae", units=units)
+            _pmv = _pmv_ppd['pmv']
+            _ppd = _pmv_ppd['ppd']
+        except:
+            _pmv, _ppd = ["", ""]
+        results.append({"pmv": _pmv, "ppd": _ppd, "ce": _ce, "vr": _vr, "set": _set})
 
-    return send_csv(results, "results.csv", list(row.keys()))
+    # split the pmv column in two since currently contains both pmv and ppd values
+    df_ = pd.DataFrame(results)
+    df = pd.concat([df, df_], axis=1, sort=False)
+    df["LEED compliance"] = [True if x < 10 else False for x in df.ppd]
+
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
 
 
-@app.route('/compare')
+@app.route("/compare")
 def compare():
-    return render_template('compare.html')
+    return render_template("compare.html")
 
 
-@app.route('/ranges')
+@app.route("/ranges")
 def ranges():
-    return render_template('ranges.html')
+    return render_template("ranges.html")
 
 
-@app.route('/EN')
-def EN():
-    return render_template('EN.html')
+@app.route("/EN")
+def en():
+    return render_template("en.html")
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("ashrae.html")
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=False)

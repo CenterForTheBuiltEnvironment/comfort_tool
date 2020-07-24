@@ -6,6 +6,7 @@
       "compare",
       "ranges",
       "upload",
+      "pmv",
       "ashrae55-references"
     ],
     "Changelog": [
