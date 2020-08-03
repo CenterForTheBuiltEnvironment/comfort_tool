@@ -92,43 +92,49 @@ let set_output_chart = new (function () {
             label: "Skin temperature",
             data: t_skin,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#556B2F",
+            borderColor: "#5e60ce",
             hidden: false,
+            yAxisID: "y",
           },
           {
             label: "Core temperature",
             data: t_core,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#9ACD32",
+            borderColor: "#4ea8de",
             hidden: false,
+            yAxisID: "y",
           },
           {
             label: "Clothing temperature",
             data: t_clo,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#008000",
+            borderColor: "#56cfe1",
             hidden: false,
+            yAxisID: "y",
           },
           {
             label: "Latent heat loss skin",
             data: q_lat_skin,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#8B4513",
+            borderColor: "#d6cfcb",
             hidden: false,
+            yAxisID: "y2",
           },
           {
             label: "Total skin heat loss",
             data: q_tot_skin,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#D2691E",
+            borderColor: "#ccb7ae",
             hidden: false,
+            yAxisID: "y2",
           },
           {
             label: "Heat loss respiration",
             data: q_resp,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#F4A460",
+            borderColor: "#a6808c",
             hidden: false,
+            yAxisID: "y2",
           },
           {
             label: "Skin wetness",
@@ -136,6 +142,7 @@ let set_output_chart = new (function () {
             backgroundColor: "rgba(255, 159, 64, 0)",
             borderColor: "#696969",
             hidden: false,
+            yAxisID: "y2",
           },
         ],
       },
@@ -150,9 +157,22 @@ let set_output_chart = new (function () {
         scales: {
           yAxes: [
             {
+              id: "y",
+              position: "left",
               scaleLabel: {
                 display: true,
-                labelString: "Value",
+                labelString: "Temperature [°C]",
+              },
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+            {
+              id: "y2",
+              position: "right",
+              scaleLabel: {
+                display: true,
+                labelString: "Heat Loss [W]",
               },
               ticks: {
                 beginAtZero: true,
