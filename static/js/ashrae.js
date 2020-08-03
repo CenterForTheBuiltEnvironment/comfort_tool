@@ -492,6 +492,7 @@ $("#model-type").change(function () {
     $("#pmv-out-label").html("PMV Adjusted");
   } else if (model === "adaptiveComfort") {
     $("#chartWrapper, #chart_heatLoss_div").hide();
+    $("#chartWrapperSet, #set_chart_div").hide();
     $(
       "#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput"
     ).hide();
@@ -518,6 +519,7 @@ $("#chartSelect").change(function () {
       $(
         "#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
       ).hide();
+      $("#chartWrapperSet, #set_chart_div").hide();
 
       $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
       $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
@@ -537,6 +539,7 @@ $("#chartSelect").change(function () {
       $(
         "#chartWrapper, #psychta-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
       ).hide();
+      $("#chartWrapperSet, #set_chart_div").hide();
 
       $("#db-axis-C-label").text("Operative Temperature [°C]");
       $("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -553,6 +556,7 @@ $("#chartSelect").change(function () {
     $(
       "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
     ).hide();
+    $("#chartWrapperSet, #set_chart_div").hide();
     if ($("#link").is(":checked")) {
       $("#labelforlink").show();
     } else {
@@ -568,6 +572,7 @@ $("#chartSelect").change(function () {
     $(
       "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div, #chart_heatLoss_div"
     ).hide();
+    $("#chartWrapperSet, #set_chart_div").hide();
     $("#link").is(":checked");
     $("#labelforlink").show();
     $("#ta-lab").html(
@@ -579,6 +584,22 @@ $("#chartSelect").change(function () {
   } else if (chart === "heatloss") {
     heatLoss_chart.draw(d);
     $("#chartWrapper, #chart_heatLoss_div").show();
+    $(
+      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
+    ).hide();
+    $("#chartWrapperSet, #set_chart_div").hide();
+    $("#link").is(":checked");
+    $("#tr-input, #tr-lab").show();
+    $("#ta-lab").html(
+      '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
+    );
+    $("#globeTemp").removeAttr("disabled");
+    $("#globeTmpLabel").removeClass("text-muted");
+    $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
+  } else if (chart === "set_chart") {
+    set_output_chart.draw(d);
+    $("#chartWrapperSet, #set_chart_div").show();
+    $("#chartWrapper, #chart_heatLoss_div").hide();
     $(
       "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
     ).hide();
@@ -683,6 +704,8 @@ function update() {
       vc.redrawPoint();
     } else if (selected_chart === "heatloss") {
       heatLoss_chart.update();
+    } else if (selected_chart === "set_chart") {
+      set_output_chart.update();
     }
   } else if (model === "adaptiveComfort") {
     r = comf.adaptiveComfortASH55(d.ta, d.tr, d.trm, d.vel_a);
