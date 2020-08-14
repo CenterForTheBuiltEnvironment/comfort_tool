@@ -662,7 +662,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
   r.q_lat_skin = ESK;
   r.q_tot_skin = HSK;
   r.q_resp = ERES;
-  r.skin_wet = PWET;
+  r.skin_wet = PWET * 100;
 
   return r;
 };
