@@ -8,16 +8,49 @@ let set_output_chart = new (function () {
     return ans;
   };
 
+  // Find max values from data, so at this point you should have values for:
+  const leftYMax = 40;
+  const rightYMax = 70;
+
+  // Amount of labels you want to see on y axis
+  const amountOfLabels = 10;
+
+  const newLeftYMax = calculateMax(amountOfLabels, leftYMax);
+  const leftYStep = newLeftYMax / amountOfLabels;
+
+  const newRightYMax = calculateMax(amountOfLabels, rightYMax);
+  const rightYStep = newRightYMax / amountOfLabels;
+
+  // Function for calculating new max
+  function calculateMax(amountOfLabels, max) {
+    // If max is divisible by amount of labels, then it's a perfect fit
+    if (max % amountOfLabels === 0) {
+      return max;
+    }
+    // If max is not divisible by amount of labels, let's find out how much there
+    // is missing from max so it could be divisible
+    const diffDivisibleByAmountOfLabels =
+      amountOfLabels - (max % amountOfLabels);
+
+    // Add missing value to max to get it divisible and achieve perfect fit
+    return max + diffDivisibleByAmountOfLabels;
+  }
+
   let ctx;
   let chartInstance;
 
   let ta,
     i,
     results,
+    t_set,
+    t_mean_body,
     t_skin,
     t_core,
     t_clo,
-    q_lat_skin,
+    q_tot_evap,
+    q_sweat_evap,
+    q_vap_diff,
+    q_tot_sensible,
     q_tot_skin,
     q_resp,
     skin_wet,
@@ -27,20 +60,30 @@ let set_output_chart = new (function () {
 
   // function that calculate the heat losses
   this.getData = function () {
+    t_set = [];
     t_skin = [];
     t_core = [];
     t_clo = [];
-    q_lat_skin = [];
+    t_mean_body = [];
+    q_tot_evap = [];
+    q_sweat_evap = [];
+    q_vap_diff = [];
+    q_tot_sensible = [];
     q_tot_skin = [];
     q_resp = [];
     skin_wet = [];
 
     for (i = 0; i < ta.length; i++) {
       results = comf.pierceSET(ta[i], d.tr, d.vel, d.rh, d.met, d.clo, d.wme);
+      t_set.push(results.set.toFixed(1));
       t_skin.push(results.t_skin.toFixed(1));
       t_core.push(results.t_core.toFixed(1));
       t_clo.push(results.t_clo.toFixed(1));
-      q_lat_skin.push(results.q_lat_skin.toFixed(1));
+      t_mean_body.push(results.t_mean_body.toFixed(1));
+      q_tot_evap.push(results.q_tot_evap.toFixed(1));
+      q_sweat_evap.push(results.q_sweat_evap.toFixed(1));
+      q_vap_diff.push(results.q_vap_diff.toFixed(1));
+      q_tot_sensible.push(results.q_tot_sensible.toFixed(1));
       q_tot_skin.push(results.q_tot_skin.toFixed(1));
       q_resp.push(results.q_resp.toFixed(1));
       skin_wet.push(results.skin_wet.toFixed(1));
@@ -51,13 +94,18 @@ let set_output_chart = new (function () {
   this.update = function () {
     this.getData();
 
-    chartInstance.data.datasets[0].data = t_skin;
-    chartInstance.data.datasets[1].data = t_core;
-    chartInstance.data.datasets[2].data = t_clo;
-    chartInstance.data.datasets[3].data = q_lat_skin;
-    chartInstance.data.datasets[4].data = q_tot_skin;
-    chartInstance.data.datasets[5].data = q_resp;
-    chartInstance.data.datasets[6].data = skin_wet;
+    chartInstance.data.datasets[0].data = t_set;
+    chartInstance.data.datasets[1].data = t_skin;
+    chartInstance.data.datasets[2].data = t_core;
+    chartInstance.data.datasets[3].data = t_clo;
+    chartInstance.data.datasets[4].data = t_mean_body;
+    chartInstance.data.datasets[5].data = q_tot_evap;
+    chartInstance.data.datasets[6].data = q_sweat_evap;
+    chartInstance.data.datasets[7].data = q_vap_diff;
+    chartInstance.data.datasets[8].data = q_tot_sensible;
+    chartInstance.data.datasets[9].data = q_tot_skin;
+    chartInstance.data.datasets[10].data = q_resp;
+    chartInstance.data.datasets[11].data = skin_wet;
 
     if (isCelsius) {
       chartInstance.data.labels = ta;
@@ -89,10 +137,18 @@ let set_output_chart = new (function () {
         labels: ta,
         datasets: [
           {
+            label: "SET temperature",
+            data: t_set,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#0D6EFC",
+            hidden: false,
+            yAxisID: "y",
+          },
+          {
             label: "Skin temperature",
             data: t_skin,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#5e60ce",
+            borderColor: "#0BBAD9",
             hidden: false,
             yAxisID: "y",
           },
@@ -100,7 +156,7 @@ let set_output_chart = new (function () {
             label: "Core temperature",
             data: t_core,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#4ea8de",
+            borderColor: "#00F0A4",
             hidden: false,
             yAxisID: "y",
           },
@@ -108,23 +164,55 @@ let set_output_chart = new (function () {
             label: "Clothing temperature",
             data: t_clo,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#56cfe1",
+            borderColor: "#0BD935",
             hidden: false,
             yAxisID: "y",
+          },
+          {
+            label: "Mean body temperature",
+            data: t_mean_body,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#55FA01",
+            hidden: true,
+            yAxisID: "y",
+          },
+          {
+            label: "Total skin evaporative heat loss",
+            data: q_tot_evap,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#999999",
+            hidden: true,
+            yAxisID: "y2",
+          },
+          {
+            label: "Sweat evaporation skin heat loss",
+            data: q_sweat_evap,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#FF9905",
+            hidden: true,
+            yAxisID: "y2",
+          },
+          {
+            label: "Vapour diffusion skin heat loss",
+            data: q_vap_diff,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#DB5200",
+            hidden: true,
+            yAxisID: "y2",
+          },
+          {
+            label: "Total sensible heat loss",
+            data: q_tot_sensible,
+            backgroundColor: "rgba(255, 159, 64, 0)",
+            borderColor: "#505050",
+            hidden: true,
+            yAxisID: "y2",
           },
           {
             label: "Total skin heat loss",
             data: q_tot_skin,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#0c4805",
-            hidden: false,
-            yAxisID: "y2",
-          },
-          {
-            label: "Latent heat loss skin",
-            data: q_lat_skin,
-            backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#2e8823",
+            borderColor: "#000000",
             hidden: false,
             yAxisID: "y2",
           },
@@ -132,16 +220,17 @@ let set_output_chart = new (function () {
             label: "Heat loss respiration",
             data: q_resp,
             backgroundColor: "rgba(255, 159, 64, 0)",
-            borderColor: "#4eb741",
+            borderColor: "#000000",
             hidden: false,
             yAxisID: "y2",
+            borderDash: [10, 5],
           },
           {
             label: "Skin wettedness",
             data: skin_wet,
             backgroundColor: "rgba(255, 159, 64, 0)",
             borderColor: "#ffcc00",
-            hidden: false,
+            hidden: true,
             yAxisID: "y2",
           },
         ],
@@ -165,6 +254,8 @@ let set_output_chart = new (function () {
               },
               ticks: {
                 beginAtZero: true,
+                max: newLeftYMax,
+                stepSize: leftYStep,
               },
             },
             {
@@ -176,6 +267,8 @@ let set_output_chart = new (function () {
               },
               ticks: {
                 beginAtZero: true,
+                max: newRightYMax,
+                stepSize: rightYStep,
               },
             },
           ],
