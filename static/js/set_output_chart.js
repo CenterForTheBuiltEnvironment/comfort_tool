@@ -201,7 +201,7 @@ let set_output_chart = new (function () {
             yAxisID: "y2",
           },
           {
-            label: "Total sensible heat loss",
+            label: "Total skin sensible heat loss",
             data: q_tot_sensible,
             backgroundColor: "rgba(255, 159, 64, 0)",
             borderColor: "#505050",
