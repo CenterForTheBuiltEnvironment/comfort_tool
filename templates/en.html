@@ -266,7 +266,6 @@
               <button id="setClo" class="col-sm-12">Set clo value</button>
             </div>
           </div>
-          <!--end div id="pmv-inputs"-->
 
           <div id="adaptive-inputs">
             <div class="row justify-content-between">
@@ -311,9 +310,7 @@
               </div>
             </div>
           </div>
-          <!--end div id="adaptive-inputs"-->
         </div>
-        <!--end div id="inputs"-->
 
         {# set of buttons at the bottom #}
         <div class="row justify-content-center mt-2">
@@ -388,7 +385,7 @@
       {# Show if the point is within the comfort region #}
       <div class="row justify-content-center">
         <div
-          class="alert alert-success py-1 text-center border-0 bg-white"
+          class="alert alert-success py-1 m-0 text-center border-0 bg-white"
           role="alert"
           id="output-b"
         >
@@ -439,7 +436,6 @@
                   </div>
                 </div>
               </div>
-              <!--id="pmv-outputs"-->
 
               <div
                 id="adaptive-outputs"
@@ -477,15 +473,13 @@
                   ></small>
                 </div>
               </div>
-              <!--id="adaptive-outputs"-->
             </form>
           </div>
         </div>
-        <!--id="output-a"-->
       </div>
 
       {# Chart selection #}
-      <div class="row center p-1 col-sm-6 mt-4" id="chartSelect-cont">
+      <div class="row center p-2 col-sm-8" id="chartSelect-cont">
         <select class="form-control" id="chartSelect">
           <option value="psychta">Psychrometric (air temperature)</option>
           <option value="psychtop"
@@ -522,7 +516,7 @@
         >
           <div class="card-body p-1 m-1" id="psychta-note">
             <p>
-              <b>NOTE:</b> In this
+              <strong>NOTE:</strong> In this
               <a
                 class="mainlink"
                 href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
@@ -550,7 +544,7 @@
           </div>
           <div class="card-body p-1 m-1" id="psychtop-note">
             <p>
-              <b>NOTE:</b> In this
+              <strong>NOTE:</strong> In this
               <a
                 class="mainlink"
                 href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
@@ -577,10 +571,10 @@
           </div>
           <div class="card-body p-1 m-1" id="temphum-note">
             <p>
-              <b>NOTE:</b> This chart represents only two variables, dry-bulb
-              temperature and relative humidity. The PMV calculations are still
-              based on all the psychrometric variables, but the visualization
-              becomes easier to understand.
+              <strong>NOTE:</strong> This chart represents only two variables,
+              dry-bulb temperature and relative humidity. The PMV calculations
+              are still based on all the psychrometric variables, but the
+              visualization becomes easier to understand.
             </p>
             <p>
               The CBE comfort tools automatically calculates the
@@ -603,7 +597,7 @@
         class="card align-content-center m-1 col-sm-12 border-0 footer"
       >
         <div class="card-boby p-1 m-1">
-          <b>NOTE:</b> Method is applicable only for buildings without
+          <strong>NOTE:</strong> Method is applicable only for buildings without
           mechanical cooling systems and where there is easy access to operable
           windows and occupants may freely adapt their clothing to the indoor
           and/or outdoor thermal conditions. The criteria for the spaces are the
@@ -613,7 +607,6 @@
         </div>
       </div>
     </div>
-    <!--id="right_content"-->
   </div>
 </div>
 

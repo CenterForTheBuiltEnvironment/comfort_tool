@@ -61,9 +61,9 @@ comf.calc_set_contours = function (still_air_threshold, clo) {
   var t_op_R = util.bisect(15, 40, fn, eps, 0.5);
 
   var rh_L = psy.convert(hr, t_op_L, "w", "rh");
-  var set0_L = comf.pierceSET(t_op_L, t_op_L, 0.1, rh_L, met, clo, 0);
+  var set0_L = comf.pierceSET(t_op_L, t_op_L, 0.1, rh_L, met, clo, 0).set;
   var rh_R = psy.convert(hr, t_op_R, "w", "rh");
-  var set0_R = comf.pierceSET(t_op_R, t_op_R, 0.1, rh_R, met, clo, 0);
+  var set0_R = comf.pierceSET(t_op_R, t_op_R, 0.1, rh_R, met, clo, 0).set;
 
   var a = {
     clo: clo,
@@ -76,7 +76,7 @@ comf.calc_set_contours = function (still_air_threshold, clo) {
     var vel_i = vel[i];
     var fn_set = function (t) {
       var rh = psy.convert(hr, t, "w", "rh");
-      var set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0);
+      var set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0).set;
       return set;
     };
 
@@ -127,8 +127,8 @@ comf.test = function () {
     1.9,
   ];
   for (var i = 0; i < met_values.length; i++) {
-    var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0); // not normal
-    //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0) // normal
+    var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0).set; // not normal
+    //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0).set // normal
   }
 };
 
@@ -196,7 +196,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
    */
   // returns pmv at elevated airspeed (> comf.still_air_threshold)
   var r = {};
-  var set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme);
+  var set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
   if (vel <= 0.2) {
     var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
     // var ta_adj = ta
@@ -216,7 +216,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
           met,
           clo,
           wme
-        )
+        ).set
       );
     };
     var ce = util.secant(ce_l, ce_r, fn, eps);
@@ -431,7 +431,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     DTSK,
     DTCR,
     ERSW,
-    X,
+    _set,
     X_OLD,
     CHCS,
     TIM,
@@ -648,11 +648,27 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
       W *
         HE_S *
         (PSSK - 0.5 * comf.FindSaturatedVaporPressureTorr(X_OLD + DELTA));
-    X = X_OLD - (DELTA * ERR1) / (ERR2 - ERR1);
-    dx = X - X_OLD;
-    X_OLD = X;
+    _set = X_OLD - (DELTA * ERR1) / (ERR2 - ERR1);
+    dx = _set - X_OLD;
+    X_OLD = _set;
   }
-  return X;
+
+  let r = {};
+
+  r.set = _set;
+  r.t_skin = TempSkin;
+  r.t_core = TempCore;
+  r.t_clo = TCL;
+  r.t_mean_body = TB;
+  r.q_tot_evap = ESK;
+  r.q_sweat_evap = ERSW;
+  r.q_vap_diff = EDIF;
+  r.q_tot_sensible = DRY;
+  r.q_tot_skin = HSK;
+  r.q_resp = ERES;
+  r.skin_wet = PWET * 100;
+
+  return r;
 };
 
 comf.schiavonClo = function (ta6) {
