@@ -71,7 +71,7 @@ $(document).ready(function () {
     });
   });
   $(
-    "#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #veltopchart-div"
+    "#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div"
   ).hide();
   window.isCelsius = true;
   window.humUnit = "rh";
@@ -517,7 +517,7 @@ $("#chartSelect").change(function () {
     if (chart === "psychta") {
       $("#psychta-note").show();
       $(
-        "#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
+        "#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
       ).hide();
       $("#chartWrapperSet, #set_chart_div").hide();
 
@@ -537,7 +537,7 @@ $("#chartSelect").change(function () {
     } else if (chart === "psychtop") {
       $("#psychtop-note").show();
       $(
-        "#chartWrapper, #psychta-note, #temphum-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
+        "#chartWrapper, #psychta-note, #temphum-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
       ).hide();
       $("#chartWrapperSet, #set_chart_div").hide();
 
@@ -554,7 +554,7 @@ $("#chartSelect").change(function () {
   } else if (chart === "temphum") {
     $("#temphumchart-div, #temphum-note").show();
     $(
-      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div, #chart_heatLoss_div"
+      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
     ).hide();
     $("#chartWrapperSet, #set_chart_div").hide();
     if ($("#link").is(":checked")) {
@@ -570,7 +570,7 @@ $("#chartSelect").change(function () {
   } else if (chart === "veltop") {
     $("#veltopchart-div, #veltop-note").show();
     $(
-      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div, #chart_heatLoss_div"
+      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #temphum-note, #set_chart_note, #heat_loss_pmv_chart_note, #temphumchart-div, #chart_heatLoss_div"
     ).hide();
     $("#chartWrapperSet, #set_chart_div").hide();
     $("#link").is(":checked");
@@ -583,9 +583,9 @@ $("#chartSelect").change(function () {
     $("#tr-input, #tr-lab, #labelforlink").hide();
   } else if (chart === "heatloss") {
     heatLoss_chart.draw(d);
-    $("#chartWrapper, #chart_heatLoss_div").show();
+    $("#chartWrapper, #chart_heatLoss_div, #heat_loss_pmv_chart_note").show();
     $(
-      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
+      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note, #set_chart_note"
     ).hide();
     $("#chartWrapperSet, #set_chart_div").hide();
     $("#link").is(":checked");
@@ -598,11 +598,11 @@ $("#chartSelect").change(function () {
     $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
   } else if (chart === "set_chart") {
     set_output_chart.draw(d);
-    $("#chartWrapperSet, #set_chart_div").show();
     $("#chartWrapper, #chart_heatLoss_div").hide();
     $(
-      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
+      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note, #heat_loss_pmv_chart_note"
     ).hide();
+    $("#chartWrapperSet, #set_chart_div, #set_chart_note").show();
     $("#link").is(":checked");
     $("#tr-input, #tr-lab").show();
     $("#ta-lab").html(
