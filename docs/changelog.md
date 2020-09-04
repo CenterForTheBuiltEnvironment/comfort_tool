@@ -4,6 +4,16 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.0.5 (2020-09-04)
+
+Features:
+
+- Fixed issues with calculation of outputs in the Upload tool and removed link to Codelab
+- Added SET chart, which displays SET outputs as a function of the inout variables selected
+- Added a note below SET chart
+- Added a note below PMV heat loss chart
+- Minor edits to the layout of the comfort tool  
+
 ## Version 2.0.4 (2020-07-17)
 
 Features:
