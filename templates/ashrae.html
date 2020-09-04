@@ -319,7 +319,6 @@
               </div>
             </div>
 
-            {# custom clothing button #}
             <div
               class="row justify-content-center mt-2 btn-group-toggle"
               data-toggle="buttons"
@@ -329,7 +328,6 @@
               </label>
             </div>
           </div>
-          <!--end div id="pmv-inputs"-->
 
           <div id="adaptive-inputs">
             <div class="row justify-content-between">
@@ -374,9 +372,7 @@
               </div>
             </div>
           </div>
-          <!--end div id="adaptive-inputs"-->
         </div>
-        <!--end div id="inputs"-->
 
         {# set of buttons at the bottom #}
         <div class="row justify-content-center mt-2">
@@ -502,7 +498,7 @@
       {# Show if the point is within the comfort region #}
       <div class="row justify-content-center">
         <div
-          class="alert alert-success py-1 text-center border-0 bg-white"
+          class="alert alert-success py-1 m-0 text-center border-0 bg-white"
           role="alert"
           id="output-b"
         >
@@ -575,7 +571,6 @@
                   </div>
                 </div>
               </div>
-              <!--id="pmv-outputs"-->
 
               <div id="pmv-elev-outputs">
                 <div class="form-row">
@@ -593,7 +588,6 @@
                   </div>
                 </div>
               </div>
-              <!--id="pmv-elev-outputs"-->
 
               <div
                 id="adaptive-outputs"
@@ -622,14 +616,13 @@
                   ></small>
                 </div>
               </div>
-              <!--id="adaptive-outputs"-->
             </form>
           </div>
         </div>
       </div>
 
       {# Chart selection #}
-      <div class="row center p-1 col-sm-6 mt-4" id="chartSelect-cont">
+      <div class="row center p-2 col-sm-8" id="chartSelect-cont">
         <select class="form-control" id="chartSelect">
           <option value="psychta">Psychrometric (air temperature)</option>
           <option value="psychtop"
@@ -662,7 +655,10 @@
 
       {# divider that contains the figures#}
       <div class="row justify-content-center">
-        <div style="margin-left: -15px;" id="chart-div"></div>
+        <div
+          style="margin-left: -15px; margin-top: -30px;"
+          id="chart-div"
+        ></div>
         <div style="margin-left: 10px;" id="temphumchart-div"></div>
         <div style="margin-left: 10px;" id="veltopchart-div"></div>
         <div style="margin-left: 20px;" id="chart-div-adaptive"></div>
@@ -688,7 +684,7 @@
         >
           <div class="card-body p-1 m-1" id="psychta-note">
             <p>
-              <b>NOTE:</b> In this
+              <strong>NOTE:</strong> In this
               <a
                 class="mainlink"
                 href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
@@ -703,9 +699,9 @@
               button, yet each point will have the same MRT.
             </p>
             <p>
-              <b>Limits of Applicability:</b> This standard is only applicable
-              to healthy men and women. This standard does not apply to
-              occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
+              <strong>Limits of Applicability:</strong> This standard is only
+              applicable to healthy individuals. This standard does not apply to
+              occupants: a) whose clothing insulation exceed 1.5 clo; b) whose
               clothing is highly impermeable; or c) who are sleeping, reclining
               in contact with bedding, or able to adjust blankets or bedding.
             </p>
@@ -725,7 +721,7 @@
           </div>
           <div class="card-body p-1 m-1" id="psychtop-note">
             <p>
-              <b>NOTE:</b> In this
+              <strong>NOTE:</strong> In this
               <a
                 class="mainlink"
                 href="http://en.wikipedia.org/wiki/Psychrometrics#Psychrometric_charts"
@@ -739,9 +735,9 @@
               according to the standard.
             </p>
             <p>
-              <b>Limits of Applicability:</b> This standard is only applicable
-              to healthy men and women. This standard does not apply to
-              occupant: a) whose clothing insulation exceed 1.5 clo; b) whose
+              <strong>Limits of Applicability:</strong> This standard is only
+              applicable to healthy individuals. This standard does not apply to
+              occupants: a) whose clothing insulation exceed 1.5 clo; b) whose
               clothing is highly impermeable; or c) who are sleeping, reclining
               in contact with bedding, or able to adjust blankets or bedding.
             </p>
@@ -761,10 +757,10 @@
           </div>
           <div class="card-body p-1 m-1" id="temphum-note">
             <p>
-              <b>NOTE:</b> This chart represents only two variables, dry-bulb
-              temperature and relative humidity. The PMV calculations are still
-              based on all the psychrometric variables, but the visualization
-              becomes easier to understand.
+              <strong>NOTE:</strong> This chart represents only two variables,
+              dry-bulb temperature and relative humidity. The PMV calculations
+              are still based on all the psychrometric variables, but the
+              visualization becomes easier to understand.
             </p>
             <p>
               The CBE comfort tools automatically calculates the
@@ -782,19 +778,19 @@
           </div>
           <div class="card-body p-1 m-1" id="veltop-note">
             <p>
-              <b>NOTE:</b> This chart represents only two variables, air speed
-              against operative temperature. The operative temperature for each
-              point is determined by dry-bulb temperature equals mean radiant
-              temperature (DBT = MRT). The calculation of PMV comfort zone is
-              based on all the psychrometric variables, with PMV values between
-              -0.5 and +0.5 according to the standard.
+              <strong>NOTE:</strong> This chart represents only two variables,
+              air speed against operative temperature. The operative temperature
+              for each point is determined by dry-bulb temperature equals mean
+              radiant temperature (DBT = MRT). The calculation of PMV comfort
+              zone is based on all the psychrometric variables, with PMV values
+              between -0.5 and +0.5 according to the standard.
             </p>
             <p>
-              <b>Limits of Applicability:</b> The elevated air speed comfort
-              zone method is to all spaces where the occupants have activity
-              levels between 1.0 and 2.0 met and clothing insulation between 0.0
-              and 1.5 clo. There is no upper limit to air speed if occupant's
-              total clothing > 0.7 clo and metabolic rate > 1.3 met.
+              <strong>Limits of Applicability:</strong> The elevated air speed
+              comfort zone method is to all spaces where the occupants have
+              activity levels between 1.0 and 2.0 met and clothing insulation
+              between 0.0 and 1.5 clo. There is no upper limit to air speed if
+              occupant's total clothing > 0.7 clo and metabolic rate > 1.3 met.
             </p>
             <p>
               The CBE comfort tools automatically calculates the
@@ -819,17 +815,16 @@
         class="card align-content-center m-1 col-sm-12 border-0 footer"
       >
         <div class="card-boby p-1 m-1">
-          <b>NOTE:</b> Method is applicable only for occupant-controlled
-          naturally conditioned spaces that meet all of the following criteria:
-          (a) There is no mechanical cooling system installed. No heating system
-          is in operation; (b) Metabolic rates ranging from 1.0 to 1.3 met; and
-          (c) Occupants are free to adapt their clothing to the indoor and/or
-          outdoor thermal conditions within a range at least as wide as 0.5-1.0
-          clo.
+          <strong>NOTE:</strong> Method is applicable only for
+          occupant-controlled naturally conditioned spaces that meet all of the
+          following criteria: (a) There is no mechanical cooling system
+          installed. No heating system is in operation; (b) Metabolic rates
+          ranging from 1.0 to 1.3 met; and (c) Occupants are free to adapt their
+          clothing to the indoor and/or outdoor thermal conditions within a
+          range at least as wide as 0.5-1.0 clo.
         </div>
       </div>
     </div>
-    <!--id="right_content"-->
   </div>
 </div>
 
