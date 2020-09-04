@@ -3,6 +3,7 @@
     "examples": "docusaurus-examples",
     "start": "docusaurus-start",
     "build": "docusaurus-build",
+    "update": "npm update docusaurus",
     "publish-gh-pages": "docusaurus-publish",
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
@@ -10,6 +11,6 @@
     "deploy": "yarn run build && cmd /C \"set GIT_USER=CenterForTheBuiltEnvironment&& set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages\""
   },
   "devDependencies": {
-    "docusaurus": "^1.14.4"
+    "docusaurus": "^1.14.6"
   }
 }
