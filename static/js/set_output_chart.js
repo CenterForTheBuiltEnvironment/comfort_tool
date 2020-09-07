@@ -8,33 +8,34 @@ let set_output_chart = new (function () {
     return ans;
   };
 
-  // Find max values from data, so at this point you should have values for:
-  const leftYMax = 40;
-  const rightYMax = 70;
+  // // Find max values from data, so at this point you should have values for:
+  // let leftYMax = 40;
+  // let leftYMin = 0;
+  // const rightYMax = 130;
+  //
+  // // Amount of labels you want to see on y axis
+  // const amountOfLabels = 10;
+  //
+  // let newLeftYMax = calculateMax(amountOfLabels, leftYMax);
+  // let leftYStep = newLeftYMax / amountOfLabels;
+  //
+  // const newRightYMax = calculateMax(amountOfLabels, rightYMax);
+  // const rightYStep = newRightYMax / amountOfLabels;
 
-  // Amount of labels you want to see on y axis
-  const amountOfLabels = 10;
-
-  const newLeftYMax = calculateMax(amountOfLabels, leftYMax);
-  const leftYStep = newLeftYMax / amountOfLabels;
-
-  const newRightYMax = calculateMax(amountOfLabels, rightYMax);
-  const rightYStep = newRightYMax / amountOfLabels;
-
-  // Function for calculating new max
-  function calculateMax(amountOfLabels, max) {
-    // If max is divisible by amount of labels, then it's a perfect fit
-    if (max % amountOfLabels === 0) {
-      return max;
-    }
-    // If max is not divisible by amount of labels, let's find out how much there
-    // is missing from max so it could be divisible
-    const diffDivisibleByAmountOfLabels =
-      amountOfLabels - (max % amountOfLabels);
-
-    // Add missing value to max to get it divisible and achieve perfect fit
-    return max + diffDivisibleByAmountOfLabels;
-  }
+  // // Function for calculating new max
+  // function calculateMax(amountOfLabels, max) {
+  //   // If max is divisible by amount of labels, then it's a perfect fit
+  //   if (max % amountOfLabels === 0) {
+  //     return max;
+  //   }
+  //   // If max is not divisible by amount of labels, let's find out how much there
+  //   // is missing from max so it could be divisible
+  //   const diffDivisibleByAmountOfLabels =
+  //     amountOfLabels - (max % amountOfLabels);
+  //
+  //   // Add missing value to max to get it divisible and achieve perfect fit
+  //   return max + diffDivisibleByAmountOfLabels;
+  // }
 
   let ctx;
   let chartInstance;
@@ -111,15 +112,46 @@ let set_output_chart = new (function () {
       chartInstance.data.labels = ta;
       chartInstance.options.scales.xAxes[0].scaleLabel.labelString =
         "Dry-bulb air temperature [°C]";
+      chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
+        "Dry-bulb air temperature [°C]";
+
+      // leftYMax = 40;
+      // leftYMin = 0;
     } else {
       xLabelF = [];
+      let t_set_F = [];
+      let t_skin_F = [];
+      let t_core_F = [];
+      let t_clo_F = [];
+      let t_mean_body_F = [];
       for (i = 0; i < ta.length; i++) {
         xLabelF.push(util.CtoF(ta[i]));
+        t_set_F.push(util.CtoF(chartInstance.data.datasets[0].data[i]));
+        t_skin_F.push(util.CtoF(chartInstance.data.datasets[1].data[i]));
+        t_core_F.push(util.CtoF(chartInstance.data.datasets[2].data[i]));
+        t_clo_F.push(util.CtoF(chartInstance.data.datasets[3].data[i]));
+        t_mean_body_F.push(util.CtoF(chartInstance.data.datasets[4].data[i]));
       }
       chartInstance.data.labels = xLabelF;
+      chartInstance.data.datasets[0].data = t_set_F;
+      chartInstance.data.datasets[1].data = t_skin_F;
+      chartInstance.data.datasets[2].data = t_core_F;
+      chartInstance.data.datasets[3].data = t_clo_F;
+      chartInstance.data.datasets[4].data = t_mean_body_F;
       chartInstance.options.scales.xAxes[0].scaleLabel.labelString =
         "Dry-bulb air temperature [°F]";
+      chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
+        "Dry-bulb air temperature [°F]";
+
+      // leftYMax = 100;
+      // leftYMin = 50;
     }
+
+    // newLeftYMax = calculateMax(amountOfLabels, leftYMax);
+    // leftYStep = newLeftYMax / amountOfLabels;
+    // chartInstance.options.scales.yAxes[0].ticks.max = newLeftYMax;
+    // chartInstance.options.scales.yAxes[0].ticks.min = leftYMin;
+    // chartInstance.options.scales.yAxes[0].ticks.stepSize = leftYStep;
 
     chartInstance.update();
   };
@@ -252,10 +284,13 @@ let set_output_chart = new (function () {
                 display: true,
                 labelString: "Temperature [°C]",
               },
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+              },
               ticks: {
-                beginAtZero: true,
-                max: newLeftYMax,
-                stepSize: leftYStep,
+                beginAtZero: false,
+                // max: newLeftYMax,
+                // stepSize: leftYStep,
               },
             },
             {
@@ -265,10 +300,13 @@ let set_output_chart = new (function () {
                 display: true,
                 labelString: "Heat Loss [W], Skin wettedness [%]",
               },
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+              },
               ticks: {
-                beginAtZero: true,
-                max: newRightYMax,
-                stepSize: rightYStep,
+                beginAtZero: false,
+                // max: newRightYMax,
+                // stepSize: rightYStep,
               },
             },
           ],
@@ -277,6 +315,9 @@ let set_output_chart = new (function () {
               scaleLabel: {
                 display: true,
                 labelString: "Dry-bulb air temperature [°C]",
+              },
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
               },
               ticks: {
                 autoSkip: true,
