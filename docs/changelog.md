@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.0.6 (2020-09-08)
+
+Features:
+
+- Fixed minor issue in the erf equation. Updated fp tables and E_diff equation.  
+
 ## Version 2.0.5 (2020-09-04)
 
 Features:
