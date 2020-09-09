@@ -108,36 +108,49 @@
   <body>
     {# Navigation bar #}
     <div class="container-flex bg-light border-bottom">
-      <div class="container bg-light">
-        <span style="font-size: 2rem; color: #0f75bb;"
-          ><img
-            alt="Center for the built environment logo"
-            src="static/img/CBE-logo-2018.png"
-            width="150"
-          />
-          Thermal Comfort Tool</span
-        >
-
-        <div class="topnav" id="mytopnav">
-          <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
-          <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
-          <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
-          <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
-          <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
-          <a
-            class="nav-link"
-            id="nav_a_help"
-            href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
-            >Help</a
-          >
-          <a class="nav-link" id="nav_a_other_tools" href="other_tools"
-            >Other CBE tools</a
-          >
-          <a class="nav_icon" onclick="myFunction()">
-            <span class="btn-line"></span>
-            <span class="btn-line"></span>
-            <span class="btn-line"></span>
+      <div class="container p-0">
+        <div class="d-flex align-items-center">
+          <a href="/">
+            <div>
+              <img
+                alt="Center for the built environment logo"
+                src="static/img/CBE-logo-2018.png"
+                width="200"
+                id="navCBELogo"
+              />
+            </div>
           </a>
+          <div class="d-flex flex-column w-100">
+            <div class="p-2">
+              <h4 class="m-0" style="color: #0f75bb;">
+                CBE Thermal Comfort Tool
+              </h4>
+            </div>
+            <div class="topnav" id="mytopnav">
+              <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
+              <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
+              <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
+              <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
+              <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
+              <a
+                class="nav-link"
+                id="nav_a_help"
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
+                >Help</a
+              >
+              <a
+                class="nav-link"
+                id="nav_a_other_tools"
+                href="https://cbe.berkeley.edu/resources/tools/"
+                >Other CBE tools</a
+              >
+              <a class="nav_icon" onclick="myFunction()">
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -218,15 +231,17 @@
           <div
             class="flex flex-column text-center justify-content-center col-xs-4 col-md-4 col-lg-2 mt-md-3 mt-lg-0"
           >
-            <img
-              alt="CBE logo"
-              src="static/img/footer-logo.png"
-              style="max-height: 45px;"
-            />
+            <a href="https://cbe.berkeley.edu"
+              ><img
+                alt="CBE logo"
+                src="static/img/footer-logo.png"
+                style="max-height: 45px;"
+            /></a>
             <br />
             <img
               alt="UC Berkeley logo"
               src="static/img/ucb-logo.png"
+              class="mt-2"
               style="max-height: 45px;"
             />
           </div>

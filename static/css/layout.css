@@ -91,7 +91,7 @@ a.mainlink:hover {
   float: left;
   display: block;
   text-align: center;
-  padding: 16px 16px;
+  padding: 0.5rem;
   text-decoration: none;
 }
 
@@ -107,7 +107,13 @@ a.mainlink:hover {
   background: black;
 }
 
-@media screen and (max-width: 800px) {
+@media (max-width: 576px) {
+  #navCBELogo {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
   .topnav a:not(:first-child) {
     display: none;
   }
