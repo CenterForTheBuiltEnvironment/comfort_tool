@@ -7,7 +7,7 @@ from flask import (
     abort,
     jsonify,
     make_response,
-    )
+)
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
 from pythermalcomfort.psychrometrics import v_relative, clo_dynamic
 import pandas as pd
@@ -30,7 +30,7 @@ def download_file(filename):
         abort(404)
     return send_from_directory(
         "./media/", filename, mimetype="application/octet-stream"
-        )
+    )
 
 
 @app.route("/api/v1/comfort/pmv", methods=["GET"])
@@ -45,7 +45,7 @@ def api_id():
         v = float(request.args["v"])
         met = float(request.args["met"])
         rh = float(request.args["rh"])
-    except:
+    except KeyError:
         return "Error: You did not provided all the input parameters"
 
     # Create an empty list for our results
@@ -65,7 +65,7 @@ def api_id():
 # returns a csv with indexes calculated
 @app.route(
     "/upload"
-    )  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
+)  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
 # -downloading-files-with-flask
 def upload():
     return render_template("upload.html")
@@ -75,7 +75,7 @@ def upload():
 # returns a csv with indexes calculated
 @app.route(
     "/other_tools"
-    )  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
+)  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
 # -downloading-files-with-flask
 def other_tools():
     return render_template("other_tools.html")
@@ -104,22 +104,27 @@ def transform_view():
         "Relative humidity": "rh",
         "Metabolic rate": "met",
         "Clothing level": "clo",
-        }
+    }
 
-    si_unit = any([True if ("Air temperature" in x) and (x.split(" [")[1] == "C]") else False for x in df.columns])
+    si_unit = any(
+        [
+            True if ("Air temperature" in x) and (x.split(" [")[1] == "C]") else False
+            for x in df.columns
+        ]
+    )
     df.columns = [fields[x.split(" [")[0]] if " [" in x else x for x in df.columns]
 
     df["clo_dynamic"] = df.apply(
         lambda row: clo_dynamic(clo=row["clo"], met=row["met"]), axis=1
-        )
+    )
 
     results = []
-    ta = df['ta'].values
-    tr = df['tr'].values
-    vel = df['vel'].values
-    rh = df['rh'].values
-    met = df['met'].values
-    clo = df['clo'].values
+    ta = df["ta"].values
+    tr = df["tr"].values
+    vel = df["vel"].values
+    rh = df["rh"].values
+    met = df["met"].values
+    clo = df["clo"].values
 
     for ix in range(df.shape[0]):
         if si_unit:
@@ -132,25 +137,35 @@ def transform_view():
         try:
             _set = set_tmp(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix], units=units)
         except:
-            _set = ""
+            _set = 9999
         try:
-            _ce = cooling_effect(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
-                units=units)
+            _ce = cooling_effect(
+                ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix], units=units
+            )
         except:
-            _ce = ""
+            _ce = 9999
         try:
-            _pmv_ppd = pmv_ppd(ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix],
-                standard="ashrae", units=units)
-            _pmv = _pmv_ppd['pmv']
-            _ppd = _pmv_ppd['ppd']
+            _pmv_ppd = pmv_ppd(
+                ta[ix],
+                tr[ix],
+                _vr,
+                rh[ix],
+                met[ix],
+                clo[ix],
+                standard="ashrae",
+                units=units,
+            )
+            _pmv = _pmv_ppd["pmv"]
+            _ppd = _pmv_ppd["ppd"]
         except:
-            _pmv, _ppd = ["", ""]
+            _pmv, _ppd = [9999, 9999]
         results.append({"pmv": _pmv, "ppd": _ppd, "ce": _ce, "vr": _vr, "set": _set})
 
     # split the pmv column in two since currently contains both pmv and ppd values
     df_ = pd.DataFrame(results)
     df = pd.concat([df, df_], axis=1, sort=False)
     df["LEED compliance"] = [True if x < 10 else False for x in df.ppd]
+    df.loc[df.ppd == 9999, ["pmv", "ppd", "ce", "LEED compliance"]] = None
 
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
