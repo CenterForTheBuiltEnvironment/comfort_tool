@@ -4,7 +4,7 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
-## Version 2.1.0 (2020-09-08)
+## Version 2.1.0 (2020-10-19)
 
 Features:
 
