@@ -194,17 +194,20 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
    * @param  {Number} wme     external work, [met]
    * @return {Class}  r       containing estimated parameters [PMV, PPD, Ta_adj, Tr_adj, cooling_effect, SET]
    */
-  // returns pmv at elevated airspeed (> comf.still_air_threshold)
-  var r = {};
-  var set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
-  if (vel <= 0.2) {
-    var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
-    // var ta_adj = ta
-    var ce = 0;
+  // returns pmv
+  let r = {};
+  let pmv, ce;
+  const set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
+
+  // do not use the elevated air speed model if v <= 0.1
+  if (vel <= 0.1) {
+    pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
+    ce = 0;
   } else {
     var ce_l = 0;
     var ce_r = 40;
     var eps = 0.001; // precision of ce
+
     var fn = function (ce) {
       return (
         set -
@@ -219,11 +222,14 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
         ).set
       );
     };
-    var ce = util.secant(ce_l, ce_r, fn, eps);
+
+    ce = util.secant(ce_l, ce_r, fn, eps);
+
     if (isNaN(ce)) {
       ce = util.bisect(ce_l, ce_r, fn, eps, 0);
     }
-    var pmv = comf.pmv(
+
+    pmv = comf.pmv(
       ta - ce,
       tr - ce,
       comf.still_air_threshold,
@@ -233,12 +239,15 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
       wme
     );
   }
+
+  // save the data to the object
   r.pmv = pmv.pmv;
   r.ppd = pmv.ppd;
   r.set = set;
   r.ta_adj = ta - ce;
   r.tr_adj = tr - ce;
   r.cooling_effect = ce;
+
   return r;
 };
 
@@ -252,7 +261,7 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme) {
   // clo, clothing (clo)
   // wme, external work, normally around 0 (met)
 
-  var pa,
+  let pa,
     icl,
     m,
     w,
@@ -343,17 +352,16 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme) {
   pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6);
   ppd = 100.0 - 95.0 * exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0));
 
-  var r = {};
-  r.pmv = pmv;
-  r.ppd = ppd;
-  r.hl1 = hl1;
-  r.hl2 = hl2;
-  r.hl3 = hl3;
-  r.hl4 = hl4;
-  r.hl5 = hl5;
-  r.hl6 = hl6;
-
-  return r;
+  return {
+    pmv: pmv,
+    ppd: ppd,
+    hl1: hl1,
+    hl2: hl2,
+    hl3: hl3,
+    hl4: hl4,
+    hl5: hl5,
+    hl6: hl6,
+  };
 };
 
 comf.FindSaturatedVaporPressureTorr = function (T) {

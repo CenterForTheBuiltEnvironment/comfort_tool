@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.0 (2020-09-08)
+
+Features:
+
+- Changed limit for elevated air speed calculation from 0.2 m/s to 0.1 m/s.  
+
 ## Version 2.0.6 (2020-09-08)
 
 Features:

@@ -232,7 +232,6 @@ pc.findRHcurve = function (d, pmvlimit, factor) {
 
   function rhclos(rhx, target) {
     return function (db) {
-      // return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv - target
       if ($("#chartSelect").val() === "psychtop") {
         return (
           comf.pmvElevatedAirspeed(db, db, d.vel, rhx, d.met, d.clo, 0).pmv -

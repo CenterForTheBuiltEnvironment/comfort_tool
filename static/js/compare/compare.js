@@ -604,7 +604,7 @@ function calcPmvElevCompliance(d, r, i) {
     comply = false;
   }
 
-  if (d.vel > 0.2) {
+  if (d.vel > 0.1) {
     $("#pmv-out-label").html("PMV with elevated air speed");
     $("#ppd-out-label").html("PPD with elevated air speed");
     $("#pmv-elev-outputs").show();
