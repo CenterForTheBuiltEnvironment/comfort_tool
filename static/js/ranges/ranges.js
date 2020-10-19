@@ -252,15 +252,14 @@ $("#humidity-spec").change(function () {
   var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
   var rh = parseFloat($("#rh").val());
   if (
-    !isCelsius &
-    ((window.humUnit == "wetbulb") | (window.humUnit == "dewpoint"))
+    !isCelsius & (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
   )
     rh = util.FtoC(rh);
-  if (window.humUnit == "vappress")
+  if (window.humUnit === "vappress")
     if (!isCelsius) rh *= 2953;
     else rh *= 1000;
 
-  if (v == "rh") {
+  if (v === "rh") {
     $("#rh").val(psy.convert(rh, ta, window.humUnit, "rh"));
     $("#rh-unit").html(" %");
     $("#rh").spinner({
@@ -334,7 +333,7 @@ $(".inputbox").keydown(function (event) {
   if (event.keyCode === 13) {
     var inputs = $(".inputbox:visible:enabled");
     var nextBox = inputs.index(this) + 1;
-    if (nextBox == inputs.length) nextBox = 0;
+    if (nextBox === inputs.length) nextBox = 0;
     inputs[nextBox].focus();
   }
 });
@@ -360,9 +359,9 @@ $("#tr-inputcell").click(function () {
   if (rangeYes) {
     if (rangefactor === "vel") {
       drawVELrange();
-    } else if (rangefactor == "met") {
+    } else if (rangefactor === "met") {
       drawMETrange();
-    } else if (rangefactor == "clo") {
+    } else if (rangefactor === "clo") {
       drawCLOrange();
     }
   }
@@ -396,9 +395,9 @@ $("#clo-inputcell").click(function () {
   if (rangeYes) {
     if (rangefactor === "vel") {
       drawVELrange();
-    } else if (rangefactor == "met") {
+    } else if (rangefactor === "met") {
       drawMETrange();
-    } else if (rangefactor == "tr") {
+    } else if (rangefactor === "tr") {
       drawTRrange();
     }
   }
@@ -455,7 +454,7 @@ $("#specPressure").click(function () {
         : "inches of mercury (inHg)"
     )
   );
-  if (customPressure != "" && customPressure != null) {
+  if (customPressure !== "" && customPressure != null) {
     customPressure = parseFloat(customPressure);
     if (!isCelsius) {
       customPressure *= 3386.39;
@@ -497,13 +496,13 @@ function toggleUnits() {
     });
 
     if (rangeYes) {
-      if (rangefactor == "tr") {
+      if (rangefactor === "tr") {
         $("#factor-output1, #factor-output2").each(function () {
           v = util.FtoC(parseFloat($(this).html()));
           $(this).html(v.toFixed(1));
         });
       }
-      if (rangefactor == "vel") {
+      if (rangefactor === "vel") {
         v1 = $("#factor-output1").html();
         $("#factor-output1").html((v1 / 196.9).toFixed(2));
         v2 = $("#factor-output2").html();
@@ -544,7 +543,7 @@ function toggleUnits() {
       $("#rh-unit").html(" &deg;C");
       v = util.FtoC($("#rh").val());
       $("#rh").val(v.toFixed(1));
-    } else if (hs == "vappress") {
+    } else if (hs === "vappress") {
       $("#rh-unit").html(" KPa");
       v = $("#rh").val() * 2.953;
       $("#rh").val(v.toFixed(2));
@@ -573,7 +572,7 @@ function toggleUnits() {
           $(this).html(v.toFixed(1));
         });
       }
-      if (rangefactor == "vel") {
+      if (rangefactor === "vel") {
         v1 = $("#factor-output1").html();
         $("#factor-output1").html((v1 * 196.9).toFixed(0));
         v2 = $("#factor-output2").html();
@@ -610,11 +609,11 @@ function toggleUnits() {
         "
     );
 
-    if (hs == "dewpoint" || hs == "wetbulb") {
+    if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit").html(" &deg;F");
       v = util.CtoF($("#rh").val());
       $("#rh").val(v.toFixed(1));
-    } else if (hs == "vappress") {
+    } else if (hs === "vappress") {
       $("#rh-unit").html(" in HG");
       v = $("#rh").val() / 2.953;
       $("#rh").val(v.toFixed(2));
@@ -668,24 +667,26 @@ function drawRange(factor, incr) {
 }
 
 function drawTRrange() {
+  let tr_incr;
   if (!isCelsius) {
-    var tr_incr =
+    tr_incr =
       (parseFloat(document.getElementById("step-select-tr").value) / 1.8) *
       1000;
   } else {
-    var tr_incr =
+    tr_incr =
       parseFloat(document.getElementById("step-select-tr").value) * 1000;
   }
   drawRange("tr", tr_incr);
 }
 
 function drawVELrange() {
+  let vel_incr;
   if (!isCelsius) {
-    var vel_incr =
+    vel_incr =
       (parseFloat(document.getElementById("step-select-vel").value) / 196.9) *
       1000;
   } else {
-    var vel_incr =
+    vel_incr =
       parseFloat(document.getElementById("step-select-vel").value) * 1000;
   }
   drawRange("vel", vel_incr);
@@ -719,27 +720,27 @@ function setFactors(factor) {
     d.ta = util.FtoC(d.ta);
     d.tr = util.FtoC(d.tr);
     d.vel /= 196.9;
-    if (factor == "tr") {
+    if (factor === "tr") {
       factor_1 = util.FtoC(
         parseFloat(document.getElementById(factor + "1").value)
       );
       factor_2 = util.FtoC(
         parseFloat(document.getElementById(factor + "2").value)
       );
-    } else if (factor == "vel") {
+    } else if (factor === "vel") {
       factor_1 =
         parseFloat(document.getElementById(factor + "1").value) / 196.9;
       factor_2 =
         parseFloat(document.getElementById(factor + "2").value) / 196.9;
-    } else if (factor == "met" || factor == "clo") {
+    } else if (factor === "met" || factor === "clo") {
       factor_1 = parseFloat(document.getElementById(factor + "1").value);
       factor_2 = parseFloat(document.getElementById(factor + "2").value);
     }
-    if (window.humUnit == "wetbulb" || window.humUnit == "dewpoint")
+    if (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
       d.rh = util.FtoC(d.rh);
-    else if (window.humUnit == "vappress") d.rh *= 2953;
+    else if (window.humUnit === "vappress") d.rh *= 2953;
   } else {
-    if (window.humUnit == "vappress") d.rh *= 1000;
+    if (window.humUnit === "vappress") d.rh *= 1000;
     factor_1 = parseFloat(document.getElementById(factor + "1").value);
     factor_2 = parseFloat(document.getElementById(factor + "2").value);
     setInputs();
@@ -766,11 +767,11 @@ function update() {
     d.tr = util.FtoC(d.tr);
     d.trm = util.FtoC(d.trm);
     d.vel /= 196.9;
-    if (window.humUnit == "wetbulb" || window.humUnit == "dewpoint")
+    if (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
       d.rh = util.FtoC(d.rh);
-    else if (window.humUnit == "vappress") d.rh *= 2953;
+    else if (window.humUnit === "vappress") d.rh *= 2953;
   } else {
-    if (window.humUnit == "vappress") d.rh *= 1000;
+    if (window.humUnit === "vappress") d.rh *= 1000;
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
