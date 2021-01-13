@@ -78,4 +78,4 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 
 
 ## Documentation
-To edit or generate new documentation please refer to the README.md file which is located in the website folder.
+To edit or generate new documentation please refer to the README.md file which is located in the `website` folder.

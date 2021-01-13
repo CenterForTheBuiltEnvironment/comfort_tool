@@ -42,7 +42,7 @@ function Help(props) {
         <div className="post">
           <h1>Authors</h1>
           <p>
-            This project is maintained by a group of researches at the Center
+            This project is maintained by a group of researchers at the Center
             for the Built Environment (CBE), University of California Berkeley
             (USA). This is a free tool and we have only limited ability to
             answer questions.

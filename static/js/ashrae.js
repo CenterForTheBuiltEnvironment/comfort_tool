@@ -511,16 +511,22 @@ $("#chartSelect").change(function () {
   const chart = $("#chartSelect").val();
   $("#output-b, #output-a, #ta-input, #ta-lab").show();
   $("#pmv-notes").show();
+
+  // hide all the divs and then later show only those who are necessary
+  $("#chartWrapper, #chartWrapperSet, #set_chart_div").hide();
+  $("#tr-input, #tr-lab, #labelforlink").hide();
+  $("#veltop-note").hide();
+  $("#psychta-note, #heat_loss_pmv_chart_note").hide();
+  $("#set_chart_note, #psychtop-note, #temphum-note").hide();
+  $("#chart_heatLoss_div").hide();
+  $(
+    "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
+  ).hide();
+
   if (chart === "psychta" || chart === "psychtop") {
     $("#chart-div").show();
-    $("#temphumchart-div, #veltopchart-div").hide();
     if (chart === "psychta") {
       $("#psychta-note").show();
-      $(
-        "#chartWrapper, #psychtop-note, #temphum-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
-      ).hide();
-      $("#chartWrapperSet, #set_chart_div").hide();
-
       $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
       $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
@@ -536,10 +542,6 @@ $("#chartSelect").change(function () {
       }
     } else if (chart === "psychtop") {
       $("#psychtop-note").show();
-      $(
-        "#chartWrapper, #psychta-note, #temphum-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
-      ).hide();
-      $("#chartWrapperSet, #set_chart_div").hide();
 
       $("#db-axis-C-label").text("Operative Temperature [°C]");
       $("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -549,14 +551,9 @@ $("#chartSelect").change(function () {
       );
       $("#globeTmpLabel").addClass("text-muted");
       $("#globeTemp").attr("disabled", "disabled");
-      $("#tr-input, #tr-lab, #labelforlink").hide();
     }
   } else if (chart === "temphum") {
     $("#temphumchart-div, #temphum-note").show();
-    $(
-      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div, #chart_heatLoss_div"
-    ).hide();
-    $("#chartWrapperSet, #set_chart_div").hide();
     if ($("#link").is(":checked")) {
       $("#labelforlink").show();
     } else {
@@ -569,10 +566,6 @@ $("#chartSelect").change(function () {
     }
   } else if (chart === "veltop") {
     $("#veltopchart-div, #veltop-note").show();
-    $(
-      "#chartWrapper, #chart-div, #psychta-note, #psychtop-note, #temphum-note, #set_chart_note, #heat_loss_pmv_chart_note, #temphumchart-div, #chart_heatLoss_div"
-    ).hide();
-    $("#chartWrapperSet, #set_chart_div").hide();
     $("#link").is(":checked");
     $("#labelforlink").show();
     $("#ta-lab").html(
@@ -580,14 +573,9 @@ $("#chartSelect").change(function () {
     );
     $("#globeTmpLabel").addClass("text-muted");
     $("#globeTemp").attr("disabled", "disabled");
-    $("#tr-input, #tr-lab, #labelforlink").hide();
   } else if (chart === "heatloss") {
     heatLoss_chart.draw(d);
     $("#chartWrapper, #chart_heatLoss_div, #heat_loss_pmv_chart_note").show();
-    $(
-      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note, #set_chart_note"
-    ).hide();
-    $("#chartWrapperSet, #set_chart_div").hide();
     $("#link").is(":checked");
     $("#tr-input, #tr-lab").show();
     $("#ta-lab").html(
@@ -598,10 +586,6 @@ $("#chartSelect").change(function () {
     $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
   } else if (chart === "set_chart") {
     set_output_chart.draw(d);
-    $("#chartWrapper, #chart_heatLoss_div").hide();
-    $(
-      "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note, #heat_loss_pmv_chart_note"
-    ).hide();
     $("#chartWrapperSet, #set_chart_div, #set_chart_note").show();
     $("#link").is(":checked");
     $("#tr-input, #tr-lab").show();
