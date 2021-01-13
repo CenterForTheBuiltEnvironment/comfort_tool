@@ -526,7 +526,7 @@ $("#chartSelect").change(function () {
   if (chart === "psychta" || chart === "psychtop") {
     $("#chart-div").show();
     if (chart === "psychta") {
-      $("#psychta-note").show();
+      $("#psychta-note, #pmv-notes").show();
       $("#db-axis-C-label").text("Dry-bulb Temperature [°C]");
       $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
@@ -541,7 +541,7 @@ $("#chartSelect").change(function () {
         $("#tr-input, #tr-lab, #labelforlink").show();
       }
     } else if (chart === "psychtop") {
-      $("#psychtop-note").show();
+      $("#psychtop-note, #pmv-notes").show();
 
       $("#db-axis-C-label").text("Operative Temperature [°C]");
       $("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -553,7 +553,7 @@ $("#chartSelect").change(function () {
       $("#globeTemp").attr("disabled", "disabled");
     }
   } else if (chart === "temphum") {
-    $("#temphumchart-div, #temphum-note").show();
+    $("#temphumchart-div, #temphum-note, #pmv-notes").show();
     if ($("#link").is(":checked")) {
       $("#labelforlink").show();
     } else {
@@ -565,7 +565,7 @@ $("#chartSelect").change(function () {
       $("#tr-input, #tr-lab, #labelforlink").show();
     }
   } else if (chart === "veltop") {
-    $("#veltopchart-div, #veltop-note").show();
+    $("#veltopchart-div, #veltop-note, #pmv-notes").show();
     $("#link").is(":checked");
     $("#labelforlink").show();
     $("#ta-lab").html(
