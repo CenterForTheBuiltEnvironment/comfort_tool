@@ -510,7 +510,7 @@ $("#model-type").change(function () {
 $("#chartSelect").change(function () {
   const chart = $("#chartSelect").val();
   $("#output-b, #output-a, #ta-input, #ta-lab").show();
-  $("#pmv-notes").show();
+  $("#pmv-notes, #local-control-div").show();
 
   // hide all the divs and then later show only those who are necessary
   $(
@@ -606,7 +606,7 @@ $("#chartSelect").change(function () {
     ).show();
     $("#link").is(":checked");
     $(
-      "#tr-input, #tr-lab, #select_comfort_model, #model-type, #rh_input"
+      "#tr-input, #tr-lab, #select_comfort_model, #model-type, #rh_input, #local-control-div"
     ).hide();
     $("#globeTemp").removeAttr("disabled");
     $("#globeTmpLabel").removeClass("text-muted");
