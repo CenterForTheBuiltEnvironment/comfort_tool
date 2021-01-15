@@ -12,37 +12,6 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports.comf = comf;
 }
 
-comf.validation_table = function () {
-  var cases = [
-    [25, 25, 0.15, 50, 1, 0.5],
-    [0, 25, 0.15, 50, 1, 0.5],
-    [10, 25, 0.15, 50, 1, 0.5],
-    [15, 25, 0.15, 50, 1, 0.5],
-    [20, 25, 0.15, 50, 1, 0.5],
-    [30, 25, 0.15, 50, 1, 0.5],
-    [40, 25, 0.15, 50, 1, 0.5],
-    [25, 25, 0.15, 10, 1, 0.5],
-    [25, 25, 0.15, 90, 1, 0.5],
-    [25, 25, 0.1, 50, 1, 0.5],
-    [25, 25, 0.6, 50, 1, 0.5],
-    [25, 25, 1.1, 50, 1, 0.5],
-    [25, 25, 3.0, 50, 1, 0.5],
-    [25, 10, 0.15, 50, 1, 0.5],
-    [25, 40, 0.15, 50, 1, 0.5],
-    [25, 25, 0.15, 50, 1, 0.1],
-    [25, 25, 0.15, 50, 1, 1],
-    [25, 25, 0.15, 50, 1, 2],
-    [25, 25, 0.15, 50, 1, 4],
-    [25, 25, 0.15, 50, 0.8, 0.5],
-    [25, 25, 0.15, 50, 2, 0.5],
-    [25, 25, 0.15, 50, 4, 0.5],
-  ];
-  for (var i = 0; i < cases.length; i++) {
-    var c = cases[i];
-    var s = comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
-  }
-};
-
 comf.calc_set_contours = function (still_air_threshold, clo) {
   comf.still_air_threshold = still_air_threshold;
   var hr = 0.01;
@@ -72,14 +41,14 @@ comf.calc_set_contours = function (still_air_threshold, clo) {
     contour_R: [],
   };
 
-  for (var i = 0; i < vel.length; i++) {
-    var vel_i = vel[i];
-    var fn_set = function (t) {
-      var rh = psy.convert(hr, t, "w", "rh");
-      var set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0).set;
-      return set;
-    };
+  var fn_set = function (t) {
+    var rh = psy.convert(hr, t, "w", "rh");
+    const set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0).set;
+    return set;
+  };
 
+  for (let i = 0; i < vel.length; i++) {
+    var vel_i = vel[i];
     var LL = util.bisect(15, 40, fn_set, eps, set0_L);
     var RR = util.bisect(15, 40, fn_set, eps, set0_R);
     a.contour_L.push(LL);
@@ -100,37 +69,6 @@ comf.go = function () {
 };
 
 comf.still_air_threshold = 0.1; // m/s
-
-comf.test = function () {
-  // reproduces the bug related to sweat saturation and heat loss from skin
-  met_values = [
-    1.7,
-    1.71,
-    1.72,
-    1.73,
-    1.74,
-    1.75,
-    1.76,
-    1.77,
-    1.78,
-    1.79,
-    1.8,
-    1.81,
-    1.82,
-    1.83,
-    1.84,
-    1.85,
-    1.86,
-    1.87,
-    1.88,
-    1.89,
-    1.9,
-  ];
-  for (var i = 0; i < met_values.length; i++) {
-    var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0).set; // not normal
-    //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0).set // normal
-  }
-};
 
 comf.between = function (x, l, r) {
   return x >= l && x <= r;
@@ -197,10 +135,10 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   // returns pmv at elevated airspeed (> comf.still_air_threshold)
   var r = {};
   var set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
+  let ce = 0;
+  let pmv;
   if (vel <= 0.2) {
-    var pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
-    // var ta_adj = ta
-    var ce = 0;
+    pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
   } else {
     var ce_l = 0;
     var ce_r = 40;
@@ -219,11 +157,11 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
         ).set
       );
     };
-    var ce = util.secant(ce_l, ce_r, fn, eps);
+    ce = util.secant(ce_l, ce_r, fn, eps);
     if (isNaN(ce)) {
       ce = util.bisect(ce_l, ce_r, fn, eps, 0);
     }
-    var pmv = comf.pmv(
+    pmv = comf.pmv(
       ta - ce,
       tr - ce,
       comf.still_air_threshold,
@@ -374,17 +312,13 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
    * @return {Number} X       SET temperature
    */
 
-  var TempSkinNeutral,
-    TempBodyNeutral,
-    SkinBloodFlowNeutral,
-    TempSkin,
+  let TempSkin,
     TempCore,
     SkinBloodFlow,
     MSHIV,
     ALFA,
     ESK,
     PressureInAtmospheres,
-    TIMEH,
     LTIME,
     DELTA,
     RCL,
@@ -395,7 +329,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     WCRIT,
     ICL,
     CHC,
-    CHCA,
     CHCV,
     CHR,
     CTC,
@@ -416,7 +349,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     COLDC,
     CRSIG,
     WARMB,
-    COLDB,
     REGSW,
     BDSIG,
     REA,
@@ -435,13 +367,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     X_OLD,
     CHCS,
     TIM,
-    STORE,
     HSK,
-    RN,
-    ECOMF,
-    EREQ,
-    HD,
-    HE,
     W,
     PSSK,
     CHRS,
@@ -458,21 +384,29 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     HD_S,
     HE_S;
 
-  var VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
-  var AirVelocity = max(vel, 0.1);
-  var KCLO = 0.25;
-  var BODYWEIGHT = 69.9;
-  var BODYSURFACEAREA = 1.8258;
-  var METFACTOR = 58.2;
-  var SBC = 0.000000056697; // Stefan-Boltzmann constant (W/m2K4)
-  var CSW = 170;
-  var CDIL = 120;
-  var CSTR = 0.5;
+  const VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
+  const AirVelocity = max(vel, 0.1);
+  const KCLO = 0.25;
+  const BODYWEIGHT = 69.9;
+  const BODYSURFACEAREA = 1.8258;
+  const METFACTOR = 58.2;
+  const SBC = 0.000000056697; // Stefan-Boltzmann constant (W/m2K4)
+  const CSW = 170;
+  const CDIL = 120;
+  const CSTR = 0.5;
 
-  TempSkinNeutral = 33.7; //setpoint (neutral) value for Tsk
-  TempCoreNeutral = 36.8; //setpoint value for Tcr
-  TempBodyNeutral = 36.49; //setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
-  SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
+  const TempSkinNeutral = 33.7; //setpoint (neutral) value for Tsk
+  const TempCoreNeutral = 36.8; //setpoint value for Tcr
+  const TempBodyNeutral = 36.49; //setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
+  const SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
+
+  // check if any max value was exceeded and thermal strain occurred
+  let ExcBloodFlow = false;
+  let ExcRegulatorySweating = false;
+  let ExcCriticalWettedness = false;
+
+  // function that check if all are false
+  let checker_false = (arr) => arr.every((v) => v === false);
 
   //INITIAL VALUES - start of 1st experiment
   TempSkin = TempSkinNeutral;
@@ -489,7 +423,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
 
   PressureInAtmospheres = p * 0.009869;
   LTIME = 60.0;
-  TIMEH = LTIME / 60.0;
   RCL = 0.155 * clo;
   // AdjustICL(RCL, Conditions);  TH: I don't think this is used in the software
 
@@ -559,12 +492,17 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     COLDC = (-1.0 * CRSIG > 0) * (-1.0 * CRSIG);
     BDSIG = TB - TempBodyNeutral;
     WARMB = (BDSIG > 0) * BDSIG;
-    COLDB = (-1.0 * BDSIG > 0) * (-1.0 * BDSIG);
     SkinBloodFlow = (SkinBloodFlowNeutral + CDIL * WARMC) / (1 + CSTR * COLDS);
-    if (SkinBloodFlow > 90.0) SkinBloodFlow = 90.0;
+    if (SkinBloodFlow > 90.0) {
+      SkinBloodFlow = 90.0;
+      ExcBloodFlow = true;
+    }
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;
     REGSW = CSW * WARMB * exp(WARMS / 10.7);
-    if (REGSW > 500.0) REGSW = 500.0;
+    if (REGSW > 500.0) {
+      REGSW = 500.0;
+      ExcRegulatorySweating = true;
+    }
     ERSW = 0.68 * REGSW;
     REA = 1.0 / (LR * FACL * CHC); //evaporative resistance of air layer
     RECL = RCL / (LR * ICL); //evaporative resistance of clothing (icl=.45)
@@ -574,20 +512,18 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     PRSW = ERSW / EMAX;
     PWET = 0.06 + 0.94 * PRSW;
     EDIF = PWET * EMAX - ERSW;
-    ESK = ERSW + EDIF;
     if (PWET > WCRIT) {
       PWET = WCRIT;
       PRSW = WCRIT / 0.94;
       ERSW = PRSW * EMAX;
       EDIF = 0.06 * (1.0 - PRSW) * EMAX;
-      ESK = ERSW + EDIF;
+      ExcCriticalWettedness = true;
     }
     if (EMAX < 0) {
       EDIF = 0;
       ERSW = 0;
       PWET = WCRIT;
       PRSW = WCRIT;
-      ESK = EMAX;
     }
     ESK = ERSW + EDIF;
     MSHIV = 19.4 * COLDS * COLDC;
@@ -596,16 +532,8 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
   }
 
   //Define new heat flow terms, coeffs, and abbreviations
-  STORE = M - wme - CRES - ERES - DRY - ESK; //rate of body heat storage
 
   HSK = DRY + ESK; //total heat loss from skin
-  RN = M - wme; //net metabolic heat production
-  ECOMF = 0.42 * (RN - 1 * METFACTOR);
-  if (ECOMF < 0.0) ECOMF = 0.0; //from Fanger
-  EREQ = RN - ERES - CRES - DRY;
-  EMAX = EMAX * WCRIT;
-  HD = 1.0 / (RA + RCL);
-  HE = 1.0 / (REA + RECL);
   W = PWET;
   PSSK = comf.FindSaturatedVaporPressureTorr(TempSkin);
   // Definition of ASHRAE standard environment... denoted "S"
@@ -667,6 +595,11 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
   r.q_tot_skin = HSK;
   r.q_resp = ERES;
   r.skin_wet = PWET * 100;
+  r.termal_strain = !checker_false([
+    ExcRegulatorySweating,
+    ExcBloodFlow,
+    ExcCriticalWettedness,
+  ]);
 
   return r;
 };
