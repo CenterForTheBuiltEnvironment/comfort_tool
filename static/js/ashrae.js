@@ -611,7 +611,7 @@ $("#chartSelect").change(function () {
     $("#globeTemp").removeAttr("disabled");
     $("#globeTmpLabel").removeClass("text-muted");
     $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
-    use_fans_heatwave.draw(d);
+    use_fans_heatwave_chart.draw(d);
     $("#vel").val(0.8);
   }
   update();
@@ -709,7 +709,7 @@ function update() {
     } else if (selected_chart === "set_chart") {
       set_output_chart.update();
     } else if (selected_chart === "use_fans_heatwave") {
-      use_fans_heatwave.update();
+      use_fans_heatwave_chart.update();
     }
   } else if (model === "adaptiveComfort") {
     r = comf.adaptiveComfortASH55(d.ta, d.tr, d.trm, d.vel_a);

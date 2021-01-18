@@ -1,4 +1,4 @@
-let use_fans_heatwave = new (function () {
+let use_fans_heatwave_chart = new (function () {
   // generate range of integers
   this.range = function (start, end) {
     let ans = [];
@@ -95,9 +95,10 @@ let use_fans_heatwave = new (function () {
 
     if (isCelsius) {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Operative air temperature [°C]";
+        "Air temperature [°C]";
 
       chartInstance.options.scales.yAxes[0].ticks.max = 55;
+      chartInstance.options.scales.yAxes[0].ticks.min = 30;
     } else {
       let t_a_heat_strain_F = [];
       let t_a_no_fans_F = [];
@@ -110,9 +111,10 @@ let use_fans_heatwave = new (function () {
       chartInstance.data.datasets[0].data = t_a_heat_strain_F;
       chartInstance.data.datasets[1].data = t_a_no_fans_F;
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Operative air temperature [°F]";
+        "Air temperature [°F]";
 
       chartInstance.options.scales.yAxes[0].ticks.max = 130;
+      chartInstance.options.scales.yAxes[0].ticks.min = 86;
     }
 
     chartInstance.update();
@@ -150,7 +152,7 @@ let use_fans_heatwave = new (function () {
             fill: 0,
           },
           {
-            label: "No fans",
+            label: "Heat strain - fan not beneficial",
             data: upper_area,
             backgroundColor: "#5E5E5E",
             borderColor: "#5E5E5E",
@@ -161,9 +163,41 @@ let use_fans_heatwave = new (function () {
         ],
       },
       options: {
+        tooltips: {
+          mode: "index",
+          intersect: false,
+          callbacks: {
+            label: function (tooltipItems, data) {
+              let unit;
+              if (isCelsius) {
+                unit = " °C";
+              } else {
+                unit = " °F";
+              }
+              chartInstance.options.title.text =
+                "rh = " +
+                (
+                  ((this._eventPosition.x - chartInstance.chartArea.left) /
+                    (chartInstance.chartArea.right -
+                      chartInstance.chartArea.left)) *
+                  100
+                ).toFixed(1) +
+                " %; t = " +
+                (
+                  ((this._eventPosition.y - chartInstance.chartArea.top) /
+                    (chartInstance.chartArea.bottom -
+                      chartInstance.chartArea.top)) *
+                    (chartInstance.options.scales.yAxes[0].ticks.min -
+                      chartInstance.options.scales.yAxes[0].ticks.max) +
+                  chartInstance.options.scales.yAxes[0].ticks.max
+                ).toFixed(1) +
+                unit;
+            },
+          },
+        },
         title: {
           display: true,
-          text: "",
+          text: "rh = %; t = °C",
         },
         legend: {
           position: "bottom",
@@ -175,7 +209,7 @@ let use_fans_heatwave = new (function () {
               position: "left",
               scaleLabel: {
                 display: true,
-                labelString: "Operative air temperature [°C]",
+                labelString: "Air temperature [°C]",
               },
               // stacked: true,
               gridLines: {
@@ -184,6 +218,7 @@ let use_fans_heatwave = new (function () {
               ticks: {
                 beginAtZero: false,
                 max: 55,
+                min: 30,
                 // stepSize: leftYStep,
               },
             },
@@ -201,9 +236,9 @@ let use_fans_heatwave = new (function () {
                 autoSkip: true,
                 maxRotation: 0,
                 minRotation: 0,
-                maxTicksLimit: 7,
-                min: 5,
-                max: 95,
+                min: 0,
+                max: 100,
+                maxTicksLimit: 11,
               },
             },
           ],
@@ -221,6 +256,13 @@ let use_fans_heatwave = new (function () {
         },
       },
     });
+
+    console.log(chartInstance.scales["x-axis-0"].min);
+    console.log(chartInstance.scales["x-axis-0"].max);
+    console.log(chartInstance.chartArea.top);
+    console.log(chartInstance.chartArea.bottom);
+    console.log(chartInstance.chartArea.left);
+    console.log(chartInstance.chartArea.right);
   };
 })();
 

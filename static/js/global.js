@@ -673,10 +673,10 @@ function toggleUnits() {
       );
     }
   }
-  pc.toggleUnits(isCelsius);
-  bc.toggleUnits(isCelsius);
-  ac.toggleUnits(isCelsius);
   try {
+    pc.toggleUnits(isCelsius);
+    bc.toggleUnits(isCelsius);
+    ac.toggleUnits(isCelsius);
     // only in the ASHRAE page has the speed chart
     vc.toggleUnits(isCelsius);
   } catch {}
