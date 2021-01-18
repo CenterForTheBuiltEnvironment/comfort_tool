@@ -71,7 +71,7 @@ $(document).ready(function () {
     });
   });
   $(
-    "#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #use_fans_heatwave_note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div"
+    "#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div"
   ).hide();
   window.isCelsius = true;
   window.humUnit = "rh";
@@ -492,7 +492,7 @@ $("#model-type").change(function () {
     $("#pmv-out-label").html("PMV Adjusted");
   } else if (model === "adaptiveComfort") {
     $("#chartWrapper, #chart_heatLoss_div").hide();
-    $("#chartWrapperSet, #set_chart_div, #use_fans_heatwave_div").hide();
+    $("#chartWrapperSet, #set_chart_div").hide();
     $(
       "#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput"
     ).hide();
@@ -510,20 +510,15 @@ $("#model-type").change(function () {
 $("#chartSelect").change(function () {
   const chart = $("#chartSelect").val();
   $("#output-b, #output-a, #ta-input, #ta-lab").show();
-  $("#pmv-notes, #local-control-div").show();
+  $("#pmv-notes").show();
 
   // hide all the divs and then later show only those who are necessary
-  $(
-    "#chartWrapper, #chartWrapperSet, #chartWrapperFansHeatwave, #set_chart_div, #use_fans_heatwave_div"
-  ).hide();
+  $("#chartWrapper, #chartWrapperSet, #set_chart_div").hide();
   $("#tr-input, #tr-lab, #labelforlink").hide();
   $("#veltop-note").hide();
   $("#psychta-note, #heat_loss_pmv_chart_note").hide();
-  $(
-    "#use_fans_heatwave_note, #set_chart_note, #psychtop-note, #temphum-note"
-  ).hide();
+  $("#set_chart_note, #psychtop-note, #temphum-note").hide();
   $("#chart_heatLoss_div").hide();
-  $("#select_comfort_model, #model-type, #rh_input").show();
   $(
     "#chart-div, #temphumchart-div, #veltopchart-div, #pmv-notes, #adaptive-note"
   ).hide();
@@ -600,19 +595,6 @@ $("#chartSelect").change(function () {
     $("#globeTemp").removeAttr("disabled");
     $("#globeTmpLabel").removeClass("text-muted");
     $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
-  } else if (chart === "use_fans_heatwave") {
-    $(
-      "#chartWrapperFansHeatwave, #use_fans_heatwave_div, #use_fans_heatwave_note"
-    ).show();
-    $("#link").is(":checked");
-    $(
-      "#tr-input, #tr-lab, #select_comfort_model, #model-type, #rh_input, #local-control-div"
-    ).hide();
-    $("#globeTemp").removeAttr("disabled");
-    $("#globeTmpLabel").removeClass("text-muted");
-    $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
-    use_fans_heatwave_chart.draw(d);
-    $("#vel").val(0.8);
   }
   update();
 });
@@ -708,8 +690,6 @@ function update() {
       heatLoss_chart.update();
     } else if (selected_chart === "set_chart") {
       set_output_chart.update();
-    } else if (selected_chart === "use_fans_heatwave") {
-      use_fans_heatwave_chart.update();
     }
   } else if (model === "adaptiveComfort") {
     r = comf.adaptiveComfortASH55(d.ta, d.tr, d.trm, d.vel_a);

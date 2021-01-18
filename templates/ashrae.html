@@ -54,10 +54,6 @@
 ></script>
 <script
   type="text/javascript"
-  src="{{ url_for('static', filename='js/use_fans_heatwaves/use_fans_heatwave_chart.js') }}"
-></script>
-<script
-  type="text/javascript"
   src="{{ url_for('static', filename='js/local-discomfort.js') }}"
 ></script>
 {#
@@ -638,7 +634,6 @@
             >Thermal heat losses vs. air temperature</option
           >
           <option value="set_chart">SET outputs chart</option>
-          <option value="use_fans_heatwave_chart">Use fans heatwave</option>
         </select>
       </div>
 
@@ -678,12 +673,6 @@
           style="position: relative; height: 500px; width: 500px;"
         >
           <canvas id="set_chart_div"></canvas>
-        </div>
-        <div
-          id="chartWrapperFansHeatwave"
-          style="position: relative; height: 500px; width: 500px;"
-        >
-          <canvas id="use_fans_heatwave_div"></canvas>
         </div>
       </div>
 
@@ -824,27 +813,6 @@
             calculated using the SET model, vary as a function of the input
             parameters you selected. You can toggle on and off the lines by
             clicking on the relative variable in the legend.
-          </p>
-        </div>
-        <div class="card-body px-5 py-3" id="use_fans_heatwave_note">
-          <p>
-            <strong>NOTE:</strong> This chart shows in light-blue the region in
-            which the use of fans is predicted to be beneficial and heat strain
-            should not occur in healthy adults. The dark-blue region depicts the
-            environmental conditions in which fans would still provide a
-            marginal benefit, when compared with the still air condition (v =
-            0.2 m/s), however, people should move to cooler spaces since the
-            model predict that they will be experiencing heat strain. In the
-            dark gray region electrical fans should not be used since they would
-            accelerate the onset of heat stroke.
-          </p>
-          <p>
-            These results were calculated used the Gagge et al. (1971) heat
-            balance model. Which is also used to estimate the Standard Effective
-            Temperature (SET). Results are applicable only to healthy adults
-            with no pre-existing conditions. Our tool do not provide medical
-            advice and it is intended for informational purpose only. It is not
-            a substitute for professional medical advice.
           </p>
         </div>
         <div class="card-body px-5 py-3" id="heat_loss_pmv_chart_note">
