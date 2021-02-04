@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.1 (2020-02-04)
+
+Fix:
+
+- Error calculation SHARP and solar altitude supine person.  
+
 ## Version 2.1.0 (2020-10-19)
 
 Features:
