@@ -9,6 +9,16 @@ function find_span(arr, x) {
   return -1;
 }
 
+function radians_to_degrees(radians) {
+  const pi = Math.PI;
+  return radians * (180 / pi);
+}
+
+function degrees_to_radians(degrees) {
+  const pi = Math.PI;
+  return degrees * (pi / 180);
+}
+
 function get_fp(alt, az, posture) {
   //  This function calculates the projected sunlit fraction (fp)
   //  given a seated or standing posture, a solar altitude, and a
@@ -58,9 +68,19 @@ function get_fp(alt, az, posture) {
 
   if (posture === "supine") {
     // transpose alt and az for a supine person
-    const alt_temp = alt;
-    alt = Math.abs(90 - az);
-    az = alt_temp;
+    const altitude_new = radians_to_degrees(
+      Math.asin(
+        Math.sin(degrees_to_radians(Math.abs(az - 90))) *
+          Math.cos(degrees_to_radians(alt))
+      )
+    );
+    az = radians_to_degrees(
+      Math.atan(
+        Math.sin(degrees_to_radians(az)) *
+          Math.tan(degrees_to_radians(90 - alt))
+      )
+    );
+    alt = altitude_new;
   }
 
   let fp;
