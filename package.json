@@ -1,0 +1,25 @@
+{
+  "name": "comfort_tool",
+  "version": "2.1.1",
+  "description": "A web interface for comfort model calculations and visualizations according to ASHRAE Standard-55, EN Standard 16798 and ISO Standard 7730.",
+  "main": "comfort.py",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CenterForTheBuiltEnvironment/comfort_tool.git"
+  },
+  "author": "Federico Tartarini",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/CenterForTheBuiltEnvironment/comfort_tool/issues"
+  },
+  "homepage": "https://github.com/CenterForTheBuiltEnvironment/comfort_tool#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
