@@ -27,30 +27,26 @@ $(document).ready(function () {
     update();
   };
 
-  cloInsulationTypicalEnsambles.forEach(function (element) {
-    cloSelect.options.add(new Option(element.clothing, element.clo));
-  });
+  populate_clo_dropdown();
 
   var cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
     cloMultiSelect.options.add(new Option(element.article, element.clo));
   });
 
-  var actSelect = document.getElementById("actSelect");
+  const actSelect = document.getElementById("actSelect");
   actSelect.onchange = function () {
     document.getElementById("met").value = actSelect.value;
     update();
   };
 
-  metRatesTypicalTasksASHRAE.forEach(function (element) {
-    actSelect.options.add(new Option(element.activity, element.met));
-  });
+  populate_met_dropdown(metRatesTypicalTasksASHRAE);
 
   var velaSelect = document.getElementById("vel_a");
 
   velaSelect.onchange = function () {
     update();
-    var coolingEffect;
+    let coolingEffect;
     if (d.vel_a === 0.3) {
       coolingEffect = 0;
     } else if (d.vel_a === 0.6) {

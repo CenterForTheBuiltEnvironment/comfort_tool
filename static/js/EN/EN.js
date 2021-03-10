@@ -13,21 +13,21 @@ $(document).ready(function () {
     document.getElementById("clo").value = cloSelect.value;
     update();
   };
-  cloInsulationTypicalEnsambles.forEach(function (element) {
-    cloSelect.options.add(new Option(element.clothing, element.clo));
-  });
+
+  populate_clo_dropdown();
+
   var cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
     cloMultiSelect.options.add(new Option(element.article, element.clo));
   });
-  var actSelect = document.getElementById("actSelect");
+
+  const actSelect = document.getElementById("actSelect");
   actSelect.onchange = function () {
     document.getElementById("met").value = actSelect.value;
     update();
   };
-  metRatesTypicalTasks.forEach(function (element) {
-    actSelect.options.add(new Option(element.activity, element.met));
-  });
+
+  populate_met_dropdown(metRatesTypicalTasks);
 
   $(function () {
     $(".multiselect").multiselect({

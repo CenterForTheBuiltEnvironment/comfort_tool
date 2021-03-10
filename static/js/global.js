@@ -501,7 +501,7 @@ let envVarLimits = {
   },
   clo: {
     step: 0.1,
-    default: 0.6,
+    default: 0.61, // this value needs to match one in the cloInsulationTypicalEnsambles
     min: 0,
     max: 4, // ISO imposes 2 and ASHRAE 1.5
   },
@@ -865,4 +865,26 @@ function change_humidity_selection() {
     });
   }
   window.humUnit = v;
+}
+
+function populate_clo_dropdown() {
+  const cloSelect = document.getElementById("cloSelect");
+  cloInsulationTypicalEnsambles.forEach(function (element) {
+    cloSelect.options.add(new Option(element.clothing, element.clo));
+  });
+  // select by default the value in the dropdown that matches the default value of clo
+  document.querySelector(
+    '#cloSelect [value="' + envVarLimits.clo.default + '"]'
+  ).selected = true;
+}
+
+function populate_met_dropdown(metRates) {
+  let actSelect = document.getElementById("actSelect");
+  metRates.forEach(function (element) {
+    actSelect.options.add(new Option(element.activity, element.met));
+  });
+  // select by default the value in the dropdown that matches the default value of met
+  document.querySelector(
+    '#actSelect [value="' + envVarLimits.met.default + '"]'
+  ).selected = true;
 }
