@@ -158,7 +158,7 @@ $(function () {
         "<option value='sel_t_mrt'>Mean radiant temperature</option>"
       );
 
-      if (!mrtValRow.is(":visible") && !(parameter === "sel_t_mrt")) {
+      if (!mrtValRow.is(":visible") && (parameter !== "sel_t_mrt")) {
         mrtValRow.show();
       }
     } else if (chart === "psychtop") {
@@ -477,6 +477,10 @@ $("#specPressure").click(function () {
 function toggleUnits() {
   var v;
   var hs = $("#humidity-spec").val();
+
+  const optionsAirSpeed = document.getElementById("step-select-vel");
+  const optionsMeanRadiantT = document.getElementById("step-select-tr");
+
   isCelsius = !isCelsius;
   if (isCelsius) {
     $(".tempunit").each(function () {
@@ -525,20 +529,15 @@ function toggleUnits() {
     v2 = $("#vel2").val();
     $("#vel2").val((v2 / 196.9).toFixed(2));
 
-    $("#step-select-vel").html(
-      "\
-            <option value='0.05'>0.05 m/s</option>\
-            <option value='0.1'>0.1 m/s</option>\
-            <option value='0.2'>0.2 m/s</option>\
-        "
-    );
-    $("#step-select-tr").html(
-      "\
-            <option value='0.5'>0.5 &deg;C</option>\
-            <option value='1'>1.0 &deg;C</option>\
-            <option value='1.5'>1.5 &deg;C</option>\
-        "
-    );
+    $("#step-select-vel").find("option").remove().end();
+    optionsAirSpeed.options.add(new Option("0.05 m/s", 0.05));
+    optionsAirSpeed.options.add(new Option("0.1 m/s", 0.1));
+    optionsAirSpeed.options.add(new Option("0.2 m/s", 0.2));
+
+    $("#step-select-tr").find("option").remove().end();
+    optionsMeanRadiantT.options.add(new Option("0.5 &deg;C", 0.5));
+    optionsMeanRadiantT.options.add(new Option("1.0 &deg;C", 1.0));
+    optionsMeanRadiantT.options.add(new Option("1.5 &deg;C", 1.5));
 
     if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit").html(" &deg;C");
@@ -595,20 +594,16 @@ function toggleUnits() {
     $("#vel1").val((v1 * 196.9).toFixed(0));
     v2 = $("#vel2").val();
     $("#vel2").val((v2 * 196.9).toFixed(0));
-    $("#step-select-vel").html(
-      "\
-            <option value='10'>10 fpm</option>\
-            <option value='20'>20 fpm</option>\
-            <option value='40'>40 fpm</option>\
-        "
-    );
-    $("#step-select-tr").html(
-      "\
-            <option value='1.0'>1.0 &deg;F</option>\
-            <option value='2.0'>2.0 &deg;F</option>\
-            <option value='3.0'>3.0 &deg;F</option>\
-        "
-    );
+
+    $("#step-select-vel").find("option").remove().end();
+    optionsAirSpeed.options.add(new Option("10 fpm", 10));
+    optionsAirSpeed.options.add(new Option("20 fpm", 20));
+    optionsAirSpeed.options.add(new Option("40 fpm", 40));
+
+    $("#step-select-tr").find("option").remove().end();
+    optionsMeanRadiantT.options.add(new Option("1.0 &deg;F", 1.0));
+    optionsMeanRadiantT.options.add(new Option("2.0 &deg;F", 2.0));
+    optionsMeanRadiantT.options.add(new Option("3.0 &deg;F", 3.0));
 
     if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit").html(" &deg;F");
@@ -787,8 +782,10 @@ function update() {
     console.log(d.clo);
   }
 
+  let b;
+
   if ($("#chart-div").is(":visible")) {
-    var b = pc.findComfortBoundary(d, 0.5);
+    b = pc.findComfortBoundary(d, 0.5);
     pc.redrawComfortRegion(b);
     var pointdata = [
       {
@@ -798,7 +795,7 @@ function update() {
     ];
     pc.redrawPoint(pointdata);
   } else if ($("#temphumchart-div").is(":visible")) {
-    var b = bc.findComfortBoundary(d, 0.5);
+    b = bc.findComfortBoundary(d, 0.5);
     bc.redrawComfortRegion(b);
     bc.redrawPoint();
   }
