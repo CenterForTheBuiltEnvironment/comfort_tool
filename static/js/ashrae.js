@@ -71,7 +71,7 @@ $(document).ready(function () {
   ).hide();
   window.isCelsius = true;
   window.humUnit = "rh";
-  setDefaults();
+  resetDefaultValues();
   update();
   bc.drawChart();
   let bound;
@@ -337,7 +337,7 @@ $("#unitsToggle").click(function () {
 });
 
 $("#setDefaults").click(function () {
-  setDefaults();
+  resetDefaultValues();
   update();
 });
 
@@ -659,7 +659,7 @@ function update() {
           "Please check that the value you entered are correct.\n" +
           "The input parameters has been set back to their default values."
       );
-      setDefaults();
+      resetDefaultValues();
     }
     renderPmvElevResults(r);
     calcPmvElevCompliance(d, r);
@@ -849,29 +849,6 @@ function renderCompliance(comply, special_msg) {
       .css({ color: "red" });
     $("#special-msg").html(special_msg);
   }
-}
-
-function setDefaults() {
-  if (!isCelsius) toggleUnits();
-  const hs = $("#humidity-spec").val();
-  let rh = psy.convert(50, 25, "rh", hs);
-  if (hs === "vappress") {
-    rh /= 1000;
-  }
-  const defaults = {
-    ta: envVarLimits.ta.si.default,
-    tr: envVarLimits.tr.si.default,
-    vel: envVarLimits.vel.si.default,
-    rh: rh.toFixed(psy.PREC[hs]),
-    met: envVarLimits.met.default,
-    clo: envVarLimits.clo.default,
-    trm: envVarLimits.trm.si.default,
-    vel_a: 0.3,
-  };
-
-  keys.forEach(function (element) {
-    document.getElementById(element).value = defaults[element];
-  });
 }
 
 // Set clo value created by the custom ensemble dialog

@@ -59,10 +59,10 @@ $(document).ready(function () {
   ).hide();
   window.isCelsius = true;
   window.humUnit = "rh";
-  setDefaults();
+  resetDefaultValues();
   update();
   bc.drawChart();
-  var bound = bc.findComfortBoundary(d, 0.5);
+  bc.findComfortBoundary(d, 0.5);
   enbc.drawComfortRegions(d);
   bc.drawPoint();
 
@@ -222,7 +222,7 @@ $("#unitsToggle").click(function () {
 });
 
 $("#setDefaults").click(function () {
-  setDefaults();
+  resetDefaultValues();
   update();
 });
 
@@ -316,7 +316,7 @@ $("#addToEnsembles").click(function () {
 $("#model-type").change(function () {
   $("#pmv-out-label").html("PMV");
   $("#localDisc").removeAttr("disabled");
-  model = $("#model-type").val();
+  const model = $("#model-type").val();
   if (model === "pmv") {
     $(
       "#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes"
@@ -444,7 +444,7 @@ function update() {
           "Please check that the value you entered are correct.\n" +
           "The input parameters has been set back to their default values."
       );
-      setDefaults();
+      resetDefaultValues();
     }
     renderPmvResults(r);
     calcPmvCompliance(d, r);
@@ -544,14 +544,12 @@ function renderAdaptiveResults(r) {
 }
 
 function calcPmvCompliance(d, r) {
-  var pmv_complyI = Math.abs(r.pmv) <= 0.2;
-  var pmv_complyII = Math.abs(r.pmv) <= 0.5;
-  var pmv_complyIII = Math.abs(r.pmv) <= 0.7;
-  var met_comply = d.met <= 4 && d.met >= 0.8;
-  var clo_comply = d.clo <= 2;
+  const pmv_complyIII = Math.abs(r.pmv) <= 0.7;
+  const met_comply = d.met <= 4 && d.met >= 0.8;
+  const clo_comply = d.clo <= 2;
 
   var special_msg = "";
-  comply = true;
+  let comply = true;
 
   if (!met_comply) {
     comply = false;
@@ -607,29 +605,6 @@ function renderCompliance(comply, special_msg) {
       .css({ color: "red" });
     $("#special-msg").html(special_msg);
   }
-}
-
-function setDefaults() {
-  if (!isCelsius) toggleUnits();
-  var hs = $("#humidity-spec").val();
-  var rh = psy.convert(50, 25, "rh", hs);
-  if (hs === "vappress") {
-    rh /= 1000;
-  }
-  var defaults = {
-    ta: 25,
-    tr: 25,
-    vel: 0.1,
-    rh: rh.toFixed(psy.PREC[hs]),
-    met: 1.1,
-    clo: 0.5,
-    trm: 24,
-    vel_a: 0.2,
-  };
-
-  keys.forEach(function (element) {
-    document.getElementById(element).value = defaults[element];
-  });
 }
 
 // Set clo value created by the custom ensemble dialog

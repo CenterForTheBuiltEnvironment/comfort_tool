@@ -38,7 +38,7 @@ $(document).ready(function () {
   window.humUnit = "rh";
   rangeYes = false;
 
-  setDefaults();
+  resetDefaultValues();
   update();
   pc.drawChart(d);
   bc.drawChart(d);
@@ -252,7 +252,8 @@ $("#humidity-spec").change(function () {
   var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
   var rh = parseFloat($("#rh").val());
   if (
-    !isCelsius & (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
+    !isCelsius &&
+    (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
   )
     rh = util.FtoC(rh);
   if (window.humUnit === "vappress")
@@ -421,7 +422,7 @@ $("#restart").click(function () {
   pc.removeRHcurve();
   bc.removeRHcurve();
 
-  setDefaults();
+  resetDefaultValues();
 
   $("#parameter_select").val("sel_t_mrt").change();
 
@@ -474,7 +475,7 @@ $("#specPressure").click(function () {
 });
 
 function toggleUnits() {
-  var v, el;
+  var v;
   var hs = $("#humidity-spec").val();
   isCelsius = !isCelsius;
   if (isCelsius) {
@@ -803,29 +804,8 @@ function update() {
   }
 }
 
-function setDefaults() {
-  if (!isCelsius) toggleUnits();
-  const hs = $("#humidity-spec").val();
-  let rh = psy.convert(50, 25, "rh", hs);
-  if (hs === "vappress") {
-    rh /= 1000;
-  }
-  const defaults = {
-    ta: envVarLimits.ta.si.default,
-    tr: envVarLimits.tr.si.default,
-    vel: envVarLimits.vel.si.default,
-    rh: rh.toFixed(psy.PREC[hs]),
-    met: envVarLimits.met.default,
-    clo: envVarLimits.met.default,
-  };
-
-  keys.forEach(function (element) {
-    document.getElementById(element).value = defaults[element];
-  });
-}
-
 function parameter_selection_change() {
-  setDefaults();
+  resetDefaultValues();
   const parameter = $("#parameter_select").val();
   const chart = $("#chartSelect").val();
   $(

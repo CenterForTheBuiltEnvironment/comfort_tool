@@ -888,3 +888,22 @@ function populate_met_dropdown(metRates) {
     '#actSelect [value="' + envVarLimits.met.default + '"]'
   ).selected = true;
 }
+
+function resetDefaultValues() {
+  if (!isCelsius) toggleUnits();
+
+  const defaults = {
+    ta: envVarLimits.ta.si.default,
+    tr: envVarLimits.tr.si.default,
+    vel: envVarLimits.vel.si.default,
+    rh: envVarLimits.rh.default,
+    met: envVarLimits.met.default,
+    clo: envVarLimits.clo.default,
+    trm: envVarLimits.trm.si.default,
+    vel_a: 0.2,
+  };
+
+  keys.forEach(function (element) {
+    document.getElementById(element).value = defaults[element];
+  });
+}
