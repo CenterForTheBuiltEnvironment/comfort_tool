@@ -158,7 +158,7 @@ $(function () {
         "<option value='sel_t_mrt'>Mean radiant temperature</option>"
       );
 
-      if (!mrtValRow.is(":visible") && (parameter !== "sel_t_mrt")) {
+      if (!mrtValRow.is(":visible") && parameter !== "sel_t_mrt") {
         mrtValRow.show();
       }
     } else if (chart === "psychtop") {
@@ -634,11 +634,11 @@ function drawRange(factor, incr) {
   var fakeFactor_1 = factor_1 * 1000;
   var fakeFactor_2 = factor_2 * 1000;
 
+  calculateRelativeAirSpeedAndClothing(factor);
+
   if (fakeFactor_1 < fakeFactor_2) {
     for (var x = fakeFactor_1; x <= fakeFactor_2; x += incr) {
       d[factor] = x / 1000;
-
-      calculateRelativeAirSpeedAndClothing(factor);
 
       var bound = pc.findComfortBoundary(d, 0.5);
       var bcBound = bc.convertBoundary(bound);
@@ -853,7 +853,7 @@ function calculateRelativeAirSpeedAndClothing(factor) {
     }
     // calculate relative air speed
     if (d.met > 1) {
-      d.vel = $("#vel").val() + 0.3 * (d.met - 1);
+      d.vel = parseFloat($("#vel").val()) + 0.3 * (d.met - 1);
     }
   }
 }
