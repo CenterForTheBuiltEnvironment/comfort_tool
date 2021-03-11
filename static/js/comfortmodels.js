@@ -12,46 +12,10 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports.comf = comf;
 }
 
-comf.validation_table = function () {
-  var cases = [
-    [25, 25, 0.15, 50, 1, 0.5],
-    [0, 25, 0.15, 50, 1, 0.5],
-    [10, 25, 0.15, 50, 1, 0.5],
-    [15, 25, 0.15, 50, 1, 0.5],
-    [20, 25, 0.15, 50, 1, 0.5],
-    [30, 25, 0.15, 50, 1, 0.5],
-    [40, 25, 0.15, 50, 1, 0.5],
-    [25, 25, 0.15, 10, 1, 0.5],
-    [25, 25, 0.15, 90, 1, 0.5],
-    [25, 25, 0.1, 50, 1, 0.5],
-    [25, 25, 0.6, 50, 1, 0.5],
-    [25, 25, 1.1, 50, 1, 0.5],
-    [25, 25, 3.0, 50, 1, 0.5],
-    [25, 10, 0.15, 50, 1, 0.5],
-    [25, 40, 0.15, 50, 1, 0.5],
-    [25, 25, 0.15, 50, 1, 0.1],
-    [25, 25, 0.15, 50, 1, 1],
-    [25, 25, 0.15, 50, 1, 2],
-    [25, 25, 0.15, 50, 1, 4],
-    [25, 25, 0.15, 50, 0.8, 0.5],
-    [25, 25, 0.15, 50, 2, 0.5],
-    [25, 25, 0.15, 50, 4, 0.5],
-  ];
-  for (var i = 0; i < cases.length; i++) {
-    var c = cases[i];
-    comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
-  }
-};
-
 comf.still_air_threshold = 0.1; // m/s
 
 comf.between = function (x, l, r) {
   return x >= l && x <= r;
-};
-
-comf.globeTemperature = function (tw, tr, ta) {
-  // calculate composite globe temperature
-  return 0.7 * tw + 0.2 * tr + 0.1 * ta;
 };
 
 comf.adaptiveComfortASH55 = function (ta, tr, runningMean, vel) {

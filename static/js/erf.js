@@ -160,6 +160,6 @@ function ERF(alt, az, posture, I_dir, t_sol, f_svv, f_bes, asa) {
   return { ERF: _ERF, dMRT: dMRT };
 }
 
-try {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { degrees_to_radians, radians_to_degrees, ERF };
-} catch (e) {}
+}
