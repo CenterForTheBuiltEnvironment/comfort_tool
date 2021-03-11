@@ -4,7 +4,18 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
-## Version 2.1.1 (2020-02-04)
+## Version 2.1.2 (2020-03-11)
+
+Fix:
+
+- Equation to calculate heat transfer coefficient SET equation.
+- Default value of clo and met dropdown now matches the default input value.
+
+Features:
+
+- Wrote testing for ERF, SET and PMV equations
+
+## Version 2.1.1 (2021-02-04)
 
 Fix:
 

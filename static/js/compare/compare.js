@@ -54,7 +54,15 @@ $(function () {
 
         pc.drawThings("1");
         bc.drawThings("1");
-        r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+        let r = comf.pmvElevatedAirspeed(
+          d.ta,
+          d.tr,
+          d.vel,
+          d.rh,
+          d.met,
+          d.clo,
+          0
+        );
         renderPmvElevResults(r, "1");
         calcPmvElevCompliance(d, r, "1");
       } else {
@@ -685,7 +693,7 @@ function setDefaults3() {
 }
 
 function toggleUnits() {
-  var v, v2, v3, el;
+  var v, v2, v3;
   var hs = $("#humidity-spec").val();
   isCelsius = !isCelsius;
   if (isCelsius) {
