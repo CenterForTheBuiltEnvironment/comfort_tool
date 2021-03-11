@@ -282,7 +282,7 @@ comf.FindSaturatedVaporPressureTorr = function (T) {
   return exp(18.6686 - 4030.183 / (T + 235.0));
 };
 
-comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = true) {
+comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
   /**
    * SET calculation using code provided in ASHRAE 55
    * @param  {Number} ta      dry bulb air temperature, [C]
