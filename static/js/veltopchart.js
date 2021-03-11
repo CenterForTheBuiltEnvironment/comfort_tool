@@ -274,7 +274,6 @@ var vc = new (function () {
       boundary.push(solve(0.1, pmvlimit));
       // with no occupants' air speed control
     } else {
-      // remove note
       d3.selectAll("#note").remove();
 
       // add left side comfort region
