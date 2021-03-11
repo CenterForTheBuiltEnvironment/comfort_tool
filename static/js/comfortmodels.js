@@ -420,7 +420,12 @@ comf.pierceSET = function (
     ICL = 0.45;
   }
 
-  const heatTransferConvMet = 5.66 * pow(met - 0.85, 0.39);
+  let heatTransferConvMet;
+  if (met < 0.85) {
+    heatTransferConvMet = 3.0;
+  } else {
+    heatTransferConvMet = 5.66 * pow(met - 0.85, 0.39);
+  }
   CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
   CHCV = 8.600001 * pow(AirVelocity * PressureInAtmospheres, 0.53);
   CHC = max(CHC, CHCV);
