@@ -43,94 +43,7 @@ comf.validation_table = function () {
   }
 };
 
-comf.calc_set_contours = function (still_air_threshold, clo) {
-  comf.still_air_threshold = still_air_threshold;
-  var hr = 0.01;
-  var met = 1.1;
-  var vel = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8];
-
-  // first, solve for t_op where pmv = -0.5 at still air;
-
-  var fn = function (t) {
-    var rh = psy.convert(hr, t, "w", "rh");
-    var pmv = comf.pmv(t, t, 0.1, rh, met, clo, 0);
-    return pmv.pmv;
-  };
-  var eps = 0.01;
-  var t_op_L = util.bisect(15, 40, fn, eps, -0.5);
-  var t_op_R = util.bisect(15, 40, fn, eps, 0.5);
-
-  var rh_L = psy.convert(hr, t_op_L, "w", "rh");
-  var set0_L = comf.pierceSET(t_op_L, t_op_L, 0.1, rh_L, met, clo, 0).set;
-  var rh_R = psy.convert(hr, t_op_R, "w", "rh");
-  var set0_R = comf.pierceSET(t_op_R, t_op_R, 0.1, rh_R, met, clo, 0).set;
-
-  var a = {
-    clo: clo,
-    still_air: still_air_threshold,
-    contour_L: [],
-    contour_R: [],
-  };
-
-  for (var i = 0; i < vel.length; i++) {
-    var vel_i = vel[i];
-    var fn_set = function (t) {
-      var rh = psy.convert(hr, t, "w", "rh");
-      var set = comf.pierceSET(t, t, vel_i, rh, met, clo, 0).set;
-      return set;
-    };
-
-    var LL = util.bisect(15, 40, fn_set, eps, set0_L);
-    var RR = util.bisect(15, 40, fn_set, eps, set0_R);
-    a.contour_L.push(LL);
-    a.contour_R.push(RR);
-  }
-  return a;
-};
-
-comf.go = function () {
-  var r = [];
-  r[0] = comf.calc_set_contours(0.1, 0.5);
-  r[1] = comf.calc_set_contours(0.1, 1.0);
-  r[2] = comf.calc_set_contours(0.15, 0.5);
-  r[3] = comf.calc_set_contours(0.15, 1.0);
-  r[4] = comf.calc_set_contours(0.2, 0.5);
-  r[5] = comf.calc_set_contours(0.2, 1.0);
-  return r;
-};
-
 comf.still_air_threshold = 0.1; // m/s
-
-comf.test = function () {
-  // reproduces the bug related to sweat saturation and heat loss from skin
-  met_values = [
-    1.7,
-    1.71,
-    1.72,
-    1.73,
-    1.74,
-    1.75,
-    1.76,
-    1.77,
-    1.78,
-    1.79,
-    1.8,
-    1.81,
-    1.82,
-    1.83,
-    1.84,
-    1.85,
-    1.86,
-    1.87,
-    1.88,
-    1.89,
-    1.9,
-  ];
-  for (var i = 0; i < met_values.length; i++) {
-    var x = comf.pierceSET(34, 34, 4, 80, met_values[i], 0.4, 0).set; // not normal
-    //var x = comf.pierceSET(34.08, 34.08, 4, 80, met_values[i], 0.4, 0).set // normal
-  }
-};
 
 comf.between = function (x, l, r) {
   return x >= l && x <= r;
@@ -392,6 +305,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme) {
     ALFA,
     ESK,
     PressureInAtmospheres,
+    TempCoreNeutral,
     TIMEH,
     LTIME,
     DELTA,
