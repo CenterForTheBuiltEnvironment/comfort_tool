@@ -39,7 +39,7 @@ comf.validation_table = function () {
   ];
   for (var i = 0; i < cases.length; i++) {
     var c = cases[i];
-    var s = comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
+    comf.pmvElevatedAirspeed(c[0], c[1], c[2], c[3], c[4], c[5], 0);
   }
 };
 
@@ -306,7 +306,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     ESK,
     PressureInAtmospheres,
     TempCoreNeutral,
-    TIMEH,
     LTIME,
     DELTA,
     RCL,
@@ -317,7 +316,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     WCRIT,
     ICL,
     CHC,
-    CHCA,
     CHCV,
     CHR,
     CTC,
@@ -338,7 +336,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     COLDC,
     CRSIG,
     WARMB,
-    COLDB,
     REGSW,
     BDSIG,
     REA,
@@ -357,13 +354,7 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     X_OLD,
     CHCS,
     TIM,
-    STORE,
     HSK,
-    RN,
-    ECOMF,
-    EREQ,
-    HD,
-    HE,
     W,
     PSSK,
     CHRS,
@@ -411,7 +402,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
 
   PressureInAtmospheres = p * 0.009869;
   LTIME = 60.0;
-  TIMEH = LTIME / 60.0;
   RCL = 0.155 * clo;
   // AdjustICL(RCL, Conditions);  TH: I don't think this is used in the software
 
@@ -481,7 +471,6 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     COLDC = (-1.0 * CRSIG > 0) * (-1.0 * CRSIG);
     BDSIG = TB - TempBodyNeutral;
     WARMB = (BDSIG > 0) * BDSIG;
-    COLDB = (-1.0 * BDSIG > 0) * (-1.0 * BDSIG);
     SkinBloodFlow = (SkinBloodFlowNeutral + CDIL * WARMC) / (1 + CSTR * COLDS);
     if (SkinBloodFlow > 90.0) SkinBloodFlow = 90.0;
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;
@@ -496,20 +485,17 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     PRSW = ERSW / EMAX;
     PWET = 0.06 + 0.94 * PRSW;
     EDIF = PWET * EMAX - ERSW;
-    ESK = ERSW + EDIF;
     if (PWET > WCRIT) {
       PWET = WCRIT;
       PRSW = WCRIT / 0.94;
       ERSW = PRSW * EMAX;
       EDIF = 0.06 * (1.0 - PRSW) * EMAX;
-      ESK = ERSW + EDIF;
     }
     if (EMAX < 0) {
       EDIF = 0;
       ERSW = 0;
       PWET = WCRIT;
       PRSW = WCRIT;
-      ESK = EMAX;
     }
     ESK = ERSW + EDIF;
     MSHIV = 19.4 * COLDS * COLDC;
@@ -518,16 +504,8 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
   }
 
   //Define new heat flow terms, coeffs, and abbreviations
-  STORE = M - wme - CRES - ERES - DRY - ESK; //rate of body heat storage
 
   HSK = DRY + ESK; //total heat loss from skin
-  RN = M - wme; //net metabolic heat production
-  ECOMF = 0.42 * (RN - 1 * METFACTOR);
-  if (ECOMF < 0.0) ECOMF = 0.0; //from Fanger
-  EREQ = RN - ERES - CRES - DRY;
-  EMAX = EMAX * WCRIT;
-  HD = 1.0 / (RA + RCL);
-  HE = 1.0 / (REA + RECL);
   W = PWET;
   PSSK = comf.FindSaturatedVaporPressureTorr(TempSkin);
   // Definition of ASHRAE standard environment... denoted "S"
