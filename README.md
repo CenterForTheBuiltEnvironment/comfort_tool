@@ -61,24 +61,7 @@ Note that whenever you want to run the tool, you have to activate the virtualenv
 
 We are using [Jest](https://jestjs.io/docs/en/getting-started.html) to test the JavaScript functions.
 
-Below an example of how to test an hypothetical function. First, create a `sum.js` file in `./Static/js` which contains the following code:
-
-```javascript
-function sum(a, b) {
-  return a + b;
-}
-module.exports = { sum };
-```
-
-Then, create a file named `sum.test.js`. This will contain our actual test:
-
-```javascript
-const sum = require('./sum');
-
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
-```
+If you want to find out more please read their official documentation or look at how we are testing the [ERF functions (file name erf.js)](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/blob/master/static/js/erf.js) using the test file `erf.test.js`.
 
 Finally run `npm run test`
 
@@ -113,4 +96,4 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 
 
 ## Documentation
-To edit or generate new documentation please refer to the README.md file which is located in the `website` folder.
+To edit or generate new documentation please refer to the [README.md](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/blob/master/website/README.md) file which is located in the `./website` folder.
