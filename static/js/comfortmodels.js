@@ -12,6 +12,22 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports.comf = comf;
 }
 
+comf.relativeAirSpeed = function (v, met) {
+  if (met > 1) {
+    return v + 0.3 * (met - 1);
+  } else {
+    return v;
+  }
+};
+
+comf.dynamicClothing = function (clo, met) {
+  if (met > 1.2) {
+    return clo * (0.6 + 0.4 / met);
+  } else {
+    return clo;
+  }
+};
+
 comf.still_air_threshold = 0.1; // m/s
 
 comf.between = function (x, l, r) {
@@ -74,11 +90,23 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   // returns pmv
   let r = {};
   let pmv, ce;
-  const set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
+  const relativeAirSpeed = comf.relativeAirSpeed(vel, met); // calculate relative air speed
+  const dynamicClothing = comf.dynamicClothing(clo, met); // dynamic clothing insulation
+  const set = comf.pierceSET(
+    ta,
+    tr,
+    relativeAirSpeed,
+    rh,
+    met,
+    dynamicClothing,
+    wme,
+    false,
+    true
+  ).set;
 
   // do not use the elevated air speed model if v <= 0.1
-  if (vel <= 0.1) {
-    pmv = comf.pmv(ta, tr, vel, rh, met, clo, wme);
+  if (relativeAirSpeed <= 0.1) {
+    pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, dynamicClothing, wme);
     ce = 0;
   } else {
     var ce_l = 0;
@@ -120,7 +148,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   // save the data to the object
   r.pmv = pmv.pmv;
   r.ppd = pmv.ppd;
-  r.set = set;
+  r.set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme).set;
   r.ta_adj = ta - ce;
   r.tr_adj = tr - ce;
   r.cooling_effect = ce;
@@ -128,7 +156,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   return r;
 };
 
-comf.pmv = function (ta, tr, vel, rh, met, clo, wme) {
+comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
   // returns [pmv, ppd]
   // ta, air temperature (°C)
   // tr, mean radiant temperature (°C)
@@ -246,7 +274,17 @@ comf.FindSaturatedVaporPressureTorr = function (T) {
   return exp(18.6686 - 4030.183 / (T + 235.0));
 };
 
-comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
+comf.pierceSET = function (
+  ta,
+  tr,
+  vel,
+  rh,
+  met,
+  clo,
+  wme = 0,
+  round = false,
+  calculateCE = false
+) {
   /**
    * SET calculation using code provided in ASHRAE 55
    * @param  {Number} ta      dry bulb air temperature, [C]
@@ -382,9 +420,13 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
     ICL = 0.45;
   }
 
+  const heatTransferConvMet = 5.66 * pow(met - 0.85, 0.39);
   CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
   CHCV = 8.600001 * pow(AirVelocity * PressureInAtmospheres, 0.53);
   CHC = max(CHC, CHCV);
+  if (!calculateCE) {
+    CHC = max(CHC, heatTransferConvMet);
+  }
 
   //initial estimate of Tcl
   CHR = 4.7;
@@ -474,12 +516,11 @@ comf.pierceSET = function (ta, tr, vel, rh, met, clo, wme = 0, round = false) {
   PSSK = comf.FindSaturatedVaporPressureTorr(TempSkin);
   // Definition of ASHRAE standard environment... denoted "S"
   CHRS = CHR;
-  if (met < 0.85) {
-    CHCS = 3.0;
-  } else {
-    CHCS = 5.66 * pow(met - 0.85, 0.39);
-    if (CHCS < 3.0) CHCS = 3.0;
+  CHCS = 3.0 * pow(PressureInAtmospheres, 0.53);
+  if (!calculateCE) {
+    CHCS = max(CHCS, heatTransferConvMet);
   }
+  if (CHCS < 3.0) CHCS = 3.0;
   CTCS = CHCS + CHRS;
   RCLOS = 1.52 / (met - wme / METFACTOR + 0.6944) - 0.1835;
   RCLS = 0.155 * RCLOS;

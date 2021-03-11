@@ -420,24 +420,31 @@ function update() {
     if (window.humUnit === "vappress") d.rh *= 1000;
   }
 
-  // calculate relative air speed
+  // calculate and display relative air speed
   if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
     vRelativeDiv.show();
     if (isCelsius) {
-      vRelativeValue.html(d.vel.toFixed(2));
+      vRelativeValue.html(comf.relativeAirSpeed(d.vel, d.met).toFixed(2));
     } else {
-      vRelativeValue.html((d.vel * 196).toFixed(2));
+      vRelativeValue.html(
+        (comf.relativeAirSpeed(d.vel, d.met) * 196).toFixed(2)
+      );
     }
   } else {
     vRelativeDiv.hide();
   }
 
-  // fixme implement the dynamic clothing insulation
-
   const model = document.getElementById("model-type").value;
   if (model === "pmv") {
-    r = comf.pmv(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+    r = comf.pmv(
+      d.ta,
+      d.tr,
+      comf.relativeAirSpeed(d.vel, d.met),
+      d.rh,
+      d.met,
+      comf.dynamicClothing(d.clo, d.met),
+      0
+    );
     if (isNaN(r.pmv)) {
       window.alert(
         "The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n" +

@@ -634,8 +634,6 @@ function drawRange(factor, incr) {
   var fakeFactor_1 = factor_1 * 1000;
   var fakeFactor_2 = factor_2 * 1000;
 
-  calculateRelativeAirSpeedAndClothing(factor);
-
   if (fakeFactor_1 < fakeFactor_2) {
     for (var x = fakeFactor_1; x <= fakeFactor_2; x += incr) {
       d[factor] = x / 1000;
@@ -771,17 +769,6 @@ function update() {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air speed
-  if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
-  }
-
-  // calculate adjusted clothing insulation
-  if (d.met > 1.2 && d.met < 2) {
-    d.clo = d.clo * (0.6 + 0.4 / d.met);
-    console.log(d.clo);
-  }
-
   let b;
 
   if ($("#chart-div").is(":visible")) {
@@ -832,28 +819,4 @@ function parameter_selection_change() {
     $("#mrt_val_row").hide();
   }
   update();
-}
-
-function calculateRelativeAirSpeedAndClothing(factor) {
-  if (factor === "vel") {
-    // calculate relative air speed
-    if (d.met > 1) {
-      d.vel = d.vel + 0.3 * (d.met - 1);
-    }
-    // calculate adjusted clothing insulation
-    if (d.met > 1.2 && d.met < 2) {
-      d.clo = $("#clo").val() * (0.6 + 0.4 / d.met);
-    }
-  }
-
-  if (factor === "clo") {
-    // calculate adjusted clothing insulation
-    if (d.met > 1.2 && d.met < 2) {
-      d.clo = d.clo * (0.6 + 0.4 / d.met);
-    }
-    // calculate relative air speed
-    if (d.met > 1) {
-      d.vel = parseFloat($("#vel").val()) + 0.3 * (d.met - 1);
-    }
-  }
 }

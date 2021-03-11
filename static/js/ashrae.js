@@ -273,17 +273,6 @@ $(function () {
     d["unit"] = isCelsius;
     const dataExport = d;
 
-    // calculate relative air speed
-    if (dataExport.met > 1) {
-      dataExport.vel = dataExport.vel - 0.3 * (dataExport.met - 1);
-    }
-
-    // calculate adjusted clothing insulation
-    if (dataExport.met > 1.2 && dataExport.met < 2) {
-      dataExport.clo = dataExport.clo / (0.6 + 0.4 / dataExport.met);
-      console.log(d.clo);
-    }
-
     dataExport.chartSelection = $("#chartSelect").val();
 
     const b64p = btoa(JSON.stringify(d));
@@ -625,24 +614,25 @@ function update() {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air speed
+  // calculate and display relative air speed
   if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
     vRelativeDiv.show();
     if (isCelsius) {
-      vRelativeValue.html(d.vel.toFixed(2));
+      vRelativeValue.html(comf.relativeAirSpeed(d.vel, d.met).toFixed(2));
     } else {
-      vRelativeValue.html((d.vel * 196).toFixed(2));
+      vRelativeValue.html(
+        (comf.relativeAirSpeed(d.vel, d.met) * 196).toFixed(2)
+      );
     }
   } else {
     vRelativeDiv.hide();
   }
 
-  // calculate adjusted clothing insulation
-  if (d.met > 1.2 && d.met < 2) {
-    d.clo = d.clo * (0.6 + 0.4 / d.met);
+  // fixme check that there is no need for upper met limit
+  // if (d.met > 1.2 && d.met < 2) {
+  if (d.met > 1.2) {
     dynamicCloDiv.show();
-    dynamicCloValue.html(d.clo.toFixed(2));
+    dynamicCloValue.html(comf.dynamicClothing(d.clo, d.met).toFixed(2));
   } else {
     dynamicCloDiv.hide();
   }
