@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.3 (2020-03-17)
+
+Features:
+
+- Changed compliance from ASHRAE 55 2017 to ASHRAE 55 2020
+
 ## Version 2.1.2 (2020-03-11)
 
 Fix:
