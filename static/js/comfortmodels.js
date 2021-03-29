@@ -374,7 +374,7 @@ comf.pierceSET = function (
     HE_S;
 
   var VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
-  var AirVelocity = max(vel, 0.1);
+  var AirSpeed = max(vel, 0.1);
   var KCLO = 0.25;
   var BODYWEIGHT = 69.9;
   var BODYSURFACEAREA = 1.8258;
@@ -413,10 +413,10 @@ comf.pierceSET = function (
   M = met * METFACTOR;
 
   if (clo <= 0) {
-    WCRIT = 0.38 * pow(AirVelocity, -0.29);
+    WCRIT = 0.38 * pow(AirSpeed, -0.29);
     ICL = 1.0;
   } else {
-    WCRIT = 0.59 * pow(AirVelocity, -0.08);
+    WCRIT = 0.59 * pow(AirSpeed, -0.08);
     ICL = 0.45;
   }
 
@@ -427,7 +427,7 @@ comf.pierceSET = function (
     heatTransferConvMet = 5.66 * pow(met - 0.85, 0.39);
   }
   CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
-  CHCV = 8.600001 * pow(AirVelocity * PressureInAtmospheres, 0.53);
+  CHCV = 8.600001 * pow(AirSpeed * PressureInAtmospheres, 0.53);
   CHC = max(CHC, CHCV);
   if (!calculateCE) {
     CHC = max(CHC, heatTransferConvMet);

@@ -236,8 +236,11 @@ $("#humidity-spec").change(function () {
   var ta1 = parseFloat($("#ta1").val());
   var ta2 = parseFloat($("#ta2").val());
   var ta3 = parseFloat($("#ta3").val());
-  if (!isCelsius)
-    (ta1 = util.FtoC(ta1)), (ta2 = util.FtoC(ta2)), (ta3 = util.FtoC(ta3));
+  if (!isCelsius) {
+    ta1 = util.FtoC(ta1);
+    ta2 = util.FtoC(ta2);
+    ta3 = util.FtoC(ta3);
+  }
   var maxVapPress1 = parseFloat(psy.satpress(ta1));
   var maxVapPress2 = parseFloat(psy.satpress(ta2));
   var maxVapPress3 = parseFloat(psy.satpress(ta3));
@@ -250,11 +253,21 @@ $("#humidity-spec").change(function () {
   if (
     !isCelsius &&
     (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
-  )
-    (rh1 = util.FtoC(rh1)), (rh2 = util.FtoC(rh2)), (rh3 = util.FtoC(rh3));
+  ) {
+    rh1 = util.FtoC(rh1);
+    rh2 = util.FtoC(rh2);
+    rh3 = util.FtoC(rh3);
+  }
   if (window.humUnit === "vappress")
-    if (!isCelsius) (rh1 *= 2953), (rh2 *= 2953), (rh3 *= 2953);
-    else (rh1 *= 1000), (rh2 *= 1000), (rh3 *= 1000);
+    if (!isCelsius) {
+      rh1 *= 2953;
+      rh2 *= 2953;
+      rh3 *= 2953;
+    } else {
+      rh1 *= 1000;
+      rh2 *= 1000;
+      rh3 *= 1000;
+    }
 
   if (v === "rh") {
     $("#rh-description").html("Relative humidity");
@@ -760,6 +773,11 @@ function toggleUnits() {
     $("#ta1, #tr1, #ta2, #tr2, #ta3, #tr3").each(function () {
       v = util.CtoF($(this).val());
       $(this).val(v.toFixed(1));
+      $(this).val(v.toFixed(1)).spinner({
+        step: envVarLimits.ta.ip.step,
+        min: envVarLimits.ta.ip.min,
+        max: envVarLimits.ta.ip.max,
+      });
     });
     $(".vel-unit").html(" fpm");
     v = $("#vel1").val();

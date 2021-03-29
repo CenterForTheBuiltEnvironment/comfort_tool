@@ -351,7 +351,7 @@ $(".inputbox").click(function () {
 
 $("#rh-inputcell").click(function () {
   if (rangeYes) {
-    pc.redrawRHcurve();
+    pc.redrawRHCurve();
     bc.redrawRHcurve();
   }
 });
@@ -419,7 +419,7 @@ $("#restart").click(function () {
   $("#output-ranges").hide();
   // $('.inputfield').css('background-color', '#DCE7F7');
   $("#ta-lab, #inputfield-ta").css("visibility", "visible");
-  pc.removeRHcurve();
+  pc.removeRHCurve();
   bc.removeRHcurve();
 
   resetDefaultValues();
@@ -483,6 +483,7 @@ function toggleUnits() {
 
   isCelsius = !isCelsius;
   if (isCelsius) {
+    $(".t-unit").html(" &deg;C");
     $(".tempunit").each(function () {
       $(this).html(" &deg;C");
     });
@@ -646,9 +647,9 @@ function drawRange(factor, incr) {
 
     last_value = (x - incr) / 1000;
 
-    var curve = pc.findRHcurve(d, 0.5, factor);
+    var curve = pc.findRHCurve(d, 0.5, factor);
     var line = bc.findRHcurve(d, 0.5, factor);
-    pc.drawRHcurve(curve);
+    pc.drawRHCurve(curve);
     bc.drawRHcurve(line);
 
     $("#output-ranges").show();
@@ -744,7 +745,7 @@ function setFactors(factor) {
 
 function removeRanges() {
   d3.selectAll("path.comfortzone-range").remove();
-  pc.removeRHcurve();
+  pc.removeRHCurve();
   d3.selectAll("path.comfortzone-temphum-range").remove();
   bc.removeRHcurve();
 }
