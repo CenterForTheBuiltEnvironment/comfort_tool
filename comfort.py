@@ -100,7 +100,7 @@ def transform_view():
     fields = {
         "Air temperature": "ta",
         "MRT": "tr",
-        "Air velocity": "vel",
+        "Air speed": "vel",
         "Relative humidity": "rh",
         "Metabolic rate": "met",
         "Clothing level": "clo",

@@ -1,4 +1,4 @@
-Air temperature [F],MRT [F],Air velocity [fpm],Relative humidity [%],Metabolic rate [met],Clothing level [clo]
+Air temperature [F],MRT [F],Air speed [fpm],Relative humidity [%],Metabolic rate [met],Clothing level [clo]
 77,77,29.5,50,1.0,0.5
 32,77,29.5,50,1.0,0.5
 50,77,29.5,50,1.0,0.5
