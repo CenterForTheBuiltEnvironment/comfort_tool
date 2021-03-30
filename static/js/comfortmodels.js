@@ -92,48 +92,21 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   let pmv, ce;
   const relativeAirSpeed = comf.relativeAirSpeed(vel, met); // calculate relative air speed
   const dynamicClothing = comf.dynamicClothing(clo, met); // dynamic clothing insulation
-  const set = comf.pierceSET(
-    ta,
-    tr,
-    relativeAirSpeed,
-    rh,
-    met,
-    dynamicClothing,
-    wme,
-    false,
-    true
-  ).set;
 
   // do not use the elevated air speed model if v <= 0.1
   if (relativeAirSpeed <= 0.1) {
     pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, dynamicClothing, wme);
     ce = 0;
   } else {
-    var ce_l = 0;
-    var ce_r = 40;
-    var eps = 0.001; // precision of ce
-
-    var fn = function (ce) {
-      return (
-        set -
-        comf.pierceSET(
-          ta - ce,
-          tr - ce,
-          comf.still_air_threshold,
-          rh,
-          met,
-          clo,
-          wme
-        ).set
-      );
-    };
-
-    ce = util.secant(ce_l, ce_r, fn, eps);
-
-    if (isNaN(ce)) {
-      ce = util.bisect(ce_l, ce_r, fn, eps, 0);
-    }
-
+    ce = comf.cooling_effect(
+      ta,
+      tr,
+      relativeAirSpeed,
+      rh,
+      met,
+      dynamicClothing,
+      wme
+    );
     pmv = comf.pmv(
       ta - ce,
       tr - ce,
@@ -154,6 +127,44 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   r.cooling_effect = ce;
 
   return r;
+};
+
+comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
+  const ce_l = 0;
+  const ce_r = 40;
+  const eps = 0.001; // precision of ce
+  let ce;
+
+  if (vel <= 0.1) {
+    return 0;
+  }
+
+  const set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme, false, true).set;
+
+  var fn = function (ce) {
+    return (
+      set -
+      comf.pierceSET(
+        ta - ce,
+        tr - ce,
+        comf.still_air_threshold,
+        rh,
+        met,
+        clo,
+        wme,
+        false,
+        true
+      ).set
+    );
+  };
+
+  ce = util.secant(ce_l, ce_r, fn, eps);
+
+  if (isNaN(ce)) {
+    ce = util.bisect(ce_l, ce_r, fn, eps, 0);
+  }
+
+  return ce;
 };
 
 comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
@@ -308,9 +319,9 @@ comf.pierceSET = function (
     ESK,
     PressureInAtmospheres,
     TempCoreNeutral,
-    LTIME,
+    LTime,
     DELTA,
-    RCL,
+    RCl,
     FACL,
     LR,
     RM,
@@ -384,9 +395,9 @@ comf.pierceSET = function (
   var CDIL = 120;
   var CSTR = 0.5;
 
-  TempSkinNeutral = 33.7; //setpoint (neutral) value for Tsk
-  TempCoreNeutral = 36.8; //setpoint value for Tcr
-  TempBodyNeutral = 36.49; //setpoint for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
+  TempSkinNeutral = 33.7; // set point (neutral) value for Tsk
+  TempCoreNeutral = 36.8; // set point value for Tcr
+  TempBodyNeutral = 36.49; // set point for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
   SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
 
   //INITIAL VALUES - start of 1st experiment
@@ -397,20 +408,15 @@ comf.pierceSET = function (
   ALFA = 0.1;
   ESK = 0.1 * met;
 
-  //Start new experiment here (for graded experiments)
-  //UNIT CONVERSIONS (from input variables)
-
-  var p = psy.PROP.Patm / 1000; // TH : interface?
-
+  const p = psy.PROP.Patm / 1000;
   PressureInAtmospheres = p * 0.009869;
-  LTIME = 60.0;
-  RCL = 0.155 * clo;
-  // AdjustICL(RCL, Conditions);  TH: I don't think this is used in the software
+  LTime = 60.0;
+  RCl = 0.155 * clo;
 
-  FACL = 1.0 + 0.15 * clo; //% INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
-  LR = 2.2 / PressureInAtmospheres; //Lewis Relation is 2.2 at sea level
-  RM = met * METFACTOR;
-  M = met * METFACTOR;
+  FACL = 1.0 + 0.15 * clo; // INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
+  LR = 2.2 / PressureInAtmospheres; // Lewis Relation is 2.2 at sea level
+  RM = met * MetFactor;
+  M = met * MetFactor;
 
   if (clo <= 0) {
     WCRIT = 0.38 * pow(AirSpeed, -0.29);
@@ -438,7 +444,7 @@ comf.pierceSET = function (
   CTC = CHR + CHC;
   RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
   TOP = (CHR * tr + CHC * ta) / CTC;
-  TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCL));
+  TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCl));
 
   // ========================  BEGIN ITERATION
   //
@@ -447,8 +453,8 @@ comf.pierceSET = function (
   //
 
   TCL_OLD = TCL;
-  var flag = true;
-  for (TIM = 1; TIM <= LTIME; TIM++) {
+  let flag = true;
+  for (TIM = 1; TIM <= LTime; TIM++) {
     do {
       if (flag) {
         TCL_OLD = TCL;
@@ -457,20 +463,20 @@ comf.pierceSET = function (
         RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
         TOP = (CHR * tr + CHC * ta) / CTC;
       }
-      TCL = (RA * TempSkin + RCL * TOP) / (RA + RCL);
+      TCL = (RA * TempSkin + RCl * TOP) / (RA + RCl);
       flag = true;
     } while (abs(TCL - TCL_OLD) > 0.01);
     flag = false;
-    DRY = (TempSkin - TOP) / (RA + RCL);
+    DRY = (TempSkin - TOP) / (RA + RCl);
     HFCS = (TempCore - TempSkin) * (5.28 + 1.163 * SkinBloodFlow);
     ERES = 0.0023 * M * (44.0 - VaporPressure);
     CRES = 0.0014 * M * (34.0 - ta);
     SCR = M - HFCS - ERES - CRES - wme;
     SSK = HFCS - DRY - ESK;
-    TCSK = 0.97 * ALFA * BODYWEIGHT;
-    TCCR = 0.97 * (1 - ALFA) * BODYWEIGHT;
-    DTSK = (SSK * BODYSURFACEAREA) / (TCSK * 60.0); //deg C per minute
-    DTCR = (SCR * BODYSURFACEAREA) / (TCCR * 60.0); //deg C per minute
+    TCSK = 0.97 * ALFA * BodyWeight;
+    TCCR = 0.97 * (1 - ALFA) * BodyWeight;
+    DTSK = (SSK * BodySurfaceArea) / (TCSK * 60.0); //deg C per minute
+    DTCR = (SCR * BodySurfaceArea) / (TCCR * 60.0); //deg C per minute
     TempSkin = TempSkin + DTSK;
     TempCore = TempCore + DTCR;
     TB = ALFA * TempSkin + (1 - ALFA) * TempCore;
@@ -482,14 +488,14 @@ comf.pierceSET = function (
     COLDC = (-1.0 * CRSIG > 0) * (-1.0 * CRSIG);
     BDSIG = TB - TempBodyNeutral;
     WARMB = (BDSIG > 0) * BDSIG;
-    SkinBloodFlow = (SkinBloodFlowNeutral + CDIL * WARMC) / (1 + CSTR * COLDS);
+    SkinBloodFlow = (SkinBloodFlowNeutral + CDil * WARMC) / (1 + CStr * COLDS);
     if (SkinBloodFlow > 90.0) SkinBloodFlow = 90.0;
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;
     REGSW = CSW * WARMB * exp(WARMS / 10.7);
     if (REGSW > 500.0) REGSW = 500.0;
     ERSW = 0.68 * REGSW;
     REA = 1.0 / (LR * FACL * CHC); //evaporative resistance of air layer
-    RECL = RCL / (LR * ICL); //evaporative resistance of clothing (icl=.45)
+    RECL = RCl / (LR * ICL); //evaporative resistance of clothing (icl=.45)
     EMAX =
       (comf.FindSaturatedVaporPressureTorr(TempSkin) - VaporPressure) /
       (REA + RECL);
@@ -522,14 +528,14 @@ comf.pierceSET = function (
   // Definition of ASHRAE standard environment... denoted "S"
   CHRS = CHR;
   CHCS = 3.0 * pow(PressureInAtmospheres, 0.53);
-  if (!calculateCE) {
+  if (!calculateCE && met > 0.85) {
     CHCS = max(CHCS, heatTransferConvMet);
   }
   if (CHCS < 3.0) CHCS = 3.0;
   CTCS = CHCS + CHRS;
-  RCLOS = 1.52 / (met - wme / METFACTOR + 0.6944) - 0.1835;
+  RCLOS = 1.52 / (met - wme / MetFactor + 0.6944) - 0.1835;
   RCLS = 0.155 * RCLOS;
-  FACLS = 1.0 + KCLO * RCLOS;
+  FACLS = 1.0 + KClo * RCLOS;
   FCLS = 1.0 / (1.0 + 0.155 * FACLS * CTCS * RCLOS);
   IMS = 0.45;
   ICLS = (((IMS * CHCS) / CTCS) * (1 - FCLS)) / (CHCS / CTCS - FCLS * IMS);
@@ -544,8 +550,8 @@ comf.pierceSET = function (
   // FNERRS is defined in the GENERAL SETUP section above
 
   DELTA = 0.0001;
-  var ERR1, ERR2;
-  var dx = 100.0;
+  let ERR1, ERR2;
+  let dx = 100.0;
   X_OLD = TempSkin - HSK / HD_S; //lower bound for SET
   while (abs(dx) > 0.01) {
     ERR1 =
