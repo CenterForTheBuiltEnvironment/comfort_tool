@@ -4,6 +4,19 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.4 (2020-03-30)
+
+Fix:
+
+- Spinner behavior compare tab
+- Units in note under range chart
+- dilation coefficient in SET equation
+
+Features:
+
+- Implemented test for all the major functions
+- Added `bumpversion` to track version of the tool
+
 ## Version 2.1.3 (2020-03-17)
 
 Features:
