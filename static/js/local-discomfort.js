@@ -1,26 +1,4 @@
-/* code for local thermal discomfort part  ---- equations are in SI units */
-
-// NOTE: equations from the Standard ISO-7730-2005 are commented, in case of further use.
-//       The current version of this assesment uses the temperature limits given by the ASHRAE-55 standard.
-
-// -------------------------- radiant temperature asymmetry -------------------------------------------------------
-
-// var rad_DT_warmC , rad_DT_coolC , rad_DT_warmW , rad_DT_coolW  are inputed by the user.
-
 function asymRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
-  // var warmC_PPD = 100 / (1 + Math.exp(2.84 - 0.174 * rad_DT_warmC)) - 5.5;
-  //     var coolC_PPD = 100 / (1 + Math.exp(9.93 - 0.50 * rad_DT_coolC));
-  //     var warmW_PPD = 100 / (1 + Math.exp(3.72 - 0.052 * rad_DT_warmW)) - 3.5;
-  //     var coolW_PPD = 100 / (1 + Math.exp(6.61 - 0.345 * rad_DT_coolW));
-  //
-  //     if (warmW_PPD < 0) warmW_PPD = 0
-  //
-  //     return [(warmC_PPD >= 5 ||
-  // 	     coolW_PPD >= 5 ||
-  // 	     coolC_PPD >= 5 ||
-  // 	     warmW_PPD >= 5),
-  //          warmC_PPD, coolC_PPD, warmW_PPD, coolW_PPD]
-
   return [
     rad_DT_warmC >= 5 ||
       rad_DT_coolC >= 14 ||
@@ -51,9 +29,9 @@ function verticalGradientPPD(parameters) {
   const numerator = Math.exp(
     0.13 * Math.pow(TSV - 1.91, 2) + 0.15 * parameters.vert_temp_gradient - 1.6
   );
-  const firt_term = numerator / (1 + numerator) - 0.345;
+  const ppdValue = numerator / (1 + numerator) - 0.345;
 
-  return Math.max(firt_term, 0);
+  return Math.max(ppdValue, 0);
 }
 
 // -------------------------- vertical air temperature difference -------------------------------------------------

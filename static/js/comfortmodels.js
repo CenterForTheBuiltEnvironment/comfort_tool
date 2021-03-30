@@ -1,14 +1,6 @@
-var pow = Math.pow;
-var exp = Math.exp;
-var max = Math.max;
-var abs = Math.abs;
-var sqrt = Math.sqrt;
-
-var comf = comf || {};
+const comf = {};
 
 if (typeof module !== "undefined" && module.exports) {
-  var psy = require("./psychrometrics.js").psy;
-  var util = require("./util.js").util;
   module.exports.comf = comf;
 }
 
@@ -35,9 +27,9 @@ comf.between = function (x, l, r) {
 };
 
 comf.adaptiveComfortASH55 = function (ta, tr, runningMean, vel) {
-  var r = {};
-  var to = (ta + tr) / 2;
-  var coolingEffect = 0;
+  const r = {};
+  const to = (ta + tr) / 2;
+  let coolingEffect = 0;
   if (vel > 0.3 && to >= 25) {
     // calculate cooling effect of elevated air speed when top > 25 degC.
     switch (vel) {
@@ -52,12 +44,12 @@ comf.adaptiveComfortASH55 = function (ta, tr, runningMean, vel) {
         break;
     }
   }
-  var tComf = 0.31 * runningMean + 17.8;
-  r.tComf80Lower = tComf - 3.5;
-  r.tComf80Upper = tComf + 3.5 + coolingEffect;
-  r.tComf90Lower = tComf - 2.5;
-  r.tComf90Upper = tComf + 2.5 + coolingEffect;
-  var acceptability80, acceptability90;
+  const tmpComfort = 0.31 * runningMean + 17.8;
+  r.tComf80Lower = tmpComfort - 3.5;
+  r.tComf80Upper = tmpComfort + 3.5 + coolingEffect;
+  r.tComf90Lower = tmpComfort - 2.5;
+  r.tComf90Upper = tmpComfort + 2.5 + coolingEffect;
+  let acceptability80, acceptability90;
 
   if (comf.between(to, r.tComf90Lower, r.tComf90Upper)) {
     // compliance at 80% and 90% levels
@@ -141,12 +133,12 @@ comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
 
   const set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme, false, true).set;
 
-  var fn = function (ce) {
+  const fn = function (_ce) {
     return (
       set -
       comf.pierceSET(
-        ta - ce,
-        tr - ce,
+        ta - _ce,
+        tr - _ce,
         comf.still_air_threshold,
         rh,
         met,
@@ -186,7 +178,7 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
     hcf,
     taa,
     tra,
-    tcla,
+    t_cla,
     p1,
     p2,
     p3,
@@ -209,7 +201,7 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
     ppd,
     n;
 
-  pa = rh * 10 * exp(16.6536 - 4030.183 / (ta + 235));
+  pa = rh * 10 * Math.exp(16.6536 - 4030.183 / (ta + 235));
 
   icl = 0.155 * clo; //thermal insulation of the clothing in M2K/W
   m = met * 58.15; //metabolic rate in W/M2
@@ -218,32 +210,32 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
   if (icl <= 0.078) fcl = 1 + 1.29 * icl;
   else fcl = 1.05 + 0.645 * icl;
 
-  //heat transf. coeff. by forced convection
-  hcf = 12.1 * sqrt(vel);
+  //heat transfer coefficient by forced convection
+  hcf = 12.1 * Math.sqrt(vel);
   taa = ta + 273;
   tra = tr + 273;
-  // we have verified that using the equation below or this tcla = taa + (35.5 - ta) / (3.5 * (6.45 * icl + .1)) does not affect the PMV value
-  tcla = taa + (35.5 - ta) / (3.5 * icl + 0.1);
+  // we have verified that using the equation below or this t_cla = taa + (35.5 - ta) / (3.5 * (6.45 * icl + .1)) does not affect the PMV value
+  t_cla = taa + (35.5 - ta) / (3.5 * icl + 0.1);
 
   p1 = icl * fcl;
   p2 = p1 * 3.96;
   p3 = p1 * 100;
   p4 = p1 * taa;
-  p5 = 308.7 - 0.028 * mw + p2 * pow(tra / 100, 4);
-  xn = tcla / 100;
-  xf = tcla / 50;
+  p5 = 308.7 - 0.028 * mw + p2 * Math.pow(tra / 100, 4);
+  xn = t_cla / 100;
+  xf = t_cla / 50;
   eps = 0.00015;
 
   n = 0;
-  while (abs(xn - xf) > eps) {
+  while (Math.abs(xn - xf) > eps) {
     xf = (xf + xn) / 2;
-    hcn = 2.38 * pow(abs(100.0 * xf - taa), 0.25);
+    hcn = 2.38 * Math.pow(Math.abs(100.0 * xf - taa), 0.25);
     if (hcf > hcn) hc = hcf;
     else hc = hcn;
-    xn = (p5 + p4 * hc - p2 * pow(xf, 4)) / (100 + p3 * hc);
+    xn = (p5 + p4 * hc - p2 * Math.pow(xf, 4)) / (100 + p3 * hc);
     ++n;
     if (n > 150) {
-      alert("Max iterations exceeded");
+      alert("Math.max iterations exceeded");
       return 1;
     }
   }
@@ -260,13 +252,16 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
   // dry respiration heat loss
   hl4 = 0.0014 * m * (34 - ta);
   // heat loss by radiation
-  hl5 = 3.96 * fcl * (pow(xn, 4) - pow(tra / 100, 4));
+  hl5 = 3.96 * fcl * (Math.pow(xn, 4) - Math.pow(tra / 100, 4));
   // heat loss by convection
   hl6 = fcl * hc * (tcl - ta);
 
-  ts = 0.303 * exp(-0.036 * m) + 0.028;
+  ts = 0.303 * Math.exp(-0.036 * m) + 0.028;
   pmv = ts * (mw - hl1 - hl2 - hl3 - hl4 - hl5 - hl6);
-  ppd = 100.0 - 95.0 * exp(-0.03353 * pow(pmv, 4.0) - 0.2179 * pow(pmv, 2.0));
+  ppd =
+    100.0 -
+    95.0 *
+      Math.exp(-0.03353 * Math.pow(pmv, 4.0) - 0.2179 * Math.pow(pmv, 2.0));
 
   return {
     pmv: pmv,
@@ -282,7 +277,7 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
 
 comf.FindSaturatedVaporPressureTorr = function (T) {
   //calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
-  return exp(18.6686 - 4030.183 / (T + 235.0));
+  return Math.exp(18.6686 - 4030.183 / (T + 235.0));
 };
 
 comf.pierceSET = function (
@@ -308,84 +303,56 @@ comf.pierceSET = function (
    * @return {Number} X       SET temperature
    */
 
-  var TempSkinNeutral,
-    TempBodyNeutral,
-    SkinBloodFlowNeutral,
-    TempSkin,
-    TempCore,
-    SkinBloodFlow,
-    MSHIV,
-    ALFA,
-    ESK,
-    PressureInAtmospheres,
-    TempCoreNeutral,
-    LTime,
-    DELTA,
-    RCl,
-    FACL,
-    LR,
-    RM,
-    M,
-    WCRIT,
-    ICL,
-    CHC,
-    CHCV,
-    CHR,
-    CTC,
-    TOP,
-    TCL,
-    DRY,
-    HFCS,
-    ERES,
-    CRES,
-    SCR,
-    SSK,
-    TCSK,
-    TB,
-    SKSIG,
-    WARMS,
-    COLDS,
-    WARMC,
-    COLDC,
-    CRSIG,
-    WARMB,
-    REGSW,
-    BDSIG,
-    REA,
-    RECL,
-    EMAX,
-    PRSW,
-    PWET,
-    EDIF,
-    RA,
-    TCL_OLD,
-    TCCR,
-    DTSK,
-    DTCR,
-    ERSW,
-    _set,
-    X_OLD,
-    CHCS,
-    TIM,
-    HSK,
-    W,
-    PSSK,
-    CHRS,
-    CTCS,
-    RCLOS,
-    RCLS,
-    FACLS,
-    FCLS,
-    IMS,
-    ICLS,
-    RAS,
-    REAS,
-    RECLS,
-    HD_S,
-    HE_S;
+  let DELTA;
+  let DRY;
+  let HFCS;
+  let ERES;
+  let CRES;
+  let SCR;
+  let SSK;
+  let TCSK;
+  let TB;
+  let SKSIG;
+  let WARMS;
+  let COLDS;
+  let WARMC;
+  let COLDC;
+  let CRSIG;
+  let WARMB;
+  let REGSW;
+  let BDSIG;
+  let REA;
+  let RECL;
+  let EMAX;
+  let PRSW;
+  let PWET;
+  let EDIF;
+  let TCCR;
+  let DTSK;
+  let DTCR;
+  let ERSW;
+  let _set;
+  let X_OLD;
+  let CHCS;
+  let HSK;
+  let W;
+  let PSSK;
+  let CHRS;
+  let CTCS;
+  let RCLOS;
+  let RCLS;
+  let FACLS;
+  let FCLS;
+  let IMS;
+  let ICLS;
+  let RAS;
+  let REAS;
+  let RECLS;
+  let HD_S;
+  let HE_S;
 
   const VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
-  const AirSpeed = max(vel, 0.1);
+  const AirSpeed = Math.max(vel, 0.1);
   const KClo = 0.25;
   const BodyWeight = 69.9;
   const BodySurfaceArea = 1.8258;
@@ -395,34 +362,37 @@ comf.pierceSET = function (
   const CDil = 200;
   const CStr = 0.5;
 
-  TempSkinNeutral = 33.7; // set point (neutral) value for Tsk
-  TempCoreNeutral = 36.8; // set point value for Tcr
-  TempBodyNeutral = 36.49; // set point for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
-  SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
+  const TempSkinNeutral = 33.7; // set point (neutral) value for Tsk
+  const TempCoreNeutral = 36.8; // set point value for Tcr
+  const TempBodyNeutral = 36.49; // set point for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
+  const SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
 
   //INITIAL VALUES - start of 1st experiment
-  TempSkin = TempSkinNeutral;
-  TempCore = TempCoreNeutral;
-  SkinBloodFlow = SkinBloodFlowNeutral;
-  MSHIV = 0.0;
-  ALFA = 0.1;
-  ESK = 0.1 * met;
+  let TempSkin = TempSkinNeutral;
+  let TempCore = TempCoreNeutral;
+  let SkinBloodFlow = SkinBloodFlowNeutral;
+  let MSHIV = 0.0;
+  let ALFA = 0.1;
+  let ESK = 0.1 * met;
 
   const p = psy.PROP.Patm / 1000;
-  PressureInAtmospheres = p * 0.009869;
-  LTime = 60.0;
-  RCl = 0.155 * clo;
+  const PressureInAtmospheres = p * 0.009869;
+  const LTime = 60.0;
+  const RCl = 0.155 * clo;
 
-  FACL = 1.0 + 0.15 * clo; // INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
-  LR = 2.2 / PressureInAtmospheres; // Lewis Relation is 2.2 at sea level
-  RM = met * MetFactor;
-  M = met * MetFactor;
+  const FACL = 1.0 + 0.15 * clo; // INCREASE IN BODY SURFACE AREA DUE TO CLOTHING
+  const LR = 2.2 / PressureInAtmospheres; // Lewis Relation is 2.2 at sea level
+  const RM = met * MetFactor;
+  let M = met * MetFactor;
+
+  let WCRIT;
+  let ICL;
 
   if (clo <= 0) {
-    WCRIT = 0.38 * pow(AirSpeed, -0.29);
+    WCRIT = 0.38 * Math.pow(AirSpeed, -0.29);
     ICL = 1.0;
   } else {
-    WCRIT = 0.59 * pow(AirSpeed, -0.08);
+    WCRIT = 0.59 * Math.pow(AirSpeed, -0.08);
     ICL = 0.45;
   }
 
@@ -430,21 +400,21 @@ comf.pierceSET = function (
   if (met < 0.85) {
     heatTransferConvMet = 3.0;
   } else {
-    heatTransferConvMet = 5.66 * pow(met - 0.85, 0.39);
+    heatTransferConvMet = 5.66 * Math.pow(met - 0.85, 0.39);
   }
-  CHC = 3.0 * pow(PressureInAtmospheres, 0.53);
-  CHCV = 8.600001 * pow(AirSpeed * PressureInAtmospheres, 0.53);
-  CHC = max(CHC, CHCV);
+  let CHC = 3.0 * Math.pow(PressureInAtmospheres, 0.53);
+  let CHCV = 8.600001 * Math.pow(AirSpeed * PressureInAtmospheres, 0.53);
+  CHC = Math.max(CHC, CHCV);
   if (!calculateCE) {
-    CHC = max(CHC, heatTransferConvMet);
+    CHC = Math.max(CHC, heatTransferConvMet);
   }
 
   //initial estimate of Tcl
-  CHR = 4.7;
-  CTC = CHR + CHC;
-  RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
-  TOP = (CHR * tr + CHC * ta) / CTC;
-  TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCl));
+  let CHR = 4.7;
+  let CTC = CHR + CHC;
+  let RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
+  let TOP = (CHR * tr + CHC * ta) / CTC;
+  let TCL = TOP + (TempSkin - TOP) / (CTC * (RA + RCl));
 
   // ========================  BEGIN ITERATION
   //
@@ -452,20 +422,21 @@ comf.pierceSET = function (
   //  where H = 1/(Ra + Rcl) and Ra = 1/Facl*CTC
   //
 
-  TCL_OLD = TCL;
+  let TCL_OLD = TCL;
+  let TIM;
   let flag = true;
   for (TIM = 1; TIM <= LTime; TIM++) {
     do {
       if (flag) {
         TCL_OLD = TCL;
-        CHR = 4.0 * SBC * pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.72;
+        CHR = 4.0 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.72;
         CTC = CHR + CHC;
         RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
         TOP = (CHR * tr + CHC * ta) / CTC;
       }
       TCL = (RA * TempSkin + RCl * TOP) / (RA + RCl);
       flag = true;
-    } while (abs(TCL - TCL_OLD) > 0.01);
+    } while (Math.abs(TCL - TCL_OLD) > 0.01);
     flag = false;
     DRY = (TempSkin - TOP) / (RA + RCl);
     HFCS = (TempCore - TempSkin) * (5.28 + 1.163 * SkinBloodFlow);
@@ -491,7 +462,7 @@ comf.pierceSET = function (
     SkinBloodFlow = (SkinBloodFlowNeutral + CDil * WARMC) / (1 + CStr * COLDS);
     if (SkinBloodFlow > 90.0) SkinBloodFlow = 90.0;
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;
-    REGSW = CSW * WARMB * exp(WARMS / 10.7);
+    REGSW = CSW * WARMB * Math.exp(WARMS / 10.7);
     if (REGSW > 500.0) REGSW = 500.0;
     ERSW = 0.68 * REGSW;
     REA = 1.0 / (LR * FACL * CHC); //evaporative resistance of air layer
@@ -520,16 +491,14 @@ comf.pierceSET = function (
     ALFA = 0.0417737 + 0.7451833 / (SkinBloodFlow + 0.585417);
   }
 
-  //Define new heat flow terms, coeffs, and abbreviations
-
   HSK = DRY + ESK; //total heat loss from skin
   W = PWET;
   PSSK = comf.FindSaturatedVaporPressureTorr(TempSkin);
   // Definition of ASHRAE standard environment... denoted "S"
   CHRS = CHR;
-  CHCS = 3.0 * pow(PressureInAtmospheres, 0.53);
+  CHCS = 3.0 * Math.pow(PressureInAtmospheres, 0.53);
   if (!calculateCE && met > 0.85) {
-    CHCS = max(CHCS, heatTransferConvMet);
+    CHCS = Math.max(CHCS, heatTransferConvMet);
   }
   if (CHCS < 3.0) CHCS = 3.0;
   CTCS = CHCS + CHRS;
@@ -546,14 +515,13 @@ comf.pierceSET = function (
   HE_S = 1.0 / (REAS + RECLS);
 
   // SET* (standardized humidity, clo, Pb, and CHC)
-  // determined using Newton//s iterative solution
-  // FNERRS is defined in the GENERAL SETUP section above
+  // determined using Newton iterative solution
 
   DELTA = 0.0001;
   let ERR1, ERR2;
   let dx = 100.0;
   X_OLD = TempSkin - HSK / HD_S; //lower bound for SET
-  while (abs(dx) > 0.01) {
+  while (Math.abs(dx) > 0.01) {
     ERR1 =
       HSK -
       HD_S * (TempSkin - X_OLD) -
@@ -588,7 +556,7 @@ comf.pierceSET = function (
 };
 
 comf.schiavonClo = function (ta6) {
-  var clo_r;
+  let clo_r;
   if (!isCelsius) ta6 = util.FtoC(ta6);
   if (ta6 < -5) {
     clo_r = 1;
@@ -618,23 +586,23 @@ comf.adaptiveComfortEN = function (ta, tr, runningMean, vel) {
     coolingEffect = 1.2;
   }
 
-  const tComf = 0.33 * runningMean + 18.8;
-  const tComfILower = tComf - 3;
-  const tComfIUpper = tComf + 2 + coolingEffect;
-  const tComfIILower = tComf - 4;
-  const tComfIIUpper = tComf + 3 + coolingEffect;
-  const tComfIIILower = tComf - 5;
-  const tComfIIIUpper = tComf + 4 + coolingEffect;
+  const tmpComfort = 0.33 * runningMean + 18.8;
+  const tComfortILower = tmpComfort - 3;
+  const tComfortIUpper = tmpComfort + 2 + coolingEffect;
+  const tComfortIILower = tmpComfort - 4;
+  const tComfortIIUpper = tmpComfort + 3 + coolingEffect;
+  const tComfortIIILower = tmpComfort - 5;
+  const tComfortIIIUpper = tmpComfort + 4 + coolingEffect;
   let acceptabilityI, acceptabilityII, acceptabilityIII;
 
-  if (comf.between(to, tComfILower, tComfIUpper)) {
+  if (comf.between(to, tComfortILower, tComfortIUpper)) {
     // compliance at all levels
     acceptabilityI = acceptabilityII = acceptabilityIII = true;
-  } else if (comf.between(to, tComfIILower, tComfIIUpper)) {
+  } else if (comf.between(to, tComfortIILower, tComfortIIUpper)) {
     // compliance at II and III only
     acceptabilityII = acceptabilityIII = true;
     acceptabilityI = false;
-  } else if (comf.between(to, tComfIIILower, tComfIIIUpper)) {
+  } else if (comf.between(to, tComfortIIILower, tComfortIIIUpper)) {
     // compliance at III only
     acceptabilityIII = true;
     acceptabilityI = acceptabilityII = false;
@@ -647,11 +615,11 @@ comf.adaptiveComfortEN = function (ta, tr, runningMean, vel) {
   r.acceptabilityI = acceptabilityI;
   r.acceptabilityII = acceptabilityII;
   r.acceptabilityIII = acceptabilityIII;
-  r.tComfILower = tComfILower;
-  r.tComfIILower = tComfIILower;
-  r.tComfIIILower = tComfIIILower;
-  r.tComfIUpper = tComfIUpper;
-  r.tComfIIUpper = tComfIIUpper;
-  r.tComfIIIUpper = tComfIIIUpper;
+  r.tComfILower = tComfortILower;
+  r.tComfIILower = tComfortIILower;
+  r.tComfIIILower = tComfortIIILower;
+  r.tComfIUpper = tComfortIUpper;
+  r.tComfIIUpper = tComfortIIUpper;
+  r.tComfIIIUpper = tComfortIIIUpper;
   return r;
 };
