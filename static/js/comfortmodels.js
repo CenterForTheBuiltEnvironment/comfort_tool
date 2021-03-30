@@ -384,16 +384,16 @@ comf.pierceSET = function (
     HD_S,
     HE_S;
 
-  var VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
-  var AirSpeed = max(vel, 0.1);
-  var KCLO = 0.25;
-  var BODYWEIGHT = 69.9;
-  var BODYSURFACEAREA = 1.8258;
-  var METFACTOR = 58.2;
-  var SBC = 0.000000056697; // Stefan-Boltzmann constant (W/m2K4)
-  var CSW = 170;
-  var CDIL = 120;
-  var CSTR = 0.5;
+  const VaporPressure = (rh * comf.FindSaturatedVaporPressureTorr(ta)) / 100;
+  const AirSpeed = max(vel, 0.1);
+  const KClo = 0.25;
+  const BodyWeight = 69.9;
+  const BodySurfaceArea = 1.8258;
+  const MetFactor = 58.2;
+  const SBC = 0.000000056697; // Stefan-Boltzmann constant (W/m2K4)
+  const CSW = 170;
+  const CDil = 200;
+  const CStr = 0.5;
 
   TempSkinNeutral = 33.7; // set point (neutral) value for Tsk
   TempCoreNeutral = 36.8; // set point value for Tcr
