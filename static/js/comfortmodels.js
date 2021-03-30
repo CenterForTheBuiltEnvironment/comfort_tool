@@ -1,6 +1,8 @@
 const comf = {};
 
 if (typeof module !== "undefined" && module.exports) {
+  var psy = require("./psychrometrics.js").psy;
+  var util = require("./util.js").util;
   module.exports.comf = comf;
 }
 
