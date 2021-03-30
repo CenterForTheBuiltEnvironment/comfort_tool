@@ -65,6 +65,14 @@ If you want to find out more please read their official documentation or look at
 
 Finally run `npm run test`. You should write tests for all the new functions you add and ensure that you get positive results from the tests. Also run tests before deploying a new version of the CBE Thermal Comfort Tool.
 
+### Versioning
+When you release a new version of the tool you should first use `bumpversion` to update the version of the tool. You can use the following command:
+```cmd
+bumpversion patch  # alternatively you can use minor or major instead of patch
+```
+
+Secondly you should describe the changes in `docs/changelog.md`
+
 ### Static files
 If you're serving static files from somewhere other than /static/, modify the static file paths ...
 

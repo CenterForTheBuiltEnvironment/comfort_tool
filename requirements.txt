@@ -9,3 +9,4 @@ Werkzeug==1.0.0
 gunicorn==19.9.0
 pythermalcomfort
 pandas
+bumpversion
