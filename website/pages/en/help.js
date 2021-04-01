@@ -31,20 +31,26 @@ function Help() {
           </p>
           <h2>Get help from the community</h2>
           <p>
-            Ask questions, and connect with other users and top contributors on{" "}
-            <a href="https://stackoverflow.com">stackoverflow</a>. If your
-            question has not yet been answered please ask the question on{" "}
-            <a href="https://stackoverflow.com">stackoverflow</a>
-            and send us an email with the link to your question at{" "}
-            <a href="mailto:cbecomforttool@gmail.com">
-              cbecomforttool@gmail.com
-            </a>
-            .
+            If you have a question about the tool, first look at{" "}
+            <a href="https://stackoverflow.com">stackoverflow</a> (search for
+            "CBE Thermal Comfort tool" in stackoverflow search engine). If your
+            question has not yet been answered please:
+            <li>
+              post it on <a href="https://stackoverflow.com">stackoverflow</a>.
+              The question title or body must contain the words "CBE Thermal
+              Comfort tool".
+            </li>
+            <li>
+              send us an email with the link to your question at{" "}
+              <a href="mailto:cbecomforttool@gmail.com">
+                cbecomforttool@gmail.com
+              </a>
+              .
+            </li>
           </p>
           <p>
             <b>
-              Please do not ask us questions directly via email. We will only
-              respond to questions asked on{" "}
+              We only answer questions asked on{" "}
               <a href="https://stackoverflow.com">stackoverflow</a>.
             </b>
           </p>

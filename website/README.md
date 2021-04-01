@@ -6,6 +6,11 @@ The official documentation webpage is hosted [here](https://CenterForTheBuiltEnv
 
 In order for this to work you need to have writing permission to the main `CenterForTheBuiltEnvironment/comfort_tool/` repository.
 
+## Upgrade Docusaurus
+```bash
+npm update docusaurus
+```
+
 ## Clone the repository
 
 Clone the repository to your machine.
