@@ -63,7 +63,7 @@ class Footer extends React.Component {
             style={{ color: "white", textDecorationLine: "underline" }}
           >
             {" "}
-            Version: 2.1.4{" "}
+            Version: 2.1.5{" "}
           </a>
         </p>
 
