@@ -1,137 +1,278 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns#">
-<head>
-    <meta name="description"
-          content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO">
-    <meta charset="utf-8">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favico.png') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <head>
+    <meta
+      name="description"
+      content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO"
+    />
+    <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='img/favico.png') }}"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <!-- Open Graph protocol tags -->
-    <meta property="og:title" content="CBE Thermal Comfort Tool"/>
-    <meta property="og:description"
-          content="CBE Thermal Comfort Tool to calculate thermal comfort indexes (e.g. PMV, PPD, SET, Adaptive) in compliance with AHSRAE and EN Standards"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://comfort.cbe.berkeley.edu"/>
-    <meta property="og:image" content="https://comfort.cbe.berkeley.edu/static/img/og_ashrae.png"/>
+    <meta property="og:title" content="CBE Thermal Comfort Tool" />
+    <meta
+      property="og:description"
+      content="CBE Thermal Comfort Tool to calculate thermal comfort indexes (e.g. PMV, PPD, SET, Adaptive) in compliance with AHSRAE and EN Standards"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://comfort.cbe.berkeley.edu" />
+    <meta
+      property="og:image"
+      content="https://comfort.cbe.berkeley.edu/static/img/og_ashrae.png"
+    />
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146504560-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'UA-30562462-2');
-    </script>
-
+    <div class="d-flex justify-content-center py-2 bg-warning text-dark">
+      <p class="container">
+        IMPORTANT - This version of the tool (<a
+          href="https://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog#version-200-2020-05-06"
+          >v2.0.0</a
+        >) complies with the ASHRAE 55 2017 Standard. This version is no longer
+        supported and may contain errors that have been fixed in newer releases.
+        Please visit the
+        <a
+          href="https://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog"
+        >
+          CHANGELOG</a
+        >
+        page to find out more.
+      </p>
+    </div>
 
     {% block head %}
-        <script defer src="{{ url_for('static', filename='js/lib/fontawesome.min.js') }}"></script>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}"/>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/chartjs.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/comfortmodels.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/psychrometrics.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/erf.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/underscore-min.js') }}"></script>
-        <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script
+      defer
+      src="{{ url_for('static', filename='js/lib/fontawesome.min.js') }}"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/jquery-ui.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/layout.css') }}"
+    />
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/lib/d3.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/lib/chartjs.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/util.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/comfortmodels.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/psychrometrics.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/erf.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/lib/underscore-min.js') }}"
+    ></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     {% endblock %}
-
-</head>
-<body>
-
-{# Navigation bar #}
-<div class="container-flex bg-light border-bottom">
-    <div class="container bg-light">
-        <span style="font-size: 2rem"><img src="static/img/CBE-logo-2018.png" width="150"> Thermal Comfort Tool</span>
-
-        <div class="topnav" id="mytopnav">
-            <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
-            <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
-            <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
-            <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
-            <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
-            <a class="nav-link" id="nav_a_other_tools" href="other_tools">Other CBE tools</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
-            </a>
+  </head>
+  <body>
+    {# Navigation bar #}
+    <div class="container-flex bg-light border-bottom">
+      <div class="container p-0">
+        <div class="d-flex align-items-center">
+          <a href="/">
+            <div>
+              <img
+                alt="Center for the built environment logo"
+                src="static/img/CBE-logo-2018.png"
+                width="200"
+                id="navCBELogo"
+              />
+            </div>
+          </a>
+          <div class="d-flex flex-column w-100">
+            <div class="p-2">
+              <h4 class="m-0" style="color: #0f75bb;">
+                CBE Thermal Comfort Tool
+              </h4>
+            </div>
+            <div class="topnav" id="mytopnav">
+              <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
+              <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
+              <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
+              <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
+              <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
+              <a
+                class="nav-link"
+                id="nav_a_help"
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
+                >Help</a
+              >
+              <a
+                class="nav-link"
+                id="nav_a_other_tools"
+                href="https://cbe.berkeley.edu/resources/tools/"
+                >Other CBE tools</a
+              >
+              <a class="nav_icon" onclick="myFunction()">
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-{# Body #}
-{% block content %}
-{% endblock %}
-
-{# Footer #}
-<div class="container-fluid py-3 text-white" style="background-color: #124F7F">
-    <div class="container">
-        <div class="row footer justify-content-between justify-content-md-center">
-            <div class="col-md-8 col-lg-6">
-                <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog" style="color:white">Latest version: v2.0.0</a>
-                <br>
-                <br>
-                <b>To cite this webpage:</b> Tyler Hoyt, Stefano Schiavon, Federico Tartarini, Toby Cheung, Kyle Steinfeld, Alberto Piccioli, and Dustin Moon, 2019,
-                <a href="http://comfort.cbe.berkeley.edu/" style="color:white">CBE Thermal Comfort Tool</a>. Center for the Built Environment, University of California Berkeley.
-
+    {# Body #} {% block content %} {% endblock %} {# Footer #}
+    <div
+      class="container-fluid py-3 text-white"
+      style="background-color: #124f7f;"
+    >
+      <div class="container">
+        <div
+          class="row footer justify-content-between justify-content-lg-center"
+        >
+          <div class="col-md-8 col-lg-6">
+            <p>
+              <strong>Please cite us if you use this software: </strong>
+              <a
+                href="https://www.sciencedirect.com/science/article/pii/S2352711020302454?via%3Dihub"
+                style="color: white;"
+                >Tartarini, F., Schiavon, S., Cheung, T., Hoyt, T., 2020. CBE
+                Thermal Comfort Tool : online tool for thermal comfort
+                calculations and visualizations. SoftwareX 12, 100563.
+                https://doi.org/10.1016/j.softx.2020.100563</a
+              >
+            </p>
+            <p>
+              We have also released
+              <a
+                href="https://pypi.org/project/pythermalcomfort/"
+                style="color: white;"
+                >pythermalcomfort</a
+              >
+              a Python packaged to calculate several thermal comfort indices
+              (e.g. PMV, PPD, SET, adaptive). Links to the:
+              <a
+                href="https://pythermalcomfort.readthedocs.io/"
+                style="color: white;"
+                >official documentation
+              </a>
+              and
+              <a
+                href="https://www.sciencedirect.com/science/article/pii/S2352711020302910"
+                style="color: white;"
+                >our paper</a
+              >.
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-3 mb-3 text-center">
+            <p class="mb-4">
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
+                ><strng>Contact us</strng></a
+              >
+            </p>
+            <div class="row footer justify-content-center">
+              <div class="col center">
+                <a
+                  href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool"
+                >
+                  <img
+                    alt="source code repository"
+                    src="/static/img/logo-github.svg"
+                    width="30"
+                  /> </a
+                ><br />
+                Code
+              </div>
+              <div class="col center">
+                <a
+                  href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/issues"
+                >
+                  <img
+                    alt="submit an issue"
+                    src="/static/img/logo-github.svg"
+                    width="30"
+                  /> </a
+                ><br />
+                Issues
+              </div>
+              <div class="col">
+                <a href="https://www.youtube.com/user/cbeatcal/playlists">
+                  <img
+                    alt="tutorial videos playlist"
+                    src="/static/img/youtube_64dp.png"
+                    width="30"
+                  /> </a
+                ><br />
+                Tutorials
+              </div>
             </div>
-            <div class="col-md-4 col-lg-3 text-center">
-                <b>Contact us:</b><br>
-                <a href="mailto:cbecomforttool@gmail.com">cbecomforttool@gmail.com</a><br><br>
-                <div class="row footer justify-content-center">
-                    <div class="col center">
-                        <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool">
-                            <img src="/static/img/logo-github.svg" width="30">
-                        </a><br>
-                        Code
-                    </div>
-                    <div class="col center">
-                        <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/issues">
-                            <img src="/static/img/logo-github.svg" width="30">
-                        </a><br>
-                        Issues
-                    </div>
-                    <div class="col">
-                        <a href="https://www.youtube.com/user/cbeatcal/playlists">
-                            <img src="/static/img/youtube_64dp.png" width="30">
-                        </a><br>
-                        Tutorials
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-xs-4 col-md-4 col-lg-2 mt-md-3 mt-lg-0">
-                <img src="static/img/footer-logo.png" width="100%" vspace="5">
-                <br>
-                <img src="static/img/ucb-logo.png" width="100%" vspace="5">
-            </div>
+          </div>
+          <div
+            class="flex flex-column text-center justify-content-center col-xs-4 col-md-4 col-lg-2 mt-md-3 mt-lg-0"
+          >
+            <a href="https://cbe.berkeley.edu"
+              ><img
+                alt="CBE logo"
+                src="static/img/footer-logo.png"
+                style="max-height: 45px;"
+            /></a>
+            <br />
+            <img
+              alt="UC Berkeley logo"
+              src="static/img/ucb-logo.png"
+              class="mt-2"
+              style="max-height: 45px;"
+            />
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </body>
 
-</body>
-
-<script>
+  <script>
     function myFunction() {
-        var x = document.getElementById("mytopnav");
-        // Get all buttons with class="btn" inside the container
-        if (x.className === "topnav") {
-            x.className += " responsive";
-        } else {
-            x.className = "topnav";
-        }
+      var x = document.getElementById("mytopnav");
+      // Get all buttons with class="btn" inside the container
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
     }
-</script>
-
+  </script>
 </html>
