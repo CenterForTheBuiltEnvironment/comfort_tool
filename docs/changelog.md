@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.5 (2020-04-06)
+
+Fix:
+
+- Local discomfort tab the code was broken
+
 ## Version 2.1.4 (2020-03-30)
 
 Fix:
