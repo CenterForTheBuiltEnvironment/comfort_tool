@@ -416,9 +416,9 @@ $("#ERF").click(function () {
 });
 
 $("#localDisc").click(function () {
-  var container = $("#localdialog");
+  const container = $("#localdialog");
   $.ajax({
-    url: util.STATIC_URL + "/html/localdiscASH55.html",
+    url: util.STATIC_URL + "/html/local-disc-ashrae.html",
     success: function (data) {
       $("#localdialog").html(data);
       if (!isCelsius) {

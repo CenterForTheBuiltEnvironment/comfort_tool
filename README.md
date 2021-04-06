@@ -80,8 +80,6 @@ Set STATIC_URL_PATH in `comfort.py`
 
 Set util.STATIC_URL_PATH in `static/js/util.js`
 
-Finally, manually change the path as needed in `static/html/leed.html` for the `/static/css/psychchart.css` stylesheet.
-
 ### Features
 
 1. Models.

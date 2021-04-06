@@ -1,4 +1,4 @@
-function asymRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
+function asymmetryRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
   return [
     rad_DT_warmC >= 5 ||
       rad_DT_coolC >= 14 ||
@@ -12,9 +12,6 @@ function asymRisk(rad_DT_warmC, rad_DT_coolC, rad_DT_warmW, rad_DT_coolW) {
 }
 
 // -------------------------- PPD with vertical temperature gradient -------------------------------------------------
-
-// the vertical_temp_gradient must be defined by the user
-
 function verticalGradientPPD(parameters) {
   const TSV = comf.pmvElevatedAirspeed(
     parameters.tmp_grad_ta,
@@ -35,44 +32,27 @@ function verticalGradientPPD(parameters) {
 }
 
 // -------------------------- vertical air temperature difference -------------------------------------------------
-
-// var T_head and T_ankle must be defined by the user
-
 function verticalRisk(T_head, T_ankle) {
-  var Vertical_DT = T_head - T_ankle;
-
-  // var Vertical_PPD = 100 / (1 + Math.exp(5.76 - 0.856 * Vertical_DT))
-  //
-  // 	return [(Vertical_DT >= 8 || Vertical_PPD >= 5), Vertical_PPD]
+  const Vertical_DT = T_head - T_ankle;
 
   return [Vertical_DT >= 3];
 }
 
 //-------------------------- Floor surface temperature -------------------------------------------------
-
-//var T_floor must be defined by the user
-
 function floorRisk(T_floor) {
-  // var floor_PPD = 100 - 94 * Math.exp(-1.387 + 0.118 * T_floor - 0.0025 * Math.pow(T_floor,2));
-  //
-  // 	return [(floor_PPD >= 10), floor_PPD]
-
   return [T_floor < 19 || T_floor > 29];
 }
 
 // -------------------------------- Draft ----------------------------------------------------------------------
-
 function draftRisk(T_op, local_vel) {
-  //    return (T_op < 23.0 || local_vel > 0.2)
   return (T_op < 23.0) & (local_vel > 0.2);
 }
 
 // -------------------------------- Ankle Draft ----------------------------------------------------------------------
-
-function ankledraft(ankle_vel, overall_pmv) {
+function ankleDraft(ankle_vel, overall_pmv) {
   return (
-    exp(-2.58 + 3.05 * ankle_vel - 1.06 * overall_pmv) /
-    (1 + exp(-2.58 + 3.05 * ankle_vel - 1.06 * overall_pmv))
+    Math.exp(-2.58 + 3.05 * ankle_vel - 1.06 * overall_pmv) /
+    (1 + Math.exp(-2.58 + 3.05 * ankle_vel - 1.06 * overall_pmv))
   );
 }
 
@@ -80,37 +60,37 @@ function ankledraft(ankle_vel, overall_pmv) {
 // NOTE: due to how the code is structured, "true" means that there is local discomfort, so the space does NOT comply.
 
 function updateLocalDisc() {
-  var dlocal = {};
-  var msg;
-  dlocal.rad_DT_warmC = parseFloat($("#rad_DT_warmC").val());
-  dlocal.rad_DT_coolC = parseFloat($("#rad_DT_coolC").val());
-  dlocal.rad_DT_warmW = parseFloat($("#rad_DT_warmW").val());
-  dlocal.rad_DT_coolW = parseFloat($("#rad_DT_coolW").val());
-  dlocal.T_head = parseFloat($("#T_head").val());
-  dlocal.T_ankle = parseFloat($("#T_ankle").val());
-  dlocal.T_floor = parseFloat($("#T_floor").val());
-  dlocal.T_op = parseFloat($("#T_op").val());
-  dlocal.local_Ta = parseFloat($("#local_Ta").val());
-  dlocal.local_Tr = parseFloat($("#local_Tr").val());
-  dlocal.local_V = parseFloat($("#local_V").val());
-  dlocal.local_rh = parseFloat($("#local_rh").val());
-  dlocal.local_met = parseFloat($("#local_met").val());
-  dlocal.local_clo = parseFloat($("#local_clo").val());
-  dlocal.local_vel = parseFloat($("#local_vel").val());
-  dlocal.local_ank_vel = parseFloat($("#local_ank_vel").val());
+  const localDisc = {};
+  let msg;
+  localDisc.rad_DT_warmC = parseFloat($("#rad_DT_warmC").val());
+  localDisc.rad_DT_coolC = parseFloat($("#rad_DT_coolC").val());
+  localDisc.rad_DT_warmW = parseFloat($("#rad_DT_warmW").val());
+  localDisc.rad_DT_coolW = parseFloat($("#rad_DT_coolW").val());
+  localDisc.T_head = parseFloat($("#T_head").val());
+  localDisc.T_ankle = parseFloat($("#T_ankle").val());
+  localDisc.T_floor = parseFloat($("#T_floor").val());
+  localDisc.T_op = parseFloat($("#T_op").val());
+  localDisc.local_Ta = parseFloat($("#local_Ta").val());
+  localDisc.local_Tr = parseFloat($("#local_Tr").val());
+  localDisc.local_V = parseFloat($("#local_V").val());
+  localDisc.local_rh = parseFloat($("#local_rh").val());
+  localDisc.local_met = parseFloat($("#local_met").val());
+  localDisc.local_clo = parseFloat($("#local_clo").val());
+  localDisc.local_vel = parseFloat($("#local_vel").val());
+  localDisc.local_ank_vel = parseFloat($("#local_ank_vel").val());
   // vertical temperature gradient inputs
-  dlocal.vert_temp_gradient = parseFloat($("#vertical_temp_gradient").val());
-  dlocal.tmp_grad_ta = parseFloat($("#tmp_grad_ta").val());
-  dlocal.tmp_grad_tr = parseFloat($("#tmp_grad_tr").val());
-  dlocal.tmp_grad_v = parseFloat($("#tmp_grad_v").val());
-  dlocal.tmp_grad_rh = parseFloat($("#tmp_grad_rh").val());
-  dlocal.tmp_grad_clo = parseFloat($("#tmp_grad_clo").val());
-  dlocal.tmp_grad_met = parseFloat($("#tmp_grad_met").val());
+  localDisc.vert_temp_gradient = parseFloat($("#vertical_temp_gradient").val());
+  localDisc.tmp_grad_ta = parseFloat($("#tmp_grad_ta").val());
+  localDisc.tmp_grad_tr = parseFloat($("#tmp_grad_tr").val());
+  localDisc.tmp_grad_v = parseFloat($("#tmp_grad_v").val());
+  localDisc.tmp_grad_rh = parseFloat($("#tmp_grad_rh").val());
+  localDisc.tmp_grad_clo = parseFloat($("#tmp_grad_clo").val());
+  localDisc.tmp_grad_met = parseFloat($("#tmp_grad_met").val());
 
   $(function () {
-    var limitInput = function () {
-      var value = parseFloat(this.value, 10);
-      var min = parseFloat(0.06);
+    const limitInput = function () {
+      const value = parseFloat(this.value, 10);
+      const min = 0.06;
       if (value < min) {
         this.value = min;
       }
@@ -119,29 +99,29 @@ function updateLocalDisc() {
   });
 
   if (!isCelsius) {
-    dlocal.rad_DT_warmC = (dlocal.rad_DT_warmC * 5) / 9;
-    dlocal.rad_DT_coolC = (dlocal.rad_DT_coolC * 5) / 9;
-    dlocal.rad_DT_warmW = (dlocal.rad_DT_warmW * 5) / 9;
-    dlocal.rad_DT_coolW = (dlocal.rad_DT_coolW * 5) / 9;
-    dlocal.T_head = util.FtoC(dlocal.T_head);
-    dlocal.T_ankle = util.FtoC(dlocal.T_ankle);
-    dlocal.T_floor = util.FtoC(dlocal.T_floor);
-    dlocal.T_op = util.FtoC(dlocal.T_op);
-    dlocal.local_Ta = util.FtoC(dlocal.local_Ta);
-    dlocal.local_Tr = util.FtoC(dlocal.local_Tr);
-    dlocal.local_V = util.FtoC(dlocal.local_V);
-    dlocal.local_vel /= 196.9;
-    dlocal.local_ank_vel /= 196.9;
+    localDisc.rad_DT_warmC = (localDisc.rad_DT_warmC * 5) / 9;
+    localDisc.rad_DT_coolC = (localDisc.rad_DT_coolC * 5) / 9;
+    localDisc.rad_DT_warmW = (localDisc.rad_DT_warmW * 5) / 9;
+    localDisc.rad_DT_coolW = (localDisc.rad_DT_coolW * 5) / 9;
+    localDisc.T_head = util.FtoC(localDisc.T_head);
+    localDisc.T_ankle = util.FtoC(localDisc.T_ankle);
+    localDisc.T_floor = util.FtoC(localDisc.T_floor);
+    localDisc.T_op = util.FtoC(localDisc.T_op);
+    localDisc.local_Ta = util.FtoC(localDisc.local_Ta);
+    localDisc.local_Tr = util.FtoC(localDisc.local_Tr);
+    localDisc.local_V = util.FtoC(localDisc.local_V);
+    localDisc.local_vel /= 196.9;
+    localDisc.local_ank_vel /= 196.9;
     // vertical temperature gradient inputs
-    dlocal.vert_temp_gradient = (dlocal.vert_temp_gradient / 1.8) * 3.28;
-    dlocal.tmp_grad_ta = util.FtoC(dlocal.tmp_grad_ta);
-    dlocal.tmp_grad_tr = util.FtoC(dlocal.tmp_grad_tr);
-    dlocal.tmp_grad_v /= 196.9;
+    localDisc.vert_temp_gradient = (localDisc.vert_temp_gradient / 1.8) * 3.28;
+    localDisc.tmp_grad_ta = util.FtoC(localDisc.tmp_grad_ta);
+    localDisc.tmp_grad_tr = util.FtoC(localDisc.tmp_grad_tr);
+    localDisc.tmp_grad_v /= 196.9;
 
     $(function () {
       var limitInput = function () {
-        var value = parseFloat(this.value, 10);
-        var min = parseFloat(20);
+        const value = parseFloat(this.value, 10);
+        const min = 20;
         if (value < min) {
           this.value = min;
         }
@@ -150,28 +130,29 @@ function updateLocalDisc() {
     });
   }
 
-  var asym_res = asymRisk(
-    dlocal.rad_DT_warmC,
-    dlocal.rad_DT_coolC,
-    dlocal.rad_DT_warmW,
-    dlocal.rad_DT_coolW
+  const asym_res = asymmetryRisk(
+    localDisc.rad_DT_warmC,
+    localDisc.rad_DT_coolC,
+    localDisc.rad_DT_warmW,
+    localDisc.rad_DT_coolW
   );
-  var vert_res = verticalRisk(dlocal.T_head, dlocal.T_ankle);
-  const vert_grad_ppd = 100 * verticalGradientPPD(dlocal);
-  var floor_res = floorRisk(dlocal.T_floor);
-  var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
-  var draft_pmv_res = comf.pmv(
-    dlocal.local_Ta,
-    dlocal.local_Tr,
-    dlocal.local_V,
-    dlocal.local_rh,
-    dlocal.local_met,
-    dlocal.local_clo,
+  const vert_res = verticalRisk(localDisc.T_head, localDisc.T_ankle);
+  const vert_grad_ppd = 100 * verticalGradientPPD(localDisc);
+  const floor_res = floorRisk(localDisc.T_floor);
+  const draft_res = draftRisk(localDisc.T_op, localDisc.local_vel);
+  const draft_pmv_res = comf.pmv(
+    localDisc.local_Ta,
+    localDisc.local_Tr,
+    localDisc.local_V,
+    localDisc.local_rh,
+    localDisc.local_met,
+    localDisc.local_clo,
     0
   );
-  var ank_draft_res = ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv) * 100;
-  var clo_check = dlocal.local_clo;
-  var met_check = dlocal.local_met;
+  const ank_draft_res =
+    ankleDraft(localDisc.local_ank_vel, draft_pmv_res.pmv) * 100;
+  const clo_check = localDisc.local_clo;
+  const met_check = localDisc.local_met;
 
   //if (asym_res[1] > 5){
   if (asym_res[1]) {
