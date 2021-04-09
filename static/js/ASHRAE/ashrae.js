@@ -425,8 +425,6 @@ $("#localDisc").click(function () {
         $(".tempunit").html(" &deg;F");
         $(".velunit").html(" fpm");
         $(".gradient_unit").html(" &deg;F/ft");
-        $("#T_head").val("77");
-        $("#T_ankle").val("77");
         $("#T_floor").val("77");
         $("#T_op").val("77");
         $("#local_Ta").val("77");

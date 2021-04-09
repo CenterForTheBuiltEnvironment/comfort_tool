@@ -8,35 +8,6 @@ let set_output_chart = new (function () {
     return ans;
   };
 
-  // // Find max values from data, so at this point you should have values for:
-  // let leftYMax = 40;
-  // let leftYMin = 0;
-  // const rightYMax = 130;
-  //
-  // // Amount of labels you want to see on y axis
-  // const amountOfLabels = 10;
-  //
-  // let newLeftYMax = calculateMax(amountOfLabels, leftYMax);
-  // let leftYStep = newLeftYMax / amountOfLabels;
-  //
-  // const newRightYMax = calculateMax(amountOfLabels, rightYMax);
-  // const rightYStep = newRightYMax / amountOfLabels;
-
-  // // Function for calculating new max
-  // function calculateMax(amountOfLabels, max) {
-  //   // If max is divisible by amount of labels, then it's a perfect fit
-  //   if (max % amountOfLabels === 0) {
-  //     return max;
-  //   }
-  //   // If max is not divisible by amount of labels, let's find out how much there
-  //   // is missing from max so it could be divisible
-  //   const diffDivisibleByAmountOfLabels =
-  //     amountOfLabels - (max % amountOfLabels);
-  //
-  //   // Add missing value to max to get it divisible and achieve perfect fit
-  //   return max + diffDivisibleByAmountOfLabels;
-  // }
-
   let ctx;
   let chartInstance;
 

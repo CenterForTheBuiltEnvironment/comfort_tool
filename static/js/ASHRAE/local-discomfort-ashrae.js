@@ -31,13 +31,6 @@ function verticalGradientPPD(parameters) {
   return Math.max(ppdValue, 0);
 }
 
-// -------------------------- vertical air temperature difference -------------------------------------------------
-function verticalRisk(T_head, T_ankle) {
-  const Vertical_DT = T_head - T_ankle;
-
-  return [Vertical_DT >= 3];
-}
-
 //-------------------------- Floor surface temperature -------------------------------------------------
 function floorRisk(T_floor) {
   return [T_floor < 19 || T_floor > 29];
@@ -66,8 +59,6 @@ function updateLocalDisc() {
   localDisc.rad_DT_coolC = parseFloat($("#rad_DT_coolC").val());
   localDisc.rad_DT_warmW = parseFloat($("#rad_DT_warmW").val());
   localDisc.rad_DT_coolW = parseFloat($("#rad_DT_coolW").val());
-  localDisc.T_head = parseFloat($("#T_head").val());
-  localDisc.T_ankle = parseFloat($("#T_ankle").val());
   localDisc.T_floor = parseFloat($("#T_floor").val());
   localDisc.T_op = parseFloat($("#T_op").val());
   localDisc.local_Ta = parseFloat($("#local_Ta").val());
@@ -103,8 +94,6 @@ function updateLocalDisc() {
     localDisc.rad_DT_coolC = (localDisc.rad_DT_coolC * 5) / 9;
     localDisc.rad_DT_warmW = (localDisc.rad_DT_warmW * 5) / 9;
     localDisc.rad_DT_coolW = (localDisc.rad_DT_coolW * 5) / 9;
-    localDisc.T_head = util.FtoC(localDisc.T_head);
-    localDisc.T_ankle = util.FtoC(localDisc.T_ankle);
     localDisc.T_floor = util.FtoC(localDisc.T_floor);
     localDisc.T_op = util.FtoC(localDisc.T_op);
     localDisc.local_Ta = util.FtoC(localDisc.local_Ta);
@@ -136,7 +125,6 @@ function updateLocalDisc() {
     localDisc.rad_DT_warmW,
     localDisc.rad_DT_coolW
   );
-  const vert_res = verticalRisk(localDisc.T_head, localDisc.T_ankle);
   const vert_grad_ppd = 100 * verticalGradientPPD(localDisc);
   const floor_res = floorRisk(localDisc.T_floor);
   const draft_res = draftRisk(localDisc.T_op, localDisc.local_vel);
@@ -194,15 +182,6 @@ function updateLocalDisc() {
   }
   $("#rad-coolW-res").html(msg);
 
-  if (vert_res[0]) {
-    msg = "&#10008; &nbsp; &nbsp; "; /* + vert_res[1].toFixed(0) + "%" */
-    $("#vert-disc").css("color", "red");
-  } else {
-    msg = "&#10004; &nbsp; &nbsp; "; /* + vert_res[1].toFixed(0) + "%" */
-    $("#vert-disc").css("color", "green");
-  }
-  $("#vert-disc").html(msg);
-
   $("#vertical_temp_gradient_ppd").attr("value", vert_grad_ppd.toFixed(0));
   if (vert_grad_ppd > 5) {
     msg = "&#10008";
@@ -231,13 +210,7 @@ function updateLocalDisc() {
   }
   $("#draft-disc").html(msg);
 
-  if (
-    asym_res[0] ||
-    vert_res[0] ||
-    floor_res[0] ||
-    draft_res ||
-    ank_draft_res > 20
-  ) {
+  if (asym_res[0] || floor_res[0] || draft_res || ank_draft_res > 20) {
     msg = "&#10008; &nbsp; Does not comply with ASHRAE Standard 55-2020";
     $("#all-disc").css("color", "red");
   } else {

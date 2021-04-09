@@ -73,13 +73,6 @@ bumpversion patch  # alternatively you can use minor or major instead of patch
 
 Secondly you should describe the changes in `docs/changelog.md`
 
-### Static files
-If you're serving static files from somewhere other than /static/, modify the static file paths ...
-
-Set STATIC_URL_PATH in `comfort.py`
-
-Set util.STATIC_URL_PATH in `static/js/util.js`
-
 ### Features
 
 1. Models.

@@ -6,10 +6,7 @@
       content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2020, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO"
     />
     <meta charset="utf-8" />
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='img/favico.png') }}"
-    />
+    <link rel="shortcut icon" href="static/img/favico.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
@@ -47,60 +44,37 @@
     </script>
 
     {% block head %}
-    <script
-      defer
-      src="{{ url_for('static', filename='js/lib/fontawesome.min.js') }}"
-    ></script>
+    <script defer src="static/js/lib/fontawesome.min.js"></script>
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+      href="static/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/jquery-ui.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/layout.css') }}"
-    />
+    <link rel="stylesheet" type="text/css" href="static/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/layout.css" />
+    <script type="text/javascript" src="static/js/lib/d3.js"></script>
+    <script type="text/javascript" src="static/js/lib/chartjs.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/d3.js') }}"
+      src="static/js/lib/jquery-1.6.2.min.js"
     ></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/chartjs.js') }}"
+      src="static/js/lib/jquery-ui.min.js"
+    ></script>
+    <script type="text/javascript" src="../static/js/util.js"></script>
+    <script
+      type="text/javascript"
+      src="../static/js/comfort-models.js"
     ></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"
+      src="../static/js/psychrometrics.js"
     ></script>
+    <script type="text/javascript" src="../static/js/erf.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/util.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/comfortmodels.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/psychrometrics.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/erf.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/underscore-min.js') }}"
+      src="static/js/lib/underscore-min.js"
     ></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     {% endblock %}

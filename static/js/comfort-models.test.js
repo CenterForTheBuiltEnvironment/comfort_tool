@@ -1,10 +1,10 @@
 /*
-The file is used to test the various functions in comfortmodels.js
+The file is used to test the various functions in comfort-models.js
 Always run the following tests before publishing a new version of the comfort tool.
 These tests use the data data as in pythermalcomfort/tests/test_models.py
 */
 
-const { comf } = require("./comfortmodels");
+const { comf } = require("./comfort-models");
 const { util } = require("./util");
 
 test("pmv", () => {
