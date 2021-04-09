@@ -125,7 +125,7 @@ Fix:
 
 ## Version 2.0.0 (2020-05-06)
 
-This version complies with the ASHRAE Standard 55-2017. You can access this version of the tool using [this link](https://cbe-thermal-comfort-tool-2017.herokuapp.com). Please note that this version is no longer supported and may contain errors that have been fixed in newer releases.
+This version complies with the ASHRAE Standard 55-2017. You can access this version of the tool using [this link](https://comfort-tool-63o6tweb2a-uc.a.run.app). Please note that this version is no longer supported and may contain errors that have been fixed in newer releases.
 
 Features:
 
