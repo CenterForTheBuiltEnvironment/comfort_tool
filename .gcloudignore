@@ -1,0 +1,16 @@
+.gcloudignore
+# If you would like to upload your .git directory, .gitignore file or
+# files from your .gitignore file, remove the corresponding line below:
+.git
+
+CITATION.md
+deploy_comfort_tool.ps1
+LICENSE
+Procfile
+README.md
+runtime.txt
+wsgi.py
+website/
+
+.gitignore
+#!include:.gitignore

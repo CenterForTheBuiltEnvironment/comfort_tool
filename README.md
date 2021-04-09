@@ -79,3 +79,19 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 
 ## Documentation
 To edit or generate new documentation please refer to the README.md file which is located in the website folder.
+
+
+## Deploy to Google Cloud Run
+
+You can follow [this guide](https://cloud.google.com/run/docs/quickstarts/build-and-deploy/python).
+Key stepssummarized below. Dependencies: [Cloud SDK](https://cloud.google.com/sdk/docs/install)
+
+Build your container image using Cloud Build, by running the following command from the directory containing the Dockerfile:
+```
+gcloud builds submit --tag gcr.io/legacy-cbe-comfort-tool/comfort-tool  --project=legacy-cbe-comfort-tool
+```
+
+Deploying to Cloud Run -- To deploy the container image use the following command:
+```
+gcloud run deploy --image gcr.io/legacy-cbe-comfort-tool/comfort-tool --platform managed  --project=legacy-cbe-comfort-tool
+```
