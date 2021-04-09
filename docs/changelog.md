@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.6 (2020-04-09)
+
+Fix:
+
+- Removed old vertical temperature gradient calculator
+
 ## Version 2.1.5 (2020-04-06)
 
 Fix:
