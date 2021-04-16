@@ -16,15 +16,25 @@ function Help() {
             (USA). This is a free tool and we have only limited ability to
             answer questions.
           </p>
+          <h1>Main features of the CBE Thermal Comfort Tool</h1>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/v3NcabOAGKk?start=62"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
           <h1>Need help?</h1>
           <p>
             Please check the{" "}
-            <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog">
+            <a href="https://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog">
               CHANGELOG
             </a>{" "}
             page where we have described all the latest changes we have
             implemented, and visit the{" "}
-            <a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55">
+            <a href="https://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55">
               official documentation
             </a>{" "}
             page.
