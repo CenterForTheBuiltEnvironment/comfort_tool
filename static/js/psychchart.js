@@ -1,10 +1,20 @@
 var pc = new (function () {
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  if (pageWidth > 580) {
+    this.width = 580;
+  }
+
   this.margin = 40;
   this.rbmargin = 60;
-  this.width = 580;
   this.height = 500;
   this.db_min = 10;
   this.db_max = 36;
+  this.hr_min = 0;
+  this.hr_max = 30;
 
   this.init = function () {
     this.db_extent = [this.db_min, this.db_max];
@@ -19,7 +29,7 @@ var pc = new (function () {
       .range([this.margin, this.width - this.rbmargin])
       .domain(this.db_extent_F);
 
-    this.hr_extent = [0, 30];
+    this.hr_extent = [this.hr_min, this.hr_max];
     this.hr_scale = d3.scale
       .linear()
       .range([this.height - this.rbmargin, this.rbmargin])
@@ -46,11 +56,11 @@ var pc = new (function () {
   this.init();
 
   this.drawChart = function () {
-    var db_axis = d3.svg.axis().scale(pc.db_scale);
-    var db_axis_F = d3.svg.axis().scale(pc.db_scale_F);
-    var hr_axis = d3.svg.axis().scale(pc.hr_scale).orient("right");
+    const db_axis = d3.svg.axis().scale(pc.db_scale);
+    const db_axis_F = d3.svg.axis().scale(pc.db_scale_F);
+    const hr_axis = d3.svg.axis().scale(pc.hr_scale).orient("right");
 
-    var line = d3.svg
+    d3.svg
       .line()
       .x(function (d) {
         return pc.db_scale(d.db);
@@ -85,7 +95,7 @@ var pc = new (function () {
     // basic frame of the box
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Dry-bulb_temperature")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Dry-bulb_temperature")
       .append("text")
       .text("t")
       .attr("class", "box-texts")
@@ -96,16 +106,16 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Dry-bulb_temperature")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Dry-bulb_temperature")
       .append("text")
       .text("db")
       .attr("class", "box-texts")
       .attr("id", "box-db")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 10) + ")"
       );
-    document.getElementById("box-db").style.fontSize = "9px";
 
     pc.svg
       .append("text")
@@ -119,7 +129,7 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Relative_humidity")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Relative_humidity")
       .append("text")
       .text("rh")
       .attr("class", "box-texts")
@@ -142,7 +152,7 @@ var pc = new (function () {
       .append("svg:a")
       .attr(
         "xlink:href",
-        "http://en.wikipedia.org/wiki/Humidity#Absolute_humidity"
+        "https://en.wikipedia.org/wiki/Humidity#Absolute_humidity"
       )
       .append("text")
       .text("W")
@@ -157,12 +167,11 @@ var pc = new (function () {
       .text("a")
       .attr("class", "box-texts")
       .attr("id", "box-a")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 12) + "," + (pc.rbmargin + 50) + ")"
       );
-
-    document.getElementById("box-a").style.fontSize = "9px";
 
     pc.svg
       .append("text")
@@ -179,12 +188,11 @@ var pc = new (function () {
       .text("w")
       .attr("class", "box-texts")
       .attr("id", "unit-hr2")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 76) + "," + (pc.rbmargin + 50) + ")"
       );
-
-    document.getElementById("unit-hr2").style.fontSize = "9px";
 
     pc.svg
       .append("text")
@@ -201,16 +209,15 @@ var pc = new (function () {
       .text("da")
       .attr("class", "box-texts")
       .attr("id", "unit-hr4")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 105) + "," + (pc.rbmargin + 50) + ")"
       );
 
-    document.getElementById("unit-hr4").style.fontSize = "9px";
-
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Wet-bulb_temperature")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Wet-bulb_temperature")
       .append("text")
       .text("t")
       .attr("class", "box-texts")
@@ -221,17 +228,16 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Wet-bulb_temperature")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Wet-bulb_temperature")
       .append("text")
       .text("wb")
       .attr("class", "box-texts")
       .attr("id", "wb")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 70) + ")"
       );
-
-    document.getElementById("wb").style.fontSize = "9px";
 
     pc.svg
       .append("text")
@@ -245,7 +251,7 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Dew_point")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Dew_point")
       .append("text")
       .text("t")
       .attr("class", "box-texts")
@@ -256,17 +262,23 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Dew_point")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Dew_point")
       .append("text")
       .text("dp")
       .attr("class", "box-texts")
       .attr("id", "box-dp")
+      .attr("class", "subscript")
       .attr(
         "transform",
         "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 90) + ")"
       );
 
-    document.getElementById("box-dp").style.fontSize = "9px";
+    const elements = document.getElementsByClassName("subscript");
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      element.style.fontSize = "9px";
+    }
 
     pc.svg
       .append("text")
@@ -280,7 +292,7 @@ var pc = new (function () {
 
     pc.svg
       .append("svg:a")
-      .attr("xlink:href", "http://en.wikipedia.org/wiki/Enthalpy")
+      .attr("xlink:href", "https://en.wikipedia.org/wiki/Enthalpy")
       .append("text")
       .text("h")
       .attr("class", "box-texts")
@@ -386,7 +398,7 @@ var pc = new (function () {
       .text("Dry-bulb Temperature [°C]")
       .attr("class", "db-unit")
       .attr("id", "db-axis-C-label")
-      .attr("x", pc.width / 2 - 1.9 * pc.margin)
+      .attr("x", pc.width / 2 - this.margin - this.rbmargin)
       .attr("y", pc.rbmargin / 1.3);
 
     d3.select("#db-axis-F")
@@ -394,7 +406,7 @@ var pc = new (function () {
       .text("Dry-bulb Temperature [°F]")
       .attr("class", "db-unit")
       .attr("id", "db-axis-F-label")
-      .attr("x", pc.width / 2 - 1.9 * pc.margin)
+      .attr("x", pc.width / 2 - this.margin - this.rbmargin)
       .attr("y", pc.rbmargin / 1.3);
 
     d3.select(".hr.axis")
@@ -458,10 +470,14 @@ var pc = new (function () {
   };
 
   this.convertBox = function () {
-    let dbt = parseFloat($("#box-dbt").text());
-    let wbt = parseFloat($("#box-wbt").text());
-    let dew = parseFloat($("#box-dew").text());
-    let ent = parseFloat($("#box-ent").text());
+    const boxDBT = $("#box-dbt");
+    const boxWBT = $("#box-wbt");
+    const boxDEW = $("#box-dew");
+    const boxENT = $("#box-ent");
+    let dbt = parseFloat(boxDBT.text());
+    let wbt = parseFloat(boxWBT.text());
+    let dew = parseFloat(boxDEW.text());
+    let ent = parseFloat(boxENT.text());
     if (isCelsius) {
       dbt = util.FtoC(dbt);
       wbt = util.FtoC(wbt);
@@ -493,14 +509,14 @@ var pc = new (function () {
       $("#box-mrt-unit").text("°F");
       $("#box-vel-unit").text("fpm");
     }
-    $("#box-dbt").text(dbt.toFixed(1));
-    $("#box-wbt").text(wbt.toFixed(1));
-    $("#box-dew").text(dew.toFixed(1));
-    $("#box-ent").text(ent.toFixed(1));
+    boxDBT.text(dbt.toFixed(1));
+    boxWBT.text(wbt.toFixed(1));
+    boxDEW.text(dew.toFixed(1));
+    boxENT.text(ent.toFixed(1));
   };
 
   this.drawComfortRegion = function (data) {
-    var el = d3.select("path.comfortzone")[0][0];
+    const el = d3.select("path.comfortzone")[0][0];
 
     if (el) {
       d3.select("path.comfortzone").attr("d", pc.pline(data) + "Z");
@@ -527,9 +543,9 @@ var pc = new (function () {
 
   this.draw_rh_lines = function () {
     // dynamic way of drawing rh lines
-    for (var i = 100; i >= 10; i -= 10) {
-      RHline = [];
-      for (var t = pc.db_min; t <= pc.db_max; t += 0.5) {
+    for (let i = 100; i >= 10; i -= 10) {
+      let RHline = [];
+      for (let t = pc.db_min; t <= pc.db_max; t += 0.5) {
         RHline.push({ db: t, hr: pc.getHumRatio(t, i) });
       }
       if (i === 100) {
@@ -558,7 +574,7 @@ var pc = new (function () {
         hr: pc.getHumRatio(d.ta, d.rh),
       },
     ];
-    var b = pc.findComfortBoundary(d, 0.5);
+    const b = pc.findComfortBoundary(d, 0.5);
     pc.drawComfortRegion(b);
     pc.drawPoint(json);
     bc.drawPoint();
@@ -635,10 +651,10 @@ var pc = new (function () {
     }
 
     function solve(rhx, target) {
-      var epsilon = 0.001; // ta precision
-      var a = -50;
-      var b = 50;
-      var fn = rhclos(rhx, target);
+      const epsilon = 0.001; // ta precision
+      const a = -50;
+      const b = 50;
+      const fn = rhclos(rhx, target);
       t = util.secant(a, b, fn, epsilon);
       if (isNaN(t)) {
         t = util.bisect(a, b, fn, epsilon, 0);
@@ -649,7 +665,7 @@ var pc = new (function () {
       };
     }
 
-    var incr = 10;
+    const incr = 10;
     for (var rhx = 0; rhx <= 100; rhx += incr) {
       boundary.push(solve(rhx, -pmvlimit));
     }
@@ -672,7 +688,7 @@ var pc = new (function () {
   };
 
   this.findPsyBoundary = function () {
-    var psyboundary = [];
+    let psyboundary = [];
 
     psyboundary.push({
       db: 10,
@@ -682,7 +698,7 @@ var pc = new (function () {
       db: 10,
       hr: pc.getHumRatio(10, 100),
     });
-    t = 10;
+    let t = 10;
     while (true) {
       t += 0.5;
       psyboundary.push({

@@ -3,10 +3,20 @@
 var bc = new (function () {
   // todo issue with calculations dbt = 27.5, mrt = 10, air speed 0.5 - 2
 
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  this.x_shift_text = this.width / 2;
+  if (pageWidth > 580) {
+    this.width = 580;
+    this.x_shift_text = 345;
+  }
+
   // set up viewport
   this.margin = 60;
   this.rbmargin = 40;
-  this.width = 580;
   this.height = 500;
   this.db_min = 10;
   this.db_max = 36;
@@ -44,7 +54,7 @@ var bc = new (function () {
     var db_axis_F = d3.svg.axis().scale(bc.db_scale_F);
     var rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left");
 
-    var line = d3.svg
+    d3.svg
       .line()
       .x(function (d) {
         return bc.db_scale(d.db);
@@ -119,7 +129,7 @@ var bc = new (function () {
       .append("text")
       .text("Dry-bulb Temperature [°C]")
       .attr("class", "db-unit-th")
-      .attr("x", bc.width / 2 - 50)
+      .attr("x", bc.width / 2 - this.margin - this.rbmargin)
       .attr("y", bc.margin / 1.6);
 
     // define IP x-axis label
@@ -127,7 +137,7 @@ var bc = new (function () {
       .append("text")
       .text("Dry-bulb Temperature [°F]")
       .attr("class", "db-unit-th")
-      .attr("x", bc.width / 2 - 50)
+      .attr("x", bc.width / 2 - this.margin - this.rbmargin)
       .attr("y", bc.margin / 1.6);
 
     // define y-axis label
@@ -139,7 +149,6 @@ var bc = new (function () {
 
     // add all the text needed to show psychrometric information
     const y_shift = 5;
-    const x_shift = 345;
 
     bc.svg
       .append("svg:a")
@@ -150,7 +159,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 10) +
           ")"
@@ -166,7 +175,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 5) +
+          (bc.margin + this.x_shift_text + 5) +
           "," +
           (bc.rbmargin + y_shift + 10) +
           ")"
@@ -181,7 +190,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 10) +
           ")"
@@ -196,7 +205,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 30) +
           ")"
@@ -210,7 +219,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 30) +
           ")"
@@ -228,7 +237,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -242,7 +251,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 12) +
+          (bc.margin + this.x_shift_text + 12) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -258,7 +267,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -272,7 +281,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 76) +
+          (bc.margin + this.x_shift_text + 76) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -288,7 +297,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 83) +
+          (bc.margin + this.x_shift_text + 83) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -302,7 +311,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 105) +
+          (bc.margin + this.x_shift_text + 105) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -319,7 +328,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 70) +
           ")"
@@ -335,7 +344,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 5) +
+          (bc.margin + this.x_shift_text + 5) +
           "," +
           (bc.rbmargin + y_shift + 70) +
           ")"
@@ -351,7 +360,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 70) +
           ")"
@@ -366,7 +375,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 90) +
           ")"
@@ -382,7 +391,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 5) +
+          (bc.margin + this.x_shift_text + 5) +
           "," +
           (bc.rbmargin + y_shift + 90) +
           ")"
@@ -398,7 +407,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 90) +
           ")"
@@ -413,7 +422,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift) +
+          (bc.margin + this.x_shift_text) +
           "," +
           (bc.rbmargin + y_shift + 110) +
           ")"
@@ -427,7 +436,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 65) +
+          (bc.margin + this.x_shift_text + 65) +
           "," +
           (bc.rbmargin + y_shift + 110) +
           ")"
@@ -442,7 +451,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 10) +
           ")"
@@ -456,7 +465,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 30) +
           ")"
@@ -470,7 +479,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 50) +
           ")"
@@ -484,7 +493,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 70) +
           ")"
@@ -498,7 +507,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 90) +
           ")"
@@ -512,7 +521,7 @@ var bc = new (function () {
       .attr(
         "transform",
         "translate(" +
-          (bc.margin + x_shift + 32) +
+          (bc.margin + this.x_shift_text + 32) +
           "," +
           (bc.rbmargin + y_shift + 110) +
           ")"
@@ -526,7 +535,6 @@ var bc = new (function () {
     let mouseDBT = bc.db_scale.invert(d3.mouse(this)[0]);
     let mouseRH = bc.rh_scale.invert(d3.mouse(this)[1]);
     let mouseHR = psy.tdb_rh(mouseDBT, mouseRH).w * 1000;
-    let mouseVP = (psy.PROP.Patm * mouseHR) / 1000 / (0.62198 + mouseHR / 1000);
     let mouseEnt =
       1.006 * mouseDBT + (mouseHR / 1000) * (2501 + 1.86 * mouseDBT);
     let mouseWBT = psy.tdb_rh(mouseDBT, mouseRH).wetbulb;
@@ -542,7 +550,6 @@ var bc = new (function () {
     }
     if (!isCelsius) {
       mouseDBT = util.CtoF(mouseDBT);
-      mouseDew = util.CtoF(mouseDew);
       mouseWBT = util.CtoF(mouseWBT);
       mouseEnt *= 0.43;
     }
@@ -663,11 +670,11 @@ var bc = new (function () {
       };
     }
 
-    for (rh = 0; rh <= 100; rh += 10) {
+    for (let rh = 0; rh <= 100; rh += 10) {
       boundary.push(solve(rh, -pmvlimit));
     }
 
-    for (rh = 100; rh >= 0; rh -= 10) {
+    for (let rh = 100; rh >= 0; rh -= 10) {
       boundary.push(solve(rh, pmvlimit));
     }
 

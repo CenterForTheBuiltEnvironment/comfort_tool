@@ -1,7 +1,15 @@
 var pc = new (function () {
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  if (pageWidth > 580) {
+    this.width = 580;
+  }
+
   this.margin = 40;
   this.rbmargin = 60;
-  this.width = 580;
   this.height = 500;
   this.db_min = 10;
   this.db_max = 36;
@@ -647,10 +655,10 @@ var pc = new (function () {
     }
 
     function solve(rhx, target) {
-      var epsilon = 0.001; // ta precision
-      var a = -50;
-      var b = 50;
-      var fn = rhclos(rhx, target);
+      const epsilon = 0.001; // ta precision
+      const a = -50;
+      const b = 50;
+      const fn = rhclos(rhx, target);
       //                t = util.bisect(a, b, fn, epsilon, 0)
       t = util.secant(a, b, fn, epsilon);
       return {
@@ -659,7 +667,7 @@ var pc = new (function () {
       };
     }
 
-    var incr = 10;
+    const incr = 10;
     let rhx;
     for (rhx = 0; rhx <= 100; rhx += incr) {
       boundary.push(solve(rhx, -pmvlimit));

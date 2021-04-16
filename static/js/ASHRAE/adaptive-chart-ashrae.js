@@ -1,9 +1,17 @@
 //goog.require('d3')
 
-var ac = new (function () {
-  this.margin = 40;
+const ac = new (function () {
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  if (pageWidth > 580) {
+    this.width = 580;
+  }
+
+  this.margin = 60;
   this.rbmargin = 40;
-  this.width = 550;
   this.height = 470;
   this.top_min = 14;
   this.top_max = 35;
@@ -34,7 +42,7 @@ var ac = new (function () {
     .range([this.margin, this.width - this.rbmargin])
     .domain(this.trm_extent_F);
 
-  var line = d3.svg
+  const line = d3.svg
     .line()
     .x(function (d) {
       return ac.trm_scale(d.trm);
@@ -44,12 +52,12 @@ var ac = new (function () {
     });
 
   this.drawChart = function () {
-    var top_axis = d3.svg.axis().scale(ac.top_scale).orient("left");
-    var top_axis_F = d3.svg.axis().scale(ac.top_scale_F).orient("left");
-    var trm_axis = d3.svg.axis().scale(ac.trm_scale);
-    var trm_axis_F = d3.svg.axis().scale(ac.trm_scale_F);
+    const top_axis = d3.svg.axis().scale(ac.top_scale).orient("left");
+    const top_axis_F = d3.svg.axis().scale(ac.top_scale_F).orient("left");
+    const trm_axis = d3.svg.axis().scale(ac.trm_scale);
+    const trm_axis_F = d3.svg.axis().scale(ac.trm_scale_F);
 
-    var upper80d = [
+    const upper80d = [
       {
         trm: 10,
         ta: 24.4,
@@ -72,7 +80,7 @@ var ac = new (function () {
       },
     ];
 
-    var upper90d = [
+    const upper90d = [
       {
         trm: 10,
         ta: 23.4,
@@ -95,7 +103,7 @@ var ac = new (function () {
       },
     ];
 
-    var lower80d = [
+    const lower80d = [
       {
         trm: 36,
         ta: 25.46,
@@ -107,7 +115,7 @@ var ac = new (function () {
         tr: 17.4,
       },
     ];
-    var lower90d = [
+    const lower90d = [
       {
         trm: 36,
         ta: 26.46,
@@ -220,13 +228,13 @@ var ac = new (function () {
     d3.select("#trm-axis-C")
       .append("text")
       .text("Prevailing Mean Outdoor Temperature [°C]")
-      .attr("x", ac.width / 2 - 3 * ac.margin)
+      .attr("x", ac.width / 2 - 2 * ac.margin)
       .attr("y", ac.rbmargin / 1.3);
 
     d3.select("#trm-axis-F")
       .append("text")
       .text("Prevailing Mean Outdoor Temperature [°F]")
-      .attr("x", ac.width / 2 - 3 * ac.margin)
+      .attr("x", ac.width / 2 - 2 * ac.margin)
       .attr("y", ac.rbmargin / 1.3);
 
     d3.select("#top-axis-C")
@@ -284,7 +292,7 @@ var ac = new (function () {
   };
 
   this.redrawBounds = function (coolingEffect) {
-    var upper80d = [
+    const upper80d = [
       {
         trm: 10,
         ta: 24.4,
@@ -307,7 +315,7 @@ var ac = new (function () {
       },
     ];
 
-    var upper90d = [
+    const upper90d = [
       {
         trm: 10,
         ta: 23.4,
@@ -330,7 +338,7 @@ var ac = new (function () {
       },
     ];
 
-    var lower80d = [
+    const lower80d = [
       {
         trm: 36,
         ta: 25.46,
@@ -342,7 +350,7 @@ var ac = new (function () {
         tr: 17.4,
       },
     ];
-    var lower90d = [
+    const lower90d = [
       {
         trm: 36,
         ta: 26.46,

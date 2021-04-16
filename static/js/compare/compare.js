@@ -707,7 +707,7 @@ function setDefaults3() {
 
 function toggleUnits() {
   var v, v2, v3;
-  var hs = $("#humidity-spec").val();
+  const hs = $("#humidity-spec").val();
   isCelsius = !isCelsius;
   if (isCelsius) {
     $(".tempunit1, .tempunit2, .tempunit3").each(function () {
@@ -761,7 +761,7 @@ function toggleUnits() {
       $("#rh1").val(v.toFixed(2));
       $("#rh2").val(v2.toFixed(2));
       $("#rh3").val(v3.toFixed(2));
-    } else if (hs == "w") {
+    } else if (hs === "w") {
       $("#rh-unit1, #rh-unit2, #rh-unit3").html(
         " <sup>kg<sub>water</sub></sup>&frasl;<sub>kg<sub>dry air</sub></sub>"
       );
@@ -807,7 +807,7 @@ function toggleUnits() {
         max: 300,
         numberFormat: "n",
       });
-    if (hs == "dewpoint" || hs == "wetbulb") {
+    if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit1, #rh-unit2, #rh-unit3").html(" &deg;F");
       v = util.CtoF($("#rh1").val());
       v2 = util.CtoF($("#rh2").val());
@@ -823,7 +823,7 @@ function toggleUnits() {
       $("#rh1").val(v.toFixed(2));
       $("#rh2").val(v2.toFixed(2));
       $("#rh3").val(v3.toFixed(2));
-    } else if (hs == "w") {
+    } else if (hs === "w") {
       $("#rh-unit1, #rh-unit2, #rh-unit3").html(
         " <sup>klb<sub>water</sub></sup>&frasl;<sub>klb<sub>dry air</sub></sub>"
       );

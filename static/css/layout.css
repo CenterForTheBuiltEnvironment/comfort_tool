@@ -1,25 +1,3 @@
-@media (max-device-width: 500px) {
-  /*:root {*/
-  /*    --responsive-font-size: 2rem;*/
-  /*    --responsive-font-size-footer: 1.5rem;*/
-  /*}*/
-  #chart-div-adaptive {
-    margin-left: 150px !important;
-  }
-
-  #chart-div {
-    margin-left: 150px !important;
-  }
-
-  #temphumchart-div {
-    margin-left: 150px !important;
-  }
-
-  #veltopchart-div {
-    margin-left: 150px !important;
-  }
-}
-
 a {
   color: #2a4583;
   text-decoration: none;

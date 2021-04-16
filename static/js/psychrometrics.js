@@ -194,9 +194,9 @@ psy.relhum = function (patm, psat, humRatio) {
   return rh;
 };
 
-psy.humratio = function (patm, pw) {
+psy.humratio = function (p_atm, pw) {
   // ASHRAE Fundamentals 2009: 0.621945
-  return (0.62198 * pw) / (patm - pw);
+  return (0.62198 * pw) / (p_atm - pw);
 };
 
 psy.enthalpy = function (tdb, w) {
@@ -253,12 +253,11 @@ psy.tairsat = function (hsat) {
 };
 
 psy.globetemp = function (ta, vel, tglobe, diameter, emissivity) {
-  pow = Math.pow;
   return (
-    pow(
-      pow(tglobe + 273, 4) +
-        ((1.1 * pow(10, 8) * pow(vel, 0.6)) /
-          (emissivity * pow(diameter, 0.4))) *
+    Math.pow(
+      Math.pow(tglobe + 273, 4) +
+        ((1.1 * Math.pow(10, 8) * Math.pow(vel, 0.6)) /
+          (emissivity * Math.pow(diameter, 0.4))) *
           (tglobe - ta),
       0.25
     ) - 273

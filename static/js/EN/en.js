@@ -208,10 +208,6 @@ $(".inputbox").focusout(function () {
   update();
 });
 
-// $('#vel_a').focusout(function () {
-//     update();
-// });
-
 $("#vel-a-box").click(function () {
   update();
 });
