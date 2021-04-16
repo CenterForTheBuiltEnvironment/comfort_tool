@@ -45,7 +45,7 @@
       <div id="left_content" class="card-body">
         {# Select method PMV or adaptive #}
         <div class="row justify-content-between">
-          <div class="col-sm-4">
+          <div class="col-sm-4 p-1">
             <div id="select_comfort_model" class="in">
               <div id="modelDiv">
                 <a
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div
-            class="col-lg-6 col-md-5"
+            class="col-lg-6 col-md-5 p-1"
             data-toggle="tooltip"
             title="Dropdown to choose between the PMV and Adaptive methods"
           >
@@ -74,7 +74,7 @@
         {# Inputs PMV and adaptive #}
         <div id="inputs" class="in">
           <div class="row justify-content-between">
-            <div class="col-md-4 col-lg-12">
+            <div class="col-md-4 col-lg-12 p-1">
               <div id="ta-lab">
                 <a
                   class="mainlink"
@@ -84,13 +84,13 @@
                 >
               </div>
             </div>
-            <div class="col-sm-3 col-lg-3">
+            <div class="col-sm-3 col-lg-3 p-1">
               <div class="inputfield" id="ta-input">
                 <input class="inputbox" id="ta" />
                 <span class="tempunit">&deg;C</span>
               </div>
             </div>
-            <div class="col-lg-6 col-md-5 checkbox">
+            <div class="col-lg-6 col-md-5 checkbox p-1">
               <label id="labelforlink">
                 <input type="checkbox" id="link" style="width: 20px;" /> Use
                 operative temp
@@ -99,7 +99,7 @@
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-md-4 col-lg-12">
+            <div class="col-md-4 col-lg-12 p-1">
               <div id="tr-lab">
                 <a
                   class="mainlink"
@@ -109,18 +109,18 @@
                 >
               </div>
             </div>
-            <div class="col-sm-3 col-lg-3">
+            <div class="col-sm-3 col-lg-3 p-1">
               <div class="inputfield" id="tr-input">
                 <input class="inputbox" id="tr" />
                 <span class="tempunit">&deg;C</span>
               </div>
             </div>
-            <div class="col-lg-auto col-md-5"></div>
+            <div class="col-lg-auto col-md-5 p-1"></div>
           </div>
 
           <div id="pmv-inputs">
             <div class="row justify-content-between">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div
                   data-toggle="tooltip"
                   title="Average air speed. The tool automatically calculates the relative air speed."
@@ -133,14 +133,14 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-3 p-1">
                 <div class="inputfield">
                   <input class="inputbox" id="vel" />
                   <span class="unit vel-unit"> m/s</span>
                 </div>
               </div>
               <div
-                class="col-lg-6 col-md-5"
+                class="col-lg-6 col-md-5 p-1"
                 id="local-control-div"
                 data-toggle="tooltip"
                 title="Define if building's occupants have control or not on air speed"
@@ -155,7 +155,7 @@
             </div>
 
             <div class="row justify-content-between">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div>
                   <a
                     class="mainlink"
@@ -165,13 +165,13 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-3">
+              <div class="col-sm-3 col-lg-3 p-1">
                 <div class="inputfield">
                   <input class="inputbox" id="rh" />
                   <span class="unit" id="rh-unit"> %</span>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-5" id="humidity-spec-cont">
+              <div class="col-lg-6 col-md-5 p-1" id="humidity-spec-cont">
                 <select class="form-control" id="humidity-spec">
                   <option value="rh">Relative humidity</option>
                   <option value="w">Humidity ratio</option>
@@ -183,8 +183,8 @@
             </div>
 
             {# metabolic rate #}
-            <div id="actInput" class="row justify-content-between in">
-              <div class="col-md-4 col-lg-12">
+            <div id="actInput" class="row justify-content-between">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div>
                   <a
                     class="mainlink"
@@ -194,20 +194,20 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-3">
+              <div class="col-sm-3 col-lg-3 p-1">
                 <div class="inputfield" id="met_input">
                   <input class="inputbox" id="met" />
                   <span class="unit"> met</span>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-5" id="actSelectDiv">
+              <div class="col-lg-6 col-md-5 p-1" id="actSelectDiv">
                 <select class="form-control" id="actSelect"></select>
               </div>
             </div>
 
             {# clothing #}
             <div id="cloInput" class="row justify-content-between in">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div
                   data-toggle="tooltip"
                   title="Total clothing level. The tool automatically calculates dynamic clothing value."
@@ -220,13 +220,13 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-3">
+              <div class="col-sm-3 col-lg-3 p-1">
                 <div class="inputfield">
                   <input class="inputbox" id="clo" />
                   <span class="unit"> clo</span>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-5" id="cloSelectDiv">
+              <div class="col-lg-6 col-md-5 p-1" id="cloSelectDiv">
                 <select class="form-control" id="cloSelect"></select>
               </div>
             </div>
