@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Introduction · CBE Thermal Comfort Tool docs</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## What is the CBE Thermal Comfort Tool?"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Introduction · CBE Thermal Comfort Tool docs"/><meta property="og:type" content="website"/><meta property="og:url" content="CenterForTheBuiltEnvironment.github.io/comfort_tool/"/><meta property="og:description" content="## What is the CBE Thermal Comfort Tool?"/><meta property="og:image" content="CenterForTheBuiltEnvironment.github.io/comfort_tool/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="CenterForTheBuiltEnvironment.github.io/comfort_tool/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/comfort_tool/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/comfort_tool/js/scrollSpy.js"></script><link rel="stylesheet" href="/comfort_tool/css/main.css"/><script src="/comfort_tool/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/comfort_tool/"><img class="logo" src="/comfort_tool/img/CBE-logo-2018.png" alt="CBE Thermal Comfort Tool docs"/><h2 class="headerTitleWithLogo">CBE Thermal Comfort Tool docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/comfort_tool/docs/introduction" target="_self">Docs</a></li><li class=""><a href="/comfort_tool/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Overview</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Overview</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/comfort_tool/docs/introduction">Introduction</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Documentation</h3><ul class=""><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/ashrae55">ASHRAE-55</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/en">EN-16798</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/compare">Compare</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/ranges">Ranges</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/upload">Upload</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/pmv">PMV Model</a></li><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/ashrae55-references">ASHRAE-55 References</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Changelog</h3><ul class=""><li class="navListItem"><a class="navItem" href="/comfort_tool/docs/changelog">CHANGELOG</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Introduction</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="what-is-the-cbe-thermal-comfort-tool"></a><a href="#what-is-the-cbe-thermal-comfort-tool" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What is the CBE Thermal Comfort Tool?</h2>
+<p>The CBE Thermal Comfort Tool is a free online tool for thermal comfort calculations and visualizations that complies with the major international thermal comfort standards (ASHRAE 55–2017, ISO 7730:2005 and EN 16798–1:2019).</p>
+<p>It incorporates the major thermal comfort models, including the Predicted Mean Vote (PMV), Standard Effective Temperature (SET), adaptive models, local discomfort models, SolarCal, and dynamic predictive clothing insulation. Our  tool  also  provides  dynamic  and  interactive  visualizations of the thermally comfortable conditions depending on the models.</p>
+<p>In addition the CBE Thermal Comfort Tool allows users to upload time-series, or large sets of input parameters and it automatically calculates: PMV, PPD, SET, and CE. This may allow users to perform exceedance predictions (e.g. annual or seasonal) for simulated or real buildings.</p>
+<h2><a class="anchor" aria-hidden="true" id="how-to-use-the-tool-and-its-main-functionalities"></a><a href="#how-to-use-the-tool-and-its-main-functionalities" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use the tool and its main functionalities</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v3NcabOAGKk?start=62" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+<h2><a class="anchor" aria-hidden="true" id="practical-applications"></a><a href="#practical-applications" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Practical applications</h2>
+<p>The CBE Thermal Comfort Tool has several practical applications and each year is used by more than 49,000 users worldwide, including engineers, architects, researchers, educators, facility managers and policymakers.</p>
+<h2><a class="anchor" aria-hidden="true" id="cite-us"></a><a href="#cite-us" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cite us</h2>
+<blockquote>
+<p>Tartarini, F., Schiavon, S., Cheung, T., Hoyt, T., 2020. CBE Thermal Comfort Tool : online tool for thermal comfort calculations and visualizations. SoftwareX 12, 100563. <a href="https://doi.org/10.1016/j.softx.2020.100563">https://doi.org/10.1016/j.softx.2020.100563</a></p>
+</blockquote>
+<p>The tool is developed by the University of California at Berkeley.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/comfort_tool/docs/ashrae55"><span>ASHRAE-55</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#what-is-the-cbe-thermal-comfort-tool">What is the CBE Thermal Comfort Tool?</a></li><li><a href="#how-to-use-the-tool-and-its-main-functionalities">How to use the tool and its main functionalities</a></li><li><a href="#practical-applications">Practical applications</a></li><li><a href="#cite-us">Cite us</a></li></ul></nav></div><footer class="nav-footer" id="footer"><p class="copyright"><strong>Please cite us if you use this software: </strong><a href="https://www.sciencedirect.com/science/article/pii/S2352711020302454?via%3Dihub" style="color:white;text-decoration-line:underline">Tartarini, F., Schiavon, S., Cheung, T., Hoyt, T., 2020. CBE Thermal Comfort Tool : online tool for thermal comfort calculations and visualizations. SoftwareX 12, 100563. https://doi.org/10.1016/j.softx.2020.100563</a></p><p class="copyright">We have also released<a href="https://pypi.org/project/pythermalcomfort/" style="color:white;text-decoration-line:underline"> pythermalcomfort </a>a Python packaged to calculate several thermal comfort indices (e.g. PMV, PPD, SET, adaptive). Links to the:<a href="https://pythermalcomfort.readthedocs.io/" style="color:white;text-decoration-line:underline"> official documentation </a>and<a href="https://www.sciencedirect.com/science/article/pii/S2352711020302910" style="color:white;text-decoration-line:underline"> our paper </a>.</p><p class="copyright"><a href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog" style="color:white;text-decoration-line:underline"> Version: 2.1.7 </a></p><section class="copyright"><a href="#" target="_blank" rel="noreferrer noopener" class="copyright"><img src="/comfort_tool/img/CBE-logo-2018.png" alt="CBE Thermal Comfort Tool docs" width="170"/></a></section><section class="copyright">Copyright © 2021 Center for the Built Environment (CBE), University of California Berkeley (USA)</section></footer></div></body></html>
