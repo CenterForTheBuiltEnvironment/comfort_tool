@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.1.7 (2020-04-16)
+
+Features:
+
+- Improved documentation and made charts responsive
+
 ## Version 2.1.6 (2020-04-09)
 
 Fix:
