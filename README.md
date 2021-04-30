@@ -8,28 +8,30 @@ A web interface for comfort model calculations and visualizations according to A
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Prerequisites
+### Prerequisites
 
-Python 3 installed on your machine.
+Python 3 and Node.js installed on your machine.
 
 If you do not have Python installed on your machine you can follow [this guide](https://wiki.python.org/moin/BeginnersGuide/Download)
 
-## Installation
+If you do not have Node.js installed on your machine you can follow [this guide](https://nodejs.org/en/download/)
+
+### Installation
 
 This guide is for Mac OSX, Linux or Windows.
 
-**Check out from the repo.**
+1. **Get the source code from the GitHub repository**
 ```
 $ git clone https://github.com/CenterForTheBuiltEnvironment/comfort-tool.git
 $ cd comfort_tool
 ```
-**Create a vitrual environment using the following command:**
+2. **Create a virtual environment using the following command:**
 
 On Linux and MAC ` $ python3 -m venv venv `
 
 On Windows ` py -3 -m venv venv `
 
-**Activate the virtualenv:**
+3. **Activate the virtualenv:**
 
 On Linux and MAC ` $ . venv/bin/activate `
 
@@ -37,9 +39,17 @@ On Windows ` venv\Scripts\activate `
 
 Your shell prompt will change to show the name of the activated environment.
 
+4. **Install Python dependencies**
+
 The dependencies of the comfort tool are all contained in *requirements.txt*. 
 Install them all using:
 `$ pip install -r requirements.txt`
+
+5. **Install Node.js dependencies**
+
+`npm install`
+
+6. **Run CBE Thermal Comfort Tool locally**
 
 Now you should be ready to run the tool locally.
 `python3 comfort.py`
@@ -47,16 +57,23 @@ Now you should be ready to run the tool locally.
 Visit http://localhost:5000 in your browser to check it out. 
 Note that whenever you want to run the tool, you have to activate the virtualenv first.
 
-## Static files
-If you're serving static files from somewhere other than /static/, modify the static file paths ...
+### Testing
 
-Set STATIC_URL_PATH in `comfort.py`
+We are using [Jest](https://jestjs.io/docs/en/getting-started.html) to test the JavaScript functions.
 
-Set util.STATIC_URL_PATH in `static/js/util.js`
+If you want to find out more please read their official documentation or look at how we are testing the [ERF functions (file name erf.js)](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/blob/master/static/js/erf.js) using the test file `erf.test.js`.
 
-Finally, manually change the path as needed in `static/html/leed.html` for the `/static/css/psychchart.css` stylesheet.
+Finally run `npm run test`. You should write tests for all the new functions you add and ensure that you get positive results from the tests. Also run tests before deploying a new version of the CBE Thermal Comfort Tool.
 
-## Features
+### Versioning
+When you release a new version of the tool you should first use `bumpversion` to update the version of the tool. You can use the following command:
+```cmd
+bumpversion patch  # alternatively you can use minor or major instead of patch
+```
+
+Secondly you should describe the changes in `docs/changelog.md`
+
+### Features
 
 1. Models.
     * Adaptive (inputs: air temperature, MRT, mean outdoor temperature, air speed)
@@ -78,4 +95,4 @@ Finally, manually change the path as needed in `static/html/leed.html` for the `
 
 
 ## Documentation
-To edit or generate new documentation please refer to the README.md file which is located in the website folder.
+To edit or generate new documentation please refer to the [README.md](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/blob/master/website/README.md) file which is located in the `./website` folder.

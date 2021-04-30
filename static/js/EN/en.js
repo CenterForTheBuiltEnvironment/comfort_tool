@@ -13,21 +13,21 @@ $(document).ready(function () {
     document.getElementById("clo").value = cloSelect.value;
     update();
   };
-  cloInsulationTypicalEnsambles.forEach(function (element) {
-    cloSelect.options.add(new Option(element.clothing, element.clo));
-  });
+
+  populate_clo_dropdown();
+
   var cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
     cloMultiSelect.options.add(new Option(element.article, element.clo));
   });
-  var actSelect = document.getElementById("actSelect");
+
+  const actSelect = document.getElementById("actSelect");
   actSelect.onchange = function () {
     document.getElementById("met").value = actSelect.value;
     update();
   };
-  metRatesTypicalTasks.forEach(function (element) {
-    actSelect.options.add(new Option(element.activity, element.met));
-  });
+
+  populate_met_dropdown(metRatesTypicalTasks);
 
   $(function () {
     $(".multiselect").multiselect({
@@ -59,10 +59,10 @@ $(document).ready(function () {
   ).hide();
   window.isCelsius = true;
   window.humUnit = "rh";
-  setDefaults();
+  resetDefaultValues();
   update();
   bc.drawChart();
-  var bound = bc.findComfortBoundary(d, 0.5);
+  bc.findComfortBoundary(d, 0.5);
   enbc.drawComfortRegions(d);
   bc.drawPoint();
 
@@ -208,10 +208,6 @@ $(".inputbox").focusout(function () {
   update();
 });
 
-// $('#vel_a').focusout(function () {
-//     update();
-// });
-
 $("#vel-a-box").click(function () {
   update();
 });
@@ -222,7 +218,7 @@ $("#unitsToggle").click(function () {
 });
 
 $("#setDefaults").click(function () {
-  setDefaults();
+  resetDefaultValues();
   update();
 });
 
@@ -283,7 +279,7 @@ $("#globeTemp").click(function () {
 $("#localDisc").click(function () {
   var container = $("#localdialog");
   $.ajax({
-    url: util.STATIC_URL + "/html/localdisc.html",
+    url: util.STATIC_URL + "/html/local-disc-en.html",
     success: function (data) {
       $("#localdialog").html(data);
       if (!isCelsius) {
@@ -316,7 +312,7 @@ $("#addToEnsembles").click(function () {
 $("#model-type").change(function () {
   $("#pmv-out-label").html("PMV");
   $("#localDisc").removeAttr("disabled");
-  model = $("#model-type").val();
+  const model = $("#model-type").val();
   if (model === "pmv") {
     $(
       "#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes"
@@ -420,31 +416,38 @@ function update() {
     if (window.humUnit === "vappress") d.rh *= 1000;
   }
 
-  // calculate relative air speed
+  // calculate and display relative air speed
   if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
     vRelativeDiv.show();
     if (isCelsius) {
-      vRelativeValue.html(d.vel.toFixed(2));
+      vRelativeValue.html(comf.relativeAirSpeed(d.vel, d.met).toFixed(2));
     } else {
-      vRelativeValue.html((d.vel * 196).toFixed(2));
+      vRelativeValue.html(
+        (comf.relativeAirSpeed(d.vel, d.met) * 196).toFixed(2)
+      );
     }
   } else {
     vRelativeDiv.hide();
   }
 
-  // fixme implement the dynamic clothing insulation
-
   const model = document.getElementById("model-type").value;
   if (model === "pmv") {
-    r = comf.pmv(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
+    r = comf.pmv(
+      d.ta,
+      d.tr,
+      comf.relativeAirSpeed(d.vel, d.met),
+      d.rh,
+      d.met,
+      comf.dynamicClothing(d.clo, d.met),
+      0
+    );
     if (isNaN(r.pmv)) {
       window.alert(
         "The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n" +
           "Please check that the value you entered are correct.\n" +
           "The input parameters has been set back to their default values."
       );
-      setDefaults();
+      resetDefaultValues();
     }
     renderPmvResults(r);
     calcPmvCompliance(d, r);
@@ -544,14 +547,12 @@ function renderAdaptiveResults(r) {
 }
 
 function calcPmvCompliance(d, r) {
-  var pmv_complyI = Math.abs(r.pmv) <= 0.2;
-  var pmv_complyII = Math.abs(r.pmv) <= 0.5;
-  var pmv_complyIII = Math.abs(r.pmv) <= 0.7;
-  var met_comply = d.met <= 4 && d.met >= 0.8;
-  var clo_comply = d.clo <= 2;
+  const pmv_complyIII = Math.abs(r.pmv) <= 0.7;
+  const met_comply = d.met <= 4 && d.met >= 0.8;
+  const clo_comply = d.clo <= 2;
 
   var special_msg = "";
-  comply = true;
+  let comply = true;
 
   if (!met_comply) {
     comply = false;
@@ -607,29 +608,6 @@ function renderCompliance(comply, special_msg) {
       .css({ color: "red" });
     $("#special-msg").html(special_msg);
   }
-}
-
-function setDefaults() {
-  if (!isCelsius) toggleUnits();
-  var hs = $("#humidity-spec").val();
-  var rh = psy.convert(50, 25, "rh", hs);
-  if (hs === "vappress") {
-    rh /= 1000;
-  }
-  var defaults = {
-    ta: 25,
-    tr: 25,
-    vel: 0.1,
-    rh: rh.toFixed(psy.PREC[hs]),
-    met: 1.1,
-    clo: 0.5,
-    trm: 24,
-    vel_a: 0.2,
-  };
-
-  keys.forEach(function (element) {
-    document.getElementById(element).value = defaults[element];
-  });
 }
 
 // Set clo value created by the custom ensemble dialog

@@ -2,10 +2,18 @@
 // ----- time out section for testing the change from rh to speed
 
 var vc = new (function () {
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  if (pageWidth > 580) {
+    this.width = 580;
+  }
+
   // set up viewport
   this.margin = 60;
   this.rbmargin = 40;
-  this.width = 580;
   this.height = 500;
   this.db_min = 20;
   this.db_max = 34;
@@ -45,12 +53,12 @@ var vc = new (function () {
     });
 
   this.drawChart = function () {
-    var db_axis = d3.svg.axis().scale(vc.db_scale);
-    var db_axis_F = d3.svg.axis().scale(vc.db_scale_F);
-    var vel_axis = d3.svg.axis().scale(vc.vel_scale).orient("left");
-    var vel_axis_fpm = d3.svg.axis().scale(vc.vel_scale_fpm).orient("left");
+    const db_axis = d3.svg.axis().scale(vc.db_scale);
+    const db_axis_F = d3.svg.axis().scale(vc.db_scale_F);
+    const vel_axis = d3.svg.axis().scale(vc.vel_scale).orient("left");
+    const vel_axis_fpm = d3.svg.axis().scale(vc.vel_scale_fpm).orient("left");
 
-    var line = d3.svg
+    d3.svg
       .line()
       .x(function (d) {
         return vc.db_scale(d.db);
@@ -234,7 +242,6 @@ var vc = new (function () {
 
     let temp_var;
     let temp_vel;
-    let pmv;
     // if the occupant has control on the air speed then there are no limits
     if (local_control === "withairspeedcontrol") {
       // add description saying that there is no upper limit for the air speed
@@ -274,7 +281,6 @@ var vc = new (function () {
       boundary.push(solve(0.1, pmvlimit));
       // with no occupants' air speed control
     } else {
-      // remove note
       d3.selectAll("#note").remove();
 
       // add left side comfort region

@@ -38,7 +38,7 @@ $(document).ready(function () {
   window.humUnit = "rh";
   rangeYes = false;
 
-  setDefaults();
+  resetDefaultValues();
   update();
   pc.drawChart(d);
   bc.drawChart(d);
@@ -158,7 +158,7 @@ $(function () {
         "<option value='sel_t_mrt'>Mean radiant temperature</option>"
       );
 
-      if (!mrtValRow.is(":visible") && !(parameter === "sel_t_mrt")) {
+      if (!mrtValRow.is(":visible") && parameter !== "sel_t_mrt") {
         mrtValRow.show();
       }
     } else if (chart === "psychtop") {
@@ -252,15 +252,15 @@ $("#humidity-spec").change(function () {
   var maxHumRatio = psy.humratio(psy.PROP.Patm, maxVapPress);
   var rh = parseFloat($("#rh").val());
   if (
-    !isCelsius &
-    ((window.humUnit == "wetbulb") | (window.humUnit == "dewpoint"))
+    !isCelsius &&
+    (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
   )
     rh = util.FtoC(rh);
-  if (window.humUnit == "vappress")
+  if (window.humUnit === "vappress")
     if (!isCelsius) rh *= 2953;
     else rh *= 1000;
 
-  if (v == "rh") {
+  if (v === "rh") {
     $("#rh").val(psy.convert(rh, ta, window.humUnit, "rh"));
     $("#rh-unit").html(" %");
     $("#rh").spinner({
@@ -334,7 +334,7 @@ $(".inputbox").keydown(function (event) {
   if (event.keyCode === 13) {
     var inputs = $(".inputbox:visible:enabled");
     var nextBox = inputs.index(this) + 1;
-    if (nextBox == inputs.length) nextBox = 0;
+    if (nextBox === inputs.length) nextBox = 0;
     inputs[nextBox].focus();
   }
 });
@@ -351,7 +351,7 @@ $(".inputbox").click(function () {
 
 $("#rh-inputcell").click(function () {
   if (rangeYes) {
-    pc.redrawRHcurve();
+    pc.redrawRHCurve();
     bc.redrawRHcurve();
   }
 });
@@ -360,9 +360,9 @@ $("#tr-inputcell").click(function () {
   if (rangeYes) {
     if (rangefactor === "vel") {
       drawVELrange();
-    } else if (rangefactor == "met") {
+    } else if (rangefactor === "met") {
       drawMETrange();
-    } else if (rangefactor == "clo") {
+    } else if (rangefactor === "clo") {
       drawCLOrange();
     }
   }
@@ -396,9 +396,9 @@ $("#clo-inputcell").click(function () {
   if (rangeYes) {
     if (rangefactor === "vel") {
       drawVELrange();
-    } else if (rangefactor == "met") {
+    } else if (rangefactor === "met") {
       drawMETrange();
-    } else if (rangefactor == "tr") {
+    } else if (rangefactor === "tr") {
       drawTRrange();
     }
   }
@@ -419,10 +419,10 @@ $("#restart").click(function () {
   $("#output-ranges").hide();
   // $('.inputfield').css('background-color', '#DCE7F7');
   $("#ta-lab, #inputfield-ta").css("visibility", "visible");
-  pc.removeRHcurve();
+  pc.removeRHCurve();
   bc.removeRHcurve();
 
-  setDefaults();
+  resetDefaultValues();
 
   $("#parameter_select").val("sel_t_mrt").change();
 
@@ -455,7 +455,7 @@ $("#specPressure").click(function () {
         : "inches of mercury (inHg)"
     )
   );
-  if (customPressure != "" && customPressure != null) {
+  if (customPressure !== "" && customPressure != null) {
     customPressure = parseFloat(customPressure);
     if (!isCelsius) {
       customPressure *= 3386.39;
@@ -475,10 +475,15 @@ $("#specPressure").click(function () {
 });
 
 function toggleUnits() {
-  var v, el;
+  var v;
   var hs = $("#humidity-spec").val();
+
+  const optionsAirSpeed = document.getElementById("step-select-vel");
+  const optionsMeanRadiantT = document.getElementById("step-select-tr");
+
   isCelsius = !isCelsius;
   if (isCelsius) {
+    $(".t-unit").html(" &deg;C");
     $(".tempunit").each(function () {
       $(this).html(" &deg;C");
     });
@@ -497,13 +502,13 @@ function toggleUnits() {
     });
 
     if (rangeYes) {
-      if (rangefactor == "tr") {
+      if (rangefactor === "tr") {
         $("#factor-output1, #factor-output2").each(function () {
           v = util.FtoC(parseFloat($(this).html()));
           $(this).html(v.toFixed(1));
         });
       }
-      if (rangefactor == "vel") {
+      if (rangefactor === "vel") {
         v1 = $("#factor-output1").html();
         $("#factor-output1").html((v1 / 196.9).toFixed(2));
         v2 = $("#factor-output2").html();
@@ -525,26 +530,21 @@ function toggleUnits() {
     v2 = $("#vel2").val();
     $("#vel2").val((v2 / 196.9).toFixed(2));
 
-    $("#step-select-vel").html(
-      "\
-            <option value='0.05'>0.05 m/s</option>\
-            <option value='0.1'>0.1 m/s</option>\
-            <option value='0.2'>0.2 m/s</option>\
-        "
-    );
-    $("#step-select-tr").html(
-      "\
-            <option value='0.5'>0.5 &deg;C</option>\
-            <option value='1'>1.0 &deg;C</option>\
-            <option value='1.5'>1.5 &deg;C</option>\
-        "
-    );
+    $("#step-select-vel").find("option").remove().end();
+    optionsAirSpeed.options.add(new Option("0.05 m/s", 0.05));
+    optionsAirSpeed.options.add(new Option("0.1 m/s", 0.1));
+    optionsAirSpeed.options.add(new Option("0.2 m/s", 0.2));
+
+    $("#step-select-tr").find("option").remove().end();
+    optionsMeanRadiantT.options.add(new Option("0.5 &deg;C", 0.5));
+    optionsMeanRadiantT.options.add(new Option("1.0 &deg;C", 1.0));
+    optionsMeanRadiantT.options.add(new Option("1.5 &deg;C", 1.5));
 
     if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit").html(" &deg;C");
       v = util.FtoC($("#rh").val());
       $("#rh").val(v.toFixed(1));
-    } else if (hs == "vappress") {
+    } else if (hs === "vappress") {
       $("#rh-unit").html(" KPa");
       v = $("#rh").val() * 2.953;
       $("#rh").val(v.toFixed(2));
@@ -573,7 +573,7 @@ function toggleUnits() {
           $(this).html(v.toFixed(1));
         });
       }
-      if (rangefactor == "vel") {
+      if (rangefactor === "vel") {
         v1 = $("#factor-output1").html();
         $("#factor-output1").html((v1 * 196.9).toFixed(0));
         v2 = $("#factor-output2").html();
@@ -595,26 +595,22 @@ function toggleUnits() {
     $("#vel1").val((v1 * 196.9).toFixed(0));
     v2 = $("#vel2").val();
     $("#vel2").val((v2 * 196.9).toFixed(0));
-    $("#step-select-vel").html(
-      "\
-            <option value='10'>10 fpm</option>\
-            <option value='20'>20 fpm</option>\
-            <option value='40'>40 fpm</option>\
-        "
-    );
-    $("#step-select-tr").html(
-      "\
-            <option value='1.0'>1.0 &deg;F</option>\
-            <option value='2.0'>2.0 &deg;F</option>\
-            <option value='3.0'>3.0 &deg;F</option>\
-        "
-    );
 
-    if (hs == "dewpoint" || hs == "wetbulb") {
+    $("#step-select-vel").find("option").remove().end();
+    optionsAirSpeed.options.add(new Option("10 fpm", 10));
+    optionsAirSpeed.options.add(new Option("20 fpm", 20));
+    optionsAirSpeed.options.add(new Option("40 fpm", 40));
+
+    $("#step-select-tr").find("option").remove().end();
+    optionsMeanRadiantT.options.add(new Option("1.0 &deg;F", 1.0));
+    optionsMeanRadiantT.options.add(new Option("2.0 &deg;F", 2.0));
+    optionsMeanRadiantT.options.add(new Option("3.0 &deg;F", 3.0));
+
+    if (hs === "dewpoint" || hs === "wetbulb") {
       $("#rh-unit").html(" &deg;F");
       v = util.CtoF($("#rh").val());
       $("#rh").val(v.toFixed(1));
-    } else if (hs == "vappress") {
+    } else if (hs === "vappress") {
       $("#rh-unit").html(" in HG");
       v = $("#rh").val() / 2.953;
       $("#rh").val(v.toFixed(2));
@@ -643,8 +639,6 @@ function drawRange(factor, incr) {
     for (var x = fakeFactor_1; x <= fakeFactor_2; x += incr) {
       d[factor] = x / 1000;
 
-      calculateRelativeAirSpeedAndClothing(factor);
-
       var bound = pc.findComfortBoundary(d, 0.5);
       var bcBound = bc.convertBoundary(bound);
       pc.drawNewZone(d, bound, factor, x);
@@ -653,9 +647,9 @@ function drawRange(factor, incr) {
 
     last_value = (x - incr) / 1000;
 
-    var curve = pc.findRHcurve(d, 0.5, factor);
+    var curve = pc.findRHCurve(d, 0.5, factor);
     var line = bc.findRHcurve(d, 0.5, factor);
-    pc.drawRHcurve(curve);
+    pc.drawRHCurve(curve);
     bc.drawRHcurve(line);
 
     $("#output-ranges").show();
@@ -668,24 +662,26 @@ function drawRange(factor, incr) {
 }
 
 function drawTRrange() {
+  let tr_incr;
   if (!isCelsius) {
-    var tr_incr =
+    tr_incr =
       (parseFloat(document.getElementById("step-select-tr").value) / 1.8) *
       1000;
   } else {
-    var tr_incr =
+    tr_incr =
       parseFloat(document.getElementById("step-select-tr").value) * 1000;
   }
   drawRange("tr", tr_incr);
 }
 
 function drawVELrange() {
+  let vel_incr;
   if (!isCelsius) {
-    var vel_incr =
+    vel_incr =
       (parseFloat(document.getElementById("step-select-vel").value) / 196.9) *
       1000;
   } else {
-    var vel_incr =
+    vel_incr =
       parseFloat(document.getElementById("step-select-vel").value) * 1000;
   }
   drawRange("vel", vel_incr);
@@ -719,27 +715,27 @@ function setFactors(factor) {
     d.ta = util.FtoC(d.ta);
     d.tr = util.FtoC(d.tr);
     d.vel /= 196.9;
-    if (factor == "tr") {
+    if (factor === "tr") {
       factor_1 = util.FtoC(
         parseFloat(document.getElementById(factor + "1").value)
       );
       factor_2 = util.FtoC(
         parseFloat(document.getElementById(factor + "2").value)
       );
-    } else if (factor == "vel") {
+    } else if (factor === "vel") {
       factor_1 =
         parseFloat(document.getElementById(factor + "1").value) / 196.9;
       factor_2 =
         parseFloat(document.getElementById(factor + "2").value) / 196.9;
-    } else if (factor == "met" || factor == "clo") {
+    } else if (factor === "met" || factor === "clo") {
       factor_1 = parseFloat(document.getElementById(factor + "1").value);
       factor_2 = parseFloat(document.getElementById(factor + "2").value);
     }
-    if (window.humUnit == "wetbulb" || window.humUnit == "dewpoint")
+    if (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
       d.rh = util.FtoC(d.rh);
-    else if (window.humUnit == "vappress") d.rh *= 2953;
+    else if (window.humUnit === "vappress") d.rh *= 2953;
   } else {
-    if (window.humUnit == "vappress") d.rh *= 1000;
+    if (window.humUnit === "vappress") d.rh *= 1000;
     factor_1 = parseFloat(document.getElementById(factor + "1").value);
     factor_2 = parseFloat(document.getElementById(factor + "2").value);
     setInputs();
@@ -749,7 +745,7 @@ function setFactors(factor) {
 
 function removeRanges() {
   d3.selectAll("path.comfortzone-range").remove();
-  pc.removeRHcurve();
+  pc.removeRHCurve();
   d3.selectAll("path.comfortzone-temphum-range").remove();
   bc.removeRHcurve();
 }
@@ -766,27 +762,18 @@ function update() {
     d.tr = util.FtoC(d.tr);
     d.trm = util.FtoC(d.trm);
     d.vel /= 196.9;
-    if (window.humUnit == "wetbulb" || window.humUnit == "dewpoint")
+    if (window.humUnit === "wetbulb" || window.humUnit === "dewpoint")
       d.rh = util.FtoC(d.rh);
-    else if (window.humUnit == "vappress") d.rh *= 2953;
+    else if (window.humUnit === "vappress") d.rh *= 2953;
   } else {
-    if (window.humUnit == "vappress") d.rh *= 1000;
+    if (window.humUnit === "vappress") d.rh *= 1000;
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // calculate relative air speed
-  if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
-  }
-
-  // calculate adjusted clothing insulation
-  if (d.met > 1.2 && d.met < 2) {
-    d.clo = d.clo * (0.6 + 0.4 / d.met);
-    console.log(d.clo);
-  }
+  let b;
 
   if ($("#chart-div").is(":visible")) {
-    var b = pc.findComfortBoundary(d, 0.5);
+    b = pc.findComfortBoundary(d, 0.5);
     pc.redrawComfortRegion(b);
     var pointdata = [
       {
@@ -796,35 +783,14 @@ function update() {
     ];
     pc.redrawPoint(pointdata);
   } else if ($("#temphumchart-div").is(":visible")) {
-    var b = bc.findComfortBoundary(d, 0.5);
+    b = bc.findComfortBoundary(d, 0.5);
     bc.redrawComfortRegion(b);
     bc.redrawPoint();
   }
 }
 
-function setDefaults() {
-  if (!isCelsius) toggleUnits();
-  const hs = $("#humidity-spec").val();
-  let rh = psy.convert(50, 25, "rh", hs);
-  if (hs === "vappress") {
-    rh /= 1000;
-  }
-  const defaults = {
-    ta: envVarLimits.ta.si.default,
-    tr: envVarLimits.tr.si.default,
-    vel: envVarLimits.vel.si.default,
-    rh: rh.toFixed(psy.PREC[hs]),
-    met: envVarLimits.met.default,
-    clo: envVarLimits.met.default,
-  };
-
-  keys.forEach(function (element) {
-    document.getElementById(element).value = defaults[element];
-  });
-}
-
 function parameter_selection_change() {
-  setDefaults();
+  resetDefaultValues();
   const parameter = $("#parameter_select").val();
   const chart = $("#chartSelect").val();
   $(
@@ -854,28 +820,4 @@ function parameter_selection_change() {
     $("#mrt_val_row").hide();
   }
   update();
-}
-
-function calculateRelativeAirSpeedAndClothing(factor) {
-  if (factor === "vel") {
-    // calculate relative air speed
-    if (d.met > 1) {
-      d.vel = d.vel + 0.3 * (d.met - 1);
-    }
-    // calculate adjusted clothing insulation
-    if (d.met > 1.2 && d.met < 2) {
-      d.clo = $("#clo").val() * (0.6 + 0.4 / d.met);
-    }
-  }
-
-  if (factor === "clo") {
-    // calculate adjusted clothing insulation
-    if (d.met > 1.2 && d.met < 2) {
-      d.clo = d.clo * (0.6 + 0.4 / d.met);
-    }
-    // calculate relative air speed
-    if (d.met > 1) {
-      d.vel = $("#vel").val() + 0.3 * (d.met - 1);
-    }
-  }
 }

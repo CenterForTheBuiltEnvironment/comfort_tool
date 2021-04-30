@@ -9,6 +9,16 @@ function find_span(arr, x) {
   return -1;
 }
 
+function radians_to_degrees(radians) {
+  const pi = Math.PI;
+  return radians * (180 / pi);
+}
+
+function degrees_to_radians(degrees) {
+  const pi = Math.PI;
+  return degrees * (pi / 180);
+}
+
 function get_fp(alt, az, posture) {
   //  This function calculates the projected sunlit fraction (fp)
   //  given a seated or standing posture, a solar altitude, and a
@@ -19,46 +29,58 @@ function get_fp(alt, az, posture) {
   //  alt : altitude of sun in degrees [0, 90] Integer
   //  az : azimuth of sun in degrees [0, 180] Integer
 
-  // fp_table for both standing and supine person
-  let fp_table = [
-    [0.25, 0.25, 0.23, 0.19, 0.15, 0.1, 0.06],
-    [0.25, 0.25, 0.23, 0.18, 0.15, 0.1, 0.06],
-    [0.24, 0.24, 0.22, 0.18, 0.14, 0.1, 0.06],
-    [0.22, 0.22, 0.2, 0.17, 0.13, 0.09, 0.06],
-    [0.21, 0.21, 0.18, 0.15, 0.12, 0.08, 0.06],
-    [0.18, 0.18, 0.17, 0.14, 0.11, 0.08, 0.06],
-    [0.17, 0.17, 0.16, 0.13, 0.11, 0.08, 0.06],
-    [0.18, 0.18, 0.16, 0.13, 0.11, 0.08, 0.06],
-    [0.2, 0.2, 0.18, 0.15, 0.12, 0.08, 0.06],
-    [0.22, 0.22, 0.2, 0.16, 0.13, 0.09, 0.06],
-    [0.24, 0.24, 0.21, 0.17, 0.13, 0.09, 0.06],
-    [0.25, 0.25, 0.22, 0.18, 0.14, 0.09, 0.06],
-    [0.25, 0.25, 0.22, 0.18, 0.14, 0.09, 0.06],
-  ];
+  let fp_table;
 
-  if (posture === "seated") {
+  if (posture === "standing" || posture === "supine") {
     fp_table = [
-      [0.2, 0.23, 0.21, 0.21, 0.18, 0.16, 0.12],
-      [0.2, 0.23, 0.2, 0.2, 0.2, 0.19, 0.16, 0.12],
-      [0.2, 0.23, 0.21, 0.2, 0.18, 0.15, 0.12],
-      [0.19, 0.23, 0.2, 0.2, 0.18, 0.15, 0.12],
-      [0.18, 0.21, 0.19, 0.19, 0.17, 0.14, 0.12],
-      [0.16, 0.2, 0.18, 0.18, 0.16, 0.13, 0.12],
-      [0.15, 0.18, 0.17, 0.17, 0.15, 0.13, 0.12],
-      [0.16, 0.18, 0.16, 0.16, 0.14, 0.13, 0.12],
-      [0.18, 0.18, 0.16, 0.14, 0.14, 0.12, 0.12],
-      [0.19, 0.18, 0.15, 0.13, 0.13, 0.12, 0.12],
-      [0.21, 0.18, 0.14, 0.12, 0.12, 0.12, 0.12],
-      [0.21, 0.17, 0.13, 0.11, 0.11, 0.12, 0.12],
-      [0.21, 0.17, 0.12, 0.11, 0.11, 0.11, 0.12],
+      /*azm=0*/ [0.35, 0.35, 0.314, 0.258, 0.206, 0.144, 0.082],
+      /*azm=15*/ [0.342, 0.342, 0.31, 0.252, 0.2, 0.14, 0.082],
+      /*azm=30*/ [0.33, 0.33, 0.3, 0.244, 0.19, 0.132, 0.082],
+      /*azm=45*/ [0.31, 0.31, 0.275, 0.228, 0.175, 0.124, 0.082],
+      /*azm=60*/ [0.283, 0.283, 0.251, 0.208, 0.16, 0.114, 0.082],
+      /*azm=75*/ [0.252, 0.252, 0.228, 0.188, 0.15, 0.108, 0.082],
+      /*azm=90*/ [0.23, 0.23, 0.214, 0.18, 0.148, 0.108, 0.082],
+      /*azm=105*/ [0.242, 0.242, 0.222, 0.18, 0.153, 0.112, 0.082],
+      /*azm=120*/ [0.274, 0.274, 0.245, 0.203, 0.165, 0.116, 0.082],
+      /*azm=135*/ [0.304, 0.304, 0.27, 0.22, 0.174, 0.121, 0.082],
+      /*azm=150*/ [0.328, 0.328, 0.29, 0.234, 0.183, 0.125, 0.082],
+      /*azm=165*/ [0.344, 0.344, 0.304, 0.244, 0.19, 0.128, 0.082],
+      /*azm=180*/ [0.347, 0.347, 0.308, 0.246, 0.191, 0.128, 0.082],
+    ];
+  } else {
+    // if posture === 'seated'
+    fp_table = [
+      /*azm=0*/ [0.29, 0.324, 0.305, 0.303, 0.262, 0.224, 0.177],
+      /*azm=15*/ [0.292, 0.328, 0.294, 0.288, 0.268, 0.227, 0.177],
+      /*azm=30*/ [0.288, 0.332, 0.298, 0.29, 0.264, 0.222, 0.177],
+      /*azm=45*/ [0.274, 0.326, 0.294, 0.289, 0.252, 0.214, 0.177],
+      /*azm=60*/ [0.254, 0.308, 0.28, 0.276, 0.241, 0.202, 0.177],
+      /*azm=75*/ [0.23, 0.282, 0.262, 0.26, 0.233, 0.193, 0.177],
+      /*azm=90*/ [0.216, 0.26, 0.248, 0.244, 0.22, 0.186, 0.177],
+      /*azm=105*/ [0.234, 0.258, 0.236, 0.227, 0.208, 0.18, 0.177],
+      /*azm=120*/ [0.262, 0.26, 0.224, 0.208, 0.196, 0.176, 0.177],
+      /*azm=135*/ [0.28, 0.26, 0.21, 0.192, 0.184, 0.17, 0.177],
+      /*azm=150*/ [0.298, 0.256, 0.194, 0.174, 0.168, 0.168, 0.177],
+      /*azm=165*/ [0.306, 0.25, 0.18, 0.156, 0.156, 0.166, 0.177],
+      /*azm=180*/ [0.3, 0.24, 0.168, 0.152, 0.152, 0.164, 0.177],
     ];
   }
 
   if (posture === "supine") {
     // transpose alt and az for a supine person
-    const alt_temp = alt;
-    alt = Math.abs(90 - az);
-    az = alt_temp;
+    const altitude_new = radians_to_degrees(
+      Math.asin(
+        Math.sin(degrees_to_radians(Math.abs(az - 90))) *
+          Math.cos(degrees_to_radians(alt))
+      )
+    );
+    az = radians_to_degrees(
+      Math.atan(
+        Math.sin(degrees_to_radians(az)) *
+          Math.tan(degrees_to_radians(90 - alt))
+      )
+    );
+    alt = altitude_new;
   }
 
   let fp;
@@ -101,11 +123,11 @@ function ERF(alt, az, posture, I_dir, t_sol, f_svv, f_bes, asa) {
   //  asa : avg shortwave abs : average shortwave absorptivity of body [0, 1]
 
   const DEG_TO_RAD = 0.0174532925;
-  const h_r = 6;
+  const hr = 6;
   const I_diff = 0.2 * I_dir;
 
   // Floor reflectance
-  const r_floor = 0.6;
+  const R_floor = 0.6;
 
   const fp = get_fp(alt, az, posture);
 
@@ -122,18 +144,22 @@ function ERF(alt, az, posture, I_dir, t_sol, f_svv, f_bes, asa) {
   const lw_abs = 0.95;
 
   const E_diff = f_eff * f_svv * 0.5 * t_sol * I_diff;
-  const E_direct = fp * t_sol * f_bes * I_dir;
+  const E_direct = f_eff * fp * t_sol * f_bes * I_dir;
   const E_reflected =
     f_eff *
     f_svv *
     0.5 *
     t_sol *
     (I_dir * Math.sin(alt * DEG_TO_RAD) + I_diff) *
-    r_floor;
+    R_floor;
 
   const E_solar = E_diff + E_direct + E_reflected;
-  const erf_value = E_solar * (sw_abs / lw_abs);
-  const delta_mrt = erf_value / (h_r * f_eff);
+  const _ERF = E_solar * (sw_abs / lw_abs);
+  const dMRT = _ERF / (hr * f_eff);
 
-  return { ERF: erf_value, dMRT: delta_mrt };
+  return { ERF: _ERF, dMRT: dMRT };
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { degrees_to_radians, radians_to_degrees, ERF };
 }

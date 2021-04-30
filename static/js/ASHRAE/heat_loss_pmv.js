@@ -29,7 +29,15 @@ let heatLoss_chart = new (function () {
     h10 = [];
 
     for (i = 0; i < ta.length; i++) {
-      heatLosses = comf.pmv(ta[i], d.tr, d.vel, d.rh, d.met, d.clo, d.wme);
+      heatLosses = comf.pmv(
+        ta[i],
+        d.tr,
+        comf.relativeAirSpeed(d.vel, d.met),
+        d.rh,
+        d.met,
+        comf.dynamicClothing(d.clo, d.met),
+        d.wme
+      );
       h1.push(heatLosses.hl1.toFixed(1));
       h2.push(heatLosses.hl2.toFixed(1));
       h3.push(heatLosses.hl3.toFixed(1));

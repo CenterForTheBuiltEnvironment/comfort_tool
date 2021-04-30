@@ -1,8 +1,15 @@
 // ----- CODE to draw the comfort zone on a chart with Dry-Bulb Temp on the x-axis and Relative Humidity on the y-axis -----
 var bc = new (function () {
+  let pageWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  this.width = pageWidth;
+  if (pageWidth > 580) {
+    this.width = 580;
+  }
   this.margin = 60;
   this.rbmargin = 40;
-  this.width = 580;
   this.height = 500;
   this.db_min = 10;
   this.db_max = 36;
@@ -39,14 +46,14 @@ var bc = new (function () {
 
   // ----------------------------------- Start DrawChart -----------------------------------
 
-  this.drawChart = function (data) {
+  this.drawChart = function () {
     // Setting up the axes
 
-    var db_axis = d3.svg.axis().scale(bc.db_scale);
-    var db_axis_F = d3.svg.axis().scale(bc.db_scale_F);
-    var rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left");
+    const db_axis = d3.svg.axis().scale(bc.db_scale);
+    const db_axis_F = d3.svg.axis().scale(bc.db_scale_F);
+    const rh_axis = d3.svg.axis().scale(bc.rh_scale).orient("left");
 
-    var line = d3.svg
+    d3.svg
       .line()
       .x(function (d) {
         return bc.db_scale(d.db);
@@ -241,11 +248,11 @@ var bc = new (function () {
       };
     }
 
-    for (rh = 0; rh <= 100; rh += 10) {
+    for (let rh = 0; rh <= 100; rh += 10) {
       boundary.push(solve(rh, -pmvlimit));
     }
 
-    for (rh = 100; rh >= 0; rh -= 10) {
+    for (let rh = 100; rh >= 0; rh -= 10) {
       boundary.push(solve(rh, pmvlimit));
     }
 

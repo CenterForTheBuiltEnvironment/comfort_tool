@@ -1,58 +1,34 @@
 {% extends 'index.html' %} {% block head %} {{ super() }}
 <title>CBE Thermal Comfort Tool for ASHRAE-55</title>
+<link rel="stylesheet" type="text/css" href="static/css/common.css" />
+<link rel="stylesheet" type="text/css" href="static/css/ui.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="static/css/psychchart.css" />
 <link
   rel="stylesheet"
   type="text/css"
-  href="{{ url_for('static', filename='css/common.css') }}"
-/>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ url_for('static', filename='css/ui.multiselect.css') }}"
-/>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ url_for('static', filename='css/psychchart.css') }}"
-/>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ url_for('static', filename='css/psychchart-ranges.css') }}"
+  href="static/css/psychchart-ranges.css"
 />
 
 <script
   type="text/javascript"
-  src="{{ url_for('static', filename='js/global.js') }}"
+  src="static/js/global.js"
   language="javascript"
 ></script>
+<script type="text/javascript" src="static/js/lib/ui.multiselect.js"></script>
+<script type="text/javascript" src="static/js/lib/ui.selectmenu.js"></script>
 <script
   type="text/javascript"
-  src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"
+  src="static/js/lib/jquery.scrollTo-min.js"
+></script>
+<script type="text/javascript" src="static/js/psychchart.js"></script>
+<script type="text/javascript" src="static/js/temphumchart.js"></script>
+<script
+  type="text/javascript"
+  src="static/js/ranges/psychchart-ranges.js"
 ></script>
 <script
   type="text/javascript"
-  src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"
-></script>
-<script
-  type="text/javascript"
-  src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"
-></script>
-<script
-  type="text/javascript"
-  src="{{ url_for('static', filename='js/psychchart.js') }}"
-></script>
-<script
-  type="text/javascript"
-  src="{{ url_for('static', filename='js/temphumchart.js') }}"
-></script>
-<script
-  type="text/javascript"
-  src="{{ url_for('static', filename='js/ranges/psychchart-ranges.js') }}"
-></script>
-<script
-  type="text/javascript"
-  src="{{ url_for('static', filename='js/ranges/temphumchart-ranges.js') }}"
+  src="static/js/ranges/temphumchart-ranges.js"
 ></script>
 {% endblock %} {% block content %}
 
@@ -314,13 +290,14 @@
             <p>
               <strong> Outer range of air temperatures:</strong>
               <span id="outer-range-width" style="font-weight: bold;"></span
-              >&nbsp;<strong>&deg;C</strong>
+              ><strong><span class="tempunit"> &deg;C</span></strong>
               <br />
               Given the other four parameters, occupants will find thermal
               comfort in the wider range of temperatures (<span
                 id="range-output1"
               ></span>
-              to <span id="range-output2"></span> &deg;C) if
+              to <span id="range-output2"></span>
+              <span class="tempunit"> &deg;c</span>) if
               <span class="factor-name"></span> can change within the given
               range.
             </p>
@@ -328,7 +305,7 @@
             <p>
               <strong> Inner range of air temperatures:</strong>
               <span id="inner-range-width" style="font-weight: bold;"></span
-              >&nbsp;<strong>&deg;C</strong>
+              ><strong><span class="tempunit"> &deg;C</span></strong>
               <br />
               Given the other four parameters, this is the range of temperatures
               in which all the occupants will find thermal comfort, as long as
@@ -346,7 +323,7 @@
     <br />
     <script
       language="javascript"
-      src="{{ url_for('static', filename='js/ranges/ranges.js') }}"
+      src="static/js/ranges/ranges.js"
       type="text/javascript"
     ></script>
     <script>

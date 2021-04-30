@@ -3,18 +3,11 @@
   <head>
     <meta
       name="description"
-      content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2017, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO"
+      content="CBE Thermal Comfort tool to calculate thermal comfort according to ASHRAE Standard 55-2020, thermal comfort, PMV, PPD, SET, Adaptive comfort, Center for the Built Environment, CBE, UC Berkeley, Predicted Mean Vote, Predicted Percentage of Dissatisfied, Standard Equivalent Temperature, Ole Fanger, Richard de Dear, Gail Brager, Draft, Draught, Air Movement, Metabolic activity, Clothing Insulation, MET, CLO"
     />
     <meta charset="utf-8" />
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='img/favico.png') }}"
-    />
+    <link rel="shortcut icon" href="static/img/favico.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
 
     <!-- Open Graph protocol tags -->
     <meta property="og:title" content="CBE Thermal Comfort Tool" />
@@ -47,100 +40,89 @@
     </script>
 
     {% block head %}
-    <script
-      defer
-      src="{{ url_for('static', filename='js/lib/fontawesome.min.js') }}"
-    ></script>
+    <script src="static/js/lib/fontawesome.min.js"></script>
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+      href="static/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/jquery-ui.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/layout.css') }}"
-    />
+    <link rel="stylesheet" type="text/css" href="static/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/layout.css" />
+    <script type="text/javascript" src="static/js/lib/d3.js"></script>
+    <script type="text/javascript" src="static/js/lib/chartjs.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/d3.js') }}"
+      src="static/js/lib/jquery-1.6.2.min.js"
     ></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/chartjs.js') }}"
+      src="static/js/lib/jquery-ui.min.js"
+    ></script>
+    <script type="text/javascript" src="../static/js/util.js"></script>
+    <script
+      type="text/javascript"
+      src="../static/js/comfort-models.js"
     ></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/jquery-1.6.2.min.js') }}"
+      src="../static/js/psychrometrics.js"
     ></script>
+    <script type="text/javascript" src="../static/js/erf.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/jquery-ui.min.js') }}"
+      src="static/js/lib/underscore-min.js"
     ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/util.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/comfortmodels.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/psychrometrics.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/erf.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/lib/underscore-min.js') }}"
-    ></script>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="../static/js/lib/buttons.js"></script>
     {% endblock %}
   </head>
   <body>
     {# Navigation bar #}
     <div class="container-flex bg-light border-bottom">
-      <div class="container bg-light">
-        <span style="font-size: 2rem; color: #0f75bb;"
-          ><img
-            alt="Center for the built environment logo"
-            src="static/img/CBE-logo-2018.png"
-            width="150"
-          />
-          Thermal Comfort Tool</span
-        >
-
-        <div class="topnav" id="mytopnav">
-          <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
-          <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
-          <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
-          <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
-          <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
-          <a class="nav-link" id="nav_a_fans" href="fan_heatwaves"
+      <div class="container p-0">
+        <div class="d-flex align-items-center">
+          <a href="/">
+            <div>
+              <img
+                alt="Center for the built environment logo"
+                src="static/img/CBE-logo-2018.png"
+                id="navCBELogo"
+              />
+            </div>
+          </a>
+          <div class="d-flex flex-column w-100">
+            <div class="p-2">
+              <h4 class="m-0" style="color: #0f75bb;">
+                CBE Thermal Comfort Tool
+              </h4>
+            </div>
+            <div class="topnav" id="mytopnav">
+              <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
+              <a class="nav-link" id="nav_a_en" href="EN">EN-16798</a>
+              <a class="nav-link" id="nav_a_compare" href="compare">Compare</a>
+              <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
+              <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
+              <a class="nav-link" id="nav_a_fans" href="fan_heatwaves"
             >Fans heatwaves</a
           >
-          <a
-            class="nav-link"
-            id="nav_a_help"
-            href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
-            >Help</a
-          >
-          <a class="nav-link" id="nav_a_other_tools" href="other_tools"
-            >Other CBE tools</a
-          >
-          <a class="nav_icon" onclick="myFunction()">
-            <span class="btn-line"></span>
-            <span class="btn-line"></span>
-            <span class="btn-line"></span>
-          </a>
+                <a
+                class="nav-link"
+                id="nav_a_help"
+                href="https://centerforthebuiltenvironment.github.io/comfort_tool/help"
+                >Help</a
+              >
+              <a
+                class="nav-link"
+                id="nav_a_other_tools"
+                href="https://cbe.berkeley.edu/resources/tools/"
+                >Other CBE tools</a
+              >
+              <a class="nav_icon" onclick="myFunction()">
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+                <span class="btn-line"></span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -152,7 +134,7 @@
     >
       <div class="container">
         <div
-          class="row footer justify-content-between justify-content-md-center"
+          class="row footer justify-content-between justify-content-lg-center"
         >
           <div class="col-md-8 col-lg-6">
             <p>
@@ -167,10 +149,31 @@
               >
             </p>
             <p>
+              We have also released
+              <a
+                href="https://pypi.org/project/pythermalcomfort/"
+                style="color: white;"
+                >pythermalcomfort</a
+              >
+              a Python packaged to calculate several thermal comfort indices
+              (e.g. PMV, PPD, SET, adaptive). Links to the:
+              <a
+                href="https://pythermalcomfort.readthedocs.io/"
+                style="color: white;"
+                >official documentation
+              </a>
+              and
+              <a
+                href="https://www.sciencedirect.com/science/article/pii/S2352711020302910"
+                style="color: white;"
+                >our paper</a
+              >.
+            </p>
+            <p>
               <a
                 href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/changelog"
                 style="color: white;"
-                >Version: v2.0.4</a
+                >Version: 2.1.7</a
               >
             </p>
           </div>
@@ -178,7 +181,7 @@
             <p class="mb-4">
               <a
                 href="http://centerforthebuiltenvironment.github.io/comfort_tool/help"
-                ><strng>Contact us</strng></a
+                ><strong>Contact us</strong></a
               >
             </p>
             <div class="row footer justify-content-center">
@@ -207,29 +210,30 @@
                 Issues
               </div>
               <div class="col">
-                <a href="https://www.youtube.com/user/cbeatcal/playlists">
+                <a href="https://youtu.be/v3NcabOAGKk?t=62">
                   <img
                     alt="tutorial videos playlist"
                     src="/static/img/youtube_64dp.png"
-                    width="30"
                   /> </a
                 ><br />
-                Tutorials
+                Tool Overview
               </div>
             </div>
           </div>
           <div
             class="flex flex-column text-center justify-content-center col-xs-4 col-md-4 col-lg-2 mt-md-3 mt-lg-0"
           >
-            <img
-              alt="CBE logo"
-              src="static/img/footer-logo.png"
-              style="max-height: 45px;"
-            />
+            <a href="https://cbe.berkeley.edu"
+              ><img
+                alt="CBE logo"
+                src="static/img/footer-logo.png"
+                style="max-height: 45px;"
+            /></a>
             <br />
             <img
               alt="UC Berkeley logo"
               src="static/img/ucb-logo.png"
+              class="mt-2"
               style="max-height: 45px;"
             />
           </div>

@@ -58,7 +58,7 @@ pc.hideFactor = function () {
   $("#hover-output").css("color", "transparent");
 };
 
-pc.drawRHcurve = function (data) {
+pc.drawRHCurve = function (data) {
   pc.svg
     .append("path")
     .attr("clip-path", "url(#clip)")
@@ -89,11 +89,11 @@ pc.drawRHcurve = function (data) {
   }
 };
 
-pc.redrawRHcurve = function () {
-  pc.removeRHcurve();
+pc.redrawRHCurve = function () {
+  pc.removeRHCurve();
   setFactors(rangefactor);
-  const curve = pc.findRHcurve(d, 0.5, rangefactor);
-  pc.drawRHcurve(curve);
+  const curve = pc.findRHCurve(d, 0.5, rangefactor);
+  pc.drawRHCurve(curve);
 };
 
 pc.removeTempLines = function () {
@@ -227,12 +227,11 @@ pc.drawTempLines = function () {
   }
 };
 
-pc.findRHcurve = function (d, pmvlimit, factor) {
+pc.findRHCurve = function (d, pmvLimit, factor) {
   let RHcurve = [];
 
   function rhclos(rhx, target) {
     return function (db) {
-      // return comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv - target
       if ($("#chartSelect").val() === "psychtop") {
         return (
           comf.pmvElevatedAirspeed(db, db, d.vel, rhx, d.met, d.clo, 0).pmv -
@@ -261,16 +260,12 @@ pc.findRHcurve = function (d, pmvlimit, factor) {
 
   d[factor] = factor_1;
 
-  calculateRelativeAirSpeedAndClothing(factor);
-
-  const left_1 = solve(d.rh, -pmvlimit);
-  const right_1 = solve(d.rh, pmvlimit);
+  const left_1 = solve(d.rh, -pmvLimit);
+  const right_1 = solve(d.rh, pmvLimit);
   d[factor] = last_value;
 
-  calculateRelativeAirSpeedAndClothing(factor);
-
-  const left_2 = solve(d.rh, -pmvlimit);
-  const right_2 = solve(d.rh, pmvlimit);
+  const left_2 = solve(d.rh, -pmvLimit);
+  const right_2 = solve(d.rh, pmvLimit);
 
   const left_db = Math.min(left_1.db, left_2.db);
   const right_db = Math.max(right_1.db, right_2.db);
@@ -311,7 +306,7 @@ pc.findRHcurve = function (d, pmvlimit, factor) {
   return RHcurve;
 };
 
-pc.removeRHcurve = function () {
+pc.removeRHCurve = function () {
   d3.select("#rh-curve").remove();
   d3.selectAll(".temp-line").remove();
   d3.selectAll(".temp-label").remove();
@@ -323,7 +318,7 @@ pc.removeRHcurve = function () {
 $(document).ready(function () {
   pc.clearChart = function () {
     $(".comfortzone-range").remove();
-    pc.removeRHcurve();
+    pc.removeRHCurve();
   };
 
   pc.redraw_rh_lines = function () {
