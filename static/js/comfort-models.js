@@ -369,6 +369,14 @@ comf.pierceSET = function (
   const TempBodyNeutral = 36.49; // set point for Tb (.1*TempSkinNeutral + .9*TempCoreNeutral)
   const SkinBloodFlowNeutral = 6.3; //neutral value for SkinBloodFlow
 
+  // check if any max value was exceeded and thermal strain occurred
+  let ExcBloodFlow = false;
+  let ExcRegulatorySweating = false;
+  let ExcCriticalWettedness = false;
+
+  // function that check if all are false
+  let checker_false = (arr) => arr.every((v) => v === false);
+
   //INITIAL VALUES - start of 1st experiment
   let TempSkin = TempSkinNeutral;
   let TempCore = TempCoreNeutral;
@@ -462,10 +470,16 @@ comf.pierceSET = function (
     BDSIG = TB - TempBodyNeutral;
     WARMB = (BDSIG > 0) * BDSIG;
     SkinBloodFlow = (SkinBloodFlowNeutral + CDil * WARMC) / (1 + CStr * COLDS);
-    if (SkinBloodFlow > 90.0) SkinBloodFlow = 90.0;
+    if (SkinBloodFlow > 90.0) {
+      SkinBloodFlow = 90.0;
+      ExcBloodFlow = true;
+    }
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;
     REGSW = CSW * WARMB * Math.exp(WARMS / 10.7);
-    if (REGSW > 500.0) REGSW = 500.0;
+    if (REGSW > 500.0) {
+      REGSW = 500.0;
+      ExcRegulatorySweating = true;
+    }
     ERSW = 0.68 * REGSW;
     REA = 1.0 / (LR * FACL * CHC); //evaporative resistance of air layer
     RECL = RCl / (LR * ICL); //evaporative resistance of clothing (icl=.45)
@@ -480,6 +494,7 @@ comf.pierceSET = function (
       PRSW = WCRIT / 0.94;
       ERSW = PRSW * EMAX;
       EDIF = 0.06 * (1.0 - PRSW) * EMAX;
+      ExcCriticalWettedness = true;
     }
     if (EMAX < 0) {
       EDIF = 0;
@@ -553,6 +568,11 @@ comf.pierceSET = function (
   r.q_tot_skin = HSK;
   r.q_resp = ERES;
   r.skin_wet = PWET * 100;
+  r.termal_strain = !checker_false([
+    ExcRegulatorySweating,
+    ExcBloodFlow,
+    ExcCriticalWettedness,
+  ]);
 
   return r;
 };

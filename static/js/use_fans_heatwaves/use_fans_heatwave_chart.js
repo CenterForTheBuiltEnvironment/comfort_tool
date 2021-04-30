@@ -11,33 +11,60 @@ let use_fans_heatwave_chart = new (function () {
   let ctx;
   let chartInstance;
 
-  let i, ix, results, t_a_heat_strain, rh_heat_strain, t_a_no_fans, upper_area;
+  let i,
+    ix,
+    results,
+    t_a_heat_strain,
+    rh_heat_strain,
+    t_a_no_fans,
+    upper_area,
+    evaporative_cooling,
+    upper_chart_limit = 50,
+    lower_chart_limit = 30;
 
-  const ta = this.range(32, 60);
-  const rh = this.range(0, 100);
+  const ta = this.range(lower_chart_limit, upper_chart_limit);
+  const rh = this.range(-10, 110);
 
   // function that calculate the heat losses
   this.getData = function () {
     t_a_heat_strain = [];
+    evaporative_cooling = [];
     rh_heat_strain = [];
     t_a_no_fans = [];
     upper_area = [];
+
+    let t_a_heat_strain_02 = [];
+    let rh_max_evaporative_cooling = 0;
+
+    for (ix = 0; ix < rh.length; ix++) {
+      for (i = 0; i < ta.length; i++) {
+        results = comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0);
+
+        if (results.termal_strain) {
+          t_a_heat_strain_02.push(ta[i]);
+          break;
+        }
+      }
+    }
 
     for (ix = 0; ix < rh.length; ix++) {
       for (i = 0; i < ta.length; i++) {
         // console.log(`${ta[i]}, rh= ${rh[ix]}`);
         results = comf.pierceSET(ta[i], ta[i], d.vel, rh[ix], d.met, d.clo, 0);
-        // console.log(`ta= ${ta[i]}, rh= ${rh[ix]}`);
-        //results = comf.pierceSET(50, 50, 0.8, 30, 1.1, .5,0)["termal_strain"]
 
         if (results.termal_strain) {
           // console.log(`thermal strain, ta= ${ta[i]}, rh= ${rh[ix]}`);
+          if (ta[i] < t_a_heat_strain_02[ix]) {
+            rh_max_evaporative_cooling = rh[ix];
+          }
           t_a_heat_strain.push(ta[i]);
           rh_heat_strain.push(rh[ix]);
           break;
         }
       }
     }
+
+    console.log("rh max", rh_max_evaporative_cooling);
 
     for (ix = 0; ix < rh.length; ix++) {
       for (i = ta.length - 1; i > 0; i--) {
@@ -47,13 +74,16 @@ let use_fans_heatwave_chart = new (function () {
             "t_core"
           ] -
           comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0)["t_core"];
-        // console.log(`ta= ${ta[i]}, rh= ${rh[ix]}`);
-        //results = comf.pierceSET(50, 50, 0.8, 30, 1.1, .5,0)["termal_strain"]
 
         if (results < 0) {
-          // console.log(`thermal strain, ta= ${ta[i]}, rh= ${rh[ix]}`);
-          t_a_no_fans.push(ta[i]);
-          upper_area.push(300);
+          if (rh[ix] < rh_max_evaporative_cooling) {
+            evaporative_cooling.push(upper_chart_limit);
+            t_a_no_fans.push(upper_chart_limit);
+          } else {
+            evaporative_cooling.push(0);
+            t_a_no_fans.push(ta[i]);
+          }
+          upper_area.push(upper_chart_limit);
           break;
         }
       }
@@ -89,16 +119,17 @@ let use_fans_heatwave_chart = new (function () {
     this.getData();
 
     chartInstance.data.datasets[0].data = t_a_heat_strain;
-    chartInstance.data.datasets[1].data = t_a_no_fans;
-    chartInstance.data.datasets[2].data = upper_area;
+    chartInstance.data.datasets[1].data = evaporative_cooling;
+    chartInstance.data.datasets[2].data = t_a_no_fans;
+    chartInstance.data.datasets[3].data = upper_area;
     chartInstance.data.labels = rh_heat_strain;
 
     if (isCelsius) {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Air temperature [°C]";
 
-      chartInstance.options.scales.yAxes[0].ticks.max = 55;
-      chartInstance.options.scales.yAxes[0].ticks.min = 30;
+      chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
+      chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
     } else {
       let t_a_heat_strain_F = [];
       let t_a_no_fans_F = [];
@@ -138,6 +169,15 @@ let use_fans_heatwave_chart = new (function () {
             data: t_a_heat_strain,
             backgroundColor: "#3BBDED",
             borderColor: "#3BBDED",
+            hidden: false,
+            yAxisID: "y",
+            fill: "origin",
+          },
+          {
+            label: "Evaporative cooling",
+            data: evaporative_cooling,
+            backgroundColor: "#3caea3",
+            borderColor: "#3caea3",
             hidden: false,
             yAxisID: "y",
             fill: "origin",
@@ -217,8 +257,8 @@ let use_fans_heatwave_chart = new (function () {
               },
               ticks: {
                 beginAtZero: false,
-                max: 55,
-                min: 30,
+                max: upper_chart_limit,
+                min: lower_chart_limit,
                 // stepSize: leftYStep,
               },
             },

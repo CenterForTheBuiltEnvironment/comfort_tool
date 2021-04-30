@@ -6,6 +6,8 @@ envVarLimits.vel.si.default = 0.8;
 envVarLimits.vel.ip.min = 59;
 envVarLimits.vel.ip.max = 885;
 envVarLimits.vel.ip.default = 157;
+envVarLimits.met.default = 1.1;
+envVarLimits.clo.default = 0.5;
 
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
 cloInsulationTypicalEnsambles = [

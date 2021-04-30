@@ -29,7 +29,7 @@ $(document).ready(function () {
 
   populate_clo_dropdown();
 
-  var cloMultiSelect = document.getElementById("cloMultiSelect");
+  const cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
     cloMultiSelect.options.add(new Option(element.article, element.clo));
   });
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
   populate_met_dropdown(metRatesTypicalTasksASHRAE);
 
-  var velaSelect = document.getElementById("vel_a");
+  const velaSelect = document.getElementById("vel_a");
 
   velaSelect.onchange = function () {
     update();
@@ -854,7 +854,7 @@ function addToEnsembles() {
   var items = [];
   var ensembleClo = 0;
   var opt = document.getElementById("cloMultiSelect").options;
-  for (var i = 0; i < opt.length; i++) {
+  for (let i = 0; i < opt.length; i++) {
     if (opt[i].selected) {
       items.push(opt[i].text);
       ensembleClo += parseFloat(opt[i].value);
