@@ -28,6 +28,33 @@ test("pmv", () => {
   expect(comf.pmv(23.6, 23.6, 0.1, 67, 1.1, 0.5).pmv).toBeCloseTo(-0.5, 1);
 });
 
+test("calculate heat strain for 0.2 m/s", () => {
+  expect(
+    comf.pierceSET(46.5, 46.5, 0.2, 10, 1.1, 0.5, 0, true).termal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(46.87, 46.87, 0.2, 10, 1.1, 0.5, 0, true).termal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(45.6, 45.6, 0.2, 20, 1.1, 0.5, 0, true).termal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(45.8, 45.8, 0.2, 20, 1.1, 0.5, 0, true).termal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(42.4, 42.4, 0.2, 30, 1.1, 0.5, 0, true).termal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(42.6, 42.6, 0.2, 30, 1.1, 0.5, 0, true).termal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(45, 45, 0.8, 20, 1.1, 0.5, 0, true).termal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(45.2, 45.2, 0.8, 20, 1.1, 0.5, 0, true).termal_strain
+  ).toBeTruthy();
+});
+
 test("temperature converter", () => {
   expect(util.FtoC(77)).toBeCloseTo(25, 1);
   expect(util.CtoF(25)).toBeCloseTo(77, 1);

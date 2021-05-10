@@ -7,6 +7,13 @@ let use_fans_heatwave_chart = new (function () {
     }
     return ans;
   };
+  this.rangeTemperature = function (start, end) {
+    let ans = [];
+    for (let increment = start; increment <= end; increment = increment + 0.2) {
+      ans.push(increment);
+    }
+    return ans;
+  };
 
   let ctx;
   let chartInstance;
@@ -22,8 +29,8 @@ let use_fans_heatwave_chart = new (function () {
     upper_chart_limit = 50,
     lower_chart_limit = 30;
 
-  const ta = this.range(lower_chart_limit, upper_chart_limit);
-  const rh = this.range(-10, 110);
+  const ta = this.rangeTemperature(lower_chart_limit, upper_chart_limit);
+  const rh = this.range(0, 100);
 
   // function that calculate the heat losses
   this.getData = function () {
@@ -36,6 +43,7 @@ let use_fans_heatwave_chart = new (function () {
     let t_a_heat_strain_02 = [];
     let rh_max_evaporative_cooling = 0;
 
+    // calculate heat strain for air speed of 0.2 m/s
     for (ix = 0; ix < rh.length; ix++) {
       for (i = 0; i < ta.length; i++) {
         results = comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0);
@@ -64,7 +72,7 @@ let use_fans_heatwave_chart = new (function () {
       }
     }
 
-    console.log("rh max", rh_max_evaporative_cooling);
+    // console.log("rh max", rh_max_evaporative_cooling);
 
     for (ix = 0; ix < rh.length; ix++) {
       for (i = ta.length - 1; i > 0; i--) {
@@ -77,13 +85,13 @@ let use_fans_heatwave_chart = new (function () {
 
         if (results < 0) {
           if (rh[ix] < rh_max_evaporative_cooling) {
-            evaporative_cooling.push(upper_chart_limit);
-            t_a_no_fans.push(upper_chart_limit);
+            evaporative_cooling.push(upper_chart_limit + 1);
+            t_a_no_fans.push(upper_chart_limit + 1);
           } else {
             evaporative_cooling.push(0);
             t_a_no_fans.push(ta[i]);
           }
-          upper_area.push(upper_chart_limit);
+          upper_area.push(upper_chart_limit + 1);
           break;
         }
       }
@@ -101,13 +109,13 @@ let use_fans_heatwave_chart = new (function () {
       t_a_heat_strain[index] = t_a_heat_strain[index].toFixed(1); // value
     });
 
-    t_a_no_fans = Taira.smoothen(
-      t_a_no_fans,
-      Taira.ALGORITHMS.GAUSSIAN,
-      3,
-      3,
-      false
-    );
+    // t_a_no_fans = Taira.smoothen(
+    //   t_a_no_fans,
+    //   Taira.ALGORITHMS.GAUSSIAN,
+    //   3,
+    //   3,
+    //   false
+    // );
 
     t_a_no_fans.forEach(function (value, index) {
       t_a_no_fans[index] = t_a_no_fans[index].toFixed(1); // value
