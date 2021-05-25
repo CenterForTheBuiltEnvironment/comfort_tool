@@ -212,6 +212,7 @@ let use_fans_heatwave_chart = new (function () {
       },
       options: {
         tooltips: {
+          enabled: true,
           mode: "index",
           intersect: false,
           callbacks: {
@@ -222,6 +223,7 @@ let use_fans_heatwave_chart = new (function () {
               } else {
                 unit = " °F";
               }
+              chartInstance.tooltip._model.opacity = 0;
               chartInstance.options.title.text =
                 "rh = " +
                 (
@@ -245,7 +247,6 @@ let use_fans_heatwave_chart = new (function () {
         },
         title: {
           display: true,
-          text: "rh = %; t = °C",
         },
         legend: {
           position: "bottom",
