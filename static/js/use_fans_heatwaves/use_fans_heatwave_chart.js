@@ -203,8 +203,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "Heat strain - fan not beneficial",
             data: upper_area,
-            backgroundColor: "#5E5E5E",
-            borderColor: "#5E5E5E",
+            backgroundColor: "#383838",
+            borderColor: "#383838FF",
             hidden: false,
             yAxisID: "y",
             fill: 1,
