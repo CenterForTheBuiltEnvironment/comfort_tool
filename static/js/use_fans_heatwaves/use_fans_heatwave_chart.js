@@ -127,49 +127,35 @@ let use_fans_heatwave_chart = new (function () {
   this.update = function () {
     this.getData();
 
-    chartInstance.data.datasets[0].data = t_a_heat_strain;
-    chartInstance.data.datasets[1].data = evaporative_cooling;
-    chartInstance.data.datasets[2].data = t_a_no_fans;
-    chartInstance.data.datasets[3].data = upper_area;
-    chartInstance.data.labels = rh_heat_strain;
-
     if (isCelsius) {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Air temperature [°C]";
 
       upper_chart_limit = 50;
       lower_chart_limit = 30;
-
-      chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
-      chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
     } else {
-      upper_chart_limit = 120;
-      lower_chart_limit = 86;
-
-      let t_a_heat_strain_F = [];
-      let evaporative_cooling_F = [];
-      let t_a_no_fans_F = [];
-      let upper_area_F = [];
-      for (i = 0; i < rh_heat_strain.length; i++) {
-        t_a_heat_strain_F.push(
-          util.CtoF(chartInstance.data.datasets[0].data[i])
-        );
-        evaporative_cooling_F.push(
-          util.CtoF(chartInstance.data.datasets[1].data[i])
-        );
-        t_a_no_fans_F.push(util.CtoF(chartInstance.data.datasets[2].data[i]));
-        upper_area_F.push(util.CtoF(chartInstance.data.datasets[3].data[i]));
-      }
-      chartInstance.data.datasets[0].data = t_a_heat_strain_F;
-      chartInstance.data.datasets[1].data = evaporative_cooling_F;
-      chartInstance.data.datasets[2].data = t_a_no_fans_F;
-      chartInstance.data.datasets[3].data = upper_area_F;
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Air temperature [°F]";
 
-      chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
-      chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
+      upper_chart_limit = 120;
+      lower_chart_limit = 86;
+
+      for (i = 0; i < rh_heat_strain.length; i++) {
+        t_a_heat_strain[i] = util.CtoF(t_a_heat_strain[i]);
+        evaporative_cooling[i] = util.CtoF(evaporative_cooling[i]);
+        t_a_no_fans[i] = util.CtoF(t_a_no_fans[i]);
+        upper_area[i] = util.CtoF(upper_area[i]);
+      }
     }
+
+    chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
+    chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
+
+    chartInstance.data.datasets[0].data = t_a_heat_strain;
+    chartInstance.data.datasets[1].data = evaporative_cooling;
+    chartInstance.data.datasets[2].data = t_a_no_fans;
+    chartInstance.data.datasets[3].data = upper_area;
+    chartInstance.data.labels = rh_heat_strain;
 
     chartInstance.update();
   };
