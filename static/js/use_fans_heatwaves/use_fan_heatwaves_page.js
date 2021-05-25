@@ -1,13 +1,16 @@
 keys = ["vel", "met", "clo"];
 
-envVarLimits.vel.si.min = 0.3;
+envVarLimits.vel.si.min = 0.4;
 envVarLimits.vel.si.max = 4.5;
 envVarLimits.vel.si.default = 0.8;
 envVarLimits.vel.ip.min = 59;
 envVarLimits.vel.ip.max = 885;
 envVarLimits.vel.ip.default = 157;
 envVarLimits.met.default = 1.1;
+envVarLimits.met.max = 1.9;
 envVarLimits.clo.default = 0.5;
+envVarLimits.clo.max = 0.7;
+envVarLimits.clo.min = 0.1;
 
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
 cloInsulationTypicalEnsambles = [
@@ -35,6 +38,65 @@ cloInsulationTypicalEnsambles = [
   {
     clothing: "Knee-length skirt, long-sleeve shirt, full slip: 0.67 clo",
     clo: 0.67,
+  },
+];
+
+metRatesTypicalTasks = [
+  {
+    activity: "Sleeping: 0.7",
+    met: 0.7,
+  },
+  {
+    activity: "Reclining: 0.8",
+    met: 0.8,
+  },
+  {
+    activity: "Seated, quiet: 1.0",
+    met: 1.0,
+  },
+  {
+    activity: "Reading, seated: 1.0",
+    met: 1.0,
+  },
+  {
+    activity: "Writing: 1.0",
+    met: 1.0,
+  },
+  {
+    activity: "Typing: 1.1",
+    met: 1.1,
+  },
+  {
+    activity: "Standing, relaxed: 1.2",
+    met: 1.2,
+  },
+  {
+    activity: "Filing, seated: 1.2",
+    met: 1.2,
+  },
+  {
+    activity: "Flying aircraft, routine: 1.2",
+    met: 1.2,
+  },
+  {
+    activity: "Filing, standing: 1.4",
+    met: 1.4,
+  },
+  {
+    activity: "Driving a car: 1.5",
+    met: 1.5,
+  },
+  {
+    activity: "Walking about: 1.7",
+    met: 1.7,
+  },
+  {
+    activity: "Cooking: 1.8",
+    met: 1.8,
+  },
+  {
+    activity: "Table sawing: 1.8",
+    met: 1.8,
   },
 ];
 
@@ -67,7 +129,7 @@ $(document).ready(function () {
     update();
   };
 
-  metRatesTypicalTasksASHRAE.forEach(function (element) {
+  metRatesTypicalTasks.forEach(function (element) {
     actSelect.options.add(new Option(element.activity, element.met));
   });
 
