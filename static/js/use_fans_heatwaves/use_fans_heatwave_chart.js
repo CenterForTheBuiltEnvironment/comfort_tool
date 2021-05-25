@@ -27,7 +27,8 @@ let use_fans_heatwave_chart = new (function () {
     upper_area,
     evaporative_cooling,
     upper_chart_limit = 50,
-    lower_chart_limit = 30;
+    lower_chart_limit = 30,
+    leftYStep = 2;
 
   const ta = this.rangeTemperature(lower_chart_limit, upper_chart_limit);
   const rh = this.range(0, 100);
@@ -136,24 +137,38 @@ let use_fans_heatwave_chart = new (function () {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Air temperature [°C]";
 
+      upper_chart_limit = 50;
+      lower_chart_limit = 30;
+
       chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
       chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
     } else {
+      upper_chart_limit = 120;
+      lower_chart_limit = 86;
+
       let t_a_heat_strain_F = [];
+      let evaporative_cooling_F = [];
       let t_a_no_fans_F = [];
+      let upper_area_F = [];
       for (i = 0; i < rh_heat_strain.length; i++) {
         t_a_heat_strain_F.push(
           util.CtoF(chartInstance.data.datasets[0].data[i])
         );
-        t_a_no_fans_F.push(util.CtoF(chartInstance.data.datasets[1].data[i]));
+        evaporative_cooling_F.push(
+          util.CtoF(chartInstance.data.datasets[1].data[i])
+        );
+        t_a_no_fans_F.push(util.CtoF(chartInstance.data.datasets[2].data[i]));
+        upper_area_F.push(util.CtoF(chartInstance.data.datasets[3].data[i]));
       }
       chartInstance.data.datasets[0].data = t_a_heat_strain_F;
-      chartInstance.data.datasets[1].data = t_a_no_fans_F;
+      chartInstance.data.datasets[1].data = evaporative_cooling_F;
+      chartInstance.data.datasets[2].data = t_a_no_fans_F;
+      chartInstance.data.datasets[3].data = upper_area_F;
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Air temperature [°F]";
 
-      chartInstance.options.scales.yAxes[0].ticks.max = 130;
-      chartInstance.options.scales.yAxes[0].ticks.min = 86;
+      chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
+      chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
     }
 
     chartInstance.update();
@@ -268,7 +283,7 @@ let use_fans_heatwave_chart = new (function () {
                 beginAtZero: false,
                 max: upper_chart_limit,
                 min: lower_chart_limit,
-                // stepSize: leftYStep,
+                stepSize: leftYStep,
               },
             },
           ],
