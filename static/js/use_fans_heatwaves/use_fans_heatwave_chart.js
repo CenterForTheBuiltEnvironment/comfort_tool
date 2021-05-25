@@ -129,13 +129,13 @@ let use_fans_heatwave_chart = new (function () {
 
     if (isCelsius) {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Air temperature [°C]";
+        "Dry-bulb Temperature [°C]";
 
       upper_chart_limit = 50;
       lower_chart_limit = 30;
     } else {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Air temperature [°F]";
+        "Dry-bulb Temperature [°F]";
 
       upper_chart_limit = 120;
       lower_chart_limit = 86;
@@ -226,14 +226,14 @@ let use_fans_heatwave_chart = new (function () {
               }
               chartInstance.tooltip._model.opacity = 0;
               chartInstance.options.title.text =
-                "rh = " +
+                "Relative Humidity = " +
                 (
                   ((this._eventPosition.x - chartInstance.chartArea.left) /
                     (chartInstance.chartArea.right -
                       chartInstance.chartArea.left)) *
                   100
                 ).toFixed(1) +
-                " %; t = " +
+                " %; Dry-bulb Temperature = " +
                 (
                   ((this._eventPosition.y - chartInstance.chartArea.top) /
                     (chartInstance.chartArea.bottom -
@@ -248,6 +248,7 @@ let use_fans_heatwave_chart = new (function () {
         },
         title: {
           display: true,
+          fontStyle: "normal",
         },
         legend: {
           position: "bottom",
@@ -277,7 +278,7 @@ let use_fans_heatwave_chart = new (function () {
             {
               scaleLabel: {
                 display: true,
-                labelString: "Relative humidity [%]",
+                labelString: "Relative Humidity [%]",
               },
               gridLines: {
                 color: "rgba(0, 0, 0, 0)",
