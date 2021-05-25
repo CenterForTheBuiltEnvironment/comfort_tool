@@ -24,14 +24,14 @@ let use_fans_heatwave_chart = new (function () {
     t_a_heat_strain,
     rh_heat_strain,
     t_a_no_fans,
-    upper_area,
+    fans_not_beneficial,
     evaporative_cooling,
     upper_chart_limit = 50,
     lower_chart_limit = 30,
     leftYStep = 2;
 
-  const ta = this.rangeTemperature(lower_chart_limit, upper_chart_limit);
-  const rh = this.range(0, 100);
+  const ta = this.rangeTemperature(lower_chart_limit, 60);
+  let rh = this.range(0, 100);
 
   // function that calculate the heat losses
   this.getData = function () {
@@ -39,7 +39,7 @@ let use_fans_heatwave_chart = new (function () {
     evaporative_cooling = [];
     rh_heat_strain = [];
     t_a_no_fans = [];
-    upper_area = [];
+    fans_not_beneficial = [];
 
     let t_a_heat_strain_02 = [];
     let rh_max_evaporative_cooling = 0;
@@ -56,6 +56,7 @@ let use_fans_heatwave_chart = new (function () {
       }
     }
 
+    // calculate heat strain the airspeed the user has selected
     for (ix = 0; ix < rh.length; ix++) {
       for (i = 0; i < ta.length; i++) {
         // console.log(`${ta[i]}, rh= ${rh[ix]}`);
@@ -73,29 +74,44 @@ let use_fans_heatwave_chart = new (function () {
       }
     }
 
-    // console.log("rh max", rh_max_evaporative_cooling);
-
+    // calculate the zone in which fans should not be used
     for (ix = 0; ix < rh.length; ix++) {
       for (i = ta.length - 1; i > 0; i--) {
-        // console.log(`${ta[i]}, rh= ${rh[ix]}`);
+        // calculate delta t core with two air speeds
         results =
           comf.pierceSET(ta[i], ta[i], d.vel, rh[ix], d.met, d.clo, 0)[
             "t_core"
           ] -
           comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0)["t_core"];
 
+        // if the core temperature is higher with fans on
         if (results < 0) {
-          if (rh[ix] < rh_max_evaporative_cooling) {
-            evaporative_cooling.push(upper_chart_limit + 1);
+          // for low rh id the delta is very small ignore it
+          if (rh[ix] < 26 && results > -0.2) {
             t_a_no_fans.push(upper_chart_limit + 1);
           } else {
-            evaporative_cooling.push(0);
+            // push the temperature at which fans should not be used
             t_a_no_fans.push(ta[i]);
+            // make sure the evaporative cooling regions does not extends beyond the no use fans
+            if (
+              rh[ix] < rh_max_evaporative_cooling &&
+              ta[i] < upper_chart_limit
+            ) {
+              rh_max_evaporative_cooling = rh[ix];
+            }
           }
-          upper_area.push(upper_chart_limit + 1);
           break;
         }
       }
+    }
+
+    for (ix = 0; ix < rh.length; ix++) {
+      if (rh[ix] < rh_max_evaporative_cooling) {
+        evaporative_cooling.push(upper_chart_limit + 1);
+      } else {
+        evaporative_cooling.push(0);
+      }
+      fans_not_beneficial.push(upper_chart_limit + 1);
     }
 
     t_a_heat_strain = Taira.smoothen(
@@ -110,13 +126,13 @@ let use_fans_heatwave_chart = new (function () {
       t_a_heat_strain[index] = t_a_heat_strain[index].toFixed(1); // value
     });
 
-    // t_a_no_fans = Taira.smoothen(
-    //   t_a_no_fans,
-    //   Taira.ALGORITHMS.GAUSSIAN,
-    //   3,
-    //   3,
-    //   false
-    // );
+    t_a_no_fans = Taira.smoothen(
+      t_a_no_fans,
+      Taira.ALGORITHMS.GAUSSIAN,
+      3,
+      3,
+      false
+    );
 
     t_a_no_fans.forEach(function (value, index) {
       t_a_no_fans[index] = t_a_no_fans[index].toFixed(1); // value
@@ -144,7 +160,7 @@ let use_fans_heatwave_chart = new (function () {
         t_a_heat_strain[i] = util.CtoF(t_a_heat_strain[i]);
         evaporative_cooling[i] = util.CtoF(evaporative_cooling[i]);
         t_a_no_fans[i] = util.CtoF(t_a_no_fans[i]);
-        upper_area[i] = util.CtoF(upper_area[i]);
+        fans_not_beneficial[i] = util.CtoF(fans_not_beneficial[i]);
       }
     }
 
@@ -154,7 +170,7 @@ let use_fans_heatwave_chart = new (function () {
     chartInstance.data.datasets[0].data = t_a_heat_strain;
     chartInstance.data.datasets[1].data = evaporative_cooling;
     chartInstance.data.datasets[2].data = t_a_no_fans;
-    chartInstance.data.datasets[3].data = upper_area;
+    chartInstance.data.datasets[3].data = fans_not_beneficial;
     chartInstance.data.labels = rh_heat_strain;
 
     chartInstance.update();
@@ -202,7 +218,7 @@ let use_fans_heatwave_chart = new (function () {
           },
           {
             label: "Heat strain - fan not beneficial",
-            data: upper_area,
+            data: fans_not_beneficial,
             backgroundColor: "#383838",
             borderColor: "#383838FF",
             hidden: false,
