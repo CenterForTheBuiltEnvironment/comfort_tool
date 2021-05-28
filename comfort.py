@@ -198,5 +198,10 @@ def fan_heatwaves():
     return render_template("use_fans_heatwaves.html")
 
 
+@app.route("/phs")
+def phs():
+    return render_template("phs.html")
+
+
 if __name__ == "__main__":
     app.run(debug=False)
