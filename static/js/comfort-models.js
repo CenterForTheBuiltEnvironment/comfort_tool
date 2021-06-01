@@ -277,6 +277,357 @@ comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
   };
 };
 
+comf.phs = function (
+  tdb,
+  tr,
+  rh,
+  v,
+  met,
+  clo,
+  posture,
+  round = false,
+  wme = 0,
+  i_mst = 0.38,
+  a_p = 0.54,
+  drink = 1,
+  weight = 75,
+  height = 1.8,
+  walk_sp = 0,
+  theta = 0,
+  acclimatized = 100,
+  duration = 480,
+  f_r = 0.97,
+  t_sk = 34.1,
+  t_cr = 36.8,
+  t_re = 36.8, // todo check this since is by default equal to t_cr
+  t_cr_eq = 36.8, // todo check this since is by default equal to t_cr
+  sweat_rate = 0
+) {
+  const p_a = ((psy.satpress(tdb) / 1000) * rh) / 100;
+
+  // if (!t_re) {
+  //   t_re = t_cr;
+  // }
+  // if (!t_cr_eq) {
+  //   t_cr_eq = t_cr;
+  // }
+
+  // DuBois body surface area [m2]
+  const a_dubois = 0.202 * Math.pow(weight, 0.425) * Math.pow(height, 0.725);
+  const sp_heat = (57.83 * weight) / a_dubois; // specific heat of the body
+  let sw_tot = 0;
+  let t_sk_t_cr_wg = 0.3; // t_skin and t_core weighing
+  let d_lim_t_re = 0; // maximum allowable exposure time for heat storage [min]
+  // maximum allowable exposure time for water loss, mean subject [min]
+  let d_lim_loss_50 = 0;
+  // maximum allowable exposure time for water loss, 95 % of the working population [min]
+  let d_lim_loss_95 = 0;
+  // maximum water loss to protect a mean subject [g]
+  const d_max_50 = 0.075 * weight * 1000;
+  // maximum water loss to protect 95 % of the working population [g]
+  const d_max_95 = 0.05 * weight * 1000;
+  // exponential averaging constants
+  const const_t_eq = Math.exp(-1 / 10);
+  const const_t_sk = Math.exp(-1 / 3);
+  const const_sw = Math.exp(-1 / 10);
+  // water loss [g]
+  let sw_tot_g = 0;
+
+  let def_dir = 0;
+  if (theta !== 0) {
+    // def_dir = 1 for unidirectional walking, def_dir = 0 for omni-directional walking
+    def_dir = 1;
+  }
+  let def_speed = 1;
+  if (walk_sp === 0) {
+    def_speed = 0;
+  }
+
+  // radiating area dubois
+  let a_r_du = 0.7;
+  if (posture === 2) {
+    a_r_du = 0.77;
+  }
+  if (posture === 3) {
+    a_r_du = 0.67;
+  }
+
+  // evaluation of the max sweat rate as a function of the metabolic rate
+  let sw_max = (met - 32) * a_dubois;
+  if (sw_max > 400) {
+    sw_max = 400;
+  }
+  if (sw_max < 250) {
+    sw_max = 250;
+  }
+  if (acclimatized >= 50) {
+    sw_max = sw_max * 1.25;
+  }
+
+  // max skin wettedness
+  let w_max = 1;
+  if (acclimatized < 50) {
+    w_max = 0.85;
+  }
+
+  // static clothing insulation
+  const i_cl_st = clo * 0.155;
+  const fcl = 1 + 0.3 * clo;
+
+  // Static boundary layer thermal insulation in quiet air
+  const i_a_st = 0.111;
+
+  // Total static insulation
+  const i_tot_st = i_cl_st + i_a_st / fcl;
+
+  let v_r = v;
+  if (def_speed > 0) {
+    if (def_dir === 1) {
+      // Unidirectional walking
+      v_r = Math.abs(v - walk_sp * Math.cos((3.14159 * theta) / 180));
+    } else {
+      // Omni-directional walking IF
+      if (v < walk_sp) {
+        v_r = walk_sp;
+      } else {
+        v_r = v;
+      }
+    }
+  } else {
+    walk_sp = 0.0052 * (met - 58);
+    if (walk_sp > 0.7) {
+      walk_sp = 0.7;
+      v_r = v;
+    }
+  }
+
+  // Dynamic clothing insulation - correction for wind (Var) and walking speed
+  let v_ux = v_r;
+  if (v_r > 3) {
+    v_ux = 3;
+  }
+  let w_a_ux = walk_sp;
+  if (walk_sp > 1.5) {
+    w_a_ux = 1.5;
+  }
+  // correction for the dynamic total dry thermal insulation at or above 0.6 clo
+  let corr_cl =
+    1.044 *
+    Math.exp((0.066 * v_ux - 0.398) * v_ux + (0.094 * w_a_ux - 0.378) * w_a_ux);
+  if (corr_cl > 1) {
+    corr_cl = 1;
+  }
+  // correction for the dynamic total dry thermal insulation at 0 clo
+  let corr_ia = Math.exp(
+    (0.047 * v_r - 0.472) * v_r + (0.117 * w_a_ux - 0.342) * w_a_ux
+  );
+  if (corr_ia > 1) {
+    corr_ia = 1;
+  }
+  let corr_tot = corr_cl;
+  if (clo <= 0.6) {
+    corr_tot = ((0.6 - clo) * corr_ia + clo * corr_cl) / 0.6;
+  }
+  // total dynamic clothing insulation
+  let i_tot_dyn = i_tot_st * corr_tot;
+  // dynamic boundary layer thermal insulation
+  let i_a_dyn = corr_ia * i_a_st;
+  const i_cl_dyn = i_tot_dyn - i_a_dyn / fcl;
+  // correction for the dynamic permeability index
+  const corr_e = (2.6 * corr_tot - 6.5) * corr_tot + 4.9;
+  let im_dyn = i_mst * corr_e;
+  if (im_dyn > 0.9) {
+    im_dyn = 0.9;
+  }
+  const r_t_dyn = i_tot_dyn / im_dyn / 16.7;
+  const t_exp = 28.56 + 0.115 * tdb + 0.641 * p_a; // expired air temperature
+  // respiratory convective heat flow [W/m2]
+  const c_res = 0.001516 * met * (t_exp - tdb);
+  // respiratory evaporative heat flow [W/m2]
+  const e_res = 0.00127 * met * (59.34 + 0.53 * tdb - 11.63 * p_a);
+  let z = 3.5 + 5.2 * v_r;
+  if (v_r > 1) {
+    z = 8.7 * Math.pow(v_r, 0.6);
+  }
+
+  // dynamic convective heat transfer coefficient
+  let hc_dyn = 2.38 * Math.pow(Math.abs(t_sk - tdb), 0.25);
+  if (z > hc_dyn) {
+    hc_dyn = z;
+  }
+
+  const aux_r = 5.67e-8 * a_r_du;
+  const f_cl_r = (1 - a_p) * 0.97 + a_p * f_r;
+
+  let d_storage,
+    t_sk0,
+    t_re0,
+    t_cr0,
+    t_cr_eq0,
+    t_sk_t_cr_wg0,
+    t_cr_eq_m,
+    d_stored_eq,
+    t_sk_eq_cl,
+    t_sk_eq_nu,
+    t_sk_eq,
+    p_sk,
+    t_cl,
+    t_cl_new,
+    h_r,
+    convection,
+    radiation,
+    e_max,
+    e_req,
+    w_req,
+    sw_req,
+    e_v_eff,
+    e_p,
+    k,
+    wp,
+    t_cr_new;
+
+  for (let time = 1; time < duration + 1; time++) {
+    t_sk0 = t_sk;
+    t_re0 = t_re;
+    t_cr0 = t_cr;
+    t_cr_eq0 = t_cr_eq;
+    t_sk_t_cr_wg0 = t_sk_t_cr_wg;
+
+    // equilibrium core temperature associated to the metabolic rate
+    t_cr_eq_m = 0.0036 * met + 36.6;
+    // Core temperature at this minute, by exponential averaging
+    t_cr_eq = t_cr_eq0 * const_t_eq + t_cr_eq_m * (1 - const_t_eq);
+    // Heat storage associated with this core temperature increase during the last minute
+    d_stored_eq = sp_heat * (t_cr_eq - t_cr_eq0) * (1 - t_sk_t_cr_wg0);
+    // skin temperature prediction -- clothed model
+    t_sk_eq_cl =
+      12.165 + 0.02017 * tdb + 0.04361 * tr + 0.19354 * p_a - 0.25315 * v;
+    t_sk_eq_cl = t_sk_eq_cl + 0.005346 * met + 0.51274 * t_re;
+    // nude model
+    t_sk_eq_nu = 7.191 + 0.064 * tdb + 0.061 * tr + 0.198 * p_a - 0.348 * v;
+    t_sk_eq_nu = t_sk_eq_nu + 0.616 * t_re;
+    if (clo >= 0.6) {
+      t_sk_eq = t_sk_eq_cl;
+    } else if (clo <= 0.2) {
+      t_sk_eq = t_sk_eq_nu;
+    } else {
+      t_sk_eq = t_sk_eq_nu + 2.5 * (t_sk_eq_cl - t_sk_eq_nu) * (clo - 0.2);
+    }
+    // skin temperature [C]
+    t_sk = t_sk0 * const_t_sk + t_sk_eq * (1 - const_t_sk);
+    // Saturated water vapour pressure at the surface of the skin
+    p_sk = 0.6105 * Math.exp((17.27 * t_sk) / (t_sk + 237.3));
+    t_cl = tr + 0.1; // clothing surface temperature
+    do {
+      // radiative heat transfer coefficient
+      h_r =
+        (f_cl_r * aux_r * (Math.pow(t_cl + 273, 4) - Math.pow(tr + 273, 4))) /
+        (t_cl - tr);
+      t_cl_new =
+        (fcl * (hc_dyn * tdb + h_r * tr) + t_sk / i_cl_dyn) /
+        (fcl * (hc_dyn + h_r) + 1 / i_cl_dyn);
+      t_cl = (t_cl + t_cl_new) / 2;
+    } while (Math.abs(t_cl - t_cl_new) >= 0.001);
+    convection = fcl * hc_dyn * (t_cl - tdb);
+    radiation = fcl * h_r * (t_cl - tr);
+    // maximum evaporative heat flow at the skin surface [W/m2]
+    e_max = (p_sk - p_a) / r_t_dyn;
+    // required evaporative heat flow [W/m2]
+    e_req = met - d_stored_eq - wme - c_res - e_res - convection - radiation;
+    // required skin wettedness
+    w_req = e_req / e_max;
+
+    if (e_req <= 0) {
+      e_req = 0;
+      sw_req = 0; // required sweat rate [W/m2]
+    } else if (e_max <= 0) {
+      e_max = 0;
+      sw_req = sw_max;
+    } else if (w_req >= 1.7) {
+      sw_req = sw_max;
+    } else {
+      e_v_eff = 1 - Math.pow(w_req, 2) / 2;
+      if (w_req > 1) {
+        e_v_eff = Math.pow(2 - w_req, 2) / 2;
+      }
+      sw_req = e_req / e_v_eff;
+      if (sw_req > sw_max) {
+        sw_req = sw_max;
+      }
+    }
+    sweat_rate = sweat_rate * const_sw + sw_req * (1 - const_sw);
+    if (sweat_rate <= 0) {
+      e_p = 0;
+      // predicted evaporative heat flow [W / m2]
+      sweat_rate = 0;
+    } else {
+      k = e_max / sweat_rate;
+      wp = 1;
+      if (k >= 0.5) {
+        wp = -k + Math.sqrt(k * k + 2);
+      }
+      if (wp > w_max) {
+        wp = w_max;
+      }
+      e_p = wp * e_max;
+    }
+    // body heat storage rate [W/m2]
+    d_storage = e_req - e_p + d_stored_eq;
+    t_cr_new = t_cr0;
+    do {
+      t_sk_t_cr_wg = 0.3 - 0.09 * (t_cr_new - 36.8);
+      if (t_sk_t_cr_wg > 0.3) {
+        t_sk_t_cr_wg = 0.3;
+      }
+      if (t_sk_t_cr_wg < 0.1) {
+        t_sk_t_cr_wg = 0.1;
+      }
+      t_cr =
+        d_storage / sp_heat +
+        (t_sk0 * t_sk_t_cr_wg0) / 2 -
+        (t_sk * t_sk_t_cr_wg) / 2;
+      t_cr = (t_cr + t_cr0 * (1 - t_sk_t_cr_wg0 / 2)) / (1 - t_sk_t_cr_wg / 2);
+      t_cr_new = (t_cr_new + t_cr) / 2;
+    } while (Math.abs(t_cl - t_cl_new) >= 0.001);
+
+    // console.log(t_re0, t_cr, t_re0);
+    t_re = t_re0 + (2 * t_cr - 1.962 * t_re0 - 1.31) / 9;
+
+    if (d_lim_t_re === 0 && t_re >= 38) {
+      d_lim_t_re = time;
+    }
+    sw_tot = sw_tot + sweat_rate + e_res;
+    sw_tot_g = (sw_tot * 2.67 * a_dubois) / 1.8 / 60;
+    if (d_lim_loss_50 === 0 && sw_tot_g >= d_max_50) {
+      d_lim_loss_50 = time;
+    }
+    if (d_lim_loss_95 === 0 && sw_tot_g >= d_max_95) {
+      d_lim_loss_95 = time;
+    }
+    if (drink === 0) {
+      d_lim_loss_95 = d_lim_loss_95 * 0.6;
+      d_lim_loss_50 = d_lim_loss_95;
+    }
+  }
+  if (d_lim_loss_50 === 0) {
+    d_lim_loss_50 = duration;
+  }
+  if (d_lim_loss_95 === 0) {
+    d_lim_loss_95 = duration;
+  }
+  if (d_lim_t_re === 0) {
+    d_lim_t_re = duration;
+  }
+
+  return {
+    t_re: round ? parseFloat(t_re.toFixed(1)) : t_re,
+    d_lim_loss_50: d_lim_loss_50,
+    d_lim_loss_95: d_lim_loss_95,
+    d_lim_t_re: d_lim_t_re,
+    sw_tot_g: parseFloat(sw_tot_g.toFixed(0)),
+  };
+};
+
 comf.FindSaturatedVaporPressureTorr = function (T) {
   //calculates Saturated Vapor Pressure (Torr) at Temperature T  (C)
   return Math.exp(18.6686 - 4030.183 / (T + 235.0));

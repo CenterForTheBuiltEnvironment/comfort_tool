@@ -7,6 +7,40 @@ These tests use the data data as in pythermalcomfort/tests/test_models.py
 const { comf } = require("./comfort-models");
 const { util } = require("./util");
 
+test("phs", () => {
+  // expect(comf.phs(40, 40, 33.85, 0.3, 150, 0.5, 2, true).t_re).toBeCloseTo(
+  //   37.2
+  // );
+  expect(comf.phs(35, 35, 71, 0.3, 150, 0.5, 2, true)).toEqual({
+    d_lim_loss_50: 385,
+    d_lim_loss_95: 256,
+    d_lim_t_re: 74,
+    sw_tot_g: 6935,
+    t_re: 39.8,
+  });
+  expect(comf.phs(30, 50, 70.65, 0.3, 150, 0.5, 2, true)).toEqual({
+    d_lim_loss_50: 380,
+    d_lim_loss_95: 258,
+    d_lim_t_re: 480,
+    sw_tot_g: 7166,
+    t_re: 37.7,
+  });
+  expect(comf.phs(43, 43, 34.7, 0.3, 103, 0.5, 1, true)).toEqual({
+    d_lim_loss_50: 401,
+    d_lim_loss_95: 271,
+    d_lim_t_re: 480,
+    sw_tot_g: 6765,
+    t_re: 37.3,
+  });
+  expect(comf.phs(40, 40, 40.63, 0.3, 150, 0.4, 2, true)).toEqual({
+    d_lim_loss_50: 407,
+    d_lim_loss_95: 276,
+    d_lim_t_re: 480,
+    sw_tot_g: 6684,
+    t_re: 37.5,
+  });
+});
+
 test("pmv", () => {
   expect(comf.pmv(22, 22, 0.1, 60, 1.2, 0.5).pmv).toBeCloseTo(-0.75);
   expect(comf.pmv(27, 27, 0.1, 60, 1.2, 0.5).pmv).toBeCloseTo(0.77);
