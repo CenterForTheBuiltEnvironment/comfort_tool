@@ -484,7 +484,10 @@ comf.phs = function (
     e_p,
     k,
     wp,
-    t_cr_new;
+    t_cr_new,
+    t_re_array = [t_re],
+    t_cr_array = [t_cr],
+    time_array = [0];
 
   for (let time = 1; time < duration + 1; time++) {
     t_sk0 = t_sk;
@@ -608,6 +611,9 @@ comf.phs = function (
       d_lim_loss_95 = d_lim_loss_95 * 0.6;
       d_lim_loss_50 = d_lim_loss_95;
     }
+    t_re_array.push(parseFloat(t_re.toFixed(3)));
+    t_cr_array.push(parseFloat(t_cr.toFixed(3)));
+    time_array.push(time);
   }
   if (d_lim_loss_50 === 0) {
     d_lim_loss_50 = duration;
@@ -625,6 +631,9 @@ comf.phs = function (
     d_lim_loss_95: d_lim_loss_95,
     d_lim_t_re: d_lim_t_re,
     sw_tot_g: parseFloat(sw_tot_g.toFixed(0)),
+    t_re_array: t_re_array,
+    time_array: time_array,
+    t_cr_array: t_cr_array,
   };
 };
 

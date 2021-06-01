@@ -27,6 +27,10 @@
   type="text/javascript"
   src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"
 ></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/phs_model/phs_chart.js') }}"
+></script>
 <script type="text/javascript"></script>
 {% endblock %} {% block content %}
 
@@ -337,13 +341,13 @@
                   <div class="col-sm-6">
                     <span id="pmv-out-label">Rectal temperature</span>
                     <span> = </span>
-                    <span id="pmv-res"></span>
+                    <span id="t_re"></span>
                     <span class="tempunit"> &deg;C</span>
                   </div>
                   <div class="col-sm-6">
                     <span id="ppd-out-label">Core temperature</span>
                     <span> = </span>
-                    <span id="ppd-res"></span>
+                    <span id="t_core"></span>
                     <span class="tempunit"> &deg;C</span>
                   </div>
                 </div>
@@ -351,7 +355,7 @@
                   <div class="col-sm-6">
                     <span id="pmv-out-label">Time</span>
                     <span> = </span>
-                    <span id="sensation"></span>
+                    <span id="d_lim_t_re"></span>
                     <span> min</span>
                   </div>
                   <div class="col-sm-6">
@@ -392,6 +396,16 @@
               </div>
             </form>
           </div>
+        </div>
+      </div>
+
+      {# divider that contains the figures#}
+      <div class="row justify-content-center">
+        <div
+          id="chartWrapperFansHeatwave"
+          style="position: relative; height: 500px; width: 500px;"
+        >
+          <canvas id="phs_chart_div"></canvas>
         </div>
       </div>
 

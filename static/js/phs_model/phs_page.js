@@ -1,5 +1,31 @@
 keys = ["ta", "tr", "vel", "met", "clo", "rh"];
 
+envVarLimits.ta.si.min = 15;
+envVarLimits.ta.si.max = 50;
+envVarLimits.ta.si.default = 35;
+envVarLimits.ta.ip.min = 59;
+envVarLimits.ta.ip.max = 122;
+envVarLimits.ta.ip.default = 95;
+envVarLimits.tr.si.min = 15;
+envVarLimits.tr.si.max = 50;
+envVarLimits.tr.si.default = 35;
+envVarLimits.tr.ip.min = 59;
+envVarLimits.tr.ip.max = 122;
+envVarLimits.tr.ip.default = 95;
+envVarLimits.vel.si.min = 0.1;
+envVarLimits.vel.si.max = 3;
+envVarLimits.vel.si.default = 0.3;
+envVarLimits.vel.ip.min = 20;
+envVarLimits.vel.ip.max = 590;
+envVarLimits.vel.ip.default = 59;
+envVarLimits.rh.default = 71;
+envVarLimits.met.default = 2.5;
+envVarLimits.met.max = 7;
+envVarLimits.met.min = 2.5;
+envVarLimits.clo.default = 0.5;
+envVarLimits.clo.max = 1.0;
+envVarLimits.clo.min = 0.1;
+
 const vRelativeValue = $("#relative-air-speed-value");
 const dynamicCloValue = $("#dynamic-clo-value");
 
@@ -45,7 +71,7 @@ $(document).ready(function () {
   window.humUnit = "rh";
   setDefaults();
 
-  // use_fans_heatwave_chart.draw(d);
+  phs_chart.draw(d);
 
   update();
 });
@@ -239,7 +265,22 @@ function update() {
   }
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
-  // use_fans_heatwave_chart.update();
+  // fixme I need to allow the user to change the other parameters
+  // fixme I need to allow the user to change the posture
+  const results = comf.phs(
+    d.ta,
+    d.tr,
+    d.rh,
+    d.vel,
+    d.met * 58.15,
+    d.clo,
+    2,
+    true
+  );
+  $("#t_re").html(results.t_re);
+  $("#d_lim_t_re").html(results.d_lim_t_re);
+
+  phs_chart.update();
 }
 
 function setDefaults() {
