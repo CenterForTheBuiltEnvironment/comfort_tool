@@ -41,7 +41,8 @@
         Inputs
       </div>
       <div id="left_content" class="card-body">
-        {# Inputs PMV and adaptive #}
+        {# todo add rest option where user can select env conditions when person
+        is resting#} {# Inputs PMV and adaptive #}
         <div id="inputs" class="in">
           <div id="pmv-inputs">
             <div class="row justify-content-between">
@@ -347,22 +348,31 @@
                   <div class="col-sm-6">
                     <span id="ppd-out-label">Core temperature</span>
                     <span> = </span>
-                    <span id="t_core"></span>
+                    <span id="t_cr"></span>
                     <span class="tempunit"> &deg;C</span>
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="col-sm-6">
-                    <span id="pmv-out-label">Time</span>
+                  <div class="col-sm-12 mt-3">
+                    <span>Maximum allowable exposure time for:</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span id="pmv-out-label">heat storage</span>
                     <span> = </span>
                     <span id="d_lim_t_re"></span>
                     <span> min</span>
                   </div>
-                  <div class="col-sm-6">
-                    <span id="ppd-out-label">Water loss</span>
+                  <div class="col-sm-12">
+                    <span id="ppd-out-label">water loss (95% population)</span>
                     <span> = </span>
-                    <span id="SET"></span>
-                    <span class="tempunit"> ml/h</span>
+                    <span id="d_lim_loss_95"></span>
+                    <span class="tempunit"> min</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span id="ppd-out-label">water loss (50% population)</span>
+                    <span> = </span>
+                    <span id="d_lim_loss_50"></span>
+                    <span class="tempunit"> min</span>
                   </div>
                 </div>
               </div>

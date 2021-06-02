@@ -627,6 +627,7 @@ comf.phs = function (
 
   return {
     t_re: round ? parseFloat(t_re.toFixed(1)) : t_re,
+    t_cr: round ? parseFloat(t_cr.toFixed(1)) : t_cr,
     d_lim_loss_50: d_lim_loss_50,
     d_lim_loss_95: d_lim_loss_95,
     d_lim_t_re: d_lim_t_re,

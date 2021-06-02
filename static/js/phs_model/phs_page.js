@@ -26,9 +26,6 @@ envVarLimits.clo.default = 0.5;
 envVarLimits.clo.max = 1.0;
 envVarLimits.clo.min = 0.1;
 
-const vRelativeValue = $("#relative-air-speed-value");
-const dynamicCloValue = $("#dynamic-clo-value");
-
 $(document).ready(function () {
   // highlight navigation bar button
   $("a.active").removeClass("active");
@@ -279,6 +276,9 @@ function update() {
   );
   $("#t_re").html(results.t_re);
   $("#d_lim_t_re").html(results.d_lim_t_re);
+  $("#t_cr").html(results.t_cr);
+  $("#d_lim_loss_95").html(results.d_lim_loss_95);
+  $("#d_lim_loss_50").html(results.d_lim_loss_50);
 
   phs_chart.update();
 }
