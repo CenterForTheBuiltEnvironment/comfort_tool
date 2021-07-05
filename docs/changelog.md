@@ -68,7 +68,7 @@ Features:
 
 Features:
 
-- Fixed minor issue in the erf equation. Updated fp tables and E<sub>diff</sub> equation.  
+- Fixed minor issue in the erf equation. Updated fp tables and E_diff equation.  
 
 ## Version 2.0.5 (2020-09-04)
 
