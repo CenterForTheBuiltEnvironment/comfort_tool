@@ -226,3 +226,32 @@ h2 {
   margin: 0px;
   margin-bottom: 5px;
 }
+
+/*tooltip */
+[data-tooltip] {
+  cursor: help
+}
+
+[data-tooltip]::after {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  content: attr(data-tooltip);
+  left: 0;
+  min-width: 10rem;
+  bottom: 3rem;
+  border-radius: 3px;
+  box-shadow: 0 0 5px 2px rgba(118, 118, 118, 0.6);
+  background-color: #2f2f2f;
+  color: #fff;
+  z-index: 9999;
+  padding: 6px;
+  /*transform: translateY(-20px);*/
+  /*transition: all 150ms cubic-bezier(.25, .8, .25, 1);*/
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  /*transform: translateY(0);*/
+  /*transition-duration: 300ms;*/
+}

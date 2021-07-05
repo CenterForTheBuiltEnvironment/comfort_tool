@@ -50,8 +50,6 @@
               <div id="modelDiv">
                 <a
                   class="mainlink"
-                  data-toggle="tooltip"
-                  title="Use the dropdown on the right to choose between the PMV and Adaptive methods"
                   href="http://en.wikipedia.org/wiki/Thermal_comfort#Thermal_comfort_models"
                   target="_new"
                   >Select method:</a
@@ -61,8 +59,7 @@
           </div>
           <div
             class="col-lg-6 col-md-5 p-1"
-            data-toggle="tooltip"
-            title="Dropdown to choose between the PMV and Adaptive methods"
+            data-tooltip="Choose between the PMV and Adaptive model."
           >
             <select class="form-control input-medium" id="model-type">
               <option value="pmvElevatedAirspeed">PMV method</option>
@@ -122,8 +119,7 @@
             <div class="row justify-content-between">
               <div class="col-md-4 col-lg-12 p-1">
                 <div
-                  data-toggle="tooltip"
-                  title="Average air speed. The tool automatically calculates the relative air speed."
+                  data-tooltip="Average air speed. The tool automatically calculates the activity generated air speed, read the docs for more info."
                 >
                   <a
                     class="mainlink"
@@ -142,8 +138,7 @@
               <div
                 class="col-lg-6 col-md-5 p-1"
                 id="local-control-div"
-                data-toggle="tooltip"
-                title="Define if building's occupants have control or not on air speed"
+                data-tooltip="Define if building's occupants have control or not on air speed."
               >
                 <select class="form-control" id="local-control">
                   <option value="noairspeedcontrol">No local control</option>
@@ -209,8 +204,7 @@
             <div id="cloInput" class="row justify-content-between in">
               <div class="col-md-4 col-lg-12 p-1">
                 <div
-                  data-toggle="tooltip"
-                  title="Total clothing level. The tool automatically calculates dynamic clothing value."
+                  data-tooltip="Total clothing level. The tool automatically calculates dynamic clothing value, read the docs for more info."
                 >
                   <a
                     class="mainlink"
@@ -235,10 +229,12 @@
             <div
               class="row justify-content-center mt-4 btn-group-toggle"
               data-toggle="buttons"
-              data-toggle="tooltip"
-              title="Calculate clothing level by specifying all garments occupants were wearing"
             >
-              <label for="customClo" class="btn btn-light border">
+              <label
+                for="customClo"
+                class="btn btn-light border"
+                data-tooltip="Calculate clothing level by specifying all garments occupants were wearing"
+              >
                 <input type="checkbox" id="customClo" />Create custom ensemble
               </label>
             </div>
@@ -262,8 +258,7 @@
             <div
               class="row justify-content-center mt-2 btn-group-toggle"
               data-toggle="buttons"
-              data-toggle="tooltip"
-              title="Estimate clothing level based on outdoor temperature at 6 am"
+              data-tooltip="Estimate clothing level based on outdoor temperature at 6 am"
             >
               <label for="dynamicClo" class="btn btn-light border">
                 <input type="checkbox" id="dynamicClo" />Dynamic predictive
@@ -353,11 +348,7 @@
               />
               Set pressure
             </label>
-            <label
-              class="btn btn-light border"
-              data-toggle="tooltip"
-              title="Change units"
-            >
+            <label class="btn btn-light border" data-tooltip="Change units">
               <input
                 type="radio"
                 name="options"
@@ -395,8 +386,7 @@
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label
               class="btn btn-light border"
-              data-toggle="tooltip"
-              title="Reset inputs to default value"
+              data-tooltip="Reset inputs to default value"
             >
               <input
                 type="radio"
@@ -407,8 +397,7 @@
             </label>
             <label
               class="btn btn-light border"
-              data-toggle="tooltip"
-              title="Save the current inputs"
+              data-tooltip="Save the current inputs"
             >
               <input
                 type="radio"
@@ -420,8 +409,7 @@
             </label>
             <label
               class="btn btn-light border"
-              data-toggle="tooltip"
-              title="Reload the saved inputs"
+              data-tooltip="Reload the saved inputs"
             >
               <input
                 type="radio"
@@ -431,11 +419,7 @@
                 checked
               />Reload
             </label>
-            <label
-              class="btn btn-light border"
-              data-toggle="tooltip"
-              title="Share this page"
-            >
+            <label class="btn btn-light border" data-tooltip="Share this page">
               <input
                 type="radio"
                 name="options"

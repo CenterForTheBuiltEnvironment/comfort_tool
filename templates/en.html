@@ -108,8 +108,7 @@
             <div class="row justify-content-between">
               <div class="col-md-4 col-lg-12 p-1">
                 <div
-                  data-toggle="tooltip"
-                  title="This is the average air speed. The tool automatically calculates the relative air speed."
+                  data-tooltip="Average air speed. The tool automatically calculates the activity generated air speed, read the docs for more info."
                 >
                   <a
                     class="mainlink"
@@ -182,8 +181,7 @@
             <div id="cloInput" class="row justify-content-between in">
               <div class="col-md-4 col-lg-12 p-1">
                 <div
-                  data-toggle="tooltip"
-                  title="Enter here the dynamic insulation characteristics of clothing."
+                  data-tooltip="Enter here the dynamic insulation characteristics of clothing."
                 >
                   <a
                     class="mainlink"
@@ -209,7 +207,11 @@
               class="row justify-content-center mt-4 btn-group-toggle"
               data-toggle="buttons"
             >
-              <label for="customClo" class="btn btn-light border">
+              <label
+                for="customClo"
+                class="btn btn-light border"
+                data-tooltip="Calculate clothing level by specifying all garments occupants were wearing"
+              >
                 <input type="checkbox" id="customClo" />Create custom ensemble
               </label>
             </div>
