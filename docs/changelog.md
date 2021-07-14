@@ -4,6 +4,16 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.2.0 (2020-07-14)
+
+Fix:
+
+- Error calculation of PMV in EN tab
+
+Features:
+
+- Improved tooltip look
+
 ## Version 2.1.7 (2020-04-16)
 
 Features:
