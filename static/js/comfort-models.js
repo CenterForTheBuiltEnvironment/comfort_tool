@@ -123,6 +123,24 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   return r;
 };
 
+comf.pmvEN = function (ta, tr, vel, rh, met, clo, wme) {
+  /**
+  ta, air temperature (°C)
+  tr, mean radiant temperature (°C)
+  vel, average air speed (m/s)
+  rh, relative humidity (%)
+  met, metabolic rate (met)
+  clo, dynamic clothing insulation (clo)
+  wme, external work, normally around 0 (met)
+   */
+  const data = {}
+  const relativeAirSpeed = comf.relativeAirSpeed(vel, met);
+  const pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, clo, wme);
+  data.pmv = pmv.pmv;
+  data.ppd = pmv.ppd;
+  return data
+};
+
 comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
   const ce_l = 0;
   const ce_r = 40;
@@ -162,14 +180,15 @@ comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
 };
 
 comf.pmv = function (ta, tr, vel, rh, met, clo, wme = 0) {
-  // returns [pmv, ppd]
-  // ta, air temperature (°C)
-  // tr, mean radiant temperature (°C)
-  // vel, relative air speed (m/s)
-  // rh, relative humidity (%) Used only this way to input humidity level
-  // met, metabolic rate (met)
-  // clo, clothing (clo)
-  // wme, external work, normally around 0 (met)
+  /**
+  ta, air temperature (°C)
+  tr, mean radiant temperature (°C)
+  vel, relative air speed (m/s)
+  rh, relative humidity (%) Used only this way to input humidity level
+  met, metabolic rate (met)
+  clo, dynamic clothing insulation (clo)
+  wme, external work, normally around 0 (met)
+   */
 
   let pa,
     icl,
@@ -304,13 +323,6 @@ comf.phs = function (
   sweat_rate = 0
 ) {
   const p_a = ((psy.satpress(tdb) / 1000) * rh) / 100;
-
-  // if (!t_re) {
-  //   t_re = t_cr;
-  // }
-  // if (!t_cr_eq) {
-  //   t_cr_eq = t_cr;
-  // }
 
   // DuBois body surface area [m2]
   const a_dubois = 0.202 * Math.pow(weight, 0.425) * Math.pow(height, 0.725);
@@ -593,7 +605,6 @@ comf.phs = function (
       t_cr_new = (t_cr_new + t_cr) / 2;
     } while (Math.abs(t_cl - t_cl_new) >= 0.001);
 
-    // console.log(t_re0, t_cr, t_re0);
     t_re = t_re0 + (2 * t_cr - 1.962 * t_re0 - 1.31) / 9;
 
     if (d_lim_t_re === 0 && t_re >= 38) {

@@ -432,15 +432,7 @@ function update() {
 
   const model = document.getElementById("model-type").value;
   if (model === "pmv") {
-    r = comf.pmv(
-      d.ta,
-      d.tr,
-      comf.relativeAirSpeed(d.vel, d.met),
-      d.rh,
-      d.met,
-      comf.dynamicClothing(d.clo, d.met),
-      0
-    );
+    r = comf.pmvEN(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
     if (isNaN(r.pmv)) {
       window.alert(
         "The combination of input parameters you selected lead to an incorrect calculation of the PMV index\n" +
@@ -614,7 +606,7 @@ function renderCompliance(comply, special_msg) {
 function setClo() {
   let clo = 0;
   var opt = document.getElementById("cloMultiSelect").options;
-  for (var i = 0; i < opt.length; i++) {
+  for (let i = 0; i < opt.length; i++) {
     if (opt[i].selected) clo += parseFloat(opt[i].value);
   }
   document.getElementById("clo").value = clo.toFixed(2);
@@ -625,7 +617,7 @@ function addToEnsembles() {
   var items = [];
   var ensembleClo = 0;
   var opt = document.getElementById("cloMultiSelect").options;
-  for (var i = 0; i < opt.length; i++) {
+  for (let i = 0; i < opt.length; i++) {
     if (opt[i].selected) {
       items.push(opt[i].text);
       ensembleClo += parseFloat(opt[i].value);
