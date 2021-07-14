@@ -626,8 +626,6 @@ function update() {
     vRelativeDiv.hide();
   }
 
-  // fixme check that there is no need for upper met limit
-  // if (d.met > 1.2 && d.met < 2) {
   if (d.met > 1.2) {
     dynamicCloDiv.show();
     dynamicCloValue.html(comf.dynamicClothing(d.clo, d.met).toFixed(2));
