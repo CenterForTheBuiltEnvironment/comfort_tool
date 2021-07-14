@@ -48,11 +48,9 @@ var enbc = new (function () {
       var b = 50;
       var fn = function (db) {
         return (
-          comf.pmvElevatedAirspeed(db, d.tr, d.vel, rh, d.met, d.clo, d.wme)
-            .pmv - target
+          comf.pmvEN(db, d.tr, d.vel, rh, d.met, d.clo, d.wme).pmv - target
         );
       };
-      //t = util.bisect(a, b, fn, epsilon, target)
       t = util.secant(a, b, fn, epsilon);
       return {
         db: t,
@@ -60,11 +58,11 @@ var enbc = new (function () {
       };
     }
 
-    for (rh = 0; rh <= 100; rh += 10) {
+    for (let rh = 0; rh <= 100; rh += 10) {
       boundary.push(solve(rh, -pmvlimit));
     }
 
-    for (rh = 100; rh >= 0; rh -= 10) {
+    for (let rh = 100; rh >= 0; rh -= 10) {
       boundary.push(solve(rh, pmvlimit));
     }
 
