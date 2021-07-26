@@ -133,12 +133,12 @@ comf.pmvEN = function (ta, tr, vel, rh, met, clo, wme) {
   clo, dynamic clothing insulation (clo)
   wme, external work, normally around 0 (met)
    */
-  const data = {}
+  const data = {};
   const relativeAirSpeed = comf.relativeAirSpeed(vel, met);
   const pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, clo, wme);
   data.pmv = pmv.pmv;
   data.ppd = pmv.ppd;
-  return data
+  return data;
 };
 
 comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
@@ -663,7 +663,8 @@ comf.pierceSET = function (
   clo,
   wme = 0,
   round = false,
-  calculateCE = false
+  calculateCE = false,
+  maxSkinBloodFlow = 90
 ) {
   /**
    * SET calculation using code provided in ASHRAE 55
@@ -842,8 +843,8 @@ comf.pierceSET = function (
     BDSIG = TB - TempBodyNeutral;
     WARMB = (BDSIG > 0) * BDSIG;
     SkinBloodFlow = (SkinBloodFlowNeutral + CDil * WARMC) / (1 + CStr * COLDS);
-    if (SkinBloodFlow > 90.0) {
-      SkinBloodFlow = 90.0;
+    if (SkinBloodFlow > maxSkinBloodFlow) {
+      SkinBloodFlow = maxSkinBloodFlow;
       ExcBloodFlow = true;
     }
     if (SkinBloodFlow < 0.5) SkinBloodFlow = 0.5;

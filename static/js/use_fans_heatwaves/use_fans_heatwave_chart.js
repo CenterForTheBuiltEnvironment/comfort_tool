@@ -25,7 +25,6 @@ let use_fans_heatwave_chart = new (function () {
     rh_heat_strain,
     t_a_no_fans,
     fans_not_beneficial,
-    evaporative_cooling,
     upper_chart_limit = 50,
     lower_chart_limit = 30,
     leftYStep = 2;
@@ -36,18 +35,30 @@ let use_fans_heatwave_chart = new (function () {
   // function that calculate the heat losses
   this.getData = function () {
     t_a_heat_strain = [];
-    evaporative_cooling = [];
     rh_heat_strain = [];
     t_a_no_fans = [];
     fans_not_beneficial = [];
 
     let t_a_heat_strain_02 = [];
-    let rh_max_evaporative_cooling = 0;
+    let rhIntersectionHeatStrain = 0;
+    let indexIntersectionHeatStrain = 0;
+    let tIntersectionHeatStrain = 0;
 
     // calculate heat strain for air speed of 0.2 m/s
     for (ix = 0; ix < rh.length; ix++) {
       for (i = 0; i < ta.length; i++) {
-        results = comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0);
+        results = comf.pierceSET(
+          ta[i],
+          ta[i],
+          0.2,
+          rh[ix],
+          d.met,
+          d.clo,
+          0,
+          false,
+          false,
+          80
+        );
 
         if (results.termal_strain) {
           t_a_heat_strain_02.push(ta[i]);
@@ -59,13 +70,24 @@ let use_fans_heatwave_chart = new (function () {
     // calculate heat strain the airspeed the user has selected
     for (ix = 0; ix < rh.length; ix++) {
       for (i = 0; i < ta.length; i++) {
-        // console.log(`${ta[i]}, rh= ${rh[ix]}`);
-        results = comf.pierceSET(ta[i], ta[i], d.vel, rh[ix], d.met, d.clo, 0);
+        results = comf.pierceSET(
+          ta[i],
+          ta[i],
+          d.vel,
+          rh[ix],
+          d.met,
+          d.clo,
+          0,
+          false,
+          false,
+          80
+        );
 
         if (results.termal_strain) {
-          // console.log(`thermal strain, ta= ${ta[i]}, rh= ${rh[ix]}`);
           if (ta[i] < t_a_heat_strain_02[ix]) {
-            rh_max_evaporative_cooling = rh[ix];
+            rhIntersectionHeatStrain = rh[ix];
+            indexIntersectionHeatStrain = ix;
+            tIntersectionHeatStrain = ta[i];
           }
           t_a_heat_strain.push(ta[i]);
           rh_heat_strain.push(rh[ix]);
@@ -74,44 +96,63 @@ let use_fans_heatwave_chart = new (function () {
       }
     }
 
+    if (tIntersectionHeatStrain === 0) {
+      tIntersectionHeatStrain = t_a_heat_strain_02[0];
+    }
+
+    for (ix = 0; ix < rh.length; ix++) {
+      if (t_a_heat_strain[ix] > tIntersectionHeatStrain) {
+        t_a_heat_strain[ix] = tIntersectionHeatStrain;
+      }
+      // add data to fans not beneficial zone
+      fans_not_beneficial.push(upper_chart_limit + 1);
+    }
+
     // calculate the zone in which fans should not be used
     for (ix = 0; ix < rh.length; ix++) {
       for (i = ta.length - 1; i > 0; i--) {
         // calculate delta t core with two air speeds
         results =
-          comf.pierceSET(ta[i], ta[i], d.vel, rh[ix], d.met, d.clo, 0)[
-            "t_core"
-          ] -
-          comf.pierceSET(ta[i], ta[i], 0.2, rh[ix], d.met, d.clo, 0)["t_core"];
+          comf.pierceSET(
+            ta[i],
+            ta[i],
+            d.vel,
+            rh[ix],
+            d.met,
+            d.clo,
+            0,
+            false,
+            false,
+            80
+          )["t_core"] -
+          comf.pierceSET(
+            ta[i],
+            ta[i],
+            0.2,
+            rh[ix],
+            d.met,
+            d.clo,
+            0,
+            false,
+            false,
+            80
+          )["t_core"];
 
-        // if the core temperature is higher with fans on
+        // if the core temperature is lower with fans on
         if (results < 0) {
           // for low rh id the delta is very small ignore it
-          if (rh[ix] < 26 && results > -0.2) {
-            t_a_no_fans.push(upper_chart_limit + 1);
+          if (
+            rh[ix] < rhIntersectionHeatStrain ||
+            ta[i] > tIntersectionHeatStrain
+          ) {
+            t_a_no_fans.push(tIntersectionHeatStrain);
           } else {
             // push the temperature at which fans should not be used
             t_a_no_fans.push(ta[i]);
-            // make sure the evaporative cooling regions does not extends beyond the no use fans
-            if (
-              rh[ix] < rh_max_evaporative_cooling &&
-              ta[i] < upper_chart_limit
-            ) {
-              rh_max_evaporative_cooling = rh[ix];
-            }
           }
           break;
         }
       }
-    }
-
-    for (ix = 0; ix < rh.length; ix++) {
-      if (rh[ix] < rh_max_evaporative_cooling) {
-        evaporative_cooling.push(upper_chart_limit + 1);
-      } else {
-        evaporative_cooling.push(0);
-      }
-      fans_not_beneficial.push(upper_chart_limit + 1);
     }
 
     t_a_heat_strain = Taira.smoothen(
@@ -158,7 +199,6 @@ let use_fans_heatwave_chart = new (function () {
 
       for (i = 0; i < rh_heat_strain.length; i++) {
         t_a_heat_strain[i] = util.CtoF(t_a_heat_strain[i]);
-        evaporative_cooling[i] = util.CtoF(evaporative_cooling[i]);
         t_a_no_fans[i] = util.CtoF(t_a_no_fans[i]);
         fans_not_beneficial[i] = util.CtoF(fans_not_beneficial[i]);
       }
@@ -168,9 +208,8 @@ let use_fans_heatwave_chart = new (function () {
     chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
 
     chartInstance.data.datasets[0].data = t_a_heat_strain;
-    chartInstance.data.datasets[1].data = evaporative_cooling;
-    chartInstance.data.datasets[2].data = t_a_no_fans;
-    chartInstance.data.datasets[3].data = fans_not_beneficial;
+    chartInstance.data.datasets[1].data = t_a_no_fans;
+    chartInstance.data.datasets[2].data = fans_not_beneficial;
     chartInstance.data.labels = rh_heat_strain;
 
     chartInstance.update();
@@ -194,15 +233,6 @@ let use_fans_heatwave_chart = new (function () {
             data: t_a_heat_strain,
             backgroundColor: "#3BBDED",
             borderColor: "#3BBDED",
-            hidden: false,
-            yAxisID: "y",
-            fill: "origin",
-          },
-          {
-            label: "Evaporative cooling",
-            data: evaporative_cooling,
-            backgroundColor: "#3caea3",
-            borderColor: "#3caea3",
             hidden: false,
             yAxisID: "y",
             fill: "origin",
