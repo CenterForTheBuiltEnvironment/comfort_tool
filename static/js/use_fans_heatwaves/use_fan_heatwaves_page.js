@@ -9,7 +9,7 @@ envVarLimits.vel.ip.default = 157;
 envVarLimits.met.default = 1.1;
 envVarLimits.met.max = 1.9;
 envVarLimits.clo.default = 0.5;
-envVarLimits.clo.max = 0.7;
+envVarLimits.clo.max = 0.6;
 envVarLimits.clo.min = 0.1;
 
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
@@ -32,12 +32,8 @@ cloInsulationTypicalEnsambles = [
     clo: 0.57,
   },
   {
-    clothing: "Trousers, long-sleeve shirt: 0.61 clo",
-    clo: 0.61,
-  },
-  {
-    clothing: "Knee-length skirt, long-sleeve shirt, full slip: 0.67 clo",
-    clo: 0.67,
+    clothing: "Trousers, long-sleeve shirt: 0.6 clo",
+    clo: 0.6,
   },
 ];
 

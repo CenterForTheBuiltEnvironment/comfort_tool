@@ -45,7 +45,7 @@
         <div id="inputs" class="in">
           <div id="pmv-inputs">
             <div class="row justify-content-between">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div
                   data-toggle="tooltip"
                   title="Average air speed. The tool automatically calculates the relative air speed."
@@ -58,7 +58,7 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-3 p-1">
                 <div class="inputfield">
                   <input class="inputbox" id="vel" />
                   <span class="unit vel-unit"> m/s</span>
@@ -68,7 +68,7 @@
 
             {# metabolic rate #}
             <div id="actInput" class="row justify-content-between in">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div>
                   <a
                     class="mainlink"
@@ -78,7 +78,7 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-3">
+              <div class="col-sm-3 col-lg-3 p-1">
                 <div class="inputfield" id="met_input">
                   <input class="inputbox" id="met" />
                   <span class="unit"> met</span>
@@ -91,7 +91,7 @@
 
             {# clothing #}
             <div id="cloInput" class="row justify-content-between in">
-              <div class="col-md-4 col-lg-12">
+              <div class="col-md-4 col-lg-12 p-1">
                 <div
                   data-toggle="tooltip"
                   title="Total clothing level. The tool automatically calculates dynamic clothing value."
@@ -104,7 +104,7 @@
                   >
                 </div>
               </div>
-              <div class="col-sm-3 col-lg-3">
+              <div class="col-sm-3 col-lg-3 p-1">
                 <div class="inputfield">
                   <input class="inputbox" id="clo" />
                   <span class="unit"> clo</span>
@@ -275,21 +275,12 @@
       <div class="row justify-content-center note-chart">
         <div class="card-body px-5 py-3" id="use_fans_heatwave_note">
           <p>
-            <strong>NOTE:</strong> This chart shows in light-blue the region in
-            which the use of fans is predicted to be beneficial and heat strain
-            should not occur in healthy adults. The dark-blue region depicts the
-            environmental conditions in which fans would still provide a
-            benefit, when compared with the still air condition (v = 0.2 m/s),
-            however, if possible, people should move to cooler spaces since the
-            model predict that they will be experiencing heat strain. In the
-            dark gray region, electrical fans should not be used since they
-            would increase heat strain. In the green area ("evaporative
-            cooling") electric fans should not be used to cool people without
-            first reducing the indoor air temperature. Evaporative cooling can
-            be used to first reduce the air temperature to a value within the
-            blue shaded area and subsequently electric fans can be safely used.
-            Other cooling strategies, such as active cooling, can also be used
-            to cool the air.
+            <strong>NOTE:</strong> The blue areas show the environmental
+            conditions in which the use of fans is beneficial since they provide
+            additional cooling to the human body. In the darkblue region, while
+            the use of fans is still beneficial, people are most likely to
+            suffer from heat strain. The dark gray area demarcates the region in
+            which electric fans should not be used.
           </p>
           <p>
             These results were calculated used the Gagge et al. (1971) heat
