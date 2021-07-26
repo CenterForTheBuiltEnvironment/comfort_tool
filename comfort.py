@@ -9,7 +9,7 @@ from flask import (
     make_response,
 )
 from pythermalcomfort.models import pmv_ppd, set_tmp, cooling_effect
-from pythermalcomfort.psychrometrics import v_relative, clo_dynamic
+from pythermalcomfort.utilities import v_relative, clo_dynamic
 import pandas as pd
 
 ALLOWED_EXTENSIONS = {"csv"}
