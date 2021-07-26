@@ -338,22 +338,25 @@
           <div class="card-body p-2">
             <form>
               <div id="pmv-outputs">
+                {#
                 <div class="form-row">
+                  #} {#
                   <div class="col-sm-6">
-                    <span id="pmv-out-label">Rectal temperature</span>
-                    <span> = </span>
-                    <span id="t_re"></span>
-                    <span class="tempunit"> &deg;C</span>
+                    #} {# <span id="pmv-out-label">Rectal temperature</span>#}
+                    {# <span> = </span>#} {# <span id="t_re"></span>#} {#
+                    <span class="tempunit"> &deg;C</span>#} {#
                   </div>
+                  #} {#
                   <div class="col-sm-6">
-                    <span id="ppd-out-label">Core temperature</span>
-                    <span> = </span>
-                    <span id="t_cr"></span>
-                    <span class="tempunit"> &deg;C</span>
+                    #} {# <span id="ppd-out-label">Core temperature</span>#} {#
+                    <span> = </span>#} {# <span id="t_cr"></span>#} {#
+                    <span class="tempunit"> &deg;C</span>#} {#
                   </div>
+                  #} {#
                 </div>
+                #}
                 <div class="form-row">
-                  <div class="col-sm-12 mt-3">
+                  <div class="col-sm-12">
                     <span>Maximum allowable exposure time for:</span>
                   </div>
                   <div class="col-sm-12">
@@ -422,7 +425,15 @@
       {# card displaying the notes #}
       <div class="row justify-content-center note-chart">
         <div class="card-body px-5 py-3" id="use_fans_heatwave_note">
-          <p><strong>NOTE:</strong> Write a note.</p>
+          <p>
+            <strong>NOTE:</strong> The PHS model (ISO 7933) allows the
+            analytical evaluation of the thermal stress experienced by a subject
+            in a hot environment. The PHS can only be used for dry-bulb
+            temperatures between 15 and 50°C, air speeds between 0 and 3 m/s,
+            metabolic rates between 1.7 and 6.8 met, total clothing insulation
+            between 0.1 and 1.0 clo, and when the difference between the mean
+            radiant temperature and the air temperature is between 0 and 60°C.
+          </p>
         </div>
       </div>
     </div>
