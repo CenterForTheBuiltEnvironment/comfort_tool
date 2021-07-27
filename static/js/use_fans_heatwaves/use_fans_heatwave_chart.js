@@ -196,7 +196,7 @@ let use_fans_heatwave_chart = new (function () {
         "Dry-bulb Temperature [°F]";
 
       upper_chart_limit = 120;
-      lower_chart_limit = 86;
+      lower_chart_limit = 84;
       leftYStep = 4;
 
       for (i = 0; i < rh_heat_strain.length; i++) {
@@ -234,8 +234,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "No heat strain",
             data: t_a_heat_strain,
-            backgroundColor: "rgba(59,189,237,0.9)",
-            borderColor: "rgba(59,189,237,0.9)",
+            backgroundColor: "#def7e4ff",
+            borderColor: "rgba(59,189,237,0)",
             hidden: false,
             yAxisID: "y",
             fill: "origin",
@@ -243,8 +243,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "Heat strain - fan still beneficial",
             data: t_a_no_fans,
-            backgroundColor: "rgba(53,119,158,0.9)",
-            borderColor: "rgba(53,119,158,0.9)",
+            backgroundColor: "#a0e5b1ff",
+            borderColor: "rgba(53,119,158,0)",
             hidden: false,
             yAxisID: "y",
             fill: 0,
@@ -252,8 +252,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "Heat strain - fan not beneficial",
             data: fans_not_beneficial,
-            backgroundColor: "rgba(94,94,94,0.9)",
-            borderColor: "rgba(94,94,94,0.9)",
+            backgroundColor: "#ffc5b0ff",
+            borderColor: "rgba(94,94,94,0)",
             hidden: false,
             yAxisID: "y",
             fill: 1,
@@ -336,9 +336,9 @@ let use_fans_heatwave_chart = new (function () {
                 autoSkip: true,
                 maxRotation: 0,
                 minRotation: 0,
-                min: 0,
-                max: 100,
-                maxTicksLimit: 11,
+                min: 5,
+                max: 85,
+                maxTicksLimit: 9,
               },
             },
           ],

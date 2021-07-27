@@ -10,7 +10,7 @@ envVarLimits.met.default = 1.1;
 envVarLimits.met.max = 1.9;
 envVarLimits.clo.default = 0.5;
 envVarLimits.clo.max = 0.6;
-envVarLimits.clo.min = 0.1;
+envVarLimits.clo.min = 0;
 
 // Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
 cloInsulationTypicalEnsambles = [
