@@ -941,7 +941,7 @@ comf.pierceSET = function (
   r.q_tot_skin = HSK;
   r.q_resp = ERES;
   r.skin_wet = PWET * 100;
-  r.termal_strain = !checker_false([
+  r.thermal_strain = !checker_false([
     ExcRegulatorySweating,
     ExcBloodFlow,
     ExcCriticalWettedness,

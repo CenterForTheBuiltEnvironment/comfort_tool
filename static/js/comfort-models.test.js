@@ -64,29 +64,40 @@ test("pmv", () => {
 
 test("calculate heat strain for 0.2 m/s", () => {
   expect(
-    comf.pierceSET(46.5, 46.5, 0.2, 10, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(46.5, 46.5, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
   ).toBeFalsy();
   expect(
-    comf.pierceSET(46.87, 46.87, 0.2, 10, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(46.87, 46.87, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
   ).toBeTruthy();
   expect(
-    comf.pierceSET(45.6, 45.6, 0.2, 20, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(45.6, 45.6, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
   ).toBeFalsy();
   expect(
-    comf.pierceSET(45.8, 45.8, 0.2, 20, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(45.8, 45.8, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
   ).toBeTruthy();
   expect(
-    comf.pierceSET(42.4, 42.4, 0.2, 30, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(42.4, 42.4, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
   ).toBeFalsy();
   expect(
-    comf.pierceSET(42.6, 42.6, 0.2, 30, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(42.6, 42.6, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
   ).toBeTruthy();
   expect(
-    comf.pierceSET(45, 45, 0.8, 20, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(45, 45, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
   ).toBeFalsy();
   expect(
-    comf.pierceSET(45.2, 45.2, 0.8, 20, 1.1, 0.5, 0, true).termal_strain
+    comf.pierceSET(45.2, 45.2, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
   ).toBeTruthy();
+  expect(
+    comf.pierceSET(32.4, 32.4, 0.3, 82, 1.4, 0.3, 0, true, false, 80)
+      .thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(33, 33, 0.3, 82, 1.4, 0.3, 0, true, false, 80).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(32.2, 32.2, 0.2, 82, 1.4, 0.3, 0, true, false, 80)
+      .thermal_strain
+  ).toBeFalsy();
 });
 
 test("temperature converter", () => {

@@ -60,7 +60,7 @@ let use_fans_heatwave_chart = new (function () {
           80
         );
 
-        if (results.termal_strain) {
+        if (results.thermal_strain) {
           t_a_heat_strain_02.push(ta[i]);
           break;
         }
@@ -83,7 +83,7 @@ let use_fans_heatwave_chart = new (function () {
           80
         );
 
-        if (results.termal_strain) {
+        if (results.thermal_strain) {
           if (ta[i] < t_a_heat_strain_02[ix]) {
             rhIntersectionHeatStrain = rh[ix];
             indexIntersectionHeatStrain = ix;
