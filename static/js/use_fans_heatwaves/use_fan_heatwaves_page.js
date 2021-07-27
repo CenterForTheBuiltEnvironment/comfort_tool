@@ -1,6 +1,6 @@
 keys = ["vel", "met", "clo"];
 
-envVarLimits.vel.si.min = 0.4;
+envVarLimits.vel.si.min = 0.3;
 envVarLimits.vel.si.max = 4.5;
 envVarLimits.vel.si.default = 0.8;
 envVarLimits.vel.ip.min = 59;
@@ -299,27 +299,28 @@ $("#setDynamicClo").click(function () {
 
 function update() {
   // get user input and validate that complies with standard applicability limits
-  validateUserEntry("");
+  const message =
+    "The value you entered is outside the tool's applicability limits. Air speed is " +
+    "limited between " +
+    envVarLimits.vel.si.min +
+    " and " +
+    envVarLimits.vel.si.max +
+    " m/s; metabolic rate between " +
+    envVarLimits.met.min +
+    " and " +
+    envVarLimits.met.max +
+    " met; and " +
+    "clothing level between " +
+    envVarLimits.clo.min +
+    " and " +
+    envVarLimits.clo.max +
+    " met.";
+
+  validateUserEntry("", message);
 
   d.wme = 0;
   if (!isCelsius) {
     d.vel /= 196.9;
-  }
-
-  // calculate relative air speed
-  if (d.met > 1) {
-    d.vel = d.vel + 0.3 * (d.met - 1);
-    if (isCelsius) {
-      vRelativeValue.html(d.vel.toFixed(2));
-    } else {
-      vRelativeValue.html((d.vel * 196).toFixed(2));
-    }
-  }
-
-  // calculate adjusted clothing insulation
-  if (d.met > 1.2 && d.met < 2) {
-    d.clo = d.clo * (0.6 + 0.4 / d.met);
-    dynamicCloValue.html(d.clo.toFixed(2));
   }
 
   use_fans_heatwave_chart.update();

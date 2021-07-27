@@ -714,7 +714,10 @@ function LoadData(_data) {
 }
 
 // check user entry
-function validateUserEntry(i) {
+function validateUserEntry(
+  i,
+  message = "The value you entered is outside the standard's applicability limits."
+) {
   keys.forEach(function (element) {
     d_cache[element] = d[element];
     let e = document.getElementById(element + i).value;
@@ -740,9 +743,7 @@ function validateUserEntry(i) {
           envVarLimits[element][measurementSystem]["default"]
         );
         e = envVarLimits[element][measurementSystem]["default"];
-        window.alert(
-          "The value you entered is outside the stardard's applicability limits."
-        );
+        window.alert(message);
       }
     } catch (err) {}
     try {
@@ -752,9 +753,7 @@ function validateUserEntry(i) {
       ) {
         $("#" + element + i).val(envVarLimits[element]["default"]);
         e = envVarLimits[element]["default"];
-        window.alert(
-          "The value you entered is outside the stardard's applicability limits."
-        );
+        window.alert(message);
       }
     } catch (err) {}
 

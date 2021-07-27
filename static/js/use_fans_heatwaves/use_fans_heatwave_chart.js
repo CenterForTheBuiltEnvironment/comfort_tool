@@ -30,7 +30,7 @@ let use_fans_heatwave_chart = new (function () {
     leftYStep = 2;
 
   const ta = this.rangeTemperature(lower_chart_limit, 60);
-  let rh = this.range(0, 100);
+  let rh = this.range(5, 85);
 
   // function that calculate the heat losses
   this.getData = function () {
@@ -190,12 +190,14 @@ let use_fans_heatwave_chart = new (function () {
 
       upper_chart_limit = 50;
       lower_chart_limit = 30;
+      leftYStep = 2;
     } else {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
         "Dry-bulb Temperature [°F]";
 
       upper_chart_limit = 120;
       lower_chart_limit = 86;
+      leftYStep = 4;
 
       for (i = 0; i < rh_heat_strain.length; i++) {
         t_a_heat_strain[i] = util.CtoF(t_a_heat_strain[i]);
@@ -206,6 +208,7 @@ let use_fans_heatwave_chart = new (function () {
 
     chartInstance.options.scales.yAxes[0].ticks.max = upper_chart_limit;
     chartInstance.options.scales.yAxes[0].ticks.min = lower_chart_limit;
+    chartInstance.options.scales.yAxes[0].ticks.stepSize = leftYStep;
 
     chartInstance.data.datasets[0].data = t_a_heat_strain;
     chartInstance.data.datasets[1].data = t_a_no_fans;
@@ -231,8 +234,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "No heat strain",
             data: t_a_heat_strain,
-            backgroundColor: "#3BBDED",
-            borderColor: "#3BBDED",
+            backgroundColor: "rgba(59,189,237,0.9)",
+            borderColor: "rgba(59,189,237,0.9)",
             hidden: false,
             yAxisID: "y",
             fill: "origin",
@@ -240,8 +243,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "Heat strain - fan still beneficial",
             data: t_a_no_fans,
-            backgroundColor: "#1B679B",
-            borderColor: "#1B679B",
+            backgroundColor: "rgba(53,119,158,0.9)",
+            borderColor: "rgba(53,119,158,0.9)",
             hidden: false,
             yAxisID: "y",
             fill: 0,
@@ -249,8 +252,8 @@ let use_fans_heatwave_chart = new (function () {
           {
             label: "Heat strain - fan not beneficial",
             data: fans_not_beneficial,
-            backgroundColor: "#383838",
-            borderColor: "#383838FF",
+            backgroundColor: "rgba(94,94,94,0.9)",
+            borderColor: "rgba(94,94,94,0.9)",
             hidden: false,
             yAxisID: "y",
             fill: 1,
@@ -353,13 +356,6 @@ let use_fans_heatwave_chart = new (function () {
         },
       },
     });
-
-    console.log(chartInstance.scales["x-axis-0"].min);
-    console.log(chartInstance.scales["x-axis-0"].max);
-    console.log(chartInstance.chartArea.top);
-    console.log(chartInstance.chartArea.bottom);
-    console.log(chartInstance.chartArea.left);
-    console.log(chartInstance.chartArea.right);
   };
 })();
 
