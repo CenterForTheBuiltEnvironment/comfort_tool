@@ -4,6 +4,13 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.3.0 (2020-07-14)
+
+Features:
+
+- Added PHS model
+- Added fan heatwaves model
+
 ## Version 2.2.0 (2020-07-14)
 
 Fix:
