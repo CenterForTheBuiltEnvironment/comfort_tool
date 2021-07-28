@@ -234,11 +234,11 @@ $(".inputbox").keydown(function (event) {
   }
 });
 
-$(".in").click(function () {
+$(".inputfield").click(function () {
   update();
 });
 
-$(".inputbox").focusout(function () {
+$(".inputfield").focusout(function () {
   update();
 });
 
