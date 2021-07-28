@@ -7,6 +7,40 @@ These tests use the data data as in pythermalcomfort/tests/test_models.py
 const { comf } = require("./comfort-models");
 const { util } = require("./util");
 
+test("phs", () => {
+  // expect(comf.phs(40, 40, 33.85, 0.3, 150, 0.5, 2, true).t_re).toBeCloseTo(
+  //   37.2
+  // );
+  expect(comf.phs(35, 35, 71, 0.3, 150, 0.5, 2, true)).toEqual({
+    d_lim_loss_50: 385,
+    d_lim_loss_95: 256,
+    d_lim_t_re: 74,
+    sw_tot_g: 6935,
+    t_re: 39.8,
+  });
+  expect(comf.phs(30, 50, 70.65, 0.3, 150, 0.5, 2, true)).toEqual({
+    d_lim_loss_50: 380,
+    d_lim_loss_95: 258,
+    d_lim_t_re: 480,
+    sw_tot_g: 7166,
+    t_re: 37.7,
+  });
+  expect(comf.phs(43, 43, 34.7, 0.3, 103, 0.5, 1, true)).toEqual({
+    d_lim_loss_50: 401,
+    d_lim_loss_95: 271,
+    d_lim_t_re: 480,
+    sw_tot_g: 6765,
+    t_re: 37.3,
+  });
+  expect(comf.phs(40, 40, 40.63, 0.3, 150, 0.4, 2, true)).toEqual({
+    d_lim_loss_50: 407,
+    d_lim_loss_95: 276,
+    d_lim_t_re: 480,
+    sw_tot_g: 6684,
+    t_re: 37.5,
+  });
+});
+
 test("pmv", () => {
   expect(comf.pmv(22, 22, 0.1, 60, 1.2, 0.5).pmv).toBeCloseTo(-0.75);
   expect(comf.pmv(27, 27, 0.1, 60, 1.2, 0.5).pmv).toBeCloseTo(0.77);
@@ -26,6 +60,44 @@ test("pmv", () => {
   expect(comf.pmv(25.7, 25.7, 0.1, 15, 1.1, 1).pmv).toBeCloseTo(0.5, 1);
   expect(comf.pmv(21.2, 21.2, 0.1, 20, 1.1, 1).pmv).toBeCloseTo(-0.5, 1);
   expect(comf.pmv(23.6, 23.6, 0.1, 67, 1.1, 0.5).pmv).toBeCloseTo(-0.5, 1);
+});
+
+test("calculate heat strain for 0.2 m/s", () => {
+  expect(
+    comf.pierceSET(46.5, 46.5, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(46.87, 46.87, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(45.6, 45.6, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(45.8, 45.8, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(42.4, 42.4, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(42.6, 42.6, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(45, 45, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(45.2, 45.2, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(32.4, 32.4, 0.3, 82, 1.4, 0.3, 0, true, false, 80)
+      .thermal_strain
+  ).toBeFalsy();
+  expect(
+    comf.pierceSET(33, 33, 0.3, 82, 1.4, 0.3, 0, true, false, 80).thermal_strain
+  ).toBeTruthy();
+  expect(
+    comf.pierceSET(32.2, 32.2, 0.2, 82, 1.4, 0.3, 0, true, false, 80)
+      .thermal_strain
+  ).toBeFalsy();
 });
 
 test("temperature converter", () => {

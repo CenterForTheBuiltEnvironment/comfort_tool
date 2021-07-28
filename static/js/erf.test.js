@@ -17,10 +17,6 @@ test("converts radians to degree", () => {
 
 test("ERF function", () => {
   // testing ERF results
-  expect(ERF(45, 0, "seated", 700, 0.8, 0.2, 0.5, 0.7).ERF).toBeCloseTo(
-    64.9,
-    1
-  );
   expect(ERF(0, 120, "seated", 800, 0.5, 0.5, 0.5, 0.7).ERF).toBeCloseTo(
     43.3,
     1
@@ -232,6 +228,35 @@ test("ERF function", () => {
   );
   expect(ERF(30, 120, "seated", 800, 0.5, 0.5, 0.5, 0.7).dMRT).toBeCloseTo(
     13.1,
+    1
+  );
+  expect(ERF(45, 0, "seated", 700, 0.8, 0.2, 0.5, 0.7).ERF).toBeCloseTo(
+    64.9,
+    1
+  );
+  // testing supine
+  expect(ERF(45, 0, "supine", 700, 0.8, 0.2, 0.5, 0.7).ERF).toBeCloseTo(
+    60.9,
+    1
+  );
+  expect(ERF(45, 0, "supine", 700, 0.8, 0.2, 0.5, 0.7).dMRT).toBeCloseTo(
+    14.0,
+    1
+  );
+  expect(ERF(45, 45, "supine", 700, 0.8, 0.2, 0.5, 0.7).ERF).toBeCloseTo(
+    65.8,
+    1
+  );
+  expect(ERF(45, 45, "supine", 700, 0.8, 0.2, 0.5, 0.7).dMRT).toBeCloseTo(
+    15.1,
+    1
+  );
+  expect(ERF(45, 45, "supine", 800, 0.5, 0.5, 0.5, 0.7).ERF).toBeCloseTo(
+    70.9,
+    1
+  );
+  expect(ERF(45, 45, "supine", 800, 0.5, 0.5, 0.5, 0.7).dMRT).toBeCloseTo(
+    16.3,
     1
   );
 });

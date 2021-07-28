@@ -1,0 +1,449 @@
+{% extends "index.html" %} {% block head %} {{ super() }}
+<title>CBE Thermal Comfort Tool Use Fans Heatwave</title>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/common.css') }}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/ui.multiselect.css') }}"
+/>
+
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/global.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.multiselect.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/ui.selectmenu.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/lib/jquery.scrollTo-min.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/phs_model/phs_chart.js') }}"
+></script>
+<script type="text/javascript"></script>
+{% endblock %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card col-md-12 col-lg-5 my-2 p-0">
+      <div class="card-header">
+        Inputs
+      </div>
+      <div id="left_content" class="card-body">
+        {# todo add rest option where user can select env conditions when person
+        is resting#} {# Inputs PMV and adaptive #}
+        <div id="inputs" class="in">
+          <div id="pmv-inputs">
+            <div class="row justify-content-between">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div id="ta-lab">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Dry-bulb_temperature"
+                    target="_new"
+                    >Air temperature</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 col-lg-3 p-1">
+                <div class="inputfield" id="ta-input">
+                  <input class="inputbox" id="ta" />
+                  <span class="tempunit">&deg;C</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div id="tr-lab">
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Mean_radiant_temperature"
+                    target="_new"
+                    >Mean radiant temperature</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 col-lg-3 p-1">
+                <div class="inputfield" id="tr-input">
+                  <input class="inputbox" id="tr" />
+                  <span class="tempunit">&deg;C</span>
+                </div>
+              </div>
+              <div class="col-lg-auto col-md-5 p-1"></div>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div
+                  data-toggle="tooltip"
+                  title="Average air speed. The tool automatically calculates the relative air speed."
+                >
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Thermal_comfort#Air_speed"
+                    target="_new"
+                    >Air speed</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 p-1">
+                <div class="inputfield">
+                  <input class="inputbox" id="vel" />
+                  <span class="unit vel-unit"> m/s</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div>
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Humidity"
+                    id="rh-description"
+                    >Relative humidity</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 col-lg-3 p-1">
+                <div class="inputfield">
+                  <input class="inputbox" id="rh" />
+                  <span class="unit" id="rh-unit"> %</span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-5 p-1" id="humidity-spec-cont">
+                <select class="form-control" id="humidity-spec">
+                  <option value="rh">Relative humidity</option>
+                  <option value="w">Humidity ratio</option>
+                  <option value="dewpoint">Dew point</option>
+                  <option value="wetbulb">Wet bulb</option>
+                  <option value="vappress">Vapor pressure</option>
+                </select>
+              </div>
+            </div>
+
+            {# metabolic rate #}
+            <div id="actInput" class="row justify-content-between in">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div>
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Thermal_comfort#Metabolic_rate"
+                    target="_new"
+                    >Metabolic rate</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 col-lg-3 p-1">
+                <div class="inputfield" id="met_input">
+                  <input class="inputbox" id="met" />
+                  <span class="unit"> met</span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-5 p-1" id="actSelectDiv">
+                <select class="form-control" id="actSelect"></select>
+              </div>
+            </div>
+
+            {# clothing #}
+            <div id="cloInput" class="row justify-content-between in">
+              <div class="col-md-4 col-lg-12 p-1">
+                <div
+                  data-toggle="tooltip"
+                  title="Total clothing level. The tool automatically calculates dynamic clothing value."
+                >
+                  <a
+                    class="mainlink"
+                    href="http://en.wikipedia.org/wiki/Clothing_insulation"
+                    target="_new"
+                    >Clothing level</a
+                  >
+                </div>
+              </div>
+              <div class="col-sm-3 col-lg-3 p-1">
+                <div class="inputfield">
+                  <input class="inputbox" id="clo" />
+                  <span class="unit"> clo</span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-5 p-1" id="cloSelectDiv">
+                <select class="form-control" id="cloSelect"></select>
+              </div>
+            </div>
+
+            {# custom clothing button #}
+            <div
+              class="row justify-content-center mt-4 btn-group-toggle"
+              data-toggle="buttons"
+              data-toggle="tooltip"
+              title="Calculate clothing level by specifying all garments occupants were wearing"
+            >
+              <label for="customClo" class="btn btn-light border">
+                <input type="checkbox" id="customClo" />Create custom ensemble
+              </label>
+            </div>
+
+            {# custom clothing interface #}
+            <div
+              class="row justify-content-center mt-2"
+              id="customCloToggle"
+              style="display: none;"
+            >
+              <br />
+              <select
+                id="cloMultiSelect"
+                class="col-sm-12 multiselect"
+                multiple="multiple"
+              ></select>
+              <button id="setClo" class="col-sm-12">Set clo value</button>
+            </div>
+
+            {# dynamic prediction of clothing interface #}
+            <div class="row card text-center m-1" id="dynamicCloToggle">
+              <div class="card-body p-1">
+                <span class="xx">Outdoor air temperature (6 am)</span>
+                <input
+                  id="taOut6"
+                  maxlength="10"
+                  placeholder="0.0"
+                  style="height: 20px;"
+                />
+                <span class="tempunit">&deg;C</span>
+                <button id="setDynamicClo">Set clo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# set of buttons at the bottom #}
+        <div class="row justify-content-center mt-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label
+              class="btn btn-light border"
+              data-toggle="tooltip"
+              title="Change units"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="unitsToggle"
+                autocomplete="off"
+              />
+              SI/IP
+            </label>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label
+              class="btn btn-light border"
+              data-toggle="tooltip"
+              title="Reset inputs to default value"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="setDefaults"
+                autocomplete="off"
+              />Reset
+            </label>
+            <label
+              class="btn btn-light border"
+              data-toggle="tooltip"
+              title="Save the current inputs"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="save_state"
+                autocomplete="off"
+                checked
+              />Save
+            </label>
+            <label
+              class="btn btn-light border"
+              data-toggle="tooltip"
+              title="Reload the saved inputs"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="reload_state"
+                autocomplete="off"
+                checked
+              />Reload
+            </label>
+            <label
+              class="btn btn-light border"
+              data-toggle="tooltip"
+              title="Share this page"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="share_state"
+                autocomplete="off"
+                checked
+              />Share
+            </label>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light border">
+              <input type="radio" name="options" autocomplete="off" />
+              {# todo change link to documentation #}
+              <a
+                href="http://centerforthebuiltenvironment.github.io/comfort_tool/docs/ashrae55.html"
+                target="_new"
+                >Documentation</a
+              >
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="right_content" class="col-md-12 col-lg-7 bg-white py-2">
+      {# Show if the point is within the comfort region #}
+      <div class="row justify-content-center">
+        <div
+          class="alert alert-success py-1 m-0 text-center border-0 bg-white"
+          role="alert"
+          id="output-b"
+        >
+          <div id="comply-msg"></div>
+          <div id="special-msg"></div>
+        </div>
+      </div>
+
+      {# Display all calculated outputs #}
+      <div class="row">
+        <div
+          class="card align-content-center text-center m-1 col-sm-12 border-0"
+          id="output-a"
+        >
+          <div class="card-body p-2">
+            <form>
+              <div id="pmv-outputs">
+                {#
+                <div class="form-row">
+                  #} {#
+                  <div class="col-sm-6">
+                    #} {# <span id="pmv-out-label">Rectal temperature</span>#}
+                    {# <span> = </span>#} {# <span id="t_re"></span>#} {#
+                    <span class="tempunit"> &deg;C</span>#} {#
+                  </div>
+                  #} {#
+                  <div class="col-sm-6">
+                    #} {# <span id="ppd-out-label">Core temperature</span>#} {#
+                    <span> = </span>#} {# <span id="t_cr"></span>#} {#
+                    <span class="tempunit"> &deg;C</span>#} {#
+                  </div>
+                  #} {#
+                </div>
+                #}
+                <div class="form-row">
+                  <div class="col-sm-12">
+                    <span>Maximum allowable exposure time for:</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span id="pmv-out-label">heat storage</span>
+                    <span> = </span>
+                    <span id="d_lim_t_re"></span>
+                    <span> min</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span id="ppd-out-label">water loss (95% population)</span>
+                    <span> = </span>
+                    <span id="d_lim_loss_95"></span>
+                    <span class="tempunit"> min</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span id="ppd-out-label">water loss (50% population)</span>
+                    <span> = </span>
+                    <span id="d_lim_loss_50"></span>
+                    <span class="tempunit"> min</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="adaptive-outputs"
+                class="form-row"
+                style="display: none;"
+              >
+                <div class="col-sm-12">
+                  <span>80% acceptability limits</span>
+                  <span> = </span>
+                  <span id="limits80"></span>
+                  <span class="tempunit"> °C</span>
+                  <small
+                    class="form-text text-muted mt-0"
+                    id="sensation80"
+                  ></small>
+                </div>
+
+                <div class="col-sm-12">
+                  <span>90% acceptability limits</span>
+                  <span> = </span>
+                  <span id="limits90"></span>
+                  <span class="tempunit"> °C</span>
+                  <small
+                    class="form-text text-muted mt-0"
+                    id="sensation90"
+                  ></small>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {# divider that contains the figures#}
+      <div class="row justify-content-center">
+        <div
+          id="chartWrapperFansHeatwave"
+          style="position: relative; height: 500px; width: 500px;"
+        >
+          <canvas id="phs_chart_div"></canvas>
+        </div>
+      </div>
+
+      {# card displaying the notes #}
+      <div class="row justify-content-center note-chart">
+        <div class="card-body px-5 py-3" id="use_fans_heatwave_note">
+          <p>
+            <strong>NOTE:</strong> The PHS model (ISO 7933) allows the
+            analytical evaluation of the thermal stress experienced by a subject
+            in a hot environment. The PHS can only be used for dry-bulb
+            temperatures between 15 and 50°C, air speeds between 0 and 3 m/s,
+            metabolic rates between 1.7 and 6.8 met, total clothing insulation
+            between 0.1 and 1.0 clo, and when the difference between the mean
+            radiant temperature and the air temperature is between 0 and 60°C.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script
+  language="javascript"
+  src="{{ url_for('static', filename='js/phs_model/phs_page.js') }}"
+  type="text/javascript"
+></script>
+
+{% endblock %}

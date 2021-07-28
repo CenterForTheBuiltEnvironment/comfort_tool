@@ -193,5 +193,15 @@ def index():
     return render_template("ashrae.html")
 
 
+@app.route("/fan_heatwaves")
+def fan_heatwaves():
+    return render_template("use_fans_heatwaves.html")
+
+
+@app.route("/phs")
+def phs():
+    return render_template("phs.html")
+
+
 if __name__ == "__main__":
     app.run(debug=False)
