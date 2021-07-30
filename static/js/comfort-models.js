@@ -812,7 +812,8 @@ comf.pierceSET = function (
     do {
       if (flag) {
         TCL_OLD = TCL;
-        CHR = 4.0 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.72;
+        CHR =
+          4.0 * 0.95 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.73;
         CTC = CHR + CHC;
         RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
         TOP = (CHR * tr + CHC * ta) / CTC;
