@@ -4,6 +4,12 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
+## Version 2.3.1 (2020-07-14)
+
+Fix:
+
+- Fix equation to calculate radiative heat transfer coefficient in SET equation
+
 ## Version 2.3.0 (2020-07-14)
 
 Features:
