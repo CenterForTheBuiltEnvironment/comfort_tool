@@ -141,7 +141,16 @@ comf.pmvEN = function (ta, tr, vel, rh, met, clo, wme) {
   return data;
 };
 
-comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
+comf.cooling_effect = function (
+  ta,
+  tr,
+  vel,
+  rh,
+  met,
+  clo,
+  wme,
+  bodyPosition = "sitting"
+) {
   const ce_l = 0;
   const ce_r = 40;
   const eps = 0.001; // precision of ce
@@ -151,7 +160,19 @@ comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
     return 0;
   }
 
-  const set = comf.pierceSET(ta, tr, vel, rh, met, clo, wme, false, true).set;
+  const set = comf.pierceSET(
+    ta,
+    tr,
+    vel,
+    rh,
+    met,
+    clo,
+    wme,
+    false,
+    true,
+    90,
+    bodyPosition
+  ).set;
 
   const fn = function (_ce) {
     return (
@@ -165,7 +186,9 @@ comf.cooling_effect = function (ta, tr, vel, rh, met, clo, wme) {
         clo,
         wme,
         false,
-        true
+        true,
+        90,
+        bodyPosition
       ).set
     );
   };
@@ -664,7 +687,8 @@ comf.pierceSET = function (
   wme = 0,
   round = false,
   calculateCE = false,
-  maxSkinBloodFlow = 90
+  maxSkinBloodFlow = 90,
+  bodyPosition = "sitting"
 ) {
   /**
    * SET calculation using code provided in ASHRAE 55
@@ -812,8 +836,13 @@ comf.pierceSET = function (
     do {
       if (flag) {
         TCL_OLD = TCL;
-        CHR =
-          4.0 * 0.95 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.73;
+        if (bodyPosition === "sitting") {
+          CHR =
+            4.0 * 0.95 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.7;
+        } else {
+          CHR =
+            4.0 * 0.95 * SBC * Math.pow((TCL + tr) / 2.0 + 273.15, 3.0) * 0.73;
+        }
         CTC = CHR + CHC;
         RA = 1.0 / (FACL * CTC); //resistance of air layer to dry heat transfer
         TOP = (CHR * tr + CHC * ta) / CTC;
