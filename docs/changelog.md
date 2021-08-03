@@ -10,6 +10,10 @@ Fix:
 
 - Fix equation to calculate radiative heat transfer coefficient in SET equation
 
+Features:
+
+- Assuming that a person is sitting when calculating SET temperature
+
 ## Version 2.3.0 (2020-07-29)
 
 Features:
