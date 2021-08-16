@@ -561,7 +561,7 @@ function toggleUnits() {
       $(this).html(" &deg;C");
     });
 
-    // Convert the temperature to Celisus and revert the spinner limits
+    // Convert the temperature to Celsius and revert the spinner limits
     $("#ta, #tr, #trm").each(function () {
       v = util.FtoC($(this).val());
       $(this).val(v.toFixed(1)).spinner({
@@ -794,12 +794,7 @@ function change_humidity_selection() {
     $("#rh").val(psy.convert(rh, ta, window.humUnit, "rh"));
     $("#rh-unit").html(" %");
     $("#rh-description").html("Relative humidity");
-    $("#rh").spinner({
-      step: envVarLimits.rh.step,
-      min: envVarLimits.rh.min,
-      max: envVarLimits.rh.max,
-      numberFormat: "n",
-    });
+    inputFields("rh");
   } else if (v === "dewpoint") {
     $("#rh-description").html("Dew point temperature");
     if (isCelsius) {
@@ -809,12 +804,7 @@ function change_humidity_selection() {
       $("#rh").val(util.CtoF(psy.convert(rh, ta, window.humUnit, "dewpoint")));
       $("#rh-unit").html(" &deg;F");
     }
-    $("#rh").spinner({
-      step: envVarLimits.tdp.si.step,
-      min: envVarLimits.tdp.si.min,
-      max: envVarLimits.tdp.si.max,
-      numberFormat: "n",
-    });
+    inputFields("rh");
   } else if (v === "wetbulb") {
     $("#rh-description").html("Wet bulb temperature");
     if (isCelsius) {
@@ -824,12 +814,7 @@ function change_humidity_selection() {
       $("#rh").val(util.CtoF(psy.convert(rh, ta, window.humUnit, "wetbulb")));
       $("#rh-unit").html(" &deg;F");
     }
-    $("#rh").spinner({
-      step: envVarLimits.twb.si.step,
-      min: envVarLimits.twb.si.min,
-      max: envVarLimits.twb.si.max,
-      numberFormat: "n",
-    });
+    inputFields("rh");
   } else if (v === "w") {
     $("#rh-description").html("Humidity ratio");
     $("#rh").val(psy.convert(rh, ta, window.humUnit, "w"));
@@ -905,4 +890,22 @@ function resetDefaultValues() {
   keys.forEach(function (element) {
     document.getElementById(element).value = defaults[element];
   });
+}
+
+function inputFields(id, number = "") {
+  try {
+    $("#" + id + number).spinner({
+      step: envVarLimits[id].si.step,
+      min: envVarLimits[id].si.min,
+      max: envVarLimits[id].si.max,
+      numberFormat: "n",
+    });
+  } catch {
+    $("#" + id + number).spinner({
+      step: envVarLimits[id].step,
+      min: envVarLimits[id].min,
+      max: envVarLimits[id].max,
+      numberFormat: "n",
+    });
+  }
 }

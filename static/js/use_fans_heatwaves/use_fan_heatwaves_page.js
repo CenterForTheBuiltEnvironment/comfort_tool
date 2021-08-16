@@ -12,92 +12,14 @@ envVarLimits.clo.default = 0.5;
 envVarLimits.clo.max = 0.6;
 envVarLimits.clo.min = 0;
 
-// Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
-cloInsulationTypicalEnsambles = [
-  {
-    clothing: "Walking shorts, short-sleeve shirt: 0.36 clo",
-    clo: 0.36,
-  },
-  {
-    clothing: "Typical summer indoor clothing: 0.5 clo",
-    clo: 0.5,
-  },
-  {
-    clothing:
-      "Knee-length skirt, short-sleeve shirt, sandals, underwear: 0.54 clo",
-    clo: 0.54,
-  },
-  {
-    clothing: "Trousers, short-sleeve shirt, socks, shoes, underwear: 0.57 clo",
-    clo: 0.57,
-  },
-  {
-    clothing: "Trousers, long-sleeve shirt: 0.6 clo",
-    clo: 0.6,
-  },
-];
+// Clothes ensembles that are shown in the drop down menu.
+cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
+  (ensemble) => ensemble.clo <= 0.6
+);
 
-metRatesTypicalTasks = [
-  {
-    activity: "Sleeping: 0.7",
-    met: 0.7,
-  },
-  {
-    activity: "Reclining: 0.8",
-    met: 0.8,
-  },
-  {
-    activity: "Seated, quiet: 1.0",
-    met: 1.0,
-  },
-  {
-    activity: "Reading, seated: 1.0",
-    met: 1.0,
-  },
-  {
-    activity: "Writing: 1.0",
-    met: 1.0,
-  },
-  {
-    activity: "Typing: 1.1",
-    met: 1.1,
-  },
-  {
-    activity: "Standing, relaxed: 1.2",
-    met: 1.2,
-  },
-  {
-    activity: "Filing, seated: 1.2",
-    met: 1.2,
-  },
-  {
-    activity: "Flying aircraft, routine: 1.2",
-    met: 1.2,
-  },
-  {
-    activity: "Filing, standing: 1.4",
-    met: 1.4,
-  },
-  {
-    activity: "Driving a car: 1.5",
-    met: 1.5,
-  },
-  {
-    activity: "Walking about: 1.7",
-    met: 1.7,
-  },
-  {
-    activity: "Cooking: 1.8",
-    met: 1.8,
-  },
-  {
-    activity: "Table sawing: 1.8",
-    met: 1.8,
-  },
-];
-
-const vRelativeValue = $("#relative-air-speed-value");
-const dynamicCloValue = $("#dynamic-clo-value");
+metRatesTypicalTasks = metRatesTypicalTasks.filter(
+  (activity) => activity.met <= 1.8
+);
 
 $(document).ready(function () {
   // highlight navigation bar button
@@ -110,9 +32,7 @@ $(document).ready(function () {
     update();
   };
 
-  cloInsulationTypicalEnsambles.forEach(function (element) {
-    cloSelect.options.add(new Option(element.clothing, element.clo));
-  });
+  populate_clo_dropdown(cloInsulationTypicalEnsambles);
 
   var cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
@@ -125,9 +45,7 @@ $(document).ready(function () {
     update();
   };
 
-  metRatesTypicalTasks.forEach(function (element) {
-    actSelect.options.add(new Option(element.activity, element.met));
-  });
+  populate_met_dropdown(metRatesTypicalTasks);
 
   $(function () {
     $(".multiselect").multiselect({
@@ -153,35 +71,13 @@ $(function () {
     $("#customCloToggle").toggle("fast");
   });
 
-  $("#dynamicClo").click(function () {
-    $("#dynamicCloToggle").toggle("fast");
-  });
-
   $("button").button();
   $(".buttons").buttonset();
 
   // create spinners and impose limits based on value defined in envValLimits
-
-  $("#vel").spinner({
-    step: envVarLimits.vel.si.step,
-    min: envVarLimits.vel.si.min,
-    max: envVarLimits.vel.si.max,
-    numberFormat: "n",
-  });
-
-  $("#clo").spinner({
-    step: envVarLimits.clo.step,
-    min: envVarLimits.clo.min,
-    max: envVarLimits.clo.max,
-    numberFormat: "n",
-  });
-
-  $("#met").spinner({
-    step: envVarLimits.met.step,
-    min: envVarLimits.met.min,
-    max: envVarLimits.met.max,
-    numberFormat: "n",
-  });
+  inputFields("vel");
+  inputFields("clo");
+  inputFields("met");
 
   $("#save_state").click(function () {
     d["unit"] = isCelsius;

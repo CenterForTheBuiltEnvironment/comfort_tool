@@ -19,12 +19,16 @@ envVarLimits.vel.ip.min = 20;
 envVarLimits.vel.ip.max = 590;
 envVarLimits.vel.ip.default = 59;
 envVarLimits.rh.default = 71;
-envVarLimits.met.default = 2.5;
+envVarLimits.met.default = 2.6;
 envVarLimits.met.max = 7;
 envVarLimits.met.min = 2.5;
 envVarLimits.clo.default = 0.5;
 envVarLimits.clo.max = 1.0;
 envVarLimits.clo.min = 0.1;
+
+metRatesTypicalTasks = metRatesTypicalTasks.filter(
+  (activity) => activity.met >= 2.5
+);
 
 $(document).ready(function () {
   // highlight navigation bar button
@@ -37,9 +41,7 @@ $(document).ready(function () {
     update();
   };
 
-  cloInsulationTypicalEnsambles.forEach(function (element) {
-    cloSelect.options.add(new Option(element.clothing, element.clo));
-  });
+  populate_clo_dropdown(cloInsulationTypicalEnsambles);
 
   var cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
@@ -52,9 +54,7 @@ $(document).ready(function () {
     update();
   };
 
-  metRatesTypicalTasks.forEach(function (element) {
-    actSelect.options.add(new Option(element.activity, element.met));
-  });
+  populate_met_dropdown(metRatesTypicalTasks);
 
   $(function () {
     $(".multiselect").multiselect({
@@ -88,47 +88,12 @@ $(function () {
   $(".buttons").buttonset();
 
   // create spinners and impose limits based on value defined in envValLimits
-  $("#ta").spinner({
-    step: envVarLimits.ta.si.step,
-    min: envVarLimits.ta.si.min,
-    max: envVarLimits.ta.si.max,
-    numberFormat: "n",
-  });
-
-  $("#tr").spinner({
-    step: envVarLimits.tr.si.step,
-    min: envVarLimits.tr.si.min,
-    max: envVarLimits.tr.si.max,
-    numberFormat: "n",
-  });
-
-  $("#vel").spinner({
-    step: envVarLimits.vel.si.step,
-    min: envVarLimits.vel.si.min,
-    max: envVarLimits.vel.si.max,
-    numberFormat: "n",
-  });
-
-  $("#clo").spinner({
-    step: envVarLimits.clo.step,
-    min: envVarLimits.clo.min,
-    max: envVarLimits.clo.max,
-    numberFormat: "n",
-  });
-
-  $("#met").spinner({
-    step: envVarLimits.met.step,
-    min: envVarLimits.met.min,
-    max: envVarLimits.met.max,
-    numberFormat: "n",
-  });
-
-  $("#rh").spinner({
-    step: envVarLimits.rh.step,
-    min: envVarLimits.rh.min,
-    max: envVarLimits.rh.max,
-    numberFormat: "n",
-  });
+  inputFields("ta");
+  inputFields("tr");
+  inputFields("vel");
+  inputFields("clo");
+  inputFields("met");
+  inputFields("rh");
 
   $("#save_state").click(function () {
     d["unit"] = isCelsius;

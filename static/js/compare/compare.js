@@ -188,47 +188,14 @@ $(function () {
   $("button").button();
   $(".buttons").buttonset();
 
-  $("#ta1, #ta2, #ta3").spinner({
-    step: envVarLimits.ta.si.step,
-    min: envVarLimits.ta.si.min,
-    max: envVarLimits.ta.si.max,
-    numberFormat: "n",
-  });
-
-  $("#tr1, #tr2, #tr3").spinner({
-    step: envVarLimits.tr.si.step,
-    min: envVarLimits.tr.si.min,
-    max: envVarLimits.tr.si.max,
-    numberFormat: "n",
-  });
-
-  $("#vel1, #vel2, #vel3").spinner({
-    step: envVarLimits.vel.si.step,
-    min: envVarLimits.vel.si.min,
-    max: envVarLimits.vel.si.max,
-    numberFormat: "n",
-  });
-
-  $("#clo1, #clo2, #clo3").spinner({
-    step: envVarLimits.clo.step,
-    min: envVarLimits.clo.min,
-    max: envVarLimits.clo.max,
-    numberFormat: "n",
-  });
-
-  $("#met1, #met2, #met3").spinner({
-    step: envVarLimits.met.step,
-    min: envVarLimits.met.min,
-    max: envVarLimits.met.max,
-    numberFormat: "n",
-  });
-
-  $("#rh1, #rh2, #rh3").spinner({
-    step: envVarLimits.rh.step,
-    min: envVarLimits.rh.min,
-    max: envVarLimits.rh.max,
-    numberFormat: "n",
-  });
+  for (let i = 1; i < 4; i++) {
+    inputFields("ta", String(i));
+    inputFields("tr", String(i));
+    inputFields("vel", String(i));
+    inputFields("clo", String(i));
+    inputFields("met", String(i));
+    inputFields("rh", String(i));
+  }
 });
 
 $("#humidity-spec").change(function () {

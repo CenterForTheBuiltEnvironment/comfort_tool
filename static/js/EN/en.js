@@ -133,54 +133,12 @@ $(function () {
   $(".buttons").buttonset();
 
   // create spinners and impose limits based on value defined in envValLimits
-  $("#ta").spinner({
-    step: envVarLimits.ta.si.step,
-    min: envVarLimits.ta.si.min,
-    max: envVarLimits.ta.si.max,
-    numberFormat: "n",
-  });
-
-  $("#tr").spinner({
-    step: envVarLimits.tr.si.step,
-    min: envVarLimits.tr.si.min,
-    max: envVarLimits.tr.si.max,
-    numberFormat: "n",
-  });
-
-  $("#trm").spinner({
-    step: envVarLimits.trm.si.step,
-    min: envVarLimits.trm.si.min,
-    max: envVarLimits.trm.si.max,
-    numberFormat: "n",
-  });
-
-  $("#vel").spinner({
-    step: envVarLimits.vel.si.step,
-    min: envVarLimits.vel.si.min,
-    max: envVarLimits.vel.si.max,
-    numberFormat: "n",
-  });
-
-  $("#clo").spinner({
-    step: envVarLimits.clo.step,
-    min: envVarLimits.clo.min,
-    max: envVarLimits.clo.max,
-    numberFormat: "n",
-  });
-
-  $("#met").spinner({
-    step: envVarLimits.met.step,
-    min: envVarLimits.met.min,
-    max: envVarLimits.met.max,
-    numberFormat: "n",
-  });
-
-  $("#rh").spinner({
-    step: envVarLimits.rh.step,
-    min: envVarLimits.rh.min,
-    max: envVarLimits.rh.max,
-    numberFormat: "n",
-  });
+  inputFields("ta");
+  inputFields("tr");
+  inputFields("vel");
+  inputFields("clo");
+  inputFields("met");
+  inputFields("rh");
 });
 
 $("#humidity-spec").change(function () {
