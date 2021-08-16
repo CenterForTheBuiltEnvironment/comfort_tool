@@ -4,9 +4,7 @@ const vRelativeValue = $("#relative-air-speed-value");
 const vRelativeDiv = $("#relative-air-speed-div");
 
 $(document).ready(function () {
-  // highlight navigation bar button
-  $("a.active").removeClass("active");
-  $("#nav_a_en").addClass("active");
+  highlightNabBarItem("#nav_a_en");
 
   dropdownsCloMet();
 

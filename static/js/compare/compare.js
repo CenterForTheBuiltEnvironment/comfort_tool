@@ -1,9 +1,7 @@
 keys = ["ta", "tr", "vel", "rh", "met", "clo"];
 
 $(document).ready(function () {
-  // highlight navigation bar button
-  $("a.active").removeClass("active");
-  $("#nav_a_compare").addClass("active");
+  highlightNabBarItem("#nav_a_compare");
 
   $(function () {
     $(".multiselect").multiselect({

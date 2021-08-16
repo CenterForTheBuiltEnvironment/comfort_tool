@@ -27,9 +27,7 @@ envVarLimits.clo.max = 1.0;
 envVarLimits.clo.min = 0.1;
 
 $(document).ready(function () {
-  // highlight navigation bar button
-  $("a.active").removeClass("active");
-  $("#nav_a_phs").addClass("active");
+  highlightNabBarItem("#nav_a_phs");
 
   dropdownsCloMet();
 

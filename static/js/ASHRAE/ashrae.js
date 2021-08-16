@@ -17,9 +17,7 @@ const dynamicCloValue = $("#dynamic-clo-value");
 const dynamicCloDiv = $("#dynamic-clo-div");
 
 $(document).ready(function () {
-  // highlight navigation bar button
-  $("a.active").removeClass("active");
-  $("#nav_a_ashrae").addClass("active");
+  highlightNabBarItem("#nav_a_ashrae");
 
   dropdownsCloMet();
 

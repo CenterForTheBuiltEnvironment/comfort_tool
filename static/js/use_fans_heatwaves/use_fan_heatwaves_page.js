@@ -13,10 +13,7 @@ envVarLimits.clo.max = 0.6;
 envVarLimits.clo.min = 0;
 
 $(document).ready(function () {
-  // highlight navigation bar button
-  $("a.active").removeClass("active");
-  $("#nav_a_fans").addClass("active");
-
+  highlightNabBarItem("#nav_a_fans");
   dropdownsCloMet();
 
   window.isCelsius = true;

@@ -910,6 +910,12 @@ function inputFields(id, number = "") {
   }
 }
 
+function highlightNabBarItem(id) {
+  // highlight navigation bar button
+  $("a.active").removeClass("active");
+  $(id).addClass("active");
+}
+
 function dropdownsCloMet() {
   metRatesTypicalTasks = metRatesTypicalTasks.filter(
     (activity) => activity.met >= envVarLimits.met.min
