@@ -909,3 +909,48 @@ function inputFields(id, number = "") {
     });
   }
 }
+
+function dropdownsCloMet() {
+  metRatesTypicalTasks = metRatesTypicalTasks.filter(
+    (activity) => activity.met >= envVarLimits.met.min
+  );
+
+  metRatesTypicalTasks = metRatesTypicalTasks.filter(
+    (activity) => activity.met <= envVarLimits.met.max
+  );
+  cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
+    (ensemble) => ensemble.clo >= envVarLimits.clo.min
+  );
+  cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
+    (ensemble) => ensemble.clo <= envVarLimits.clo.max
+  );
+
+  const cloSelect = document.getElementById("cloSelect");
+  cloSelect.onchange = function () {
+    document.getElementById("clo").value = cloSelect.value;
+    update();
+  };
+
+  populate_clo_dropdown(cloInsulationTypicalEnsambles);
+
+  const cloMultiSelect = document.getElementById("cloMultiSelect");
+  cloInsulationGarments.forEach(function (element) {
+    cloMultiSelect.options.add(new Option(element.article, element.clo));
+  });
+
+  const actSelect = document.getElementById("actSelect");
+  actSelect.onchange = function () {
+    document.getElementById("met").value = actSelect.value;
+    update();
+  };
+
+  populate_met_dropdown(metRatesTypicalTasks);
+
+  $(function () {
+    $(".multiselect").multiselect({
+      sortable: false,
+      searchable: false,
+      dividerLocation: 0.5,
+    });
+  });
+}

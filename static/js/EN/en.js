@@ -8,34 +8,7 @@ $(document).ready(function () {
   $("a.active").removeClass("active");
   $("#nav_a_en").addClass("active");
 
-  var cloSelect = document.getElementById("cloSelect");
-  cloSelect.onchange = function () {
-    document.getElementById("clo").value = cloSelect.value;
-    update();
-  };
-
-  populate_clo_dropdown();
-
-  var cloMultiSelect = document.getElementById("cloMultiSelect");
-  cloInsulationGarments.forEach(function (element) {
-    cloMultiSelect.options.add(new Option(element.article, element.clo));
-  });
-
-  const actSelect = document.getElementById("actSelect");
-  actSelect.onchange = function () {
-    document.getElementById("met").value = actSelect.value;
-    update();
-  };
-
-  populate_met_dropdown(metRatesTypicalTasks);
-
-  $(function () {
-    $(".multiselect").multiselect({
-      sortable: false,
-      searchable: false,
-      dividerLocation: 0.5,
-    });
-  });
+  dropdownsCloMet();
 
   var velaSelect = document.getElementById("vel_a");
 

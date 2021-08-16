@@ -21,26 +21,7 @@ $(document).ready(function () {
   $("a.active").removeClass("active");
   $("#nav_a_ashrae").addClass("active");
 
-  var cloSelect = document.getElementById("cloSelect");
-  cloSelect.onchange = function () {
-    document.getElementById("clo").value = cloSelect.value;
-    update();
-  };
-
-  populate_clo_dropdown();
-
-  const cloMultiSelect = document.getElementById("cloMultiSelect");
-  cloInsulationGarments.forEach(function (element) {
-    cloMultiSelect.options.add(new Option(element.article, element.clo));
-  });
-
-  const actSelect = document.getElementById("actSelect");
-  actSelect.onchange = function () {
-    document.getElementById("met").value = actSelect.value;
-    update();
-  };
-
-  populate_met_dropdown(metRatesTypicalTasksASHRAE);
+  dropdownsCloMet();
 
   const velaSelect = document.getElementById("vel_a");
 
@@ -59,13 +40,6 @@ $(document).ready(function () {
     ac.redrawBounds(coolingEffect);
   };
 
-  $(function () {
-    $(".multiselect").multiselect({
-      sortable: false,
-      searchable: false,
-      dividerLocation: 0.5,
-    });
-  });
   $(
     "#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #set_chart_note, #heat_loss_pmv_chart_note, #veltopchart-div"
   ).hide();

@@ -12,48 +12,12 @@ envVarLimits.clo.default = 0.5;
 envVarLimits.clo.max = 0.6;
 envVarLimits.clo.min = 0;
 
-// Clothes ensembles that are shown in the drop down menu.
-cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
-  (ensemble) => ensemble.clo <= 0.6
-);
-
-metRatesTypicalTasks = metRatesTypicalTasks.filter(
-  (activity) => activity.met <= 1.8
-);
-
 $(document).ready(function () {
   // highlight navigation bar button
   $("a.active").removeClass("active");
   $("#nav_a_fans").addClass("active");
 
-  var cloSelect = document.getElementById("cloSelect");
-  cloSelect.onchange = function () {
-    document.getElementById("clo").value = cloSelect.value;
-    update();
-  };
-
-  populate_clo_dropdown(cloInsulationTypicalEnsambles);
-
-  var cloMultiSelect = document.getElementById("cloMultiSelect");
-  cloInsulationGarments.forEach(function (element) {
-    cloMultiSelect.options.add(new Option(element.article, element.clo));
-  });
-
-  var actSelect = document.getElementById("actSelect");
-  actSelect.onchange = function () {
-    document.getElementById("met").value = actSelect.value;
-    update();
-  };
-
-  populate_met_dropdown(metRatesTypicalTasks);
-
-  $(function () {
-    $(".multiselect").multiselect({
-      sortable: false,
-      searchable: false,
-      dividerLocation: 0.5,
-    });
-  });
+  dropdownsCloMet();
 
   window.isCelsius = true;
   window.humUnit = "rh";

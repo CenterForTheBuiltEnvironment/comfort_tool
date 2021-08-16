@@ -182,40 +182,12 @@ $(function () {
   $("button").button();
   $(".buttons").buttonset();
 
-  $("#ta, #tr").spinner({
-    step: envVarLimits.tr.si.step,
-    min: envVarLimits.tr.si.min,
-    max: envVarLimits.tr.si.max,
-    numberFormat: "n",
-  });
-
-  $("#vel").spinner({
-    step: envVarLimits.vel.si.step,
-    min: envVarLimits.vel.si.min,
-    max: envVarLimits.vel.si.max,
-    numberFormat: "n",
-  });
-
-  $("#clo").spinner({
-    step: envVarLimits.clo.step,
-    min: envVarLimits.clo.min,
-    max: envVarLimits.clo.max,
-    numberFormat: "n",
-  });
-
-  $("#met").spinner({
-    step: envVarLimits.met.step,
-    min: envVarLimits.met.min,
-    max: envVarLimits.met.max,
-    numberFormat: "n",
-  });
-
-  $("#rh").spinner({
-    step: envVarLimits.rh.step,
-    min: envVarLimits.rh.min,
-    max: envVarLimits.rh.max,
-    numberFormat: "n",
-  });
+  inputFields("ta");
+  inputFields("tr");
+  inputFields("vel");
+  inputFields("clo");
+  inputFields("met");
+  inputFields("rh");
 
   $("select#step-select-tr").change(function () {
     drawTRrange();
