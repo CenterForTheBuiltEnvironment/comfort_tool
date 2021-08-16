@@ -260,7 +260,7 @@ $("#setDefaults").click(function () {
 });
 
 $("#specPressure").click(function () {
-  var customPressure = prompt(
+  let customPressure = prompt(
     "Enter atmospheric pressure in ".concat(
       isCelsius
         ? "Pascals (Pa) default value 101325 Pa"
@@ -288,32 +288,7 @@ $("#specPressure").click(function () {
   }
 });
 
-$("#globeTemp").click(function () {
-  var container = $("#globedialog");
-  $.ajax({
-    url: util.STATIC_URL + "/html/globetemp.html",
-    success: function (data) {
-      $("#globedialog").html(data);
-      if (!isCelsius) {
-        $("#ta-g").val("77");
-        $("#vel-g").val("20");
-        $("#tglobe").val("77");
-        $("#diameter").val("6");
-        $("#g-ta-unit").html(" &deg;F");
-        $("#g-vel-unit").html(" fpm");
-        $("#g-tglobe-unit").html(" &deg;F");
-        $("#g-globediam-unit").html(" in");
-        $("#g-mrt-unit").html(" &deg;F");
-      }
-    },
-    async: false,
-  });
-  container.dialog("open");
-  updateGlobe();
-  $(".input-dialog").focusout(function () {
-    updateGlobe();
-  });
-});
+globeTemperature()
 
 $("#ERF").click(function () {
   const container = $("#ERFdialog");
@@ -779,8 +754,8 @@ function setClo() {
 // Add selected clothing items to create a custom ensemble
 function addToEnsembles() {
   var items = [];
-  var ensembleClo = 0;
-  var opt = document.getElementById("cloMultiSelect").options;
+  let ensembleClo = 0;
+  const opt = document.getElementById("cloMultiSelect").options;
   for (let i = 0; i < opt.length; i++) {
     if (opt[i].selected) {
       items.push(opt[i].text);

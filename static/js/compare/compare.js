@@ -424,7 +424,7 @@ $("#restart").click(function () {
 });
 
 $("#specPressure").click(function () {
-  var customPressure = prompt(
+  let customPressure = prompt(
     "Enter atmospheric pressure in ".concat(
       isCelsius ? "Pascals (Pa)" : "inches of mercury (inHg)"
     )

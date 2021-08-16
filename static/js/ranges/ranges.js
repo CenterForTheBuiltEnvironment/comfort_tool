@@ -418,7 +418,7 @@ $("#restart").click(function () {
 });
 
 $("#specPressure").click(function () {
-  var customPressure = prompt(
+  let customPressure = prompt(
     "Enter atmospheric pressure in ".concat(
       isCelsius
         ? "Pascals (Pa) default value 101325 Pa"

@@ -151,7 +151,7 @@ $("#setDefaults").click(function () {
 });
 
 $("#specPressure").click(function () {
-  var customPressure = prompt(
+  let customPressure = prompt(
     "Enter atmospheric pressure in ".concat(
       isCelsius
         ? "Pascals (Pa) default value 101325 Pa"
@@ -177,32 +177,7 @@ $("#specPressure").click(function () {
   }
 });
 
-$("#globeTemp").click(function () {
-  var container = $("#globedialog");
-  $.ajax({
-    url: util.STATIC_URL + "/html/globetemp.html",
-    success: function (data) {
-      $("#globedialog").html(data);
-      if (!isCelsius) {
-        $("#ta-g").val("77");
-        $("#vel-g").val("20");
-        $("#tglobe").val("77");
-        $("#diameter").val("6");
-        $("#g-ta-unit").html(" &deg;F");
-        $("#g-vel-unit").html(" fpm");
-        $("#g-tglobe-unit").html(" &deg;F");
-        $("#g-globediam-unit").html(" in");
-        $("#g-mrt-unit").html(" &deg;F");
-      }
-    },
-    async: false,
-  });
-  container.dialog("open");
-  updateGlobe();
-  $(".input-dialog").focusout(function () {
-    updateGlobe();
-  });
-});
+globeTemperature()
 
 $("#localDisc").click(function () {
   var container = $("#localdialog");
