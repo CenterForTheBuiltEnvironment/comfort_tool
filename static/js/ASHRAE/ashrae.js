@@ -25,10 +25,8 @@ $(document).ready(function () {
 
   velaSelect.onchange = function () {
     update();
-    let coolingEffect;
-    if (d.vel_a === 0.3) {
-      coolingEffect = 0;
-    } else if (d.vel_a === 0.6) {
+    let coolingEffect = 0;
+    if (d.vel_a === 0.6) {
       coolingEffect = 1.2;
     } else if (d.vel_a === 0.9) {
       coolingEffect = 1.8;
@@ -193,6 +191,7 @@ $(function () {
   inputFields("clo");
   inputFields("met");
   inputFields("rh");
+  inputFields("trm");
 
   $("#save_state").click(function () {
     d["unit"] = isCelsius;
