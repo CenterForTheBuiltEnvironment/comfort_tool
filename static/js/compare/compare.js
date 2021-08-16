@@ -423,7 +423,32 @@ $("#restart").click(function () {
   update("3");
 });
 
-specifyAtmosphericPressure();
+$("#specPressure").click(function () {
+  var customPressure = prompt(
+    "Enter atmospheric pressure in ".concat(
+      isCelsius ? "Pascals (Pa)" : "inches of mercury (inHg)"
+    )
+  );
+  if (customPressure !== "" && customPressure != null) {
+    customPressure = parseFloat(customPressure);
+    if (!isCelsius) {
+      customPressure *= 3386.39;
+    }
+    if (
+      !isNaN(customPressure) &&
+      customPressure >= 30000 &&
+      customPressure <= 110000
+    ) {
+      psy.PROP.Patm = customPressure;
+      pc.redraw_rh_lines();
+      update("1");
+      update("2");
+      update("3");
+    } else {
+      window.alert("The entered atmospheric pressure is invalid.");
+    }
+  }
+});
 
 function update(i) {
   if ($("#tr-input").is(":hidden")) {

@@ -150,7 +150,32 @@ $("#setDefaults").click(function () {
   update();
 });
 
-specifyAtmosphericPressure();
+$("#specPressure").click(function () {
+  var customPressure = prompt(
+    "Enter atmospheric pressure in ".concat(
+      isCelsius
+        ? "Pascals (Pa) default value 101325 Pa"
+        : "inches of mercury (inHg)"
+    )
+  );
+  if (customPressure !== "" && customPressure !== null) {
+    customPressure = parseFloat(customPressure);
+    if (!isCelsius) {
+      customPressure *= 3386.39;
+    }
+    if (
+      !isNaN(customPressure) &&
+      customPressure >= 30000 &&
+      customPressure <= 110000
+    ) {
+      psy.PROP.Patm = customPressure;
+      enpc.redraw_rh_lines();
+      update();
+    } else {
+      window.alert("The entered atmospheric pressure is invalid.");
+    }
+  }
+});
 
 $("#globeTemp").click(function () {
   var container = $("#globedialog");

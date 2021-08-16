@@ -960,34 +960,3 @@ function dropdownsCloMet() {
     });
   });
 }
-
-function specifyAtmosphericPressure() {
-  $("#specPressure").click(function () {
-    let customPressure = prompt(
-      "Enter atmospheric pressure in ".concat(
-        isCelsius
-          ? "Pascals (Pa) default value 101325 Pa"
-          : "inches of mercury (inHg)"
-      )
-    );
-    if (customPressure !== "" && customPressure != null) {
-      customPressure = parseFloat(customPressure);
-      if (!isCelsius) {
-        customPressure *= 3386.39;
-      }
-      if (
-        !isNaN(customPressure) &&
-        customPressure >= 60000 &&
-        customPressure <= 108000
-      ) {
-        psy.PROP.Patm = customPressure;
-        pc.redraw_rh_lines();
-        update();
-      } else {
-        window.alert(
-          "The entered atmospheric pressure is invalid. It must be in the range of 60,000 to 108,000 pascals."
-        );
-      }
-    }
-  });
-}
