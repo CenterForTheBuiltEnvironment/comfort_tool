@@ -30,8 +30,8 @@ let d_cache = {
 
 let keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
-// Clothes ensambles that are shown in the drop down menu. The values are sorted by clo in ascending order
-let cloInsulationTypicalEnsambles = [
+// Clothes ensembles that are shown in the drop down menu. The values are sorted by clo in ascending order
+let cloInsulationTypicalEnsembles = [
   {
     clothing: "Walking shorts, short-sleeve shirt: 0.36 clo",
     clo: 0.36,
@@ -853,7 +853,7 @@ function change_humidity_selection() {
 
 function populate_clo_dropdown() {
   const cloSelect = document.getElementById("cloSelect");
-  cloInsulationTypicalEnsambles.forEach(function (element) {
+  cloInsulationTypicalEnsembles.forEach(function (element) {
     cloSelect.options.add(new Option(element.clothing, element.clo));
   });
   // select by default the value in the dropdown that matches the default value of clo
@@ -924,10 +924,10 @@ function dropdownsCloMet() {
   metRatesTypicalTasks = metRatesTypicalTasks.filter(
     (activity) => activity.met <= envVarLimits.met.max
   );
-  cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
+  cloInsulationTypicalEnsembles = cloInsulationTypicalEnsembles.filter(
     (ensemble) => ensemble.clo >= envVarLimits.clo.min
   );
-  cloInsulationTypicalEnsambles = cloInsulationTypicalEnsambles.filter(
+  cloInsulationTypicalEnsembles = cloInsulationTypicalEnsembles.filter(
     (ensemble) => ensemble.clo <= envVarLimits.clo.max
   );
 
@@ -937,7 +937,7 @@ function dropdownsCloMet() {
     update();
   };
 
-  populate_clo_dropdown(cloInsulationTypicalEnsambles);
+  populate_clo_dropdown(cloInsulationTypicalEnsembles);
 
   const cloMultiSelect = document.getElementById("cloMultiSelect");
   cloInsulationGarments.forEach(function (element) {
@@ -961,31 +961,31 @@ function dropdownsCloMet() {
   });
 }
 
-function globeTemperature(){
+function globeTemperature() {
   $("#globeTemp").click(function () {
-  var container = $("#globedialog");
-  $.ajax({
-    url: util.STATIC_URL + "/html/globetemp.html",
-    success: function (data) {
-      $("#globedialog").html(data);
-      if (!isCelsius) {
-        $("#ta-g").val("77");
-        $("#vel-g").val("20");
-        $("#tglobe").val("77");
-        $("#diameter").val("6");
-        $("#g-ta-unit").html(" &deg;F");
-        $("#g-vel-unit").html(" fpm");
-        $("#g-tglobe-unit").html(" &deg;F");
-        $("#g-globediam-unit").html(" in");
-        $("#g-mrt-unit").html(" &deg;F");
-      }
-    },
-    async: false,
-  });
-  container.dialog("open");
-  updateGlobe();
-  $(".input-dialog").focusout(function () {
+    var container = $("#globedialog");
+    $.ajax({
+      url: util.STATIC_URL + "/html/globetemp.html",
+      success: function (data) {
+        $("#globedialog").html(data);
+        if (!isCelsius) {
+          $("#ta-g").val("77");
+          $("#vel-g").val("20");
+          $("#tglobe").val("77");
+          $("#diameter").val("6");
+          $("#g-ta-unit").html(" &deg;F");
+          $("#g-vel-unit").html(" fpm");
+          $("#g-tglobe-unit").html(" &deg;F");
+          $("#g-globediam-unit").html(" in");
+          $("#g-mrt-unit").html(" &deg;F");
+        }
+      },
+      async: false,
+    });
+    container.dialog("open");
     updateGlobe();
+    $(".input-dialog").focusout(function () {
+      updateGlobe();
+    });
   });
-});
 }

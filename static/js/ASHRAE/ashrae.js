@@ -288,7 +288,7 @@ $("#specPressure").click(function () {
   }
 });
 
-globeTemperature()
+globeTemperature();
 
 $("#ERF").click(function () {
   const container = $("#ERFdialog");
@@ -744,9 +744,9 @@ function renderCompliance(comply, special_msg) {
 // Set clo value created by the custom ensemble dialog
 function setClo() {
   let clo = 0;
-  var opt = document.getElementById("cloMultiSelect").options;
-  for (let i = 0; i < opt.length; i++) {
-    if (opt[i].selected) clo += parseFloat(opt[i].value);
+  const opt = document.getElementById("cloMultiSelect").options;
+  for (const item of opt) {
+    if (item.selected) clo += parseFloat(item.value);
   }
   document.getElementById("clo").value = clo.toFixed(2);
 }
