@@ -41,13 +41,18 @@ The ratio of incident shortwave radiation to the total shortwave radiation passi
 
 ### Sky vault view factor
 
+It ranges between 0 and 1.
+
 ![sky view factor](assets/view-factor.png)
 
 ### Fraction of the body exposed to sun
+
+The percentage of the body not shaded by the window frame, interior or outside shading, or interior furnishings.
 
 ![fraction of the body exposed to sun](assets/body-exposed.png)
 
 ### Average shortwave absorptivity
 
+The occupant's short-wave absorptivity will vary greatly based on the color of his or her skin, as well as the color and amount of clothing covering his or her body.
 Approximately equal to 0.67 for (white) skin and average clothing.
 
