@@ -155,7 +155,11 @@ $(function () {
         }
       },
       Help: function () {
-        window.location.href = "http://escholarship.org/uc/item/89m1h2dg";
+        // window.location.href = "http://escholarship.org/uc/item/89m1h2dg";
+        window.open(
+          "http://escholarship.org/uc/item/89m1h2dg",
+          "_blank" // <- This is what makes it open in a new window.
+        );
       },
       Close: function () {
         $(this).dialog("close");
