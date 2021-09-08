@@ -1,8 +1,4 @@
----
-id: changelog
-title: CHANGELOG
-sidebar_label: CHANGELOG
----
+# Changelog
 
 ## Version 2.3.1 (2020-07-30)
 

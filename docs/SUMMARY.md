@@ -4,7 +4,7 @@
 
 ## Documentation
 
-* [ASHRAE 55](documentation/ashrae-55.md)
+* [ASHRAE 55](documentation/ashrae55.md)
 * [EN-16798](documentation/en.md)
 * [Compare](documentation/compare.md)
 * [Ranges](documentation/ranges.md)

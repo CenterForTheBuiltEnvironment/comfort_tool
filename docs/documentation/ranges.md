@@ -1,10 +1,4 @@
----
-id: ranges
-title: Ranges
-sidebar_label: Ranges
----
-
-## Introduction
+# Ranges
 
 This page explains how to use the ranges tool. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on the input headers to be directed to a Wikipedia article relevant to that input. In addition the video-tutorial below explains how to use the Ranges tool.
 

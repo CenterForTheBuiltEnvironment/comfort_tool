@@ -1,8 +1,4 @@
----
-id: ashrae55-references
-title: ASHRAE-55 References
-sidebar_label: ASHRAE-55 References
----
+# ASHRAE 55 references
 
 
 <li>Arens, E., Xu, T., Miura, K., Hui, Z., Fountain, M., &amp; Bauman, F. (1998). <a href="http://escholarship.org/uc/item/95j1j6vj" target="_blank">A study of occupant cooling by personally controlled air movement</a>.<em> Energy and Buildings, 27</em>(1), 45-59. </li>

@@ -1,10 +1,8 @@
 ---
-id: solarCal
-title: SolarCal
-sidebar_label: SolarCal
+description: Modeling the comfort effects of short-wave solar radiation indoors
 ---
 
-# Modeling the comfort effects of short-wave solar radiation indoors
+# SolarCal
 
 Exposure to sunlight indoors produces a substantial effect on an occupant’s comfort and on the air conditioning energy needed to correct for it.
 It can be used to determine the allowable transmittance of fenestration in a perimeter office.

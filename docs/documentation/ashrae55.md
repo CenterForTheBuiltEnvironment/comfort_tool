@@ -1,10 +1,4 @@
----
-id: ashrae55
-title: ASHRAE-55
-sidebar_label: ASHRAE-55
----
-
-## Introduction
+# ASHRAE-55
 
 This web-based tool for thermal comfort calculations according to ASHRAE Standard 55-2020 is developed at the University of California at Berkeley. Its aim is to provide a free, cross-platform tool that allows designers and other practitioners to perform thermal comfort calculations. See the bottom of the web-page for acknowledgments, contact information, and citation.
 
