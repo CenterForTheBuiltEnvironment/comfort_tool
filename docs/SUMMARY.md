@@ -15,4 +15,5 @@
 
 ## Changelog
 
-* [Changelog](documentation/changelog.md)
+* [Changelog](changelog/changelog.md)
+

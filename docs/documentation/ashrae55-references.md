@@ -1,4 +1,4 @@
-# ashrae55-references
+# ASHRAE-55 references
 
 Arens, E., Xu, T., Miura, K., Hui, Z., Fountain, M., & Bauman, F. \(1998\). [A study of occupant cooling by personally controlled air movement](http://escholarship.org/uc/item/95j1j6vj). _Energy and Buildings, 27_\(1\), 45-59.
 
@@ -82,9 +82,9 @@ McCullough, E. A., Jones, B. W., & Huck, J. \(1985\). [A comprehensive data base
 
 Lee, K.H., and S. Schiavon. 20143. Influence of three dynamic predictive clothing insulation models on building energy use, HVAC sizing and thermal comfort. Energies 7\(4\): 1917-1934.
 
-Liu, S., S. Schiavon, A. Kabanshi, W. Nazaroff. 2016. Predicted percentage of dissatisfied with ankle draft. Indoor Air. 27 \(4\), 852-862. https://doi.org/10.1111/ina.12364 http://www.escholarship.org/uc/item/9076254n
+Liu, S., S. Schiavon, A. Kabanshi, W. Nazaroff. 2016. Predicted percentage of dissatisfied with ankle draft. Indoor Air. 27 \(4\), 852-862. [https://doi.org/10.1111/ina.12364](https://doi.org/10.1111/ina.12364) [http://www.escholarship.org/uc/item/9076254n](http://www.escholarship.org/uc/item/9076254n)
 
-Liu, S., Z. Wang, S. Schiavon, Y. He, M. Luo, H. Zhang, E. Arens. 2020. Predicted percentage of dissatisfied with vertical air temperature gradient. Energy and Buildings. P.110085. https://doi.org/10.1016/j.enbuild.2020.110085; https://escholarship.org/uc/item/0s76t57k
+Liu, S., Z. Wang, S. Schiavon, Y. He, M. Luo, H. Zhang, E. Arens. 2020. Predicted percentage of dissatisfied with vertical air temperature gradient. Energy and Buildings. P.110085. [https://doi.org/10.1016/j.enbuild.2020.110085](https://doi.org/10.1016/j.enbuild.2020.110085); [https://escholarship.org/uc/item/0s76t57k](https://escholarship.org/uc/item/0s76t57k)
 
 McCullough, E. A., Olesen, B. W., & Hong, S. \(1994\). [Thermal insulation provided by chairs](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/McCullough%20et%20al%201994%20Thermal%20insulation%20provided%20by%20chairs.pdf). _ASHRAE Transactions, 100_\(1\), 795-804.
 
@@ -136,7 +136,7 @@ Scheatzle, D., Wu, H., & Yellott, J. \(1989\). [Extending the summer comfort env
 
 Schiavon, S., & Melikov, A. K. \(2009\). [Introduction of a cooling-fan efficiency index](http://www.tandfonline.com/doi/abs/10.1080/10789669.2009.10390882). _HVAC&R Research, 15_\(6\), 1121-1144.
 
-Schiavon, S., D. Rim, W. Pasut, W. Nazaroff. 2016. Sensation of draft at uncovered ankles for women exposed to displacement ventilation and underfloor air distribution systems. Building and Environment 96:228–236. http://dx.doi.org/10.1016/j.buildenv.2015.11.009 http://escholarship.org/uc/item/4p692575
+Schiavon, S., D. Rim, W. Pasut, W. Nazaroff. 2016. Sensation of draft at uncovered ankles for women exposed to displacement ventilation and underfloor air distribution systems. Building and Environment 96:228–236. [http://dx.doi.org/10.1016/j.buildenv.2015.11.009](http://dx.doi.org/10.1016/j.buildenv.2015.11.009) [http://escholarship.org/uc/item/4p692575](http://escholarship.org/uc/item/4p692575)
 
 Schiller, G., Arens, E. A., Bauman, F., Benton, C., Fountain, M., & Doherty, T. \(1988\). [A field study of thermal environments and comfort in office buildings](http://escholarship.org/uc/item/4km240x7)., 280-308.
 
