@@ -2,6 +2,8 @@
 
 This page explains how to use the compare tool. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on the input headers to be directed to a Wikipedia article relevant to that input. In addition, the video-tutorial below explains how to use the Compare tool.
 
+{% embed url="https://youtu.be/gzskwek-zrY" %}
+
 ### Getting Started
 
 #### Main interface

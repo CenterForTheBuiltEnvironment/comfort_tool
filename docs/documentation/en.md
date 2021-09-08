@@ -47,6 +47,8 @@ At the bottom of the input section of the tool, you can find more clickable butt
 
 Clicking on this button, a new window pops up, letting you type the following inputs: air temperature, air speed, globe temperature, globe diameter, globe emissivity, to calculate the correspondent Mean Radiant Temperature, that can be set as the current value by clicking the 'set' button. This feature allows you to have a more precise evaluation of the MRT by taking measurements with a globe thermometer. The button is disabled when the operative temperature is used.
 
+{% embed url="https://youtu.be/ReSqx9TJgSI" %}
+
 ### Set pressure
 
 You can change the barometric pressure to account for changes in altitude. The standard atmospheric pressure is 1 atm = 101.325 kPa = 101325 Pa. Remember to input the value in Pascals!
