@@ -4,5 +4,5 @@ This web-based tool for thermal comfort calculations according to ASHRAE Standar
 
 This guide aims to explain the main features of the tool and demonstrate how best to use it. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on an input header to be directed to a Wikipedia article relevant to that specific input.
 
-![](../.gitbook/assets/help-ashrae.png)
+![](../.gitbook/assets/help-ASHRAE.png)
 
