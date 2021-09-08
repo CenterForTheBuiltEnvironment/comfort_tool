@@ -17,7 +17,6 @@
 
 * [Help](help/help.md)
 
-
 ## Contributing
 
 * [Contributing](contributing/contributing.md)
