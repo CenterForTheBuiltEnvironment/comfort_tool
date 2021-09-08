@@ -17,6 +17,11 @@
 
 * [Help](help/help.md)
 
+
+## Contributing
+
+* [Contributing](contributing/contribute.md)
+
 ## Changelog
 
 * [Changelog](changelog/changelog.md)

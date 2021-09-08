@@ -12,13 +12,15 @@ In addition, the CBE Thermal Comfort Tool allows users to upload time-series or 
 
 [Live deployment of the tool.](http://comfort.cbe.berkeley.edu/)
 
+## Main features
+
 {% embed url="https://youtu.be/v3NcabOAGKk?t=62" caption="" %}
 
-### Practical applications
+## Impact
 
 The CBE Thermal Comfort Tool has several practical applications and each year is used by more than 49,000 users worldwide, including engineers, architects, researchers, educators, facility managers and policymakers.
 
-### Cite us
+## Cite us
 
 > Tartarini, F., Schiavon, S., Cheung, T., Hoyt, T., 2020. CBE Thermal Comfort Tool : online tool for thermal comfort calculations and visualizations. SoftwareX 12, 100563. [https://doi.org/10.1016/j.softx.2020.100563](https://doi.org/10.1016/j.softx.2020.100563)
 
