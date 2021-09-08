@@ -20,7 +20,7 @@
 
 ## Contributing
 
-* [Contributing](contributing/contribute.md)
+* [Contributing](contributing/contributing.md)
 
 ## Changelog
 
