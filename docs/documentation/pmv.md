@@ -1,7 +1,5 @@
 # Predicted Mean Vote (PMV)
 
-# pmv
-
 There are six primary factors that affect thermal comfort. These include environmental conditions such as air temperature, and personal factors such as metabolic rate.
 
 ## Environmental factors

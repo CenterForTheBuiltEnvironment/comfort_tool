@@ -19,7 +19,7 @@ The solar heat absorbed and liberated in clothing and skin must be offset by coo
 
 The angle between the sun’s rays and a horizontal plane. See Figure below.
 
-![altitude and SHARP](../.gitbook/assets/altitude-SHARP.png)
+![altitude and SHARP](../../.gitbook/assets/altitude-SHARP.png)
 
 ### Solar horizontal angle relative to front of person \(SHARP\), degrees
 
@@ -27,7 +27,7 @@ The solar horizontal angle is symmetrical on both sides and ranges from 0 to 180
 
 ### Direct beam \(normal\) solar radiation, W/m2
 
-![solar radiation](../.gitbook/assets/solar-radiation.png)
+![solar radiation](../../.gitbook/assets/solar-radiation.png)
 
 ### Total solar transmittance of the window
 
@@ -37,13 +37,13 @@ The ratio of incident shortwave radiation to the total shortwave radiation passi
 
 It ranges between 0 and 1.
 
-![sky view factor](../.gitbook/assets/view-factor.png)
+![sky view factor](../../.gitbook/assets/view-factor.png)
 
 ### Fraction of the body exposed to sun
 
 The percentage of the body not shaded by the window frame, interior or outside shading, or interior furnishings.
 
-![fraction of the body exposed to sun](../.gitbook/assets/body-exposed.png)
+![fraction of the body exposed to sun](../../.gitbook/assets/body-exposed.png)
 
 ### Average shortwave absorptivity
 
