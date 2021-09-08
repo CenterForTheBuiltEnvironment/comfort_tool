@@ -1,6 +1,6 @@
 # Compare
 
-This page explains how to use the compare tool. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on the input headers to be directed to a Wikipedia article relevant to that input. In addition the video-tutorial below explains how to use the Compare tool.
+This page explains how to use the compare tool. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on the input headers to be directed to a Wikipedia article relevant to that input. In addition, the video-tutorial below explains how to use the Compare tool.
 
 ### Getting Started
 
@@ -14,13 +14,13 @@ The tool has three main parts:
   * Psychrometric \(plotted using either the dry-bulb air temperature or the operative temperature\)
   * Relative humidity vs. dry-bulb air temperature.
 
-![Compare page layout](https://centerforthebuiltenvironment.github.io/comfort_tool/docs/assets/help-compare.jpg)
+![Compare page layout](../.gitbook/assets/help-compare.jpg)
 
 ### Comfort model
 
 #### Predicted Mean Vote \(PMV\)
 
-For more information about the PMV model visit [this page](http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv).
+For more information about the PMV model visit [this page](pmv.md).
 
 ### Additional Features
 

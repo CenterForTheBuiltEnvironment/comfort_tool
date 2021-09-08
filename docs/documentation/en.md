@@ -6,7 +6,7 @@ This web-based tool for thermal comfort calculations according to EN 16798-1:201
 
 This guide aims to explain the main features of the tool, and demonstrate how best to use it. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on the input headers to be directed to a Wikipedia article relevant to that input.
 
-![EN page layout](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/tree/628218ce75ac8dadd1f410dd55f39522d5004832/docs/.gitbook/assets/help-EN.jpg)
+![EN page layout](.gitbook/assets/help-EN.jpg)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ At the top of the user interface you can choose between the two methods allowed 
 
 ### Predicted Mean Vote \(PMV\)
 
-For more information about the PMV model visit [this page](http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv).
+For more information about the PMV model visit [this page](pmv.md).
 
 ### Adaptive method
 

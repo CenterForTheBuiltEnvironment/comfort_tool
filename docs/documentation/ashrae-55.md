@@ -4,7 +4,7 @@ This web-based tool for thermal comfort calculations according to ASHRAE Standar
 
 This guide aims to explain the main features of the tool, and demonstrate how best to use it. In most cases, the interface is intuitive and does not require explanation. To get information quickly, click on an input header to be directed to a Wikipedia article relevant to that specific input.
 
-![EN page layout](https://centerforthebuiltenvironment.github.io/comfort_tool/docs/assets/help-ASHRAE.png)
+![EN page layout](../.gitbook/assets/help-EN.jpg)
 
 ### Getting Started
 
@@ -12,7 +12,7 @@ This guide aims to explain the main features of the tool, and demonstrate how be
 
 The tool has three main parts:
 
-* **Left-hand side**: The input section allows you to change all the parameters used to calculated the thermal comfort indices. You can either change the value of each parameter by typing a new value in the respective box or by using the up and down arrows. You can click on the Save button to save the current inputs, Reload to reload the inputs that you have previously saved, Share to share the page \(as it appears on the screen\) via link, Reset to reset the input values to the default value. The functionalities of the other buttons in the input section is explained in detail below.
+* **Left-hand side**: The input section allows you to change all the parameters used to calculate the thermal comfort indices. You can either change the value of each parameter by typing a new value in the respective box or by using the up and down arrows. You can click on the Save button to save the current inputs, Reload to reload the inputs that you have previously saved, Share to share the page \(as it appears on the screen\) via link, Reset to reset the input values to the default value. The functionalities of the other buttons in the input section is explained in detail below.
 * **Top-right**: This section contains the results of the calculations. The raw output of the comfort model calculations \(such as PMV, PPD, etc. for the PMV method\) as well as compliance information.
 * **Bottom-right**: This section contains a visualization of the thermal comfort conditions in the input. There are currently three types of charts visualizing the thermal comfort region, as follows:
   * Psychrometric \(plotted using either the dry-bulb air temperature or the operative temperature\)
@@ -27,7 +27,7 @@ At the top of the user interface you can choose between the two methods allowed 
 
 #### Predicted Mean Vote \(PMV\)
 
-For more information about the PMV model visit [this page](http://centerforthebuiltenvironment.github.io/comfort_tool/docs/pmv), below a video explaining how to calculate PMV and PPD using the CBE thermal comfort tool.
+For more information about the PMV model visit [this page](pmv.md), below a video explaining how to calculate PMV and PPD using the CBE thermal comfort tool.
 
 {% embed url="https://youtu.be/5WkH2SN664k" %}
 
