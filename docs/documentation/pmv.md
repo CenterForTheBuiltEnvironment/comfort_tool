@@ -1,6 +1,6 @@
 # PMV Model
 
-There are six primary factors that affect thermal comfort. These include environmental conditions such as air temperature, and personal factors such as metabolic rate.
+Six primary factors affect thermal comfort. These include environmental conditions such as air temperature, and personal factors such as metabolic rate.
 
 ## Environmental factors
 
@@ -18,7 +18,7 @@ This is the rate of spatial change of air in a space, which is used to calculate
 
 #### Self-generated Air Speed
 
-The body movement affects the air speed surrounding the human body. Consequently, sum of the average air speed and the self-generated air speed shall be used as input in the PMV model. In accordance with the ASHRAE 55 and the ISO 7730, if the metabolic rate is higher than 1 met, the self-generated air speed is calculated using the following equation: V\_sg = V + 0.3 \(MET - 1\). Where V is the "Average air speed" and MET is the "Metabolic rate". The CBE comfort tool automatically calculates the self-generated air speed for you in the background and sums it to the average air speed you entered in the tool.
+The body movement affects the air speed surrounding the human body. Consequently, the sum of the average air speed and the self-generated air speed shall be used as input in the PMV model. In accordance with the ASHRAE 55 and the ISO 7730, if the metabolic rate is higher than 1 met, the self-generated air speed is calculated using the following equation: V\_sg = V + 0.3 \(MET - 1\). Where V is the "Average air speed" and MET is the "Metabolic rate". The CBE comfort tool automatically calculates the self-generated air speed for you in the background and sums it to the average air speed you entered in the tool.
 
 ### Relative Humidity
 
