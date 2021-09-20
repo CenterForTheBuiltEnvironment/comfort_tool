@@ -40,8 +40,6 @@ let use_fans_heatwave_chart = new (function () {
     fans_not_beneficial = [];
 
     let t_a_heat_strain_02 = [];
-    let rhIntersectionHeatStrain = 0;
-    let indexIntersectionHeatStrain = 0;
     let tIntersectionHeatStrain = 0;
     let findTIntersection = true;
     let differenceHeatStrainCurves = [];
@@ -89,8 +87,6 @@ let use_fans_heatwave_chart = new (function () {
         // find iteratively the intersection point between two heat strain lines
         if (results.thermal_strain) {
           if (ta[i] < t_a_heat_strain_02[ix] && findTIntersection) {
-            rhIntersectionHeatStrain = rh[ix];
-            indexIntersectionHeatStrain = ix;
             tIntersectionHeatStrain = ta[i];
           } // if instead from the lowest value of RH the heat strain line with elevated air speed is higher than for still air condition
           else if (ix == 0) {
@@ -212,14 +208,14 @@ let use_fans_heatwave_chart = new (function () {
 
     if (isCelsius) {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Dry-bulb Temperature [°C]";
+        "Operative Temperature [°C]";
 
       upper_chart_limit = 50;
       lower_chart_limit = 30;
       leftYStep = 2;
     } else {
       chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
-        "Dry-bulb Temperature [°F]";
+        "Operative Temperature [°F]";
 
       upper_chart_limit = 120;
       lower_chart_limit = 84;
@@ -308,7 +304,7 @@ let use_fans_heatwave_chart = new (function () {
                       chartInstance.chartArea.left)) *
                   100
                 ).toFixed(1) +
-                " %; Dry-bulb Temperature = " +
+                " %; Operative Temperature = " +
                 (
                   ((this._eventPosition.y - chartInstance.chartArea.top) /
                     (chartInstance.chartArea.bottom -
