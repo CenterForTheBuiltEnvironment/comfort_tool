@@ -62,7 +62,7 @@ During heatwaves, whether temperatures outside or inside exceed 35 °C, the pub
 - [5] Ready, Extreme heat | ready.gov, https://www.ready.gov/heat, 2020. (Accessed on 11/05/2020).
 - [6] C. U. D. of Health, H. Services, Frequently asked questions (faq) about extreme heat | natural disasters and severe weather | cdc, https: //www.cdc.gov/disasters/extremeheat/faq.html, 2012. (Accessed on 11/05/2020). 
 - [7] United States Environmental Protection Agency, Excessive Heat Events Guidebook, 2006
-- [8] N. M. Ravanelli, S. G. Hodder, G. Havenith, O. Jay, Heart Rate and Body Temperature Responses to Extreme Heat and Humidity With and Without Electric Fans, JAMA The Journal of the American Medical Association 313 (2015) 724{725. doi:10.1001/jama.2015.153. 
+- [8] N. M. Ravanelli, S. G. Hodder, G. Havenith, O. Jay, Heart Rate and Body Temperature Responses to Extreme Heat and Humidity With and Without Electric Fans, JAMA The Journal of the American Medical Association 313 (2015) 724{725. doi:10.1001/jama.2015.153.
 - [9] O. Jay, M. N. Cramer, N. M. Ravanelli, S. G. Hodder, Should electric fans be used during a heat wave?, Applied Ergonomics 46 (2015) 137{143. doi:10.1016/j.apergo.2014.07.013. arXiv:arXiv:1011.1669v3. 
 - [10] D. Gagnon, S. A. Romero, M. N. Cramer, K. Kouda, P. Y. Poh, H. Ngo, O. Jay, C. G. Crandall, Age Modulates Physiological Responses during Fan Use under Extreme Heat and Humidity, Medicine and Science in Sports and Exercise 49 (2017) 2333{2342. doi:10.1249/MSS.0000000000001348
 - [11] A. P. Gagge, A. P. Fobelets, L. G. Berglund, A standard predictive Index of human reponse to thermal enviroment, American Society of Heating, Refrigerating and Air-Conditioning Engineers (1986) 709{731.
