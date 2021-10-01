@@ -12,6 +12,7 @@
 * [PMV Model](documentation/pmv.md)
 * [ASHRAE-55 references](documentation/ashrae55-references.md)
 * [SolarCal](documentation/solar-gain.md)
+* [Fans heatwaves](documentation/fans-heatwaves.md)
 
 ## Help
 
