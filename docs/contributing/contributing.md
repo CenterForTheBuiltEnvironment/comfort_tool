@@ -62,8 +62,18 @@ Finally, run `npm run test`. You should write tests for all the new functions yo
 When you release a new version of the tool you should first use `bumpversion` to update the version of the tool. You can use the following command:
 
 ```text
-    bumpversion patch  # alternatively you can use minor or major instead of patch
+bumpversion patch  # alternatively you can use minor or major instead of patch
 ```
 
 Secondly, you should describe the changes in `docs/changelog/changelog.md`
+
+## Deploying
+
+We are deploying the tool using Google Cloud Run, you can deploy it to Google Cloud Run using the following command:
+
+```
+gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool  --project=comfort-327718
+
+gcloud run deploy comfort-tool --image gcr.io/comfort-327718/comfort-tool --platform managed  --project=comfort-327718 --allow-unauthenticated --region=us-central1
+```
 
