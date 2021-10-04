@@ -1,0 +1,15 @@
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+
+CITATION.md
+deploy_comfort_tool.ps1
+LICENSE
+Procfile
+runtime.txt
+wsgi.py
+website/
