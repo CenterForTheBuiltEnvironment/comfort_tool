@@ -42,7 +42,7 @@ util.secant = function (a, b, fn, epsilon) {
 
 util.getSensation = function(pmv) {
     if (pmv < -2.5) return '<span>Cold</span>';
-    else if (pmv < -1.5) return '<span">Cool</span>';
+    else if (pmv < -1.5) return '<span>Cool</span>';
     else if (pmv < -0.5) return '<span>Slightly Cool</span>';
     else if (pmv < 0.5) return '<span>Neutral</span>';
     else if (pmv < 1.5) return '<span>Slightly Warm</span>';
