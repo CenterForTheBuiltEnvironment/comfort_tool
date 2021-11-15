@@ -91,9 +91,23 @@
           </a>
           <div class="d-flex flex-column w-100">
             <div class="p-2">
-              <h4 class="m-0" style="color: #0f75bb;">
+              <h4 class="m-0" style="color: #0f75bb; display: inline-block">
                 CBE Thermal Comfort Tool
               </h4>
+              <div style="display: inline-block; float: right">
+                <a
+                  href="https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/help/help"
+                  target="_blank"
+                  class="m-2"
+                  >Help</a
+                >
+                <a
+                  href="https://cbe.berkeley.edu/resources/tools/"
+                  target="_blank"
+                  class="m-2"
+                  >Other CBE tools</a
+                >
+              </div>
             </div>
             <div class="topnav" id="mytopnav">
               <a class="nav-link" id="nav_a_ashrae" href="/">ASHRAE-55</a>
@@ -102,21 +116,9 @@
               <a class="nav-link" id="nav_a_ranges" href="ranges">Ranges</a>
               <a class="nav-link" id="nav_a_upload" href="upload">Upload</a>
               <a class="nav-link" id="nav_a_fans" href="fan_heatwaves"
-                >Fans heatwaves</a
+                >Fans & Heat</a
               >
               <a class="nav-link" id="nav_a_phs" href="phs">PHS</a>
-              <a
-                class="nav-link"
-                id="nav_a_help"
-                href="https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/help/help"
-                >Help</a
-              >
-              <a
-                class="nav-link"
-                id="nav_a_other_tools"
-                href="https://cbe.berkeley.edu/resources/tools/"
-                >Other CBE tools</a
-              >
               <a class="nav_icon" onclick="myFunction()">
                 <span class="btn-line"></span>
                 <span class="btn-line"></span>
@@ -131,7 +133,7 @@
     {# Body #} {% block content %} {% endblock %} {# Footer #}
     <div
       class="container-fluid py-3 text-white"
-      style="background-color: #124f7f;"
+      style="background-color: #124f7f"
     >
       <div class="container">
         <div
@@ -142,7 +144,7 @@
               <strong>Please cite us if you use this software: </strong>
               <a
                 href="https://www.sciencedirect.com/science/article/pii/S2352711020302454?via%3Dihub"
-                style="color: white;"
+                style="color: white"
                 >Tartarini, F., Schiavon, S., Cheung, T., Hoyt, T., 2020. CBE
                 Thermal Comfort Tool : online tool for thermal comfort
                 calculations and visualizations. SoftwareX 12, 100563.
@@ -150,30 +152,9 @@
               >
             </p>
             <p>
-              We have also released
-              <a
-                href="https://pypi.org/project/pythermalcomfort/"
-                style="color: white;"
-                >pythermalcomfort</a
-              >
-              a Python packaged to calculate several thermal comfort indices
-              (e.g. PMV, PPD, SET, adaptive). Links to the:
-              <a
-                href="https://pythermalcomfort.readthedocs.io/"
-                style="color: white;"
-                >official documentation
-              </a>
-              and
-              <a
-                href="https://www.sciencedirect.com/science/article/pii/S2352711020302910"
-                style="color: white;"
-                >our paper</a
-              >.
-            </p>
-            <p>
               <a
                 href="https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/documentation/changelog"
-                style="color: white;"
+                style="color: white"
                 >Version: 2.3.1</a
               >
             </p>
@@ -222,20 +203,26 @@
             </div>
           </div>
           <div
-            class="flex flex-column text-center justify-content-center col-xs-4 col-md-4 col-lg-2 mt-md-3 mt-lg-0"
+            class="
+              flex flex-column
+              text-center
+              justify-content-center
+              col-xs-4 col-md-4 col-lg-2
+              mt-md-3 mt-lg-0
+            "
           >
             <a href="https://cbe.berkeley.edu"
               ><img
                 alt="CBE logo"
                 src="static/img/footer-logo.png"
-                style="max-height: 45px;"
+                style="max-height: 45px"
             /></a>
             <br />
             <img
               alt="UC Berkeley logo"
               src="static/img/ucb-logo.png"
               class="mt-2"
-              style="max-height: 45px;"
+              style="max-height: 45px"
             />
           </div>
         </div>
