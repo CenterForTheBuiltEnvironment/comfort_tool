@@ -142,7 +142,7 @@ function update() {
     envVarLimits.clo.min +
     " and " +
     envVarLimits.clo.max +
-    " met.";
+    " clo.";
 
   validateUserEntry("", message);
 
