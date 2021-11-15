@@ -72,16 +72,6 @@ def upload():
     return render_template("upload.html")
 
 
-# Upload page - The user can upload a csv with input environmental parameters and
-# returns a csv with indexes calculated
-@app.route(
-    "/other_tools"
-)  # tutorial https://stackoverflow.com/questions/27628053/uploading-and
-# -downloading-files-with-flask
-def other_tools():
-    return render_template("other_tools.html")
-
-
 # this function process the uploaded file and automatically downloads the file with the
 # results
 @app.route("/transform", methods=["POST"])
