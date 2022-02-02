@@ -12,7 +12,7 @@ This project is maintained by a group of researchers at the Center for the Built
 
 Please check the [CHANGELOG ](../changelog/changelog.md)page where we have described all the latest changes we have implemented.
 
-### Get help from the community
+### Get help
 
 If you have a question about the tool, send us an email with the link to your question at [cbecomforttool@gmail.com](mailto:cbecomforttool@gmail.com).
 
