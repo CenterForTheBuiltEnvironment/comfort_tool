@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2.3.1 \(2020-07-30\)
+## Version 2.3.1 (2021-07-30)
 
 Fix:
 
@@ -10,14 +10,14 @@ Features:
 
 * Assuming that a person is sitting when calculating SET temperature
 
-## Version 2.3.0 \(2020-07-29\)
+## Version 2.3.0 (2021-07-29)
 
 Features:
 
 * Added PHS model
 * Added fan heatwaves model
 
-## Version 2.2.0 \(2020-07-14\)
+## Version 2.2.0 (2021-07-14)
 
 Fix:
 
@@ -27,25 +27,25 @@ Features:
 
 * Improved tooltip look
 
-## Version 2.1.7 \(2020-04-16\)
+## Version 2.1.7 (2021-04-16)
 
 Features:
 
 * Improved documentation and made charts responsive
 
-## Version 2.1.6 \(2020-04-09\)
+## Version 2.1.6 (2021-04-09)
 
 Fix:
 
 * Removed old vertical temperature gradient calculator
 
-## Version 2.1.5 \(2020-04-06\)
+## Version 2.1.5 (2021-04-06)
 
 Fix:
 
 * Local discomfort tab the code was broken
 
-## Version 2.1.4 \(2020-03-30\)
+## Version 2.1.4 (2021-03-30)
 
 Fix:
 
@@ -58,13 +58,13 @@ Features:
 * Implemented test for all the major functions
 * Added `bumpversion` to track version of the tool
 
-## Version 2.1.3 \(2020-03-17\)
+## Version 2.1.3 (2021-03-17)
 
 Features:
 
 * Changed compliance from ASHRAE 55 2017 to ASHRAE 55 2020
 
-## Version 2.1.2 \(2020-03-11\)
+## Version 2.1.2 (2021-03-11)
 
 Fix:
 
@@ -75,25 +75,25 @@ Features:
 
 * Wrote testing for ERF, SET and PMV equations
 
-## Version 2.1.1 \(2021-02-04\)
+## Version 2.1.1 (2021-02-04)
 
 Fix:
 
-* Error calculation SHARP and solar altitude supine person.  
+* Error calculation SHARP and solar altitude supine person. &#x20;
 
-## Version 2.1.0 \(2020-10-19\)
-
-Features:
-
-* Changed limit for elevated air speed calculation from 0.2 m/s to 0.1 m/s.  
-
-## Version 2.0.6 \(2020-09-08\)
+## Version 2.1.0 (2020-10-19)
 
 Features:
 
-* Fixed minor issue in the erf equation. Updated fp tables and E\_diff equation.  
+* Changed limit for elevated air speed calculation from 0.2 m/s to 0.1 m/s. &#x20;
 
-## Version 2.0.5 \(2020-09-04\)
+## Version 2.0.6 (2020-09-08)
+
+Features:
+
+* Fixed minor issue in the erf equation. Updated fp tables and E\_diff equation. &#x20;
+
+## Version 2.0.5 (2020-09-04)
 
 Features:
 
@@ -101,9 +101,9 @@ Features:
 * Added SET chart, which displays SET outputs as a function of the inout variables selected
 * Added a note below SET chart
 * Added a note below PMV heat loss chart
-* Minor edits to the layout of the comfort tool  
+* Minor edits to the layout of the comfort tool &#x20;
 
-## Version 2.0.4 \(2020-07-17\)
+## Version 2.0.4 (2020-07-17)
 
 Features:
 
@@ -113,7 +113,7 @@ Fix:
 
 * Fixed calculation comfort zone in Ranges
 
-## Version 2.0.3 \(2020-06-24\)
+## Version 2.0.3 (2020-06-24)
 
 Features:
 
@@ -127,7 +127,7 @@ Fix:
 * Share fixed the issue with air speed and clothing.
 * Changes y-label in chart air speed vs operative temperature.
 
-## Version 2.0.2 \(2020-06-09\)
+## Version 2.0.2 (2020-06-09)
 
 Features:
 
@@ -138,7 +138,7 @@ Fix:
 * Upload was throwing error for files with more than 1000 inputs.
 * Improved calculation speed for Upload tool.
 
-## Version 2.0.1 \(2020-06-05\)
+## Version 2.0.1 (2020-06-05)
 
 Features:
 
@@ -152,7 +152,7 @@ Fix:
 * Upgraded to new version of pythermalcomfort.
 * Fixed issue solar gain calculation with IP units.
 
-## Version 2.0.0 \(2020-05-06\)
+## Version 2.0.0 (2020-05-06)
 
 This version complies with the ASHRAE Standard 55-2017. You can access this version of the tool using [this link](https://comfort-tool-63o6tweb2a-uc.a.run.app). Please note that this version is no longer supported and may contain errors that have been fixed in newer releases.
 
@@ -164,4 +164,3 @@ Features:
 Fix:
 
 * Issue with HeatLoss chart.
-
