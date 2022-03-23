@@ -116,6 +116,7 @@ def transform_view():
     rh = df["rh"].values
     met = df["met"].values
     clo = df["clo"].values
+    clo_d = df["clo_dynamic"].values
 
     for ix in range(df.shape[0]):
         if si_unit:
@@ -131,7 +132,7 @@ def transform_view():
             _set = 9999
         try:
             _ce = cooling_effect(
-                ta[ix], tr[ix], _vr, rh[ix], met[ix], clo[ix], units=units
+                ta[ix], tr[ix], _vr, rh[ix], met[ix], clo_d[ix], units=units
             )
         except:
             _ce = 9999
@@ -142,7 +143,7 @@ def transform_view():
                 _vr,
                 rh[ix],
                 met[ix],
-                clo[ix],
+                clo_d[ix],
                 standard="ashrae",
                 units=units,
             )
