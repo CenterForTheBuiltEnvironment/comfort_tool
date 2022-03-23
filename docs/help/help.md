@@ -14,7 +14,7 @@ Please check the [CHANGELOG ](../changelog/changelog.md)page where we have descr
 
 ### Get help
 
-If you have a question about the tool, send us an email with the link to your question at [cbecomforttool@gmail.com](mailto:cbecomforttool@gmail.com).
+If you have a question about the tool, email us at [cbecomforttool@gmail.com](mailto:cbecomforttool@gmail.com).
 
 ## Issues and bugs
 
