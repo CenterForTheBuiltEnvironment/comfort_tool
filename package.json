@@ -1,6 +1,6 @@
 {
   "name": "comfort_tool",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "A web interface for comfort model calculations and visualizations according to ASHRAE Standard-55, EN Standard 16798 and ISO Standard 7730.",
   "main": "comfort.py",
   "directories": {
