@@ -424,7 +424,7 @@ $("#chartSelect").change(function () {
           '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
         );
         $("#globeTemp").removeAttr("disabled");
-        $("#globeTmpLabel").removeClass("text-muted");
+        $("#globeTmpLabel").show();
         $("#tr-input, #tr-lab, #to-checkbox").show();
       }
     } else if (chart === "psychtop") {
@@ -436,7 +436,7 @@ $("#chartSelect").change(function () {
       $("#ta-lab").html(
         '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
       );
-      $("#globeTmpLabel").addClass("text-muted");
+      $("#globeTmpLabel").hide();
       $("#globeTemp").attr("disabled", "disabled");
     }
   } else if (chart === "temphum") {
@@ -448,7 +448,7 @@ $("#chartSelect").change(function () {
         '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
       );
       $("#globeTemp").removeAttr("disabled");
-      $("#globeTmpLabel").removeClass("text-muted");
+      $("#globeTmpLabel").show();
       $("#tr-input, #tr-lab, #to-checkbox").show();
     }
   } else if (chart === "veltop") {
@@ -458,7 +458,7 @@ $("#chartSelect").change(function () {
     $("#ta-lab").html(
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
     );
-    $("#globeTmpLabel").addClass("text-muted");
+    $("#globeTmpLabel").hide();
     $("#globeTemp").attr("disabled", "disabled");
   } else if (chart === "heatloss") {
     heatLoss_chart.draw(d);
@@ -469,7 +469,7 @@ $("#chartSelect").change(function () {
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
     );
     $("#globeTemp").removeAttr("disabled");
-    $("#globeTmpLabel").removeClass("text-muted");
+    $("#globeTmpLabel").show();
     $("#to-checkbox, #ta-input, #ta-lab, #output-b, #output-a").hide();
   } else if (chart === "set_chart") {
     set_output_chart.draw(d);
@@ -480,7 +480,7 @@ $("#chartSelect").change(function () {
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
     );
     $("#globeTemp").removeAttr("disabled");
-    $("#globeTmpLabel").removeClass("text-muted");
+    $("#globeTmpLabel").show();
     $("#to-checkbox, #ta-input, #ta-lab, #output-b, #output-a").hide();
   }
   update();
@@ -776,7 +776,7 @@ function handleClickToCheckBox() {
     $("#ta-lab").html(
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
     );
-    $("#globeTmpLabel").addClass("text-muted");
+    $("#globeTmpLabel").hide();
     $("#globeTemp").attr("disabled", "disabled");
     $("#tr-input, #tr-lab").hide();
   } else {
@@ -784,7 +784,7 @@ function handleClickToCheckBox() {
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
     );
     $("#globeTemp").removeAttr("disabled");
-    $("#globeTmpLabel").removeClass("text-muted");
+    $("#globeTmpLabel").show();
     $("#tr-input, #tr-lab").show();
   }
 }
