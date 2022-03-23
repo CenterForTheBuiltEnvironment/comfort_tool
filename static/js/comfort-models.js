@@ -107,7 +107,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
       comf.still_air_threshold,
       rh,
       met,
-      clo,
+      dynamicClothing,
       wme
     );
   }
@@ -149,7 +149,7 @@ comf.cooling_effect = function (
   met,
   clo,
   wme,
-  bodyPosition = "sitting"
+  bodyPosition = "standing"
 ) {
   const ce_l = 0;
   const ce_r = 40;
