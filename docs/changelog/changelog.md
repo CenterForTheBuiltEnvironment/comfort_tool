@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.4.2 (2022-03-23)
+
+Fix:
+
+* Hiding globe temperature calculator when operative temp is selected
+
 ## Version 2.4.1 (2022-03-23)
 
 Fix:
