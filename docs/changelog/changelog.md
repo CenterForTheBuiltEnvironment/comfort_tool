@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.4.1 (2022-03-23)
+
+Fix:
+
+* Issue with operative toggle in adaptive model
+
 ## Version 2.4.0 (2022-03-23)
 
 Fix:
