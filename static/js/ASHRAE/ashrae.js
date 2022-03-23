@@ -66,21 +66,7 @@ $(document).ready(function () {
   ac.drawPoint([d]);
 
   $("#link").click(function () {
-    if ($("#tr-input").is(":hidden")) {
-      $("#ta-lab").html(
-        '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
-      );
-      $("#globeTemp").removeAttr("disabled");
-      $("#globeTmpLabel").removeClass("text-muted");
-      $("#tr-input, #tr-lab").show();
-    } else {
-      $("#ta-lab").html(
-        '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
-      );
-      $("#globeTmpLabel").addClass("text-muted");
-      $("#globeTemp").attr("disabled", "disabled");
-      $("#tr-input, #tr-lab").hide();
-    }
+    handleClickToCheckBox();
   });
 
   $("#chartSelect").val("psychtop").change();
@@ -233,7 +219,9 @@ $("#humidity-spec").change(function () {
 });
 
 $("#link").click(function () {
-  $("#tr").val($("#ta").val());
+  if ($("#link").is(":checked")) {
+    $("#tr").val($("#ta").val());
+  }
 });
 
 $(".inputbox").keydown(function (event) {
@@ -359,9 +347,11 @@ $("#setClo").click(function () {
   setClo();
   update();
 });
+
 $("#addToEnsembles").click(function () {
   addToEnsembles();
 });
+
 $("#setDynamicClo").click(function () {
   var ta6 = $("#taOut6").val();
   var clo_r = comf.schiavonClo(ta6);
@@ -370,6 +360,7 @@ $("#setDynamicClo").click(function () {
 });
 
 $("#model-type").change(function () {
+  // todo I should move all the following code inside the Update function
   $("#pmv-out-label").html("PMV");
   $("#localDisc").removeAttr("disabled");
   const model = $("#model-type").val();
@@ -382,6 +373,10 @@ $("#model-type").change(function () {
     ).hide();
     $("#pmv-out-label").html("PMV Adjusted");
   } else if (model === "adaptiveComfort") {
+    $("#to-checkbox").show();
+    if ($("#tr-input").is(":hidden")) {
+      $("#link").prop("checked", true);
+    }
     $("#chartWrapper, #chart_heatLoss_div").hide();
     $("#chartWrapperSet, #set_chart_div").hide();
     $(
@@ -399,13 +394,14 @@ $("#model-type").change(function () {
 });
 
 $("#chartSelect").change(function () {
+  // todo I should move all the following code inside the Update function
   const chart = $("#chartSelect").val();
   $("#output-b, #output-a, #ta-input, #ta-lab").show();
   $("#pmv-notes").show();
 
   // hide all the divs and then later show only those who are necessary
   $("#chartWrapper, #chartWrapperSet, #set_chart_div").hide();
-  $("#tr-input, #tr-lab, #labelforlink").hide();
+  $("#tr-input, #tr-lab, #to-checkbox").hide();
   $("#veltop-note").hide();
   $("#psychta-note, #heat_loss_pmv_chart_note").hide();
   $("#set_chart_note, #psychtop-note, #temphum-note").hide();
@@ -422,14 +418,14 @@ $("#chartSelect").change(function () {
       $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
       if ($("#link").is(":checked")) {
-        $("#labelforlink").show();
+        $("#to-checkbox").show();
       } else {
         $("#ta-lab").html(
           '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
         );
         $("#globeTemp").removeAttr("disabled");
         $("#globeTmpLabel").removeClass("text-muted");
-        $("#tr-input, #tr-lab, #labelforlink").show();
+        $("#tr-input, #tr-lab, #to-checkbox").show();
       }
     } else if (chart === "psychtop") {
       $("#psychtop-note, #pmv-notes").show();
@@ -446,19 +442,19 @@ $("#chartSelect").change(function () {
   } else if (chart === "temphum") {
     $("#temphumchart-div, #temphum-note, #pmv-notes").show();
     if ($("#link").is(":checked")) {
-      $("#labelforlink").show();
+      $("#to-checkbox").show();
     } else {
       $("#ta-lab").html(
         '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
       );
       $("#globeTemp").removeAttr("disabled");
       $("#globeTmpLabel").removeClass("text-muted");
-      $("#tr-input, #tr-lab, #labelforlink").show();
+      $("#tr-input, #tr-lab, #to-checkbox").show();
     }
   } else if (chart === "veltop") {
     $("#veltopchart-div, #veltop-note, #pmv-notes").show();
     $("#link").is(":checked");
-    $("#labelforlink").show();
+    $("#to-checkbox").show();
     $("#ta-lab").html(
       '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
     );
@@ -474,7 +470,7 @@ $("#chartSelect").change(function () {
     );
     $("#globeTemp").removeAttr("disabled");
     $("#globeTmpLabel").removeClass("text-muted");
-    $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
+    $("#to-checkbox, #ta-input, #ta-lab, #output-b, #output-a").hide();
   } else if (chart === "set_chart") {
     set_output_chart.draw(d);
     $("#chartWrapperSet, #set_chart_div, #set_chart_note").show();
@@ -485,7 +481,7 @@ $("#chartSelect").change(function () {
     );
     $("#globeTemp").removeAttr("disabled");
     $("#globeTmpLabel").removeClass("text-muted");
-    $("#labelforlink, #ta-input, #ta-lab, #output-b, #output-a").hide();
+    $("#to-checkbox, #ta-input, #ta-lab, #output-b, #output-a").hide();
   }
   update();
 });
@@ -495,12 +491,19 @@ function update() {
 
   const selected_chart = $("#chartSelect").val();
 
-  if (
-    $("#link").is(":checked") ||
-    selected_chart === "psychtop" ||
-    selected_chart === "veltop"
-  ) {
+  if ($("#link").is(":checked")) {
     $("#tr").val($("#ta").val());
+    $("#link").is(":checked");
+  }
+
+  const model = document.getElementById("model-type").value;
+  if (model === "pmvElevatedAirspeed") {
+    if (selected_chart === "psychtop" || selected_chart === "veltop") {
+      $("#tr").val($("#ta").val());
+      $("#link").prop("checked", true);
+      handleClickToCheckBox();
+      $("#to-checkbox").hide();
+    }
   }
 
   // get user input and validate that complies with standard applicability limits
@@ -541,7 +544,6 @@ function update() {
     dynamicCloDiv.hide();
   }
 
-  const model = document.getElementById("model-type").value;
   if (model === "pmvElevatedAirspeed") {
     r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
     if (!isCelsius) {
@@ -769,19 +771,20 @@ function addToEnsembles() {
   cloSelect.options.add(new Option(items.join(", "), ensembleClo.toFixed(2)));
 }
 
-function updateGlobe() {
-  let ta = parseFloat($("#ta-g").val());
-  let vel = parseFloat($("#vel-g").val());
-  let tglobe = parseFloat($("#tglobe").val());
-  let diameter = parseFloat($("#diameter").val());
-  let emissivity = parseFloat($("#emissivity").val());
-  if (!isCelsius) {
-    ta = util.FtoC(ta);
-    vel /= 196.9;
-    tglobe = util.FtoC(tglobe);
-    diameter *= 0.0254;
+function handleClickToCheckBox() {
+  if ($("#link").is(":checked")) {
+    $("#ta-lab").html(
+      '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
+    );
+    $("#globeTmpLabel").addClass("text-muted");
+    $("#globeTemp").attr("disabled", "disabled");
+    $("#tr-input, #tr-lab").hide();
+  } else {
+    $("#ta-lab").html(
+      '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
+    );
+    $("#globeTemp").removeAttr("disabled");
+    $("#globeTmpLabel").removeClass("text-muted");
+    $("#tr-input, #tr-lab").show();
   }
-  let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-  if (!isCelsius) tr = util.CtoF(tr);
-  $("#mrt-result").val(tr.toFixed(1));
 }

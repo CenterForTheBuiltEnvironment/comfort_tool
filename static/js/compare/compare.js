@@ -128,13 +128,13 @@ $(function () {
         '<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a></td>'
       );
       $("#tr-input, #tr-lab").show();
-      $("#labelforlink").html("&#9744; Use operative temp");
+      $("#to-checkbox").html("&#9744; Use operative temp");
     } else {
       $("#ta-lab").html(
         '<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a></td>'
       );
       $("#tr-input, #tr-lab").hide();
-      $("#labelforlink").html("&#9746; Use operative temp");
+      $("#to-checkbox").html("&#9746; Use operative temp");
     }
   });
 
@@ -155,8 +155,8 @@ $(function () {
       $("#ta-lab").html(
         '<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a></td>'
       );
-      $("#tr-input, #tr-lab, #labelforlink").show();
-      $("#labelforlink").html("&#9744; Use operative temp");
+      $("#tr-input, #tr-lab, #to-checkbox").show();
+      $("#to-checkbox").html("&#9744; Use operative temp");
     } else if (chart === "psychtop") {
       $("#temphumchart-div, #temphumchart-title").hide();
       $("#chart-div, #chart-title-pmv").show();
@@ -164,7 +164,7 @@ $(function () {
       $("#ta-lab").html(
         '<td colspan="3"><a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a></td>'
       );
-      $("#tr-input, #tr-lab, #labelforlink").hide();
+      $("#tr-input, #tr-lab, #to-checkbox").hide();
       $("#db-axis-C-label").text("Operative Temperature [°C]");
       $("#db-axis-F-label").text("Operative Temperature [°F]");
     }

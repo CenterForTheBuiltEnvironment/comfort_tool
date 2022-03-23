@@ -989,3 +989,20 @@ function globeTemperature() {
     });
   });
 }
+
+function updateGlobe() {
+  let ta = parseFloat($("#ta-g").val());
+  let vel = parseFloat($("#vel-g").val());
+  let tglobe = parseFloat($("#tglobe").val());
+  let diameter = parseFloat($("#diameter").val());
+  let emissivity = parseFloat($("#emissivity").val());
+  if (!isCelsius) {
+    ta = util.FtoC(ta);
+    vel /= 196.9;
+    tglobe = util.FtoC(tglobe);
+    diameter *= 0.0254;
+  }
+  let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
+  if (!isCelsius) tr = util.CtoF(tr);
+  $("#mrt-result").val(tr.toFixed(1));
+}

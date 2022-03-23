@@ -177,7 +177,7 @@ $("#specPressure").click(function () {
   }
 });
 
-globeTemperature()
+globeTemperature();
 
 $("#localDisc").click(function () {
   var container = $("#localdialog");
@@ -254,13 +254,13 @@ $("#chartSelect").change(function () {
       $("#db-axis-F-label").text("Dry-bulb Temperature [°F]");
 
       if ($("#link").is(":checked")) {
-        $("#labelforlink").show();
+        $("#to-checkbox").show();
       } else {
         $("#ta-lab").html(
           '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
         );
         $("#globeTemp").removeAttr("disabled");
-        $("#tr-input, #tr-lab, #labelforlink").show();
+        $("#tr-input, #tr-lab, #to-checkbox").show();
       }
 
       // Selction to use air operative temperature
@@ -275,7 +275,7 @@ $("#chartSelect").change(function () {
         '<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>'
       );
       $("#globeTemp").attr("disabled", "disabled");
-      $("#tr-input, #tr-lab, #labelforlink").hide();
+      $("#tr-input, #tr-lab, #to-checkbox").hide();
     }
 
     // selection Adaptive method
@@ -283,13 +283,13 @@ $("#chartSelect").change(function () {
     $("#temphumchart-div, #temphum-note").show();
     $("#chart-div, #psychta-note, #psychtop-note").hide();
     if ($("#link").is(":checked")) {
-      $("#labelforlink").show();
+      $("#to-checkbox").show();
     } else {
       $("#ta-lab").html(
         '<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>'
       );
       $("#globeTemp").removeAttr("disabled");
-      $("#tr-input, #tr-lab, #labelforlink").show();
+      $("#tr-input, #tr-lab, #to-checkbox").show();
     }
   }
   update();
@@ -527,21 +527,4 @@ function addToEnsembles() {
     }
   }
   cloSelect.options.add(new Option(items.join(", "), ensembleClo.toFixed(2)));
-}
-
-function updateGlobe() {
-  let ta = parseFloat($("#ta-g").val());
-  let vel = parseFloat($("#vel-g").val());
-  let tglobe = parseFloat($("#tglobe").val());
-  let diameter = parseFloat($("#diameter").val());
-  let emissivity = parseFloat($("#emissivity").val());
-  if (!isCelsius) {
-    ta = util.FtoC(ta);
-    vel /= 196.9;
-    tglobe = util.FtoC(tglobe);
-    diameter *= 0.0254;
-  }
-  let tr = psy.globetemp(ta, vel, tglobe, diameter, emissivity);
-  if (!isCelsius) tr = util.CtoF(tr);
-  $("#mrt-result").val(tr.toFixed(1));
 }
