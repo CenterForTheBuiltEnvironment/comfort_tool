@@ -8,7 +8,7 @@ jobs:
   deploy:
     name: Deploying 🚀 CBE Comfort Tool
     runs-on: ubuntu-latest
-#    if: "contains(github.event.head_commit.message, 'bump version')"
+    if: "contains(github.event.head_commit.message, 'bump version')"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
