@@ -24,8 +24,7 @@ jobs:
 
       - name: Building (🏗️)
         run: |-
-          gcloud builds submit \
-            --tag gcr.io/comfort-327718/comfort-tool
+          gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool
 
       # Setup gcloud CLI
       - name: Deploy (🚀)
