@@ -3,7 +3,7 @@ name: Deploy 🚀 Thermal Comfort Tool to Google Cloud Run (☁🏃)
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   deploy:
     name: Deploying 🚀 CBE Comfort Tool
