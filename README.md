@@ -7,3 +7,5 @@ A web interface for comfort model calculations and visualizations according to A
 [Official documentation](https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/)
 
 [Contribute to the project](https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/contributing/contributing)
+
+[How to deploy](https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/contributing/deploying)

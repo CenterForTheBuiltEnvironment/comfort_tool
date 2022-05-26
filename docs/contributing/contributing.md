@@ -69,7 +69,9 @@ Secondly, you should describe the changes in `docs/changelog/changelog.md`
 
 ## Deploying
 
-We are deploying the tool using Google Cloud Run, you can deploy it to Google Cloud Run using the following command:
+We are deploying the tool using Google Cloud Run. The project is automatically deployed when you push to `master` the commit message includes the word `bump version`. Check the GitHub action in the folder `./.github/workflows/deploy.yml` for more information about how we build and deploy the application.
+
+Alternatively, you can deploy a new version of the tool to Google Cloud Run using the following command:
 
 ```
 gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool  --project=comfort-327718
