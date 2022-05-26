@@ -19,7 +19,7 @@ jobs:
         with:
           version: '286.0.0'
           service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
-          service_account_email: "federico.tartarini@bears-berkeley.sg"
+          service_account_email: "github-action@comfort-327718.iam.gserviceaccount.com"
           project_id: comfort-327718
 
       - name: Building (🏗️)
