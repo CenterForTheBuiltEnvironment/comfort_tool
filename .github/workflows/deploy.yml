@@ -1,0 +1,38 @@
+# .github/workflows/deploy.yml
+name: Deploy 🚀 Thermal Comfort Tool to Google Cloud Run (☁🏃)
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploying 🚀 CBE Comfort Tool
+    runs-on: ubuntu-latest
+#    if: "contains(github.event.head_commit.message, 'bump version')"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Build and push image to Google Container Registry
+      - name: Setting up
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          version: '286.0.0'
+          service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
+          service_account_email: "federico.tartarini@bears-berkeley.sg"
+          project_id: comfort-327718
+
+      - name: Building (🏗️)
+        run: |-
+          gcloud builds submit \
+            --tag gcr.io/comfort-327718/comfort-tool
+
+      # Setup gcloud CLI
+      - name: Deploy (🚀)
+        uses: google-github-actions/deploy-cloudrun@main
+        with:
+          service: comfort-tool
+          image: gcr.io/comfort-327718/comfort-tool
+          region: us-central1
+          credentials: ${{ secrets.GCP_SA_KEY_JSON }}
+          project_id: comfort-327718
