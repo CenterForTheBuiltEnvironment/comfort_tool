@@ -23,20 +23,13 @@
     />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-146504560-1"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6T3GQN7C1T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag("js", new Date());
-
-      gtag("config", "UA-30562462-2");
+      gtag('config', 'G-6T3GQN7C1T');
     </script>
 
     {% block head %}
