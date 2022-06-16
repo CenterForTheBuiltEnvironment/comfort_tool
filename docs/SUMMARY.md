@@ -13,6 +13,7 @@
 * [ASHRAE-55 references](documentation/ashrae55-references.md)
 * [SolarCal](documentation/solar-gain.md)
 * [Fans heatwaves](documentation/fans-heatwaves.md)
+* [Predicted Heat Strain](documentation/phs.md)
 
 ## Help
 

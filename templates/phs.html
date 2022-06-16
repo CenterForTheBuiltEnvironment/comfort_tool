@@ -303,9 +303,8 @@
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-light border">
               <input type="radio" name="options" autocomplete="off" />
-              {# todo change link to documentation #}
               <a
-                href="https://www.iso.org/obp/ui/fr/#iso:std:iso:7933:ed-2:v1:en"
+                href="https://center-for-the-built-environment.gitbook.io/thermal-comfort-tool/documentation/phs"
                 target="_new"
                 >Documentation</a
               >
@@ -356,22 +355,34 @@
                 #}
                 <div class="form-row">
                   <div class="col-sm-12">
-                    <span>Maximum allowable exposure time for:</span>
+                    <span
+                      ><strong
+                        >Maximum allowable exposure time within which the
+                        physiological strain is acceptable (no physical damage
+                        is to be expected) calculated as a function of:</strong
+                      ></span
+                    >
                   </div>
                   <div class="col-sm-12">
-                    <span id="pmv-out-label">heat storage</span>
+                    <span id="pmv-out-label">max rectal temperature</span>
                     <span> = </span>
                     <span id="d_lim_t_re"></span>
                     <span> min</span>
                   </div>
                   <div class="col-sm-12">
-                    <span id="ppd-out-label">water loss (95% population)</span>
+                    <span id="ppd-out-label"
+                      >water loss of 5% of the body mass for 95% of the
+                      population</span
+                    >
                     <span> = </span>
                     <span id="d_lim_loss_95"></span>
                     <span class="tempunit"> min</span>
                   </div>
                   <div class="col-sm-12">
-                    <span id="ppd-out-label">water loss (50% population)</span>
+                    <span id="ppd-out-label"
+                      >water loss of 7.5% of the body mass for an average
+                      person</span
+                    >
                     <span> = </span>
                     <span id="d_lim_loss_50"></span>
                     <span class="tempunit"> min</span>
