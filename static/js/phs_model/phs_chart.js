@@ -28,7 +28,7 @@ let phs_chart = new (function () {
   this.getData = function () {
     results = comf.phs(d.ta, d.tr, d.rh, d.vel, d.met * 58.15, d.clo, 2, true);
     results.time_array = results.time_array.map(function (n, i) {
-      return n / 60;
+      return Math.round((n / 60) * 100) / 100;
     });
   };
 
