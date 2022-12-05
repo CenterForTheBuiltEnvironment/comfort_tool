@@ -27,6 +27,9 @@ let phs_chart = new (function () {
   // function that calculate the heat losses
   this.getData = function () {
     results = comf.phs(d.ta, d.tr, d.rh, d.vel, d.met * 58.15, d.clo, 2, true);
+    results.time_array = results.time_array.map(function (n, i) {
+      return n / 60;
+    });
   };
 
   // function that updates the chart whenever user selects a different input
@@ -120,16 +123,12 @@ let phs_chart = new (function () {
             {
               scaleLabel: {
                 display: true,
-                labelString: "Time [minutes]",
-              },
-              gridLines: {
-                color: "rgba(0, 0, 0, 0)",
+                labelString: "Time [hours]",
               },
               ticks: {
-                autoSkip: true,
-                maxRotation: 0,
-                minRotation: 0,
-                maxTicksLimit: 10,
+                callback: function (val) {
+                  return val % 1 === 0 ? val : "";
+                },
               },
             },
           ],
