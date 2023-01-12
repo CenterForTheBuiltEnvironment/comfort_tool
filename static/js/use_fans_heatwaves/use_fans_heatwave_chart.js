@@ -302,7 +302,9 @@ let use_fans_heatwave_chart = new (function () {
                   ((this._eventPosition.x - chartInstance.chartArea.left) /
                     (chartInstance.chartArea.right -
                       chartInstance.chartArea.left)) *
-                  100
+                    (chartInstance.options.scales.xAxes[0].ticks.max -
+                      chartInstance.options.scales.xAxes[0].ticks.min) +
+                  chartInstance.options.scales.xAxes[0].ticks.min
                 ).toFixed(1) +
                 " %; Operative Temperature = " +
                 (
