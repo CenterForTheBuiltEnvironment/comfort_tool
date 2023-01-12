@@ -13,11 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Export gcloud related env variable
+        run: export CLOUDSDK_PYTHON="/usr/bin/python3"
+
       # Build and push image to Google Container Registry
       - name: Setting up
         uses: google-github-actions/setup-gcloud@v0
         with:
-          version: '286.0.0'
+          version: '318.0.0'
           service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
           service_account_email: "github-action@comfort-327718.iam.gserviceaccount.com"
           project_id: comfort-327718
