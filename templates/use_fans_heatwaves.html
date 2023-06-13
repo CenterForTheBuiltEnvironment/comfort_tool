@@ -37,9 +37,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="card col-md-12 col-lg-5 my-2 p-0">
-      <div class="card-header">
-        Inputs
-      </div>
+      <div class="card-header">Inputs</div>
       <div id="left_content" class="card-body">
         {# Inputs PMV and adaptive #}
         <div id="inputs" class="in">
@@ -131,7 +129,7 @@
             <div
               class="row justify-content-center mt-2"
               id="customCloToggle"
-              style="display: none;"
+              style="display: none"
             >
               <br />
               <select
@@ -150,7 +148,7 @@
                   id="taOut6"
                   maxlength="10"
                   placeholder="0.0"
-                  style="height: 20px;"
+                  style="height: 20px"
                 />
                 <span class="tempunit">&deg;C</span>
                 <button id="setDynamicClo">Set clo</button>
@@ -264,7 +262,7 @@
       <div class="row justify-content-center">
         <div
           id="chartWrapperFansHeatwave"
-          style="position: relative; height: 500px; width: 500px;"
+          style="position: relative; height: 500px; width: 500px"
         >
           <canvas id="use_fans_heatwave_div"></canvas>
         </div>
@@ -275,24 +273,23 @@
         <div class="card-body px-5 py-3" id="use_fans_heatwave_note">
           <p>
             <strong>NOTE:</strong> The green areas show the temperature and
-            relative humidity conditions in which the use of fans is beneficial
-            since they provide additional cooling to people. In the dark green
-            region, while the use of fans is still beneficial, people are most
-            likely suffering from heat strain. The red area demarcates the
-            region in which fans should not be used.
+            relative humidity conditions in which the use of fans provides more
+            cooling to the human body of a standard subject than still air. In
+            the dark green region, while the use of fans is still beneficial,
+            people are most likely suffering from heat strain. The red area
+            demarcates the region in which fans should not be used.
           </p>
           <p>
             These results were calculated using the Gagge et al. (1971) heat
-            balance model with modifications as described in the paper. We
-            assumed that
+            balance model with modifications as described in the paper. The
+            model is applicable to healthy adults. We assumed that
             <a href="https://en.wikipedia.org/wiki/Dry-bulb_temperature"
               >dry-bulb air temperature</a
             >
             is equal to the
             <a href="https://en.wikipedia.org/wiki/Mean_radiant_temperature"
               >mean radiant temperature</a
-            >. Results are applicable to healthy adults. Our tool does not
-            provide medical advice.
+            >. Our tool does not provide medical advice.
           </p>
         </div>
       </div>
