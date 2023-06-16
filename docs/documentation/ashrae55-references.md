@@ -14,7 +14,7 @@ ASHRAE. (2009). Standard 113-2009. _Method of Testing for Room Air Diffusion, Am
 
 Berglund, L. G., & Gagge, A. P. (1979). Thermal comfort and radiant heat. _, Proceedings of the 3rd National Passive Solar Conference of The American Section of The International Solar Energy Society, Inc._
 
-Berglund, L. (1979). <a href="docs/references/Berglund_1979_thermal_acceptability.pdf" download="thermal_acceptability">Thermal acceptability</a>. _ASHRAE Transactions, 85_(2), 825-834.
+Berglund, L. (1979). <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Berglund_1979_thermal_acceptability.pdf" download="thermal_acceptability">Thermal acceptability</a>. _ASHRAE Transactions, 85_(2), 825-834.
 
 Berglund, L., & Fobelets, A.P.R. (1987). [Subjective human response to low-level air currents and asymmetric radiation](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Berglund%20-%20Fobelets%201987%20Subjective%20human%20response%20to%20low-level%20air%20currents%20and%20asymmetric%20radiation.pdf). _ASHRAE Transactions, 93_(1), 497-523.
 
