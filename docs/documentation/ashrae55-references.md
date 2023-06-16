@@ -2,7 +2,8 @@
 
 Arens, E., Xu, T., Miura, K., Hui, Z., Fountain, M., & Bauman, F. (1998). <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Arens%20et%20al.%20-%201998%20-%20A%20study%20of%20occupant%20cooling%20by%20personally%20controll.pdf" download="thermal_acceptability">A study of occupant cooling by personally controlled air movement</a>. _Energy and Buildings, 27_(1), 45-59.
 
-Arens, E., T. Hoyt, X. Zhou, L. Huang, H. Zhang, and S. Schiavon. 2015.[Modeling the comfort effects of shortwave solar radiation indoors](https://escholarship.org/uc/item/89m1h2dg). Building and Environment 88:3–9.
+Arens, E., T. Hoyt, X. Zhou, L. Huang, H. Zhang, and S. Schiavon. 2015.[Modeling the comfort effects of shortwave solar radiation indoors](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Arens%20et%20al.%20-%202015%20-%20Modeling%20the%20comfort%20effects%20of%20short-wave%20solar%20r.pdf
+). Building and Environment 88:3–9.
 
 ASHRAE. 1998. Towards an Adaptive Model of Thermal Comfort and Preference. ASHRAE RP-884.
 
