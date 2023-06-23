@@ -699,6 +699,9 @@ comf.pierceSET = function (
    * @param  {Number} met     metabolic rate, [met]
    * @param  {Number} clo     clothing level, [clo]
    * @param  {Number} wme     external work, [met]
+   * @param  {Boolean} round  if True rounds output
+   * @param  {Number} maxSkinBloodFlow     maximum blood flow from the core to the skin, [kg/h/m2] default 80
+   * @param  {String} bodyPosition     select either "sitting" (default) or "standing"
    * @return {Number} X       SET temperature
    */
 
