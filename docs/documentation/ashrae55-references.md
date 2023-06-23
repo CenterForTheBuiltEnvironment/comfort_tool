@@ -1,9 +1,8 @@
 # ASHRAE-55 references
 
-Arens, E., Xu, T., Miura, K., Hui, Z., Fountain, M., & Bauman, F. (1998). <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Arens%20et%20al.%20-%201998%20-%20A%20study%20of%20occupant%20cooling%20by%20personally%20controll.pdf" download="thermal_acceptability">A study of occupant cooling by personally controlled air movement</a>. _Energy and Buildings, 27_(1), 45-59.
+Arens, E., Xu, T., Miura, K., Hui, Z., Fountain, M., & Bauman, F. (1998). [A study of occupant cooling by personally controlled air movement](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/raw/master/docs/references/Arens%20et%20al.%20-%201998%20-%20A%20study%20of%20occupant%20cooling%20by%20personally%20controll.pdf). _Energy and Buildings, 27_(1), 45-59.
 
-Arens, E., T. Hoyt, X. Zhou, L. Huang, H. Zhang, and S. Schiavon. 2015. [Modeling the comfort effects of shortwave solar radiation indoors](https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Arens%20et%20al.%20-%202015%20-%20Modeling%20the%20comfort%20effects%20of%20short-wave%20solar%20r.pdf
-). Building and Environment 88:3–9.
+Arens, E., T. Hoyt, X. Zhou, L. Huang, H. Zhang, and S. Schiavon. 2015. [Modeling the comfort effects of shortwave solar radiation indoors](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/raw/master/docs/references/Arens%20et%20al.%20-%202015%20-%20Modeling%20the%20comfort%20effects%20of%20short-wave%20solar%20r.pdf). Building and Environment 88:3–9.
 
 ASHRAE. 1998. Towards an Adaptive Model of Thermal Comfort and Preference. ASHRAE RP-884.
 
@@ -13,9 +12,9 @@ ASHRAE. (2009). 2009 ASHRAE handbook - fundamentals. _American Society of Heatin
 
 ASHRAE. (2009). Standard 113-2009. _Method of Testing for Room Air Diffusion, American Society of Heating, Refrigerating and Air Conditioning Engineers, Inc._
 
-Berglund, L. G., & Gagge, A. P. (1979). Thermal comfort and radiant heat. _, Proceedings of the 3rd National Passive Solar Conference of The American Section of The International Solar Energy Society, Inc._
+Berglund, L. G., & Gagge, A. P. (1979). Thermal comfort and radiant heat. _Proceedings of the 3rd National Passive Solar Conference of The American Section of The International Solar Energy Society, Inc._
 
-Berglund, L. (1979). <a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool/raw/master/docs/references/Berglund_1979_thermal_acceptability.pdf" download="thermal_acceptability">Thermal acceptability</a>. _ASHRAE Transactions, 85_(2), 825-834.
+Berglund, L. (1979). [Thermal acceptability](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/raw/master/docs/references/Berglund\_1979\_thermal\_acceptability.pdf). _ASHRAE Transactions, 85_(2), 825-834.
 
 Berglund, L., & Fobelets, A.P.R. (1987). [Subjective human response to low-level air currents and asymmetric radiation](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Berglund%20-%20Fobelets%201987%20Subjective%20human%20response%20to%20low-level%20air%20currents%20and%20asymmetric%20radiation.pdf). _ASHRAE Transactions, 93_(1), 497-523.
 
@@ -31,11 +30,11 @@ De Dear, R., & Fountain, M. (1994). [Field experiments on occupant comfort and o
 
 De Dear, R., & Brager, G. S. (1998). [Developing an adaptive model of thermal comfort and preference](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/de%20Dear%20-%20Brager%201998%20Developing%20an%20adaptive%20model%20of%20thermal%20comfort%20and%20preference.pdf). _ASHRAE Transaction, 104_(1a), 145-167.
 
-Donnini, G., Molina, J., Martello, C., Lai, D., Kit, L., Chang, C., et al. (1996). [Field study of occupant comfort and office thermal environments in a cold climate: Final report on ASHRAE RP-821](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Donnini%20et%20al%201996%20Field%20study%20of%20occupant%20comfort%20and%20office%20thermal%20environment%20in%20a%20cold%20climate%20-%20Final%20Report%20of%20RP-821.pdf). _Montreal, Québec, Canada: AND Inc,_
+Donnini, G., Molina, J., Martello, C., Lai, D., Kit, L., Chang, C., et al. (1996). [Field study of occupant comfort and office thermal environments in a cold climate: Final report on ASHRAE RP-821](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Donnini%20et%20al%201996%20Field%20study%20of%20occupant%20comfort%20and%20office%20thermal%20environment%20in%20a%20cold%20climate%20-%20Final%20Report%20of%20RP-821.pdf). _Montreal, Québec, Canada._
 
 Fang, L., Clausen, G., & Fanger, P. O. (1998). [Impact of temperature and humidity on perception of indoor air quality during immediate and longer Whole-Body exposures](http://onlinelibrary.wiley.com/doi/10.1111/j.1600-0668.1998.00008.x/abstract). _Indoor Air, 8_(4), 276-284.
 
-Fanger, P., Banhidi, L., Olesen, B., & Langkilde, G. (1980). [Comfort limits for heated ceilings](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Fanger%20et%20al%201980%20Comfort%20limits%20for%20heated%20ceilings..pdf). _Ashrae Transactions, 86_(2), 141-156.
+Fanger, P., Banhidi, L., Olesen, B., & Langkilde, G. (1980). [Comfort limits for heated ceilings](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Fanger%20et%20al%201980%20Comfort%20limits%20for%20heated%20ceilings..pdf). _ASHRAE Transactions, 86_(2), 141-156.
 
 Fanger, P., & Christensen, N. (1986). [Perception of draught in ventilated spaces](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Fanger%20et%20al%201986%20Perception%20of%20draught%20in%20ventilated%20spaces.pdf). _Ergonomics, 29_(2), 215-235.
 
@@ -43,7 +42,7 @@ Fanger, P., Ipsen, B., Langkilde, G., Olessen, B., Christensen, N., & Tanabe, S.
 
 Fanger, P., Melikov, A., Hanzawa, H., & Ring, J. (1988). [Air turbulence and sensation of draught](http://www.sciencedirect.com/science/article/pii/0378778888900539). _Energy and Buildings, 12_(1), 21-39.
 
-Fanger, P. O. (1982). _Thermal comfort: Analysis and applications in environmental engineering_. Malabar, Florida: Robert E. Krieger Publishing Co.
+Fanger, P. O. (1980). _Thermal comfort: Analysis and applications in environmental engineering_. Danish Technical Press. Copenhagen, Denmark.
 
 Fishman, D., & Pimbert, S. (1979). [Survey of subjective responses to the thermal environment in offices](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Fishman%20-%20Pimbert%201979%20Survey%20of%20subjective%20responses%20to%20the%20thermal%20environment%20in%20offices.pdf). _Indoor Climate,_ 677-698.
 
@@ -77,13 +76,13 @@ Kubo, H., Isoda, N., & Enomoto-Koshimizu, H. (1997). [Cooling effects of preferr
 
 Lammers, J., Berglund, L., & Stolwijk, J. (1978). [Energy conservation and thermal comfort in a new york city high rise office building](http://www.springerlink.com/content/k02251872186h185/). _Environmental Management, 2_(2), 113-117.
 
-Laviana, J., Rohles, F., & Bullock, P. (1988). [Humidity, comfort and contact lenses](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Laviana%20et%20al%201988%20Humidity,%20comfort%20and%20contact%20lenses.pdf). _ASHRAE Trans, 94_(Part 1), 3-11.
+Laviana, J., Rohles, F., & Bullock, P. (1988). [Humidity, comfort and contact lenses](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Laviana%20et%20al%201988%20Humidity,%20comfort%20and%20contact%20lenses.pdf). _ASHRAE Transactions, 94_(Part 1), 3-11.
 
 McCullough, E. A., Jones, B. W., & Huck, J. (1985). [A comprehensive data base for estimating clothing insulation](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/McCullough%20et%20al%201985%20A%20comprehensive%20data%20base%20for%20estimating%20clothing%20insulation.pdf). _ASHRAE Transactions, 91_(2), 29-47.
 
 Lee, K.H., and S. Schiavon. 20143.[ Influence of three dynamic predictive clothing insulation models on building energy use, HVAC sizing and thermal comfort](https://escholarship.org/uc/item/8sx4w8mn). Energies 7(4): 1917-1934.
 
-Liu, S., S. Schiavon, A. Kabanshi, W. Nazaroff. 2016. [Predicted percentage of dissatisfied with ankle draft](http://www.escholarship.org/uc/item/9076254n). Indoor Air. 27 (4), 852-862. [https://doi.org/10.1111/ina.12364](https://doi.org/10.1111/ina.12364)&#x20;
+Liu, S., S. Schiavon, A. Kabanshi, W. Nazaroff. 2016. [Predicted percentage of dissatisfied with ankle draft](http://www.escholarship.org/uc/item/9076254n). Indoor Air. 27 (4), 852-862. [https://doi.org/10.1111/ina.12364](https://doi.org/10.1111/ina.12364)
 
 Liu, S., Z. Wang, S. Schiavon, Y. He, M. Luo, H. Zhang, E. Arens. 2020. [Predicted percentage of dissatisfied with vertical air temperature gradient](https://escholarship.org/uc/item/0s76t57k). Energy and Buildings. P.110085. [https://doi.org/10.1016/j.enbuild.2020.110085](https://doi.org/10.1016/j.enbuild.2020.110085)
 
@@ -107,7 +106,7 @@ Nevins, R. G., & McNall Jr, P. E. (1973). [ASHRAE thermal comfort standards as p
 
 Nevins, R., & Feyerherm, A. (1967). [Effect of floor surface temperature on comfort. part IV: Cold floors](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Nevins%20-%20Feyerherm%201967%20Effect%20of%20floor%20surface%20temperature%20on%20comfort%20Part%20IV-cold%20floors.pdf). _ASHRAE Transactions, 73_(2)
 
-Nielsen, B., Oddershede, I., Torp, A., & Fanger, P. (1979). [Thermal comfort during continuous and intermittent work](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Nielsen%20et%20al%201979%20Thermal%20comfort%20during%20continuous%20and%20intermittent%20work.pdf). _Indoor Climate,_ , 477-490.
+Nielsen, B., Oddershede, I., Torp, A., & Fanger, P. (1979). [Thermal comfort during continuous and intermittent work](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Nielsen%20et%20al%201979%20Thermal%20comfort%20during%20continuous%20and%20intermittent%20work.pdf). _Indoor Climate,_ 477-490.
 
 Nilsson, S. E. G., & Andersson, L. (1986). [Contact lens wear in dry environments](http://onlinelibrary.wiley.com/doi/10.1111/j.1755-3768.1986.tb06904.x/abstract). _Acta Ophthalmologica, 64_(2), 221-225.
 
@@ -117,7 +116,7 @@ Olesen, B. W. (1977). [Thermal comfort requirements for floors](https://github.c
 
 Olesen, B. W. (1977). [Thermal comfort requirements for floors occupied by people with bare feet](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Olesen%201977%20Thermal%20comfort%20requirements%20for%20floors%20occupied%20by%20people%20with%20bare%20feet.pdf). _ASHRAE Transactions, 83_(2), 41-57.
 
-Olesen, B. W., Scholer, M., & Fanger, P. O. (1979). [Discomfort caused by vertical air temperature differences](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Olesen%20et%20al%201979%20Discomfort%20caused%20by%20vertical%20air%20temperature%20differences.pdf). _Indoor Climate,_ , 561-579.
+Olesen, B. W., Scholer, M., & Fanger, P. O. (1979). [Discomfort caused by vertical air temperature differences](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Olesen%20et%20al%201979%20Discomfort%20caused%20by%20vertical%20air%20temperature%20differences.pdf). _Indoor Climate,_ 561-579.
 
 Olesen, B. (1985). [A new simpler method for estimating the thermal insulation of a clothing ensemble](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Olesen%201985%20A%20new%20and%20simpler%20method%20for%20estimating%20the%20thermal%20insulation%20of%20a%20clothing%20ensemble.pdf). _ASHRAE Transactions, 91_(2B), 478-492.
 
@@ -125,7 +124,7 @@ Olesen, B., Mortensen, E., Thorshauge, J., & Berg-Munch, B. (1980). [Thermal com
 
 Olesen, S., Fanger, P. O., Jensen, P. B., & Nielsen, O. J. (1973). [Comfort limits for man exposed to asymmetric thermal radiation](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Olesen%20et%20al%201972%20Comfort%20limits%20for%20man%20exposed%20to%20asymmetric%20thermal%20radiation.pdf). CIB Commission W 45 Symposium, Thermal Comfort and Moderate Heat Stress, Watford, U.K. 133-148.
 
-Rohles, F. H., Woods, J. E., & Nevins, R. G. (1974). [The effect of air speed and temperature on the thermal sensations of sedentary man](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Rohles%20et%20al%201974%20The%20effect%20of%20air%20speed%20and%20temperature%20on%20the%20thermal%20sensations%20of%20sedentary%20man.pdf). ASHRAE Transactions, 80(1), 101-119.
+Rohles, F. H., Woods, J. E., & Nevins, R. G. (1974). [The effect of air speed and temperature on the thermal sensations of sedentary man](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Rohles%20et%20al%201974%20The%20effect%20of%20air%20speed%20and%20temperature%20on%20the%20thermal%20sensations%20of%20sedentary%20man.pdf). _ASHRAE Transactions, 80(1)_, 101-119.
 
 Rohles, F., Milliken, G., Skipton, D., & Krstic, I. (1980). [Thermal comfort during cyclical temperature fluctuations](https://github.com/CenterForTheBuiltEnvironment/comfort\_tool/tree/ecaaef52414ba57092a3a470297ad0592d2f6dc4/docs/documentation/other-papers/Rohles%20et%20al%201980%20Thermal%20comfort%20during%20cyclical%20temperature%20fluctuations.pdf). _ASHRAE Transactions, 86_(2), 125-140.
 
@@ -137,7 +136,7 @@ Scheatzle, D., Wu, H., & Yellott, J. (1989). [Extending the summer comfort envel
 
 Schiavon, S., & Melikov, A. K. (2009). [Introduction of a cooling-fan efficiency index](http://www.tandfonline.com/doi/abs/10.1080/10789669.2009.10390882). _HVAC\&R Research, 15_(6), 1121-1144.
 
-Schiavon, S., D. Rim, W. Pasut, W. Nazaroff. 2016. [Sensation of draft at uncovered ankles for women exposed to displacement ventilation and underfloor air distribution systems](http://escholarship.org/uc/item/4p692575). Building and Environment 96:228–236. [http://dx.doi.org/10.1016/j.buildenv.2015.11.009](http://dx.doi.org/10.1016/j.buildenv.2015.11.009)&#x20;
+Schiavon, S., D. Rim, W. Pasut, W. Nazaroff. 2016. [Sensation of draft at uncovered ankles for women exposed to displacement ventilation and underfloor air distribution systems](http://escholarship.org/uc/item/4p692575). Building and Environment 96:228–236. [http://dx.doi.org/10.1016/j.buildenv.2015.11.009](http://dx.doi.org/10.1016/j.buildenv.2015.11.009)
 
 Schiller, G., Arens, E. A., Bauman, F., Benton, C., Fountain, M., & Doherty, T. (1988). [A field study of thermal environments and comfort in office buildings](http://escholarship.org/uc/item/4km240x7)., 280-308.
 
