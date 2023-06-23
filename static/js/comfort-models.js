@@ -758,7 +758,7 @@ comf.pierceSET = function (
   const MetFactor = 58.2;
   const SBC = 0.000000056697; // Stefan-Boltzmann constant (W/m2K4)
   const CSW = 170;
-  const CDil = 200;
+  const CDil = 120;
   const CStr = 0.5;
 
   const TempSkinNeutral = 33.7; // set point (neutral) value for Tsk

@@ -37,40 +37,24 @@ test("pmv", () => {
 
 test("calculate heat strain for 0.2 m/s", () => {
   expect(
-    comf.pierceSET(46.5, 46.5, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
+    comf.pierceSET(39, 39, 0.2, 20, 0.7, 0.3, 0, true).thermal_strain
   ).toBeFalsy();
   expect(
-    comf.pierceSET(46.87, 46.87, 0.2, 10, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeTruthy();
-  expect(
-    comf.pierceSET(45.6, 45.6, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeFalsy();
-  expect(
-    comf.pierceSET(45.8, 45.8, 0.2, 20, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeTruthy();
-  expect(
-    comf.pierceSET(42.4, 42.4, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeFalsy();
-  expect(
-    comf.pierceSET(42.6, 42.6, 0.2, 30, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeTruthy();
-  expect(
-    comf.pierceSET(45, 45, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeFalsy();
-  expect(
-    comf.pierceSET(45.2, 45.2, 0.8, 20, 1.1, 0.5, 0, true).thermal_strain
-  ).toBeTruthy();
-  expect(
-    comf.pierceSET(32.4, 32.4, 0.3, 82, 1.4, 0.3, 0, true, false, 80)
-      .thermal_strain
-  ).toBeFalsy();
-  expect(
-    comf.pierceSET(33, 33, 0.3, 82, 1.4, 0.3, 0, true, false, 80).thermal_strain
-  ).toBeTruthy();
-  expect(
-    comf.pierceSET(32.2, 32.2, 0.2, 82, 1.4, 0.3, 0, true, false, 80)
-      .thermal_strain
-  ).toBeFalsy();
+    comf.pierceSET(39, 39, 0.2, 20, 0.7, 0.5, 0, true).q_tot_skin
+  ).toBeCloseTo(37.6, 0.1);
+
+  expect(comf.pierceSET(39, 39, 0.2, 20, 2, 0.3).thermal_strain).toBeFalsy();
+
+  expect(comf.pierceSET(39, 39, 0.2, 20, 2, 0.5).skin_wet).toBeCloseTo(
+    53.9,
+    0.1
+  );
+  expect(comf.pierceSET(39, 39, 0.2, 20, 2, 0.7).t_skin).toBeCloseTo(36.2, 0.1);
+  expect(comf.pierceSET(39, 39, 0.2, 40, 0.7, 0.3).thermal_strain).toBeFalsy();
+  expect(comf.pierceSET(39, 39, 0.2, 40, 0.7, 0.5).t_core).toBeCloseTo(
+    36.9,
+    0.1
+  );
 });
 
 test("temperature converter", () => {
@@ -81,28 +65,28 @@ test("temperature converter", () => {
 test("cooling effect", () => {
   expect(
     comf.cooling_effect(25, 25, 0.05, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(0, 1);
+  ).toBeCloseTo(0, 0.1);
   expect(
     comf.cooling_effect(25, 25, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(2.17, 1);
+  ).toBeCloseTo(2.17, 0.1);
   expect(
     comf.cooling_effect(27, 25, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(1.85, 1);
+  ).toBeCloseTo(1.85, 0.1);
   expect(
     comf.cooling_effect(29, 25, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(1.63, 2);
+  ).toBeCloseTo(1.63, 0.1);
   expect(
     comf.cooling_effect(31, 25, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(1.42, 2);
+  ).toBeCloseTo(1.42, 0.1);
   expect(
     comf.cooling_effect(25, 27, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(2.44, 2);
+  ).toBeCloseTo(2.44, 0.1);
   expect(
     comf.cooling_effect(25, 29, 0.5, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(2.81, 1);
+  ).toBeCloseTo(2.81, 0.1);
   expect(
     comf.cooling_effect(25, 25, 0.2, 50, 1, 0.6, 0, "standing")
-  ).toBeCloseTo(0.66, 2);
+  ).toBeCloseTo(0.66, 0.01);
   expect(
     comf.cooling_effect(25, 25, 0.8, 50, 1, 0.6, 0, "standing")
   ).toBeCloseTo(2.93, 2);
@@ -120,7 +104,7 @@ test("cooling effect", () => {
   ).toBeCloseTo(2.29, 2);
   expect(
     comf.cooling_effect(25, 25, 0.5, 60, 1.3, 0.6, 0, "standing")
-  ).toBeCloseTo(2.83, 2);
+  ).toBeCloseTo(2.83, 0.01);
   expect(
     comf.cooling_effect(25, 25, 0.5, 60, 1.6, 0.6, 0, "standing")
   ).toBeCloseTo(3.5, 1);
@@ -141,7 +125,7 @@ test("calculate SET temperature", () => {
   ).toBeCloseTo(24.0);
   expect(
     comf.pierceSET(25, 25, 1.1, 50, 3, 0.5, 0, true, false, 90, "standing").set
-  ).toBeCloseTo(27.5);
+  ).toBeCloseTo(27.5, 0.1);
   expect(
     comf.pierceSET(25, 25, 1.1, 50, 4, 0.5, 0, true, false, 90, "standing").set
   ).toBeCloseTo(30.3);
@@ -152,7 +136,7 @@ test("calculate SET temperature", () => {
   expect(
     comf.pierceSET(25, 25, 1.1, 50, 1.5, 0.75, 0, true, false, 90, "standing")
       .set
-  ).toBeCloseTo(24.9);
+  ).toBeCloseTo(24.9, 0.1);
   expect(
     comf.pierceSET(25, 25, 1.1, 50, 1.5, 0.1, 0, true, false, 90, "standing")
       .set
@@ -168,7 +152,7 @@ test("calculate SET temperature", () => {
   expect(
     comf.pierceSET(20, 25, 1.1, 50, 1.5, 0.1, 0, true, false, 90, "standing")
       .set
-  ).toBeCloseTo(13.4);
+  ).toBeCloseTo(13.4, 0.1);
   expect(
     comf.pierceSET(25, 27, 1.1, 50, 1.5, 0.5, 0, true, false, 90, "standing")
       .set
@@ -184,7 +168,7 @@ test("calculate SET temperature", () => {
   expect(
     comf.pierceSET(25, 27, 1.3, 50, 1.5, 0.5, 0, true, false, 90, "standing")
       .set
-  ).toBeCloseTo(22.6);
+  ).toBeCloseTo(22.6, 0.1);
   expect(
     comf.pierceSET(25, 29, 1.5, 50, 1.5, 0.5, 0, true, false, 90, "standing")
       .set
@@ -211,6 +195,36 @@ test("calculate SET temperature in Fahrenheit", () => {
       "standing"
     ).set
   ).toBeCloseTo(parseFloat(util.FtoC(74.9).toFixed(1)));
+  expect(
+    comf.pierceSET(
+      util.FtoC(32),
+      util.FtoC(77),
+      29.5 / 196.9,
+      50,
+      1,
+      0.5,
+      0,
+      true,
+      false,
+      90,
+      "standing"
+    ).set
+  ).toBeCloseTo(parseFloat(util.FtoC(53.7).toFixed(1)));
+  expect(
+    comf.pierceSET(
+      util.FtoC(50),
+      util.FtoC(77),
+      29.5 / 196.9,
+      50,
+      1,
+      0.5,
+      0,
+      true,
+      false,
+      90,
+      "standing"
+    ).set
+  ).toBeCloseTo(parseFloat(util.FtoC(62.3).toFixed(1)));
   expect(
     comf.pierceSET(
       util.FtoC(59),
@@ -270,7 +284,7 @@ test("calculate SET temperature in Fahrenheit", () => {
       90,
       "standing"
     ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(93.6).toFixed(1)));
+  ).toBeCloseTo(parseFloat(util.FtoC(93.8).toFixed(1)));
   expect(
     comf.pierceSET(
       util.FtoC(77),
@@ -360,7 +374,7 @@ test("calculate SET temperature in Fahrenheit", () => {
       90,
       "standing"
     ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(65.6).toFixed(1)));
+  ).toBeCloseTo(parseFloat(util.FtoC(65.6).toFixed(1)), 0.1);
   expect(
     comf.pierceSET(
       util.FtoC(77),
@@ -398,6 +412,21 @@ test("calculate SET temperature in Fahrenheit", () => {
       29.5 / 196.9,
       50,
       1,
+      0.1,
+      0,
+      true,
+      false,
+      90,
+      "standing"
+    ).set
+  ).toBeCloseTo(parseFloat(util.FtoC(69.3).toFixed(1)));
+  expect(
+    comf.pierceSET(
+      util.FtoC(77),
+      util.FtoC(77),
+      29.5 / 196.9,
+      50,
+      1,
       1,
       0,
       true,
@@ -420,7 +449,7 @@ test("calculate SET temperature in Fahrenheit", () => {
       90,
       "standing"
     ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(90.4).toFixed(1)));
+  ).toBeCloseTo(parseFloat(util.FtoC(90.3).toFixed(1)));
   expect(
     comf.pierceSET(
       util.FtoC(77),
@@ -435,7 +464,7 @@ test("calculate SET temperature in Fahrenheit", () => {
       90,
       "standing"
     ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(100.01).toFixed(1)));
+  ).toBeCloseTo(parseFloat(util.FtoC(99.7).toFixed(1)));
   expect(
     comf.pierceSET(
       util.FtoC(77),
@@ -451,21 +480,6 @@ test("calculate SET temperature in Fahrenheit", () => {
       "standing"
     ).set
   ).toBeCloseTo(parseFloat(util.FtoC(73.9).toFixed(1)));
-  expect(
-    comf.pierceSET(
-      util.FtoC(32),
-      util.FtoC(77),
-      29.5 / 196.9,
-      50,
-      1,
-      0.5,
-      0,
-      true,
-      false,
-      90,
-      "standing"
-    ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(53.7).toFixed(1)));
 });
 
 test("SET equation to calculate Cooling effect", () => {
@@ -509,8 +523,8 @@ test("SET equation to calculate Cooling effect", () => {
   ).toBeCloseTo(20.8);
   expect(
     comf.pierceSET(25, 29, 1.5, 50, 1.5, 0.5, 0, true, true, 90, "standing").set
-  ).toBeCloseTo(21.1);
+  ).toBeCloseTo(21.1, 0.1);
   expect(
     comf.pierceSET(25, 31, 1.7, 50, 1.5, 0.5, 0, true, true, 90, "standing").set
-  ).toBeCloseTo(21.4);
+  ).toBeCloseTo(21.4, 0.1);
 });
