@@ -10,10 +10,11 @@
 * [Ranges](documentation/ranges.md)
 * [Upload](documentation/upload.md)
 * [PMV Model](documentation/pmv.md)
-* [ASHRAE-55 references](documentation/ashrae55-references.md)
 * [SolarCal](documentation/solar-gain.md)
 * [Fans heatwaves](documentation/fans-heatwaves.md)
 * [Predicted Heat Strain](documentation/phs.md)
+* [ASHRAE-55 references](documentation/ashrae55-references.md)
+* [Thermal comfort questions](documentation/thermal-comfort-questions.md)
 
 ## Help
 
@@ -26,4 +27,3 @@
 ## Changelog
 
 * [Changelog](changelog/changelog.md)
-
