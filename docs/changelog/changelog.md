@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.5.2 (2023-09-20)
+
+Fix:
+
+* issue with e_max == 0
+
+## Version 2.5.1 (2023-09-20)
+
+Fix:
+
+* Cooling Effect calculation
+
 ## Version 2.5.0 (2023-06-23)
 
 Fix:
