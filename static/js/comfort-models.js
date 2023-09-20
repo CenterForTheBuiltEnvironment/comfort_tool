@@ -88,7 +88,7 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   const dynamicClothing = comf.dynamicClothing(clo, met); // dynamic clothing insulation
 
   // do not use the elevated air speed model if v <= 0.1
-  if (relativeAirSpeed <= 0.1) {
+  if (relativeAirSpeed < 0.1) {
     pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, dynamicClothing, wme);
     ce = 0;
   } else {
@@ -197,6 +197,10 @@ comf.cooling_effect = function (
 
   if (isNaN(ce)) {
     ce = util.bisect(ce_l, ce_r, fn, eps, 0);
+  }
+
+  if (ce < 0) {
+    ce = 0;
   }
 
   return ce;

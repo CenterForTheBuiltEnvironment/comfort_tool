@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.5.0 (2023-06-23)
+
+Fix:
+
+* Updated coefficient of dilation in SET model
+
 ## Version 2.4.2 (2022-03-23)
 
 Fix:
