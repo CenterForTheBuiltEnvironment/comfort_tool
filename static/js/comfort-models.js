@@ -574,6 +574,10 @@ comf.phs = function (
     radiation = fcl * h_r * (t_cl - tr);
     // maximum evaporative heat flow at the skin surface [W/m2]
     e_max = (p_sk - p_a) / r_t_dyn;
+    // added this otherwise e_req / e_max cannot be calculated
+    if (e_max === 0) {
+      e_max = 0.001;
+    }
     // required evaporative heat flow [W/m2]
     e_req = met - d_stored_eq - wme - c_res - e_res - convection - radiation;
     // required skin wettedness
