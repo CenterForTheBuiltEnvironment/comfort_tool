@@ -35,6 +35,12 @@ test("pmv", () => {
   expect(comf.pmv(23.6, 23.6, 0.1, 67, 1.1, 0.5).pmv).toBeCloseTo(-0.5, 1);
 });
 
+test("pmv edge case with CE = 0", () => {
+  expect(comf.pmvElevatedAirspeed(19.6, 19.6, 0.1, 86, 1.1, 1).pmv).toBeCloseTo(
+    -0.56
+  );
+});
+
 test("calculate heat strain for 0.2 m/s", () => {
   expect(
     comf.pierceSET(39, 39, 0.2, 20, 0.7, 0.3, 0, true).thermal_strain

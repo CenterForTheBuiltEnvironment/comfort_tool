@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.5.3 (2023-09-20)
+
+Fix:
+
+* issue calculation PMV when cooling effect is 0
+
 ## Version 2.5.2 (2023-09-20)
 
 Fix:

@@ -87,20 +87,21 @@ comf.pmvElevatedAirspeed = function (ta, tr, vel, rh, met, clo, wme) {
   const relativeAirSpeed = comf.relativeAirSpeed(vel, met); // calculate relative air speed
   const dynamicClothing = comf.dynamicClothing(clo, met); // dynamic clothing insulation
 
+  ce = comf.cooling_effect(
+    ta,
+    tr,
+    relativeAirSpeed,
+    rh,
+    met,
+    dynamicClothing,
+    wme
+  );
+
   // do not use the elevated air speed model if v <= 0.1
-  if (relativeAirSpeed < 0.1) {
+  if (relativeAirSpeed <= 0.1 || ce === 0) {
     pmv = comf.pmv(ta, tr, relativeAirSpeed, rh, met, dynamicClothing, wme);
     ce = 0;
   } else {
-    ce = comf.cooling_effect(
-      ta,
-      tr,
-      relativeAirSpeed,
-      rh,
-      met,
-      dynamicClothing,
-      wme
-    );
     pmv = comf.pmv(
       ta - ce,
       tr - ce,
