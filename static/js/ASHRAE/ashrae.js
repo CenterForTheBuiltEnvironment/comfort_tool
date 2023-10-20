@@ -648,7 +648,7 @@ function renderAdaptiveResults(r) {
 
 function calcPmvElevCompliance(d, r) {
   const pmv_comply = Math.abs(r.pmv) <= 0.5;
-  const met_comply = d.met <= 2 && d.met >= 1;
+  const met_comply = d.met <= 4 && d.met >= 1;
   const clo_comply = d.clo <= 1.5;
   const local_control = $("#local-control").val();
   let special_msg = "";
@@ -657,7 +657,7 @@ function calcPmvElevCompliance(d, r) {
   if (!met_comply) {
     comply = false;
     special_msg +=
-      "Metabolic rates below 1.0 or above 2.0 are not covered by this Standard<br>";
+      "Metabolic rates below 1.0 or above 4.0 are not covered by this Standard<br>";
   }
   if (!clo_comply) {
     comply = false;

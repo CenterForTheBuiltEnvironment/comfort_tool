@@ -30,7 +30,7 @@ let d_cache = {
 
 let keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
-// Clothes ensembles that are shown in the drop down menu. The values are sorted by clo in ascending order
+// Clothes ensembles that are shown in the drop-down menu. The values are sorted by clo in ascending order
 let cloInsulationTypicalEnsembles = [
   {
     clothing: "Walking shorts, short-sleeve shirt: 0.36 clo",
