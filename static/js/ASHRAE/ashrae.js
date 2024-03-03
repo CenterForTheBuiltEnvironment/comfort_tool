@@ -727,7 +727,7 @@ function calcAdaptiveCompliance(d, r) {
 function renderCompliance(comply, special_msg) {
   const comply_msg = "&#10004; &nbsp;Complies with ASHRAE Standard 55-2020";
   const no_comply_msg =
-    "&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2020";
+    "&#10008 &nbsp; Does not comply with ASHRAE Standard 55-2023";
 
   $("#vel-range").html("");
   if (comply) {

@@ -211,7 +211,7 @@ function updateLocalDisc() {
   $("#draft-disc").html(msg);
 
   if (asym_res[0] || floor_res[0] || draft_res || ank_draft_res > 20) {
-    msg = "&#10008; &nbsp; Does not comply with ASHRAE Standard 55-2020";
+    msg = "&#10008; &nbsp; Does not comply with ASHRAE Standard 55-2023";
     $("#all-disc").css("color", "red");
   } else {
     msg = "&#10004; &nbsp; Complies with ASHRAE Standard 55-2020";
