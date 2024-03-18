@@ -74,8 +74,8 @@ We are deploying the tool using Google Cloud Run. The project is automatically d
 Alternatively, you can deploy a new version of the tool to Google Cloud Run using the following command:
 
 ```
-gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool  --project=comfort-327718
+gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool-ashrae-55-2020-version  --project=comfort-327718
 
-gcloud run deploy comfort-tool --image gcr.io/comfort-327718/comfort-tool --platform managed  --project=comfort-327718 --allow-unauthenticated --region=us-central1
+gcloud run deploy comfort-tool-ashrae-55-2020-version --image gcr.io/comfort-327718/comfort-tool-ashrae-55-2020-version --platform managed  --project=comfort-327718 --allow-unauthenticated --region=us-central1
 ```
 
