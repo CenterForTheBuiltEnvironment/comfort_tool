@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.5.4 (2024-03-04)
+
+This version complies with the ASHRAE Standard 55-2023.
+
+## Version 2.5.4 (2023-09-20)
+
+This version complies with the ASHRAE Standard 55-2020. You can access this version of the tool using [this link](https://comfort-tool-ashrae-55-2020-version-6ncu37myea-uc.a.run.app/). Please note that this version is no longer supported and may contain errors that have been fixed in newer releases.
+
 ## Version 2.5.3 (2023-09-20)
 
 Fix:
