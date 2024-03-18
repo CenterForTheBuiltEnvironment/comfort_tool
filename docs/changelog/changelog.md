@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2.5.4 (2024-03-04)
+## Version 2.5.5 (2024-03-04)
 
 This version complies with the ASHRAE Standard 55-2023.
 
