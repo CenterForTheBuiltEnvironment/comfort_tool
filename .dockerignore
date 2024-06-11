@@ -10,6 +10,5 @@ CITATION.md
 deploy_comfort_tool.ps1
 LICENSE
 Procfile
-runtime.txt
 wsgi.py
 website/

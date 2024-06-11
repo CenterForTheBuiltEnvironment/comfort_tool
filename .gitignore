@@ -22,7 +22,6 @@ contib/.pytest_cache
 
 .idea/
 
-runtime.txt
 Procfile
 
 ### Docusaurus ###

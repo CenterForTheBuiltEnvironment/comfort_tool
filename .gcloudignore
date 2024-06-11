@@ -8,7 +8,6 @@ deploy_comfort_tool.ps1
 LICENSE
 Procfile
 README.md
-runtime.txt
 wsgi.py
 website/
 

@@ -1,12 +1,23 @@
-Click==8.0.3
+-i https://pypi.org/simple
+bump2version==1.0.1 ; python_version >= '3.5'
+bumpversion==0.6.0
+click==8.0.3
 csvalidate==1.1.1
-Flask==2.0.2
-itsdangerous==2.0.1
-Jinja2==3.0.3
-MarkupSafe==2.0.1
-marshmallow==3.14.1
-Werkzeug==2.0.2
-gunicorn==20.1.0
-pythermalcomfort
-pandas
-bumpversion
+flask==2.2.5
+gunicorn==22.0.0
+itsdangerous==2.2.0
+jinja2==3.1.4
+llvmlite==0.42.0 ; python_version >= '3.9'
+markupsafe==2.1.5
+numba==0.59.1 ; python_version >= '3.9'
+numpy==1.26.4 ; python_version < '3.11'
+packaging==24.1 ; python_version >= '3.8'
+pandas==2.2.2
+pythermalcomfort==2.10.0
+python-dateutil==2.9.0.post0 ; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+pytz==2024.1
+scipy==1.13.1 ; python_version >= '3.9'
+setuptools==70.0.0 ; python_version >= '3.8'
+six==1.16.0 ; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+tzdata==2024.1 ; python_version >= '2'
+werkzeug==3.0.3

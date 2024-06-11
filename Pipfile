@@ -6,16 +6,15 @@ name = "pypi"
 [packages]
 click = "==8.0.3"
 csvalidate = "==1.1.1"
-flask = "==2.0.2"
-itsdangerous = "==2.0.1"
-jinja2 = "==3.0.3"
-markupsafe = "==2.0.1"
-marshmallow = "==3.14.1"
-werkzeug = "==2.0.2"
-gunicorn = "==20.1.0"
+flask = "*"
+jinja2 = "*"
+werkzeug = "*"
+gunicorn = "*"
 pythermalcomfort = "*"
 pandas = "*"
 bumpversion = "*"
+itsdangerous = "*"
+markupsafe = "*"
 
 [dev-packages]
 
