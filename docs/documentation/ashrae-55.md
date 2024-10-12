@@ -27,7 +27,9 @@ At the top of the user interface, you can choose between the two methods allowed
 
 For more information about the PMV model visit [this page](pmv.md), below a video explaining how to calculate PMV and PPD using the CBE thermal comfort tool.
 
-{% embed url="https://youtu.be/5WkH2SN664k" %}
+{% embed url="https://www.youtube.com/watch?v=yXhqkBSe9gQ" %}
+
+
 
 ### Adaptive method
 

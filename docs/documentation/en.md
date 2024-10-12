@@ -13,19 +13,23 @@ This guide aims to explain the main features of the tool, and demonstrate how be
 The tool has three main parts:
 
 * **Left-hand side**: This section is the user interface. It contains the input fields containing values that drive the comfort calculations and visualizations. To change these input values, you can type directly in the boxes or click on the up and down arrows. There are also several other buttons, their functionality is explained in detail below.
-* **Top-right**: This section contains the results of the calculations. The raw output of the comfort model calculations \(such as PMV, PPD, etc. for the PMV method\) as well as compliance information.
+* **Top-right**: This section contains the results of the calculations. The raw output of the comfort model calculations (such as PMV, PPD, etc. for the PMV method) as well as compliance information.
 * **Bottom-right**: This section contains a visualization of the thermal comfort conditions in the input. There are currently three types of charts visualizing the thermal comfort region, as follows:
-  * Psychrometric \(plotted using either the dry-bulb air temperature or the operative temperature\)
+  * Psychrometric (plotted using either the dry-bulb air temperature or the operative temperature)
   * Relative humidity vs. dry-bulb air temperature.
-  * Operative indoor air temperature vs. prevailing mean outdoor temperature \(Adaptive comfort region\).
+  * Operative indoor air temperature vs. prevailing mean outdoor temperature (Adaptive comfort region).
 
 ## Comfort models
 
 At the top of the user interface you can choose between the two methods allowed by the standards, which are the PMV/PPD method and the Adaptive method. For more information about the comfort models, you can follow the link to Wikipedia by clicking on 'select method'.
 
-### Predicted Mean Vote \(PMV\)
+### Predicted Mean Vote (PMV)
 
 For more information about the PMV model visit [this page](pmv.md).
+
+{% embed url="https://youtu.be/pUnYxyt0wFQ" %}
+
+
 
 ### Adaptive method
 
@@ -47,7 +51,7 @@ At the bottom of the input section of the tool, you can find more clickable butt
 
 Clicking on this button, a new window pops up, letting you type the following inputs: air temperature, air speed, globe temperature, globe diameter, globe emissivity, to calculate the correspondent Mean Radiant Temperature, that can be set as the current value by clicking the 'set' button. This feature allows you to have a more precise evaluation of the MRT by taking measurements with a globe thermometer. The button is disabled when the operative temperature is used.
 
-{% embed url="https://youtu.be/ReSqx9TJgSI" caption="" %}
+{% embed url="https://youtu.be/ReSqx9TJgSI" %}
 
 ### Set pressure
 
@@ -59,9 +63,8 @@ This button sets some default values for all the input variables, to restart the
 
 ### SI/IP
 
-Click on this button to switch between the International System of Units \(SI\) and the Inch-Pound system.
+Click on this button to switch between the International System of Units (SI) and the Inch-Pound system.
 
 ### Local thermal discomfort
 
 Even though the comfort model based on PMV/PPD describes compliance to thermal comfort for the body as a whole, thermal dissatisfaction may also occur just for a particular part of the body due to local sources of unwanted heating, cooling or air movement. This feature allows you to verify the compliance of the space to the Standard as regards local thermal discomfort. By feeding the tool with measurements of air temperature in particular zones surrounding the occupant, you can see whether the discomfort effect in the space is likely to exceed the ISO 7730 acceptability limits. Change the values in the input boxes according to your measurements. A checkmark will appear next to each section, while a general compliance message will be shown at the bottom of the dialog. Remember that to comply with the Standard all the sections must respect the limits.
-
