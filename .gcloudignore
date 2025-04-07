@@ -10,6 +10,14 @@ Procfile
 README.md
 wsgi.py
 website/
+.github
+.dockerignore
+docs
+.bumpversion.cfg
+.gitbook.yaml
+CITATION.bib
+Pipfile
+Pipfile.lock
 
 .gitignore
 #!include:.gitignore

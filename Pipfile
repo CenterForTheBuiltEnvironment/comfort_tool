@@ -10,7 +10,7 @@ flask = "*"
 jinja2 = "*"
 werkzeug = "*"
 gunicorn = "*"
-pythermalcomfort = "*"
+pythermalcomfort = "==2.10.0"
 pandas = "*"
 bumpversion = "*"
 itsdangerous = "*"
@@ -19,5 +19,4 @@ markupsafe = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.10"
-python_full_version = "3.10.9"
+python_version = "3.12"
