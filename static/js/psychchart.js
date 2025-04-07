@@ -101,7 +101,7 @@ var pc = new (function () {
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 10) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 10) + ")",
       );
 
     pc.svg
@@ -114,7 +114,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 10) + ")"
+        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 10) + ")",
       );
 
     pc.svg
@@ -124,7 +124,7 @@ var pc = new (function () {
       .attr("id", "unit-dbt")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 10) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 10) + ")",
       );
 
     pc.svg
@@ -135,7 +135,7 @@ var pc = new (function () {
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 30) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 30) + ")",
       );
 
     pc.svg
@@ -145,21 +145,21 @@ var pc = new (function () {
       .attr("id", "unit-rh")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 30) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 30) + ")",
       );
 
     pc.svg
       .append("svg:a")
       .attr(
         "xlink:href",
-        "https://en.wikipedia.org/wiki/Humidity#Absolute_humidity"
+        "https://en.wikipedia.org/wiki/Humidity#Absolute_humidity",
       )
       .append("text")
       .text("W")
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -170,7 +170,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 12) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 12) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -180,7 +180,7 @@ var pc = new (function () {
       .attr("id", "unit-hr1")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -191,7 +191,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 76) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 76) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -201,7 +201,7 @@ var pc = new (function () {
       .attr("id", "unit-hr3")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 83) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 83) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -212,7 +212,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 105) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 105) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -223,7 +223,7 @@ var pc = new (function () {
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 70) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 70) + ")",
       );
 
     pc.svg
@@ -236,7 +236,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 70) + ")"
+        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 70) + ")",
       );
 
     pc.svg
@@ -246,7 +246,7 @@ var pc = new (function () {
       .attr("id", "unit-wbt")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 70) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 70) + ")",
       );
 
     pc.svg
@@ -257,7 +257,7 @@ var pc = new (function () {
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 90) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 90) + ")",
       );
 
     pc.svg
@@ -270,7 +270,7 @@ var pc = new (function () {
       .attr("class", "subscript")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 90) + ")"
+        "translate(" + (pc.margin + 5) + "," + (pc.rbmargin + 90) + ")",
       );
 
     const elements = document.getElementsByClassName("subscript");
@@ -287,7 +287,7 @@ var pc = new (function () {
       .attr("id", "unit-dew")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 90) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 90) + ")",
       );
 
     pc.svg
@@ -298,7 +298,7 @@ var pc = new (function () {
       .attr("class", "box-texts")
       .attr(
         "transform",
-        "translate(" + pc.margin + "," + (pc.rbmargin + 110) + ")"
+        "translate(" + pc.margin + "," + (pc.rbmargin + 110) + ")",
       );
 
     pc.svg
@@ -308,7 +308,7 @@ var pc = new (function () {
       .attr("id", "unit-ent")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 110) + ")"
+        "translate(" + (pc.margin + 65) + "," + (pc.rbmargin + 110) + ")",
       );
 
     // this is for the initial values, set to 0.0
@@ -319,7 +319,7 @@ var pc = new (function () {
       .attr("id", "box-dbt")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 10) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 10) + ")",
       );
 
     pc.svg
@@ -329,7 +329,7 @@ var pc = new (function () {
       .attr("id", "box-rh")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 30) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 30) + ")",
       );
 
     pc.svg
@@ -339,7 +339,7 @@ var pc = new (function () {
       .attr("id", "box-hr")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 50) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 50) + ")",
       );
 
     pc.svg
@@ -349,7 +349,7 @@ var pc = new (function () {
       .attr("id", "box-wbt")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 70) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 70) + ")",
       );
 
     pc.svg
@@ -359,7 +359,7 @@ var pc = new (function () {
       .attr("id", "box-dew")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 90) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 90) + ")",
       );
 
     pc.svg
@@ -369,7 +369,7 @@ var pc = new (function () {
       .attr("id", "box-ent")
       .attr(
         "transform",
-        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 110) + ")"
+        "translate(" + (pc.margin + 32) + "," + (pc.rbmargin + 110) + ")",
       );
 
     pc.svg
@@ -632,6 +632,12 @@ var pc = new (function () {
   };
 
   this.findComfortBoundary = function (d, pmvlimit) {
+    let rhx;
+    let t;
+    let tr = d.tr;
+    if ($("#chartSelect").val() === "psychtop") {
+      tr = d.ta;
+    }
     let boundary = [];
 
     function rhclos(rhx, target) {
@@ -643,8 +649,8 @@ var pc = new (function () {
           );
         } else {
           return (
-            comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)
-              .pmv - target
+            comf.pmvElevatedAirspeed(db, tr, d.vel, rhx, d.met, d.clo, 0).pmv -
+            target
           );
         }
       };
@@ -666,22 +672,20 @@ var pc = new (function () {
     }
 
     const incr = 10;
-    for (var rhx = 0; rhx <= 100; rhx += incr) {
+    for (rhx = 0; rhx <= 100; rhx += incr) {
       boundary.push(solve(rhx, -pmvlimit));
     }
-    while (true) {
+
+    let t_top_max = solve(100, 0.5).db;
+
+    while (t < t_top_max) {
       t += 0.5;
       boundary.push({
         db: t,
         hr: pc.getHumRatio(t, 100),
       });
-      if (
-        comf.pmvElevatedAirspeed(t, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv >
-        pmvlimit
-      )
-        break;
     }
-    for (var rhx = 100; rhx >= 0; rhx -= incr) {
+    for (rhx = 100; rhx >= 0; rhx -= incr) {
       boundary.push(solve(rhx, pmvlimit));
     }
     return boundary;
