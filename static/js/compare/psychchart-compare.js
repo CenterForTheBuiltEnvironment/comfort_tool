@@ -635,6 +635,12 @@ var pc = new (function () {
   };
 
   this.findComfortBoundary = function (d, pmvlimit) {
+    let rhx;
+    let t;
+    let tr = d.tr;
+    if ($("#chartSelect").val() === "psychtop") {
+      tr = d.ta;
+    }
     let boundary = [];
 
     function rhclos(rhx, target) {
@@ -647,7 +653,7 @@ var pc = new (function () {
           );
         } else {
           return (
-            comf.pmvElevatedAirspeed(db, d.tr, d.vel, rhx, d.met, d.clo, 0)
+            comf.pmvElevatedAirspeed(db, tr, d.vel, rhx, d.met, d.clo, 0)
               .pmv - target
           );
         }
@@ -659,7 +665,6 @@ var pc = new (function () {
       const a = -50;
       const b = 50;
       const fn = rhclos(rhx, target);
-      //                t = util.bisect(a, b, fn, epsilon, 0)
       t = util.secant(a, b, fn, epsilon);
       return {
         db: t,
@@ -668,24 +673,25 @@ var pc = new (function () {
     }
 
     const incr = 10;
-    let rhx;
     for (rhx = 0; rhx <= 100; rhx += incr) {
       boundary.push(solve(rhx, -pmvlimit));
     }
-    while (true) {
-      t += 0.5;
+    let t_top_max = solve(100, 0.5).db;
+    let t_min = solve(100, -0.5).db;
+    let tx;
+
+    for (tx = t_min; tx <= t_top_max; tx += 0.5) {
       boundary.push({
-        db: t,
-        hr: pc.getHumRatio(t, 100),
+        db: tx,
+        hr: pc.getHumRatio(tx, 100),
       });
-      if (
-        comf.pmvElevatedAirspeed(t, d.tr, d.vel, rhx, d.met, d.clo, 0).pmv >
-        pmvlimit
-      )
-        break;
     }
     for (rhx = 100; rhx >= 0; rhx -= incr) {
-      boundary.push(solve(rhx, pmvlimit));
+      let results_partial= solve(rhx, pmvlimit);
+      if (!isNaN(results_partial.db)) {
+        boundary.push(results_partial);
+      }
+
     }
     return boundary;
   };
