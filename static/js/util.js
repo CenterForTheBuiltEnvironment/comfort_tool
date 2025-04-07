@@ -29,7 +29,10 @@ util.secant = function (a, b, fn, epsilon) {
   var slope, c, f3;
   for (var i = 0; i < 100; i++) {
     slope = (f2 - f1) / (b - a);
+    if (slope === 0) return NaN; // Prevent division by zero
     c = b - f2 / slope;
+    if (c < 0) c = 0;
+    if (c > 100) c = 100;
     f3 = fn(c);
     if (Math.abs(f3) < epsilon) return c;
     a = b;
