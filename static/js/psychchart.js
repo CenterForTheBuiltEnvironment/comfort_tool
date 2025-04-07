@@ -680,7 +680,7 @@ var pc = new (function () {
     let t_min = solve(100, -0.5).db;
     let tx;
 
-    for (tx = t_min; tx <= t_top_max; tx += .5) {
+    for (tx = t_min; tx <= t_top_max; tx += 0.5) {
       boundary.push({
         db: tx,
         hr: pc.getHumRatio(tx, 100),
