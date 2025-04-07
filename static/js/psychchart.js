@@ -677,12 +677,13 @@ var pc = new (function () {
     }
 
     let t_top_max = solve(100, 0.5).db;
+    let t_min = solve(100, -0.5).db;
+    let tx;
 
-    while (t < t_top_max) {
-      t += 0.5;
+    for (tx = t_min; tx <= t_top_max; tx += .5) {
       boundary.push({
-        db: t,
-        hr: pc.getHumRatio(t, 100),
+        db: tx,
+        hr: pc.getHumRatio(tx, 100),
       });
     }
     for (rhx = 100; rhx >= 0; rhx -= incr) {
