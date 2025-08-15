@@ -53,17 +53,17 @@ rect.w {
 }
 
 path.comfortzone {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
 path.comfortzone-temphum {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
 path.comfortzone-veltop {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -77,7 +77,7 @@ path.comfortzoneover {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: #04aeed;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -104,7 +104,7 @@ path.comfbound80 {
 }
 
 path.comfort80 {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -118,12 +118,12 @@ path.comfort80over {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: #04aeed;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
 path.comfort90 {
-  fill: #124f7f;
+  fill: Green;
   fill-opacity: 0.7;
 }
 

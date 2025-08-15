@@ -58,7 +58,7 @@ rect.w {
 }
 
 .comfortzone1 {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -72,7 +72,7 @@ path.comfortzone1over {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: #04aeed;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -133,7 +133,7 @@ path.comfbound80 {
 }
 
 path.comfort80 {
-  fill: #3bbded;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
@@ -147,7 +147,7 @@ path.comfort80over {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: #04aeed;
+  fill: Green;
   fill-opacity: 0.7;
 }
 
