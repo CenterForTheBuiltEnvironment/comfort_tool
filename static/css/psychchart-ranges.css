@@ -1,6 +1,6 @@
 path.comfortzone-range {
-  fill: rgb(0, 0, 100);
-  fill-opacity: 0.1;
+  fill: rgb(0, 125, 0);
+  fill-opacity: 0.15;
 }
 path.comfortzone-rangeover {
   -webkit-transition-property: fill;
@@ -12,13 +12,13 @@ path.comfortzone-rangeover {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: rgb(0, 180, 250);
-  fill-opacity: 0.3;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.5;
 }
 
 path.comfortzone-temphum-range {
-  fill: rgb(0, 0, 100);
-  fill-opacity: 0.1;
+  fill: rgb(0, 125, 0);
+  fill-opacity: 0.15;
 }
 path.comfortzone-temphum-rangeover {
   -webkit-transition-property: fill;
@@ -30,8 +30,8 @@ path.comfortzone-temphum-rangeover {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: rgb(0, 180, 250);
-  fill-opacity: 0.3;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.5;
 }
 
 path.rh-curve-off {
