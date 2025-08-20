@@ -15,12 +15,12 @@
 /*		       }*/
 
 .comfortzoneI {
-  fill: Green;
-  fill-opacity: 0.4;
+  fill: rgb(0, 125, 0);
+  fill-opacity: 0.7;
 }
 .comfortzone-temphumI {
-  fill: Green;
-  fill-opacity: 0.4;
+  fill: rgb(0, 125, 0);
+  fill-opacity: 0.7;
 }
 path.comfortzoneoverI {
   -webkit-transition-property: fill;
@@ -32,16 +32,16 @@ path.comfortzoneoverI {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: Darkgreen;
-  fill-opacity: 0.4;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.7;
 }
 
 .comfortzoneII {
-  fill: Green;
+  fill: rgb(0, 125, 0);
   fill-opacity: 0.4;
 }
 .comfortzone-temphumII {
-  fill: Green;
+  fill: rgb(0, 125, 0);
   fill-opacity: 0.4;
 }
 path.comfortzoneoverII {
@@ -54,16 +54,16 @@ path.comfortzoneoverII {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: Darkgreen;
-  fill-opacity: 0.4;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.7;
 }
 
 .comfortzoneIII {
-  fill: Green;
+  fill: rgb(0, 125, 0);
   fill-opacity: 0.4;
 }
 .comfortzone-temphumIII {
-  fill: Green;
+  fill: rgb(0, 125, 0);
   fill-opacity: 0.4;
 }
 path.comfortzoneoverIII {
@@ -76,8 +76,8 @@ path.comfortzoneoverIII {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: Darkgreen;
-  fill-opacity: 0.4;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.7;
 }
 
 path.comfbound {
@@ -94,6 +94,6 @@ path.comfortzoneover {
   transition-property: fill;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-  fill: Darkgreen;
-  fill-opacity: 0.4;
+  fill: rgb(0, 100, 0);
+  fill-opacity: 0.7;
 }
