@@ -24,4 +24,5 @@ jobs:
 
       - name: Building (🏗️) and Deploying (🚀)
         run: >
-          gcloud builds submit --project=comfort-327718 --substitutions=_REPO_NAME="comfort-tool"
+          gcloud builds submit --project=comfort-327718 \
+            --substitutions=_REPO_NAME="comfort-tool",_PROJ_NAME="comfort-327718",_IMG_NAME="comfort-tool-test"
