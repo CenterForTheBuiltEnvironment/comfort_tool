@@ -6,39 +6,22 @@ on:
       - master
 jobs:
   deploy:
-    name: Deploying 🚀 CBE Comfort Tool
+    name: Deploying Public Version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          python-version: '3.11'
+          credentials_json: '${{ secrets.GCP_SA_KEY_JSON }}'
 
-      - name: Export gcloud related env variable
-        run: export CLOUDSDK_PYTHON="/usr/bin/python3"
-
-      # Build and push image to Google Container Registry
-      - name: Setting up
-        uses: google-github-actions/setup-gcloud@v0
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
         with:
-          version: '318.0.0'
-          service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
-          service_account_email: "github-action@comfort-327718.iam.gserviceaccount.com"
           project_id: comfort-327718
 
-      - name: Building (🏗️)
-        run: |-
-          gcloud builds submit --tag gcr.io/comfort-327718/comfort-tool
-
-      # Setup gcloud CLI
-      - name: Deploy (🚀)
-        uses: google-github-actions/deploy-cloudrun@main
-        with:
-          service: comfort-tool
-          image: gcr.io/comfort-327718/comfort-tool
-          region: us-central1
-          credentials: ${{ secrets.GCP_SA_KEY_JSON }}
-          project_id: comfort-327718
+      - name: Building (🏗️) and Deploying (🚀)
+        run: >
+          gcloud builds submit --project=comfort-327718 --substitutions=_REPO_NAME="comfort-tool"
