@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.5.6 (2025-08-20)
+
+* feat: change the default color of the comfort zone chart to green
+* fix: calculation of comfort zone chart with PMV model
+* fix: secant calculation crashing the tool
+* fix: issue #84 compare tab
+* feat: added siteimprove analytics to the tool
+
 ## Version 2.5.5 (2024-03-04)
 
 This version complies with the ASHRAE Standard 55-2023.
