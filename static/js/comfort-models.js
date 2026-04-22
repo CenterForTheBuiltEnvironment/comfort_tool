@@ -1017,24 +1017,29 @@ comf.adaptiveComfortEN = function (ta, tr, runningMean, vel) {
 
   const to = (ta + tr) / 2;
 
-  // we decided to add a criterion on the running mean even if not specified in the standard
-  if (vel >= 1.2 && to > 25 && runningMean > 12.73) {
-    // calculate cooling effect of elevated air speed
-    // when top > 25 degC.
+  // Calculate cooling effect of elevated air speed when operative temp > 25°C
+  if (vel >= 1.2 && to > 25) {
     coolingEffect = 2.2;
-  } else if (vel >= 0.9 && to > 25 && runningMean > 12.73) {
+  } else if (vel >= 0.9 && to > 25) {
     coolingEffect = 1.8;
-  } else if (vel >= 0.6 && to > 25 && runningMean > 12.73) {
+  } else if (vel >= 0.6 && to > 25) {
     coolingEffect = 1.2;
   }
 
   const tmpComfort = 0.33 * runningMean + 18.8;
+  const tComfortIUpperBase = tmpComfort + 2;
+  const tComfortIIUpperBase = tmpComfort + 3;
+  const tComfortIIIUpperBase = tmpComfort + 4;
+  // Only apply cooling effect if the base upper boundary is >= 25°C
+  const coolingEffectI = tComfortIUpperBase >= 25 ? coolingEffect : 0;
+  const coolingEffectII = tComfortIIUpperBase >= 25 ? coolingEffect : 0;
+  const coolingEffectIII = tComfortIIIUpperBase >= 25 ? coolingEffect : 0;
   const tComfortILower = tmpComfort - 3;
-  const tComfortIUpper = tmpComfort + 2 + coolingEffect;
+  const tComfortIUpper = tComfortIUpperBase + coolingEffectI;
   const tComfortIILower = tmpComfort - 4;
-  const tComfortIIUpper = tmpComfort + 3 + coolingEffect;
+  const tComfortIIUpper = tComfortIIUpperBase + coolingEffectII;
   const tComfortIIILower = tmpComfort - 5;
-  const tComfortIIIUpper = tmpComfort + 4 + coolingEffect;
+  const tComfortIIIUpper = tComfortIIIUpperBase + coolingEffectIII;
   let acceptabilityI, acceptabilityII, acceptabilityIII;
 
   if (comf.between(to, tComfortILower, tComfortIUpper)) {
