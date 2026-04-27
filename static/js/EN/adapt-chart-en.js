@@ -332,11 +332,11 @@ const ac = new (function () {
 
     if (coolingEffect > 0) {
       // Category I: kink at trm=12.72 where base upper bound reaches 25°C
-      upperI = [
-        { trm: 10, ta: 24.1, tr: 24.1 },
-        { trm: 12.72, ta: 25, tr: 25 },
-        { trm: 12.72, ta: 25 + coolingEffect, tr: 25 + coolingEffect },
-        { trm: 30, ta: 30.7 + coolingEffect, tr: 30.7 + coolingEffect },
+      upperI = [  
+        { trm: 10, ta: 24.1, tr: 24.1 },  
+        { trm: 12.73, ta: 25, tr: 25 },  
+        { trm: 12.73, ta: 25 + coolingEffect, tr: 25 + coolingEffect },  
+        { trm: 30, ta: 30.7 + coolingEffect, tr: 30.7 + coolingEffect },  
       ];
       // Category II: base is already 25.1°C at trm=10, so cooling applies from start
       upperII = [

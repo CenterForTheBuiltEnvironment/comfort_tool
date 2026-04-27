@@ -1017,12 +1017,12 @@ comf.adaptiveComfortEN = function (ta, tr, runningMean, vel) {
 
   const to = (ta + tr) / 2;
 
-  // Calculate cooling effect of elevated air speed when operative temp > 25°C
-  if (vel >= 1.2 && to > 25) {
+  // Calculate cooling effect of elevated air speed when operative temp >= 25°C
+  if (vel >= 1.2 && to >= 25) {
     coolingEffect = 2.2;
-  } else if (vel >= 0.9 && to > 25) {
+  } else if (vel >= 0.9 && to >= 25) {
     coolingEffect = 1.8;
-  } else if (vel >= 0.6 && to > 25) {
+  } else if (vel >= 0.6 && to >= 25) {
     coolingEffect = 1.2;
   }
 
