@@ -331,7 +331,7 @@ const ac = new (function () {
     ];
 
     if (coolingEffect > 0) {
-      // Category I: kink at trm=12.72 where base upper bound reaches 25°C
+      // Category I: kink at trm=12.73 where base upper bound reaches 25°C
       upperI = [  
         { trm: 10, ta: 24.1, tr: 24.1 },  
         { trm: 12.73, ta: 25, tr: 25 },  
