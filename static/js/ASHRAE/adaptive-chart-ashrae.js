@@ -87,14 +87,14 @@ const ac = new (function () {
         tr: 23.4,
       },
       {
-        trm: 12,
-        ta: 24,
-        tr: 24,
+        trm: 15.16,
+        ta: 25,
+        tr: 25,
       },
       {
-        trm: 12,
-        ta: 24,
-        tr: 24,
+        trm: 15.16,
+        ta: 25,
+        tr: 25,
       },
       {
         trm: 36,
@@ -322,14 +322,14 @@ const ac = new (function () {
         tr: 23.4,
       },
       {
-        trm: 12,
-        ta: 24,
-        tr: 24,
+        trm: 15.16,
+        ta: 25,
+        tr: 25,
       },
       {
-        trm: 12,
-        ta: 24 + coolingEffect,
-        tr: 24 + coolingEffect,
+        trm: 15.16,
+        ta: 25 + coolingEffect,
+        tr: 25 + coolingEffect,
       },
       {
         trm: 36,
