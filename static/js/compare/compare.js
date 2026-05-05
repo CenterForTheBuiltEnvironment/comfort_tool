@@ -12,6 +12,7 @@ $(document).ready(function () {
   });
   $("#temphumchart-div").hide();
 
+  comf.useSelfGeneratedAirSpeed = $("#use-relative-air-speed").is(":checked");
   window.isCelsius = true;
   window.humUnit = "rh";
 
@@ -68,6 +69,7 @@ $(function () {
         d3.selectAll("path.comfortzone1").remove();
         d3.selectAll("circle.point1").remove();
       }
+      updateVrRowVisibility();
     });
   $("#inputs2")
     .button({})
@@ -89,11 +91,20 @@ $(function () {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
         renderPmvElevResults(r, "2");
         calcPmvElevCompliance(d, r, "2");
+        if (comf.useSelfGeneratedAirSpeed && d.met > 1) {
+          const vr2 = comf.relativeAirSpeed(d.vel, d.met);
+          $("#vr-res2").html(isCelsius ? vr2.toFixed(2) : (vr2 * 196.9).toFixed(1));
+          $("#vr-unit2").html(isCelsius ? " m/s" : " fpm");
+        } else {
+          $("#vr-res2").html("");
+          $("#vr-unit2").html("");
+        }
       } else {
         $(".inputbox2, .unit2, .tempunit2, .result2").hide();
         d3.selectAll("path.comfortzone2").remove();
         d3.selectAll("circle.point2").remove();
       }
+      updateVrRowVisibility();
     });
   $("#inputs3")
     .button({})
@@ -115,11 +126,20 @@ $(function () {
         r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
         renderPmvElevResults(r, "3");
         calcPmvElevCompliance(d, r, "3");
+        if (comf.useSelfGeneratedAirSpeed && d.met > 1) {
+          const vr3 = comf.relativeAirSpeed(d.vel, d.met);
+          $("#vr-res3").html(isCelsius ? vr3.toFixed(2) : (vr3 * 196.9).toFixed(1));
+          $("#vr-unit3").html(isCelsius ? " m/s" : " fpm");
+        } else {
+          $("#vr-res3").html("");
+          $("#vr-unit3").html("");
+        }
       } else {
         $(".inputbox3, .unit3, .tempunit3, .result3").hide();
         d3.selectAll("path.comfortzone3").remove();
         d3.selectAll("circle.point3").remove();
       }
+      updateVrRowVisibility();
     });
 
   $("#link").click(function () {
@@ -414,6 +434,29 @@ $("#unitsToggle").click(function () {
   update("3");
 });
 
+$("#airSpeedDialog").dialog({
+  autoOpen: false,
+  width: 380,
+  modal: true,
+  resizable: false,
+  buttons: {
+    Close: function () {
+      $(this).dialog("close");
+    },
+  },
+});
+
+$("#airSpeedSettings").click(function () {
+  $("#airSpeedDialog").dialog("open");
+});
+
+$("#use-relative-air-speed").change(function () {
+  comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+  update("1");
+  update("2");
+  update("3");
+});
+
 $("#restart").click(function () {
   setDefaults1();
   setDefaults2();
@@ -450,6 +493,23 @@ $("#specPressure").click(function () {
   }
 });
 
+function updateVrRowVisibility() {
+  if (!comf.useSelfGeneratedAirSpeed) {
+    $("#vr-row").hide();
+    return;
+  }
+  for (let j = 1; j <= 3; j++) {
+    if ($("#inputs" + j).is(":checked")) {
+      const met = parseFloat(document.getElementById("met" + j).value) || 0;
+      if (met > 1) {
+        $("#vr-row").show();
+        return;
+      }
+    }
+  }
+  $("#vr-row").hide();
+}
+
 function update(i) {
   if ($("#tr-input").is(":hidden")) {
     $("#tr" + i).val($("#ta" + i).val());
@@ -475,6 +535,21 @@ function update(i) {
   const r = comf.pmvElevatedAirspeed(d.ta, d.tr, d.vel, d.rh, d.met, d.clo, 0);
   renderPmvElevResults(r, i);
   calcPmvElevCompliance(d, r, i);
+
+  if (comf.useSelfGeneratedAirSpeed && d.met > 1) {
+    const vr = comf.relativeAirSpeed(d.vel, d.met);
+    if (isCelsius) {
+      $("#vr-res" + i).html(vr.toFixed(2));
+      $("#vr-unit" + i).html(" m/s");
+    } else {
+      $("#vr-res" + i).html((vr * 196.9).toFixed(1));
+      $("#vr-unit" + i).html(" fpm");
+    }
+  } else {
+    $("#vr-res" + i).html("");
+    $("#vr-unit" + i).html("");
+  }
+  updateVrRowVisibility();
 
   let b;
   if ($("#chart-div").is(":visible")) {
