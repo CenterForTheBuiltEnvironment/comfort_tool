@@ -2,8 +2,10 @@ keys = ["ta", "tr", "vel", "rh", "met", "clo", "trm", "vel_a"];
 
 const vRelativeValue = $("#relative-air-speed-value");
 const vRelativeDiv = $("#relative-air-speed-div");
+const useRelativeAirSpeedCheckbox = $("#use-relative-air-speed");
 
 $(document).ready(function () {
+  comf.useSelfGeneratedAirSpeed = useRelativeAirSpeedCheckbox.is(":checked");
   highlightNabBarItem("#nav_a_en");
 
   dropdownsCloMet();
@@ -50,6 +52,22 @@ $(document).ready(function () {
 });
 
 $(function () {
+  $("#airSpeedDialog").dialog({
+    autoOpen: false,
+    width: 380,
+    modal: true,
+    resizable: false,
+    buttons: {
+      Close: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+
+  $("#airSpeedSettings").click(function () {
+    $("#airSpeedDialog").dialog("open");
+  });
+
   $("#globedialog").dialog({
     autoOpen: false,
     height: 350,
@@ -137,6 +155,11 @@ $(".inputbox").focusout(function () {
 });
 
 $("#vel-a-box").click(function () {
+  update();
+});
+
+$("#use-relative-air-speed").change(function () {
+  comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
   update();
 });
 
@@ -320,7 +343,7 @@ function update() {
   }
 
   // calculate and display relative air speed
-  if (d.met > 1) {
+  if (d.met > 1 && comf.useSelfGeneratedAirSpeed) {
     vRelativeDiv.show();
     if (isCelsius) {
       vRelativeValue.html(comf.relativeAirSpeed(d.vel, d.met).toFixed(2));

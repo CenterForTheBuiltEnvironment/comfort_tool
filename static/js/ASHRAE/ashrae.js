@@ -15,8 +15,10 @@ const vRelativeValue = $("#relative-air-speed-value");
 const vRelativeDiv = $("#relative-air-speed-div");
 const dynamicCloValue = $("#dynamic-clo-value");
 const dynamicCloDiv = $("#dynamic-clo-div");
+const useRelativeAirSpeedCheckbox = $("#use-relative-air-speed");
 
 $(document).ready(function () {
+  comf.useSelfGeneratedAirSpeed = useRelativeAirSpeedCheckbox.is(":checked");
   highlightNabBarItem("#nav_a_ashrae");
 
   dropdownsCloMet();
@@ -69,10 +71,31 @@ $(document).ready(function () {
     handleClickToCheckBox();
   });
 
+  useRelativeAirSpeedCheckbox.change(function () {
+    comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+    update();
+  });
+
   $("#chartSelect").val("psychtop").change();
 });
 
 $(function () {
+  $("#airSpeedDialog").dialog({
+    autoOpen: false,
+    width: 380,
+    modal: true,
+    resizable: false,
+    buttons: {
+      Close: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+
+  $("#airSpeedSettings").click(function () {
+    $("#airSpeedDialog").dialog("open");
+  });
+
   $("#globedialog").dialog({
     autoOpen: false,
     height: 350,
@@ -524,7 +547,7 @@ function update() {
   d.rh = psy.convert(d.rh, d.ta, window.humUnit, "rh");
 
   // calculate and display relative air speed
-  if (d.met > 1) {
+  if (d.met > 1 && comf.useSelfGeneratedAirSpeed) {
     vRelativeDiv.show();
     if (isCelsius) {
       vRelativeValue.html(comf.relativeAirSpeed(d.vel, d.met).toFixed(2));

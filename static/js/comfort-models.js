@@ -6,8 +6,10 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports.comf = comf;
 }
 
+comf.useSelfGeneratedAirSpeed = true;
+
 comf.relativeAirSpeed = function (v, met) {
-  if (met > 1) {
+  if (comf.useSelfGeneratedAirSpeed && met > 1) {
     return v + 0.3 * (met - 1);
   } else {
     return v;
