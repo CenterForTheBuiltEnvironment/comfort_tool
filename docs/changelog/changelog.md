@@ -4,6 +4,10 @@
 
 * fix: clarify ankle draft air speed exception note for elevated air speed per Section 5.3.4 (issue #94)
 
+## Version 2.5.7 (2025-08-20)
+
+* Version bump only, no functional changes since 2.5.6.
+
 ## Version 2.5.6 (2025-08-20)
 
 * feat: change the default color of the comfort zone chart to green

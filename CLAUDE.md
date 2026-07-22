@@ -20,13 +20,13 @@ The comfort math is largely duplicated on both sides of the stack:
 ## Commands
 
 Python (Flask backend):
-```
+```bash
 pipenv install         # or: pip install -r requirements.txt
 python3 comfort.py     # runs dev server on http://localhost:5000 (or $PORT)
 ```
 
 JavaScript (frontend logic + tests):
-```
+```bash
 npm install
 npm test                       # runs the full Jest suite
 npx jest static/js/erf.test.js # run a single test file
@@ -37,7 +37,7 @@ There is no lint/format command configured in this repo.
 
 Versioning (uses `bumpversion`, configured in `.bumpversion.cfg` — bumps `package.json` and
 `templates/index.html` together):
-```
+```bash
 bumpversion patch   # or minor / major
 ```
 
