@@ -255,6 +255,18 @@
               <button id="setClo" class="col-sm-12">Set clo value</button>
             </div>
 
+            {# preset clothing ensemble button #}
+            <div class="row justify-content-center mt-2">
+              <button
+                type="button"
+                id="usePresetEnsemble"
+                class="btn btn-light border"
+                data-tooltip="Select an ASHRAE 1504-TRP ensemble with editable whole-body and regional insulation values"
+              >
+                Use preset ensemble
+              </button>
+            </div>
+
             {# dynamic prediction of clothing #}
             <div
               class="row justify-content-center mt-2 btn-group-toggle"
@@ -638,6 +650,10 @@
         id="ERFdialog"
         title="SolarCal: shortwave radiation calculator"
       ></div>
+      <div
+        id="presetEnsembleDialog"
+        title="ASHRAE 1504-TRP preset ensemble"
+      ></div>
 
       {# divider that contains the figures#}
       <div class="row justify-content-center">
@@ -827,8 +843,12 @@
 </div>
 
 <script
+  type="text/javascript"
+  src="../static/js/ASHRAE/preset-ensembles.js?v=7"
+></script>
+<script
   language="javascript"
-  src="../static/js/ASHRAE/ashrae.js"
+  src="../static/js/ASHRAE/ashrae.js?v=preset-ensemble-10"
   type="text/javascript"
 ></script>
 <script>

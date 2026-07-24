@@ -182,6 +182,29 @@ $(function () {
     },
   });
 
+  $("#presetEnsembleDialog").dialog({
+    autoOpen: false,
+    width: Math.min(1100, $(window).width() - 40),
+    maxHeight: $(window).height() - 40,
+    modal: true,
+    resizable: true,
+    buttons: {
+      "Use ensemble": function () {
+        const clo = parseFloat($("#presetClo").val());
+        if (!Number.isFinite(clo) || clo < 0 || clo > 5) {
+          window.alert("Whole-body clothing insulation must be between 0 and 5 clo.");
+          return;
+        }
+        $("#clo").val(clo.toFixed(2));
+        $(this).dialog("close");
+        update();
+      },
+      Close: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+
   $("#localdialog").dialog({
     autoOpen: false,
     height: 900,
@@ -337,6 +360,212 @@ $("#ERF").click(function () {
     $("#erf-mrt-unit").html("&deg;F");
     $("#erf-ta-unit").html("&deg;F");
   }
+  container.dialog("open");
+});
+
+function populatePresetEnsembleSelect() {
+  const gender = $("#presetGender").val();
+  const select = $("#presetEnsemble");
+  select.empty();
+  window.HAVENITH_PRESET_ENSEMBLES.filter(function (preset) {
+    return preset.gender === gender;
+  }).forEach(function (preset) {
+    select.append(
+      $("<option>", {
+        value: preset.code,
+        text:
+          preset.name +
+          " (" +
+          preset.code +
+          ") — " +
+          preset.country +
+          " — " +
+          preset.clo.toFixed(2) +
+          " clo",
+      })
+    );
+  });
+  applySelectedPresetEnsemble();
+}
+
+function applySelectedPresetEnsemble() {
+  const gender = $("#presetGender").val();
+  const code = $("#presetEnsemble").val();
+  const preset = window.HAVENITH_PRESET_ENSEMBLES.find(function (item) {
+    return item.gender === gender && item.code === code;
+  });
+  if (!preset) return;
+
+  $("#presetClo").val(preset.clo.toFixed(2));
+  $("#presetDescriptionTitle").text(
+    preset.name + " (" + preset.code + ", " + preset.country + ")"
+  );
+  $("#presetDescription").text(preset.description);
+  window.HAVENITH_REGION_KEYS.forEach(function (key) {
+    $("#preset-region-" + key).val(preset.regions[key].toFixed(3));
+  });
+  populateRegionalSourceSelects(preset);
+  $("#presetEnsembleDialog").data("presetBaseline", {
+    clo: preset.clo,
+    regions: $.extend({}, preset.regions),
+  });
+}
+
+function populateRegionalSourceSelects(selectedPreset) {
+  const presets = window.HAVENITH_PRESET_ENSEMBLES.filter(function (preset) {
+    return preset.gender === selectedPreset.gender;
+  });
+
+  window.HAVENITH_REGION_KEYS.forEach(function (key) {
+    const select = $("#preset-region-source-" + key);
+    select.empty();
+    presets.forEach(function (preset) {
+      const regionalClothing = window.havenithRegionalClothingLabel(
+        preset,
+        key
+      );
+      select.append(
+        $("<option>", {
+          value: preset.code,
+          text:
+            regionalClothing +
+            " — " +
+            preset.regions[key].toFixed(3),
+          title:
+            "Measured as part of " +
+            preset.name +
+            " (" +
+            preset.code +
+            "): " +
+            preset.description,
+        })
+      );
+    });
+    select.val(selectedPreset.code);
+    select.attr(
+      "title",
+      "Measured as part of " +
+        selectedPreset.name +
+        " (" +
+        selectedPreset.code +
+        "): " +
+        selectedPreset.description
+    );
+  });
+}
+
+function updateRegionFromMeasuredSource() {
+  const key = $(this).attr("data-region");
+  const gender = $("#presetGender").val();
+  const code = $(this).val();
+  const sourcePreset = window.HAVENITH_PRESET_ENSEMBLES.find(function (preset) {
+    return preset.gender === gender && preset.code === code;
+  });
+  if (!sourcePreset) return;
+
+  $("#preset-region-" + key).val(sourcePreset.regions[key].toFixed(3));
+  $(this).attr(
+    "title",
+    "Measured as part of " +
+      sourcePreset.name +
+      " (" +
+      sourcePreset.code +
+      "): " +
+      sourcePreset.description
+  );
+  updatePresetCloFromRegions();
+}
+
+function updatePresetCloFromRegions() {
+  const baseline = $("#presetEnsembleDialog").data("presetBaseline");
+  if (!baseline) return;
+
+  const editedRegions = {};
+  window.HAVENITH_REGION_KEYS.forEach(function (key) {
+    editedRegions[key] = parseFloat($("#preset-region-" + key).val());
+  });
+  const adjustedClo = window.havenithAdjustedClo(
+    baseline.clo,
+    baseline.regions,
+    editedRegions
+  );
+  if (Number.isFinite(adjustedClo)) {
+    $("#presetClo").val(adjustedClo.toFixed(2));
+  }
+}
+
+function initializePresetEnsembleDialog() {
+  const grid = $("#presetRegionGrid");
+  grid.empty();
+  window.HAVENITH_REGION_KEYS.forEach(function (key) {
+    const row = $("<div>", { class: "preset-region-row" });
+    row.append(
+      $("<label>", {
+        for: "preset-region-" + key,
+        text: window.HAVENITH_REGION_LABELS[key],
+      })
+    );
+    row.append(
+      $("<select>", {
+        id: "preset-region-source-" + key,
+        class: "preset-region-source",
+        "data-region": key,
+        "aria-label":
+          window.HAVENITH_REGION_LABELS[key] +
+          " clothing worn on this zone",
+      })
+    );
+    row.append(
+      $("<input>", {
+        id: "preset-region-" + key,
+        type: "number",
+        min: 0,
+        max: 2,
+        step: 0.001,
+      })
+    );
+    grid.append(row);
+  });
+
+  $(".preset-region-row input").bind(
+    "input keyup change",
+    updatePresetCloFromRegions
+  );
+  $(".preset-region-source").change(updateRegionFromMeasuredSource);
+  $("#presetGender").change(populatePresetEnsembleSelect);
+  $("#presetEnsemble").change(applySelectedPresetEnsemble);
+  populatePresetEnsembleSelect();
+}
+
+$("#usePresetEnsemble").click(function () {
+  const container = $("#presetEnsembleDialog");
+  if (!window.HAVENITH_PRESET_ENSEMBLES) {
+    $.ajax({
+      url: util.STATIC_URL + "/js/ASHRAE/preset-ensembles.js?v=7",
+      dataType: "script",
+      cache: true,
+      async: false,
+    });
+  }
+  if (!window.HAVENITH_PRESET_ENSEMBLES) {
+    window.alert("Preset ensemble data could not be loaded.");
+    return;
+  }
+  if (!container.children().length) {
+    $.ajax({
+      url: util.STATIC_URL + "/html/preset-ensemble.html",
+      success: function (data) {
+        container.html(data);
+        initializePresetEnsembleDialog();
+      },
+      async: false,
+    });
+  }
+  container.dialog(
+    "option",
+    "width",
+    Math.min(1100, Math.max(320, $(window).width() - 40))
+  );
   container.dialog("open");
 });
 
