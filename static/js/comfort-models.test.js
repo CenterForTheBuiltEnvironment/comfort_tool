@@ -7,6 +7,31 @@ These tests use the data data as in pythermalcomfort/tests/test_models.py
 const { comf } = require("./comfort-models");
 const { util } = require("./util");
 
+describe("relativeAirSpeed", () => {
+  afterEach(() => {
+    comf.useSelfGeneratedAirSpeed = true;
+  });
+
+  test("adds activity component when flag is enabled and met > 1", () => {
+    comf.useSelfGeneratedAirSpeed = true;
+    expect(comf.relativeAirSpeed(0.1, 1.5)).toBeCloseTo(0.25);
+    expect(comf.relativeAirSpeed(0.3, 2.0)).toBeCloseTo(0.6);
+    expect(comf.relativeAirSpeed(0.0, 1.1)).toBeCloseTo(0.03);
+  });
+
+  test("returns v unchanged when met <= 1, regardless of flag", () => {
+    comf.useSelfGeneratedAirSpeed = true;
+    expect(comf.relativeAirSpeed(0.1, 1.0)).toBeCloseTo(0.1);
+    expect(comf.relativeAirSpeed(0.3, 0.8)).toBeCloseTo(0.3);
+  });
+
+  test("returns v unchanged when flag is disabled", () => {
+    comf.useSelfGeneratedAirSpeed = false;
+    expect(comf.relativeAirSpeed(0.1, 1.5)).toBeCloseTo(0.1);
+    expect(comf.relativeAirSpeed(0.3, 2.0)).toBeCloseTo(0.3);
+  });
+});
+
 test("phs", () => {
   expect(comf.phs(35, 35, 71, 0.3, 150, 0.5, 2, true)["t_re"]).toEqual(39.8);
   expect(comf.phs(30, 50, 70.65, 0.3, 150, 0.5, 2, true)["t_re"]).toEqual(37.7);

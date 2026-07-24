@@ -436,7 +436,7 @@ $("#unitsToggle").click(function () {
 
 $("#airSpeedDialog").dialog({
   autoOpen: false,
-  width: 380,
+  width: 500,
   modal: true,
   resizable: false,
   buttons: {

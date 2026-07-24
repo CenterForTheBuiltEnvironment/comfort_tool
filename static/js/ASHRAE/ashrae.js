@@ -73,6 +73,12 @@ $(document).ready(function () {
 
   useRelativeAirSpeedCheckbox.change(function () {
     comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+    $("#vel-tooltip").attr(
+      "data-tooltip",
+      comf.useSelfGeneratedAirSpeed
+        ? "Average air speed. The tool automatically calculates the activity generated air speed, read the docs for more info."
+        : "Average air speed."
+    );
     update();
   });
 
@@ -82,7 +88,7 @@ $(document).ready(function () {
 $(function () {
   $("#airSpeedDialog").dialog({
     autoOpen: false,
-    width: 380,
+    width: 500,
     modal: true,
     resizable: false,
     buttons: {

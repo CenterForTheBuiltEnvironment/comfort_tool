@@ -119,6 +119,7 @@
             <div class="row justify-content-between">
               <div class="col-md-4 col-lg-12 p-1">
                 <div
+                  id="vel-tooltip"
                   data-tooltip="Average air speed. The tool automatically calculates the activity generated air speed, read the docs for more info."
                 >
                   <a
@@ -339,6 +340,17 @@
         {# set of buttons at the bottom #}
         <div class="row justify-content-center mt-2">
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label
+              class="btn btn-light border"
+              data-tooltip="Reset inputs to default value"
+            >
+              <input
+                type="radio"
+                name="options"
+                id="setDefaults"
+                autocomplete="off"
+              />Reset
+            </label>
             <label class="btn btn-light border">
               <input
                 type="radio"
@@ -357,6 +369,10 @@
               />
               SI/IP
             </label>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-light border" data-tooltip="Relative air speed settings">
               <input
                 type="radio"
@@ -393,17 +409,6 @@
         </div>
         <div class="row justify-content-center mt-2">
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label
-              class="btn btn-light border"
-              data-tooltip="Reset inputs to default value"
-            >
-              <input
-                type="radio"
-                name="options"
-                id="setDefaults"
-                autocomplete="off"
-              />Reset
-            </label>
             <label
               class="btn btn-light border"
               data-tooltip="Save the current inputs"
@@ -618,14 +623,13 @@
           Disable this if occupants are at elevated metabolic rates without
           generating air movement (e.g. exercising on stationary equipment).
         </p>
-        <div class="form-check mt-2">
+        <div class="mt-2">
           <input
-            class="form-check-input"
             type="checkbox"
             id="use-relative-air-speed"
             checked
           />
-          <label class="form-check-label" for="use-relative-air-speed">
+          <label for="use-relative-air-speed">
             Include activity-generated air speed
           </label>
         </div>
