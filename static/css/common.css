@@ -207,6 +207,12 @@ input {
   padding: 10px 10px 10px 10px;
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  padding: 0;
+}
+
 h1 {
   color: #2a4583;
   font-family: sans-serif;
