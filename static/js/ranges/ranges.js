@@ -36,6 +36,7 @@ $(document).ready(function () {
   window.humUnit = "rh";
   rangeYes = false;
 
+  comf.useSelfGeneratedAirSpeed = $("#use-relative-air-speed").is(":checked");
   resetDefaultValues();
   update();
   pc.drawChart(d);
@@ -379,6 +380,39 @@ $("#unitsToggle").click(function () {
   update();
 });
 
+$("#airSpeedDialog").dialog({
+  autoOpen: false,
+  width: 500,
+  modal: true,
+  resizable: false,
+  buttons: {
+    Close: function () {
+      $(this).dialog("close");
+    },
+  },
+});
+
+$("#airSpeedSettings").click(function () {
+  $("#airSpeedDialog").dialog("open");
+});
+
+$("#use-relative-air-speed").change(function () {
+  comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+  $("#vel_val_row").attr(
+    "title",
+    comf.useSelfGeneratedAirSpeed
+      ? "This is the average air speed. The tool automatically calculates the relative air speed."
+      : "This is the average air speed."
+  );
+  if (rangeYes) {
+    if (rangefactor === "tr") drawTRrange();
+    else if (rangefactor === "vel") drawVELrange();
+    else if (rangefactor === "met") drawMETrange();
+    else if (rangefactor === "clo") drawCLOrange();
+  }
+  update();
+});
+
 $("#restart").click(function () {
   rangeYes = false;
   d3.selectAll("path.comfortzone-range").remove();
@@ -626,6 +660,7 @@ function drawRange(factor, incr) {
     $(".factor-name").html(factor_names[rangefactor]);
     $("#factor-name").html(factor_names[rangefactor]);
     // $("#inputfield-" + factor).css('background-color', '#CECEE3');
+    update();
   } else {
     alert("insert the min and max values of the range");
   }
@@ -756,6 +791,18 @@ function update() {
     b = bc.findComfortBoundary(d, 0.5);
     bc.redrawComfortRegion(b);
     bc.redrawPoint();
+  }
+
+  if (d.met > 1 && comf.useSelfGeneratedAirSpeed) {
+    const vr = comf.relativeAirSpeed(d.vel, d.met);
+    if (isCelsius) {
+      $("#relative-air-speed-value").html(vr.toFixed(2));
+    } else {
+      $("#relative-air-speed-value").html((vr * 196.9).toFixed(1));
+    }
+    $("#relative-air-speed-div").show();
+  } else {
+    $("#relative-air-speed-div").hide();
   }
 }
 

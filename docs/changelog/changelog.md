@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.5.10 (2026-07-27)
+
+* feat: add relative air speed toggle to ASHRAE, EN, Compare, and Ranges pages (issue #93)
+
 ## Version 2.5.9 (2026-07-22)
 
 * fix: correct ankle draft air speed exception wording per ASHRAE 55 Section 5.3.4 (issue #94)
