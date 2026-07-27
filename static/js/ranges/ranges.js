@@ -398,6 +398,12 @@ $("#airSpeedSettings").click(function () {
 
 $("#use-relative-air-speed").change(function () {
   comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+  $("#vel_val_row").attr(
+    "title",
+    comf.useSelfGeneratedAirSpeed
+      ? "This is the average air speed. The tool automatically calculates the relative air speed."
+      : "This is the average air speed."
+  );
   if (rangeYes) {
     if (rangefactor === "tr") drawTRrange();
     else if (rangefactor === "vel") drawVELrange();

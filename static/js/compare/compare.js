@@ -452,6 +452,12 @@ $("#airSpeedSettings").click(function () {
 
 $("#use-relative-air-speed").change(function () {
   comf.useSelfGeneratedAirSpeed = $(this).prop("checked");
+  $("#vel-tooltip").attr(
+    "title",
+    comf.useSelfGeneratedAirSpeed
+      ? "This is the average air speed. The tool automatically calculates the relative air speed."
+      : "This is the average air speed."
+  );
   update("1");
   update("2");
   update("3");
