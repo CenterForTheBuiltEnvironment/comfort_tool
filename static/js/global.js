@@ -767,8 +767,10 @@ function validateUserEntry(
       const select = document.getElementById("local-control" + i);
       select.selectedIndex = 1;
       $("#local-control" + i).hide();
+      $("#local-control-div" + i).hide();
     } else {
       $("#local-control" + i).show();
+      $("#local-control-div" + i).show();
     }
   } catch (e) {}
 }
