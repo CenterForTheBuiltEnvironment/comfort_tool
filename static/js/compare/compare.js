@@ -26,7 +26,7 @@ $(document).ready(function () {
 
   setTimeout(function () {
     $(
-      ".inputbox2, .unit2, .tempunit2, .result2, .inputbox3, .unit3, .tempunit3, .result3"
+      ".inputbox2, .unit2, .tempunit2, .result2, .inputbox3, .unit3, .tempunit3, .result3, #local-control2, #local-control3"
     ).hide();
   }, 10);
 
@@ -81,6 +81,9 @@ $(function () {
           d_cache[element] = d[element];
           d[element] = parseFloat(document.getElementById(element + "2").value);
         });
+        if (d.clo <= 0.7 && d.met <= 1.3) {
+          $("#local-control2").show();
+        }
         if (!isCelsius) {
           d.ta = util.FtoC(d.ta);
           d.tr = util.FtoC(d.tr);
@@ -101,6 +104,7 @@ $(function () {
         }
       } else {
         $(".inputbox2, .unit2, .tempunit2, .result2").hide();
+        $("#local-control2").hide();
         d3.selectAll("path.comfortzone2").remove();
         d3.selectAll("circle.point2").remove();
       }
@@ -116,6 +120,9 @@ $(function () {
           d_cache[element] = d[element];
           d[element] = parseFloat(document.getElementById(element + "3").value);
         });
+        if (d.clo <= 0.7 && d.met <= 1.3) {
+          $("#local-control3").show();
+        }
         if (!isCelsius) {
           d.ta = util.FtoC(d.ta);
           d.tr = util.FtoC(d.tr);
@@ -136,6 +143,7 @@ $(function () {
         }
       } else {
         $(".inputbox3, .unit3, .tempunit3, .result3").hide();
+        $("#local-control3").hide();
         d3.selectAll("path.comfortzone3").remove();
         d3.selectAll("circle.point3").remove();
       }
