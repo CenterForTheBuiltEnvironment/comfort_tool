@@ -1,0 +1,196 @@
+<style>
+  .preset-ensemble-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.8fr) minmax(460px, 1.2fr);
+    gap: 24px;
+    font-size: 14px;
+  }
+
+  .preset-ensemble-image {
+    width: 100%;
+    max-width: 440px;
+    display: block;
+    margin: 8px auto 14px;
+  }
+
+  .preset-ensemble-controls {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px 12px;
+    align-items: center;
+  }
+
+  .preset-ensemble-controls label,
+  .preset-region-row label {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .preset-ensemble-controls select,
+  .preset-ensemble-controls input,
+  .preset-region-row input {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #b9b9b9;
+    border-radius: 3px;
+    padding: 5px 8px;
+    background: #fff;
+  }
+
+  .preset-region-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .preset-region-heading h3 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .preset-region-heading span {
+    color: #555;
+    font-size: 12px;
+  }
+
+  .preset-region-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .preset-region-row {
+    display: grid;
+    grid-template-columns: 100px minmax(210px, 1fr) 82px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .preset-region-source,
+  .preset-region-row input {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #b9b9b9;
+    border-radius: 3px;
+    padding: 5px 8px;
+    background: #fff;
+  }
+
+  .preset-region-instructions {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    background: #eef5fa;
+    color: #29485e;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .preset-region-column-headings {
+    display: grid;
+    grid-template-columns: 100px minmax(210px, 1fr) 82px;
+    gap: 8px;
+    margin: 0 0 6px;
+    color: #555;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .preset-ensemble-note {
+    margin: 16px 0 0;
+    padding: 10px 12px;
+    border-left: 3px solid #6c757d;
+    background: #f6f6f6;
+    color: #444;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .preset-description {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid #d5d5d5;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  .preset-description h4 {
+    margin: 0 0 7px;
+    color: #333;
+    font-size: 15px;
+  }
+
+  .preset-description p {
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 760px) {
+    .preset-ensemble-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="preset-ensemble-layout">
+  <section>
+    <div class="preset-ensemble-controls">
+      <label for="presetGender">Gender</label>
+      <select id="presetGender">
+        <option value="F">Female</option>
+        <option value="M">Male</option>
+      </select>
+
+      <label for="presetEnsemble">Preset ensemble</label>
+      <select id="presetEnsemble"></select>
+
+      <label for="presetClo">Whole-body I<sub>cl</sub></label>
+      <div>
+        <input id="presetClo" type="number" min="0" max="5" step="0.01" />
+        <span>clo</span>
+      </div>
+    </div>
+
+    <img
+      class="preset-ensemble-image"
+      src="/static/css/images/havenith-body-zones.png"
+      alt="Front, side and back views of the body insulation zones"
+    />
+
+    <p class="preset-ensemble-note">
+      Source: Havenith et al. (2013), ASHRAE 1504-TRP. Whole-body intrinsic
+      clothing insulation is from Tables 2 and 3. Regional total insulation at
+      0.2 m/s is from Tables 7 and 8. All fields remain editable after a preset
+      is selected. Editing a regional value recalculates whole-body
+      I<sub>cl</sub> with an area-weighted parallel model normalized to the
+      selected preset.
+    </p>
+  </section>
+
+  <section>
+    <div class="preset-region-heading">
+      <h3>Regional insulation</h3>
+      <span>I<sub>T</sub> [m&sup2;&middot;K/W]</span>
+    </div>
+    <p class="preset-region-instructions">
+      Choose the garments that most closely match what is actually worn on
+      each body zone. Values are regional measurements taken while the full
+      source ensemble was worn - they are not insulation values of an
+      individual garment. The numeric field remains editable for advanced
+      adjustments.
+    </p>
+    <div class="preset-region-column-headings" aria-hidden="true">
+      <span>Body zone</span>
+      <span>Clothing on this zone</span>
+      <span>Value</span>
+    </div>
+    <div id="presetRegionGrid" class="preset-region-grid"></div>
+    <div class="preset-description" aria-live="polite">
+      <h4 id="presetDescriptionTitle"></h4>
+      <p id="presetDescription"></p>
+    </div>
+  </section>
+</div>
