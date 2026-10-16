@@ -559,3 +559,18 @@ test("SET equation to calculate Cooling effect", () => {
     comf.pierceSET(25, 31, 1.7, 50, 1.5, 0.5, 0, true, true, 90, "standing").set
   ).toBeCloseTo(21.4, 0.1);
 });
+
+test("SET is continuous across the critical skin wettedness (WCRIT) cap", () => {
+  // In warm, humid conditions, the cap on skin wettedness switches on and off between the minutes of the
+  // simulation. SET should still change smoothly with temperature: a 0.001 °C step should not move it by
+  // more than a few thousandths of a degree.
+  const set = (t) => comf.pierceSET(t, t, 0.1, 70, 1.1, 0.5).set;
+  let maxStep = 0;
+  let previous = set(32.5);
+  for (let i = 1; i <= 1500; i++) {
+    const current = set(32.5 + i * 0.001);
+    maxStep = Math.max(maxStep, Math.abs(current - previous));
+    previous = current;
+  }
+  expect(maxStep).toBeLessThan(0.01);
+});
