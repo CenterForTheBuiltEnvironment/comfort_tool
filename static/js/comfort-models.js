@@ -913,7 +913,7 @@ comf.pierceSET = function (
     EDIF = PWET * EMAX - ERSW;
     if (PWET > WCRIT) {
       PWET = WCRIT;
-      PRSW = WCRIT / 0.94;
+      PRSW = (PWET - 0.06) / 0.94;
       ERSW = PRSW * EMAX;
       EDIF = 0.06 * (1.0 - PRSW) * EMAX;
       ExcCriticalWettedness = true;
