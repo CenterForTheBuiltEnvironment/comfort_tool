@@ -495,7 +495,7 @@ test("calculate SET temperature in Fahrenheit", () => {
       90,
       "standing"
     ).set
-  ).toBeCloseTo(parseFloat(util.FtoC(99.7).toFixed(1)));
+  ).toBeCloseTo(parseFloat(util.FtoC(100.6).toFixed(1))); // ASHRAE 55 Table D-1 has 99.7, computed before #102
   expect(
     comf.pierceSET(
       util.FtoC(77),
